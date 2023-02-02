@@ -107,6 +107,28 @@ class DatabaseConnectionController extends Controller
 
     }
 
+    public function getVersion(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $databaseConnection);
+
+        if (is_null($databaseConnection->version)){
+
+            $connect = $databaseConnection->dbConnect($databaseConnection, '');
+
+            if (!$connect) {
+                return response()->json(['message' => 'Could not connect', 'databases' => null], 400)->header('Content-Type', 'application/json');
+            }
+
+            $version = $databaseConnection->getVersion();
+
+            $databaseConnection->version = $version;
+            $databaseConnection->save();
+        }
+
+        return response()->json(['version' => $databaseConnection->version], 200)->header('Content-Type', 'application/json');
+
+    }
+
     public function edit(DatabaseConnection $databaseConnection)
     {
         //
