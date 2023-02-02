@@ -129,7 +129,7 @@ class DatabaseController extends Controller
         }
 
         return Inertia::render('DatabaseTables/Show', [
-            'resource' => $database->with(['conn'])->firstOrFail(),
+            'resource' => $database->where('id', $database->id)->with(['conn'])->firstOrFail(),
             'tables' => $tables,
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),

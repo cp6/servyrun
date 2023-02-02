@@ -68,7 +68,7 @@ class DatabaseTableColumnController extends Controller
 
 
         return Inertia::render('DatabaseTableColumns/Show', [
-            'database' => $database->with(['conn'])->firstOrFail(),
+            'database' => $database->where('id', $database->id)->with(['conn'])->firstOrFail(),
             'table' => $databaseTable,
             'columns' => $table_columns,
             'hasAlert' => \Session::exists('alert_type'),
