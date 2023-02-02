@@ -17,7 +17,7 @@ class DatabaseConnection extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['user_id', 'server_id', 'host', 'title', 'port', 'username', 'password', 'type'];
+    protected $fillable = ['user_id', 'server_id', 'host', 'title', 'port', 'username', 'password', 'type', 'version'];
 
     public \PDO $db_con;
 
@@ -110,6 +110,14 @@ class DatabaseConnection extends Model
             return null;
         }
         return $this->db_con->query("SELECT * FROM `{$databaseTable->name}`;")->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getVersion(): ?string
+    {
+        if (!isset($this->db_con)) {
+            return null;
+        }
+        return $this->db_con->query("SELECT VERSION();")->fetchColumn();
     }
 
 }
