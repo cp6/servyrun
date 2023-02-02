@@ -64,7 +64,7 @@ class Connection extends Model
         return $connection->exec($command);
     }
 
-    public static function do(Connection $connection, ?string $password = null, int $timeout = 10): ?SSH2
+    public static function do(Connection $connection, int $timeout = 10): ?SSH2
     {
         $connection = $connection->where('id', $connection->id)->with(['server.ip_ssh', 'key'])->firstOrFail();
 
