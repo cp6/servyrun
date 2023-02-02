@@ -8,6 +8,7 @@ use App\Models\DatabaseConnection;
 use App\Models\MySQLDump;
 use App\Models\Server;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
 
 class MySQLDumpController extends Controller
@@ -32,8 +33,35 @@ class MySQLDumpController extends Controller
 
     public function store(Request $request)
     {
-        //
-        dd($request->all());
+        $request->validate([
+            'connection_id' => 'string|required|size:8',
+            'server_id' => 'string|required|size:8',
+            'database_name' => 'string|required',
+            'db_connection_id' => 'string|required|size:8',
+            'these_tables' => 'string|nullable|max:255',
+            'save_to' => 'string|sometimes|nullable|max:64',
+            'save_as' => 'string|sometimes|nullable|max:64',
+            'compress' => 'integer|required',
+            'option' => 'string|required',
+            'custom_flags' => 'string|nullable|sometimes|max:64'
+        ]);
+
+        $db = Database::where('name', $request->database_name)->with(['conn'])->firstOrFail();
+
+        $mysql_dump = new MySQLDump();
+        $mysql_dump->connection_id = $request->connection_id;
+        $mysql_dump->server_id = $request->server_id;
+        $mysql_dump->database_id = $db->id;
+        $mysql_dump->db_connection_id = $db->conn->id;
+        $mysql_dump->these_tables = $request->these_tables;
+        $mysql_dump->save_to = $request->save_to;
+        $mysql_dump->save_as = $request->save_as;
+        $mysql_dump->flags = $request->custom_flags;
+        $mysql_dump->compress = (isset($request->compress)) ? (int)$request->compress : 0;
+        $mysql_dump->option = (isset($request->option)) ? (int)$request->option : 0;
+        $mysql_dump->save();
+
+        return redirect(route('mysqldump.show', $mysql_dump))->with(['alert_type' => 'success', 'alert_message' => 'Create MySQLdump successfully']);
     }
 
     public function show(MySQLDump $mySQLDump)
@@ -58,5 +86,14 @@ class MySQLDumpController extends Controller
     {
         $this->authorize('delete', $mySQLDump);
 
+    }
+
+    public function run(MySQLDump $mySQLDump)
+    {
+        $this->authorize('view', $mySQLDump);
+
+        $run = MySQLDump::runCommand($mySQLDump);
+
+        return response()->json(['result' => $run]);
     }
 }
