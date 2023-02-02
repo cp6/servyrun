@@ -3,7 +3,7 @@ import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import {Select, Button, Checkbox, Label} from "flowbite-react";
+import {Select, Button} from "flowbite-react";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ResponseAlert from "@/Components/Alert";
@@ -12,22 +12,18 @@ import axios from "axios";
 
 export default function Create({auth, servers, alert_type, alert_message}) {
 
-    const [optChecked, setOptChecked] = React.useState(false);
-
     const {data, setData, post, processing, reset, errors} = useForm({
         connection_id: '',
         server_id: '',
-        database_id: '',
+        database_name: '',
         db_connection_id: '',
         certain_tables: '',
         save_to: '',
         save_as: 'dump.sql',
+        option: '',
         compress: '',
-        quick: '',
-        opt: optChecked,
-        lock_tables: '',
-        single_transaction: '',
-        exclude_tables: ''
+        custom_flags: '',
+        these_tables: ''
     });
 
     const [hasAlert, setHasAlert] = React.useState(true);
@@ -37,8 +33,6 @@ export default function Create({auth, servers, alert_type, alert_message}) {
     const [databaseConnections, setDatabaseConnections] = React.useState([]);
 
     const [databases, setDatabases] = React.useState([]);
-
-    const [tables, setTables] = React.useState([]);
 
     const user = usePage().props.auth.user;
 
@@ -95,45 +89,8 @@ export default function Create({auth, servers, alert_type, alert_message}) {
     };
 
     const fetchDatabaseTables = event => {
-        setData(data => ({...data, database_id: event.target.value}));
-        if (event.target.value !== '') {
-            axios.get(route('db.show.tables.json', event.target.value)).then(response => {
-                setData(data => ({
-                    ...data, exclude_tables: response.data.map(function (item) {
-                        return item["name"];
-                    })
-                }));
-            }).catch(err => {
-                //
-            });
-        }
+        setData(data => ({...data, database_name: event.target.value}));
     };
-
-    function clearExcludedTables() {
-        setData('exclude_tables', '');
-    };
-
-    const handleOptChecked = () => {
-
-        if (optChecked) {
-            setOptChecked(false);
-        } else {
-            setOptChecked(true);
-        }
-        setData('opt', optChecked);
-        console.log(optChecked);
-    };
-
-    const optStatus = (e) => {
-        const { checked } = e.target;
-
-        console.log("checked " + checked);
-
-        setOptChecked(optChecked => ({
-            ...optChecked,    // <-- shallow copy previous state
-            Active: checked, // <-- set new Active checked value
-        }));
-    }
 
     return (
         <AuthenticatedLayout
@@ -204,13 +161,13 @@ export default function Create({auth, servers, alert_type, alert_message}) {
 
                             <div className="sm:col-span-3 col-span-4">
                                 <div className="mb-2 block">
-                                    <InputLabel forInput="database_id" value="Database"/>
+                                    <InputLabel forInput="database_name" value="Database"/>
                                 </div>
                                 <Select onChange={fetchDatabaseTables}
-                                        name="database_id"
+                                        name="database_name"
                                         required={true}
-                                        value={data.database_id}
-                                        handleChange={(e) => setData('database_id', e.target.value)}
+                                        value={data.database_name}
+                                        handleChange={(e) => setData('database_name', e.target.value)}
                                 >
                                     <option value=''>Choose</option>
                                     {databases.map(databases => <option key={databases}
@@ -243,53 +200,62 @@ export default function Create({auth, servers, alert_type, alert_message}) {
                                 />
                                 <InputError message={errors.save_as} className="mt-2"/>
                             </div>
-
-                            <div className="flex items-center gap-2 mt-2">
-                                <Checkbox id="quick"/>
-                                <Label htmlFor="quick">
-                                    --quick
-                                </Label>
+                            <div className="sm:col-span-2 col-span-4">
+                                <div className="mb-2 block">
+                                    <InputLabel forInput="option" value="Options"/>
+                                </div>
+                                <Select onChange={(e) => setData('option', e.target.value)}
+                                        name="option"
+                                        required={true}
+                                        value={data.option}
+                                        handleChange={(e) => setData('option', e.target.value)}
+                                >
+                                    <option value='0'>None</option>
+                                    <option value='1'>--quick</option>
+                                    <option value='2'>--opt</option>
+                                    <option value='3'>--add-locks</option>
+                                    <option value='4'>--single-transaction</option>
+                                </Select>
                             </div>
-                            <div className="flex items-center gap-2 mt-2">
-                                <Checkbox name={'opt'} checked={optStatus.Active} onChange={optStatus}/>
-                                <Label htmlFor="opt">
-                                    --opt
-                                </Label>
+                            <div className="sm:col-span-2 col-span-4">
+                                <InputLabel forInput="custom_flags" value="Custom flags"/>
+                                <TextInput
+                                    name="custom_flags"
+                                    className="mt-1 block w-full"
+                                    autoComplete="custom_flags"
+                                    value={data.custom_flags}
+                                    handleChange={(e) => setData('custom_flags', e.target.value)}
+                                    maxLength={64}
+                                />
+                                <InputError message={errors.custom_flags} className="mt-2"/>
                             </div>
-                            <div className="flex items-center gap-2 mt-2">
-                                <Checkbox id="lock_tables"/>
-                                <Label htmlFor="lock_tables">
-                                    --add-locks
-                                </Label>
-                            </div>
-                            <div className="flex items-center gap-2 mt-2">
-                                <Checkbox id="single_transaction"/>
-                                <Label htmlFor="single_transaction">
-                                    --single-transaction
-                                </Label>
-                            </div>
-                            <div className="flex items-center gap-2 mt-2">
-                                <Checkbox id="compress"/>
-                                <Label htmlFor="compress">
-                                    compress
-                                </Label>
+                            <div className="sm:col-span-1 col-span-4">
+                                <div className="mb-2 block">
+                                    <InputLabel forInput="compress" value="Compress"/>
+                                </div>
+                                <Select
+                                    onChange={(e) => setData('compress', e.target.value)}
+                                    name="compress"
+                                    required={true}
+                                    value={data.compress}
+                                    handleChange={(e) => setData('compress', e.target.value)}
+                                >
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </Select>
                             </div>
 
                             <div className="col-span-6">
-                                <InputLabel forInput="exclude_tables" value="Exclude tables"/>
+                                <InputLabel forInput="these_tables" value="These tables only (separate by space)"/>
                                 <TextInput
-                                    name="exclude_tables"
+                                    name="these_tables"
                                     className="mt-1 block w-full"
-                                    autoComplete="exclude_tables"
-                                    value={data.exclude_tables}
-                                    handleChange={(e) => setData('exclude_tables', e.target.value)}
-                                    maxLength={64}
+                                    autoComplete="these_tables"
+                                    value={data.these_tables}
+                                    handleChange={(e) => setData('these_tables', e.target.value)}
+                                    maxLength={255}
                                 />
-                                <InputError message={errors.exclude_tables} className="mt-2"/>
-                                <a onClick={clearExcludedTables}
-                                   className={'text-sm font-medium text-yellow-500 dark:text-yellow-400 hover:cursor-pointer'}>Clear
-                                    excluded
-                                    tables</a>
+                                <InputError message={errors.these_tables} className="mt-2"/>
                             </div>
 
                         </div>
