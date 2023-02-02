@@ -31,12 +31,18 @@ export default function Index({auth, connections}) {
                                 <div className="flex justify-end px-1">
                                 <span
                                     className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{connections.type === 1? 'MySQL' : 'Other'}</span>
+                                    {connections.version !== null ?
+                                        <span
+                                            className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{connections.version}</span>
+                                        :
+                                        null}
                                 </div>
                                 <div className="flex flex-col items-center pb-3">
                                     <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
                                         {connections.host}
                                     </h5>
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">{connections.title}</span>
+                                    <span className="text-md text-gray-500 dark:text-gray-400">{connections.title}</span>
+                                    <span className="text-sm text-gray-500 dark:text-gray-300">{connections.username}</span>
                                 </div>
                             </Card>
                         )
