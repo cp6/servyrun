@@ -78,7 +78,11 @@ class DatabaseController extends Controller
 
     public function destroy(Database $database)
     {
-        //
+        $this->authorize('delete', $database);
+
+        $database->delete();
+
+        return redirect(route('db.index'))->with(['alert_type' => 'success', 'alert_message' => 'Database deleted successfully']);
     }
 
     public function getTables(Database $database): \Illuminate\Http\JsonResponse
