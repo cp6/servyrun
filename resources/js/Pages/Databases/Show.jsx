@@ -1,9 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
-import {Button, Card, Modal} from "flowbite-react";
+import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiOutlineArrowLeft} from "react-icons/hi";
+import {HiLightningBolt, HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
+import {HiMagnifyingGlass} from "react-icons/all";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -22,7 +23,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             }
         };
 
-        fetch(route('db.connection.destroy', resource.id), requestOptions).then(response => {
+        fetch(route('db.destroy', resource.id), requestOptions).then(response => {
             if (response.redirected) {
                 window.location.href = response.url;
             }
@@ -54,17 +55,24 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-900 rounded-lg">
-                    <div className="py-6 px-2 mx-auto max-w-4xl lg:py-10">
+                    <div className="py-4 px-2 md:px-6 max-w-4xl md:py-8">
                         <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name}</h2>
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.conn.host} ({resource.conn.title})</p>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex space-x-1 md:space-x-4">
                             <Button color={'failure'} size="sml" onClick={() => setShowModal(true)} type="button"
-                                    className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    className="text-white shrink items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                <HiTrash className="mr-2 h-5 w-5" />
                                 Delete Database
                             </Button>
                             <Button href={route('db.show.tables', resource.id)} color={'success'} size="sml" type="button"
-                                    className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    className="text-white shrink items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                <HiMagnifyingGlass className="mr-2 h-5 w-5" />
                                 View tables
+                            </Button>
+                            <Button href={route('db.connection.show', resource.db_connection_id)} color={'info'} size="sml" type="button"
+                                    className="text-white shrink items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                <HiLightningBolt className="mr-2 h-5 w-5" />
+                                View connection
                             </Button>
                         </div>
                     </div>

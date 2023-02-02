@@ -3,7 +3,7 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import {Button, Card, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiOutlineArrowLeft} from "react-icons/hi";
+import {HiHashtag, HiOutlineArrowLeft, HiTrash, HiVariable} from "react-icons/hi";
 import axios from "axios";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
@@ -39,6 +39,14 @@ export default function Show({auth, resource, alert_type, alert_message}) {
         });
     };
 
+    const getVersion = () => {
+        axios.get(route('db.connection.version', resource.id)).then(response => {
+            window.location.reload();
+        }).catch(err => {
+            console.log('Error getting version');
+        });
+    };
+
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -48,21 +56,31 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <Button color={'info'} size="xs" href={route('db.connection.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
+                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
                         Back to DB connections
+                    </Button>
+                    <Button color={'success'} size="xs" onClick={getVersion}>
+                        <HiHashtag className="mr-2 h-5 w-5"/>
+                        Get version
                     </Button>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-900 rounded-lg">
-                    <div className="py-6 px-2 mx-auto max-w-4xl lg:py-10">
+                    <div className="py-4 px-2 md:px-6 max-w-4xl md:py-8">
                         <span
                             className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.type === 1 ? ("MySQL") : ("Other")}</span>
+                        {resource.version !== null ?
+                            <span
+                                className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{resource.version}</span>
+                            :
+                        null}
                         <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.host}</h2>
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.title}</p>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex space-x-1 md:space-x-4">
                             <Button color={'failure'} size="sml" onClick={() => setShowModal(true)} type="button"
-                                    className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    className="text-white shrink items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                <HiTrash className="mr-2 h-5 w-5" />
                                 Delete Connection
                             </Button>
                             <button onClick={handleClick} type="button"
@@ -70,15 +88,15 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                         (() => {
                                             if (isUp) {
                                                 return (
-                                                    "inline-flex items-center text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-900"
+                                                    "shrink items-center text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-900"
                                                 )
                                             } else if (isUp === null) {
                                                 return (
-                                                    "inline-flex items-center text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center border-gray-200 bg-gray-300 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                                    "shrink items-center text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center border-gray-200 bg-gray-300 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                                                 )
                                             } else {
                                                 return (
-                                                    "inline-flex items-center text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center bg-red-600 hover:bg-red-700 focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                                                    "shrink items-center text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center bg-red-600 hover:bg-red-700 focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
                                                 )
                                             }
                                         })()
