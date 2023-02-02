@@ -124,5 +124,10 @@ class DatabaseTableColumnController extends Controller
     {
         $this->authorize('delete', $databaseTableColumn);
 
+        $table_id = $databaseTableColumn->table_id;
+
+        $databaseTableColumn->delete();
+
+        return redirect(route('db.show.table', $table_id))->with(['alert_type' => 'success', 'alert_message' => 'Deleted successfully']);
     }
 }

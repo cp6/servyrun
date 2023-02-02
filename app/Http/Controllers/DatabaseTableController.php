@@ -48,6 +48,9 @@ class DatabaseTableController extends Controller
     {
         $this->authorize('delete', $databaseTable);
 
+        $databaseTable->delete();
+
+        return redirect(route('db.index'))->with(['alert_type' => 'success', 'alert_message' => 'Table deleted successfully']);
     }
 
     public function getColumns(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse

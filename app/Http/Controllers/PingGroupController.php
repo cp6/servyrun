@@ -217,7 +217,7 @@ class PingGroupController extends Controller
 
     public function destroy(PingGroup $pingGroup)
     {
-        //$this->authorize('delete', $connection->user_id);
+        $this->authorize('delete', $pingGroup);
 
         $pingGroup->delete();
 

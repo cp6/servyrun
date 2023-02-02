@@ -77,12 +77,6 @@ class IpAddressController extends Controller
     {
         $this->authorize('delete', $ipAddress);
 
-        $assigned = IpAddressesAssigned::where('ip_id', $ipAddress->id)->get();
-
-        if (is_null($assigned)) {
-            return redirect(route('ip.index'))->with(['alert_type' => 'failure', 'alert_message' => 'Cannot delete an assigned IP']);
-        }
-
         $ipAddress->delete();
 
         return redirect(route('ip.index'))->with(['alert_type' => 'success', 'alert_message' => 'IP address deleted successfully']);
