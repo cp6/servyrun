@@ -91,6 +91,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/connections/{connection}/edit', [ConnectionController::class, 'edit'])->name('connection.edit');
     Route::patch('/connections/{connection}', [ConnectionController::class, 'update'])->name('connection.update');
     Route::delete('/connections/{connection}', [ConnectionController::class, 'destroy'])->name('connection.destroy');
+    Route::get('/connections/{connection}/id', [ConnectionController::class, 'serverId'])->name('connection.id');
 
     Route::get('/commands', [CommandController::class, 'index'])->name('command.index');
     Route::get('/commands/create', [CommandController::class, 'create'])->name('command.create');
@@ -170,6 +171,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mysqldump/{mySQLDump}/edit', [MySQLDumpController::class, 'edit'])->name('mysqldump.edit');
     Route::patch('/mysqldump/{mySQLDump}', [MySQLDumpController::class, 'update'])->name('mysqldump.update');
     Route::delete('/mysqldump/{mySQLDump}', [MySQLDumpController::class, 'destroy'])->name('mysqldump.destroy');
+    Route::get('/mysqldump/{mySQLDump}/run', [MySQLDumpController::class, 'run'])->name('mysqldump.run');
 
     //SFTP connections
     Route::get('/sftp/test', [SftpConnectionController::class, 'test'])->name('sftp.test');
