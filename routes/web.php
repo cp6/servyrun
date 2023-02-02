@@ -152,6 +152,7 @@ Route::middleware('auth')->group(function () {
     //Database tables
     Route::get('/db/{database}/tables', [DatabaseController::class, 'showTables'])->name('db.show.tables');//Show database tables
     Route::get('/db/{database}/tables/json', [DatabaseController::class, 'showTablesJson'])->name('db.show.tables.json');//Show database tables
+    Route::delete('db/{database}/table/', [DatabaseController::class, 'destroy'])->name('db.show.tables.destroy');
 
     Route::get('/db/{database}/table/{databaseTable}/download', [DatabaseTableController::class, 'downloadTable'])->name('db.table.columns.download');//Download the table
 

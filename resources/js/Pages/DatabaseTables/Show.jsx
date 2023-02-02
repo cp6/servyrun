@@ -3,7 +3,7 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiOutlineArrowLeft, HiRefresh, HiCalculator} from "react-icons/hi";
+import {HiOutlineArrowLeft, HiRefresh, HiCalculator, HiTrash} from "react-icons/hi";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
 import axios from "axios";
 
@@ -24,7 +24,7 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
             }
         };
 
-        fetch(route('db.connection.destroy', resource.id), requestOptions).then(response => {
+        fetch(route('db.show.tables.destroy', [resource.id]), requestOptions).then(response => {
             if (response.redirected) {
                 window.location.href = response.url;
             }
@@ -39,7 +39,7 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
             headers: {Authorization: `Bearer ${user.api_token}`}
         };
 
-        axios.get(route('api.db.refresh', [resource.id]), config).then(response => {
+        axios.get(route('api.db.refresh', resource.id), config).then(response => {
             window.location.reload();
         }).catch(err => {
             console.log('Error refreshing tables');
@@ -75,6 +75,10 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
                     <Button color={'info'} size="xs" href={route('db.show', resource.id)}>
                         <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
                         Back to Database
+                    </Button>
+                    <Button color={'failure'} size="xs" onClick={() => setShowModal(true)}>
+                        <HiTrash className="mr-2 h-5 w-5" />
+                        Delete Table
                     </Button>
                     <Button color={'success'} size="xs" onClick={refreshTables} disabled={buttonsDisabled}>
                         <HiRefresh className="mr-2 h-5 w-5" />
@@ -122,7 +126,7 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
                 <Modal.Body>
                     <div className="text-center">
                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                            Are you sure you want to delete this DB connection?
+                            Are you sure you want to delete this table?
                         </h3>
                         <div className="flex justify-center gap-4">
                             <Button color="failure" onClick={deleteItem}>
