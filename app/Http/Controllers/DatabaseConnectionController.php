@@ -91,11 +91,11 @@ class DatabaseConnectionController extends Controller
     {
         $this->authorize('view', $databaseConnection);
 
-        $databases = Database::where('db_connection_id', $databaseConnection->id)->get();
+        /*$databases = Database::where('db_connection_id', $databaseConnection->id)->get();
 
         if ($databases->isNotEmpty()){
             return response()->json(['databases' => $databases->pluck('name')], 200)->header('Content-Type', 'application/json');
-        }
+        }*/
 
         $connect = $databaseConnection->dbConnect($databaseConnection, '');
 
@@ -107,11 +107,11 @@ class DatabaseConnectionController extends Controller
 
     }
 
-    public function getVersion(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
+    public function getUpdateVersion(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
     {
         $this->authorize('view', $databaseConnection);
 
-        if (is_null($databaseConnection->version)){
+        if (is_null($databaseConnection->version)) {
 
             $connect = $databaseConnection->dbConnect($databaseConnection, '');
 
@@ -121,7 +121,20 @@ class DatabaseConnectionController extends Controller
 
             $version = $databaseConnection->getVersion();
 
+            if (str_contains($version, 'mysql')) {
+                $type = 1;
+            } elseif (str_contains($version, 'maria')) {
+                $type = 2;
+            } elseif (str_contains($version, 'postgre')) {
+                $type = 4;
+            } elseif (str_contains($version, 'redis')) {
+                $type = 5;
+            } else {
+                $type = 6;
+            }
+
             $databaseConnection->version = $version;
+            $databaseConnection->type = $type;
             $databaseConnection->save();
         }
 
