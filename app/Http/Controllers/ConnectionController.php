@@ -178,11 +178,20 @@ class ConnectionController extends Controller
 
     public function destroy(Connection $connection)
     {
-        //$this->authorize('delete', $connection->user_id);
+        $this->authorize('delete', $connection);
 
         $connection->delete();
 
         return redirect(route('connection.index'))->with(['alert_type' => 'success', 'alert_message' => 'Connection deleted successfully']);
+    }
+
+    public function serverId(Connection $connection): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $connection);
+
+        $ssh = Connection::do($connection);
+
+        return response()->json(['id' => $ssh->getServerIdentification()], 200);
     }
 
 }

@@ -80,7 +80,7 @@ class Server extends Model
     {
         $connection = Connection::where('server_id', $server->id)->with('server', 'key')->firstOrFail();
 
-        $ssh = Connection::do($connection, null, 10);
+        $ssh = Connection::do($connection, 10);
 
         $cpu_freq = Connection::runCommand($ssh, "lscpu | grep  MHz");
         $cpu_freq_array = explode("\n", $cpu_freq);
@@ -110,7 +110,7 @@ class Server extends Model
     {
         $connection = Connection::where('server_id', $server->id)->with('server', 'key')->firstOrFail();
 
-        $ssh = Connection::do($connection, null, 10);
+        $ssh = Connection::do($connection, 10);
 
         $ram = Connection::runCommand($ssh, "free -m | grep 'Mem'");
 
