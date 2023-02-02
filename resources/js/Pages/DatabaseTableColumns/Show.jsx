@@ -64,7 +64,7 @@ export default function Show({auth, resource, database, table, columns, alert_ty
                         Refresh columns
                     </Button>
                     <Button color={'warning'} href={route('db.table.columns.download', [database.id, table.id])} size="xs"
-                            disabled={buttonsDisabled}>
+                            disabled={buttonsDisabled} title={'Only do this for small tables'}>
                         <HiDownload className="mr-2 h-5 w-5"/>
                         Download as JSON
                     </Button>
