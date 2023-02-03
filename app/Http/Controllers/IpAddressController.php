@@ -13,7 +13,7 @@ class IpAddressController extends Controller
     public function index(): \Inertia\Response
     {
         return Inertia::render('IPs/Index', [
-            'ips' => IpAddress::with(['server', 'db_conn'])->get(),
+            'ips' => IpAddress::with(['server'])->get(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
             'alert_message' => \Session::get('alert_message')
@@ -23,7 +23,7 @@ class IpAddressController extends Controller
     public function edit(IpAddress $ipAddress): \Inertia\Response
     {
         return Inertia::render('IPs/Edit', [
-            'resource' => IpAddress::where('id', $ipAddress->id)->with(['server', 'db_conn'])->firstOrFail(),
+            'resource' => IpAddress::where('id', $ipAddress->id)->with(['server'])->firstOrFail(),
             'servers' => Server::get(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
@@ -65,8 +65,9 @@ class IpAddressController extends Controller
     public function show(IpAddress $ipAddress): \Inertia\Response
     {
         $this->authorize('view', $ipAddress);
+
         return Inertia::render('IPs/Show', [
-            'resource' => IpAddress::where('id', $ipAddress->id)->with(['assigned', 'assigned.server'])->firstOrFail(),
+            'resource' => IpAddress::where('id', $ipAddress->id)->with(['server'])->firstOrFail(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
             'alert_message' => \Session::get('alert_message')

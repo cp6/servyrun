@@ -6,7 +6,7 @@ import InputError from "@/Components/InputError";
 import {Select, Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
-import {HiLightBulb, HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
+import {HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
 
 export default function Edit({auth, servers, resource}) {
 
@@ -58,9 +58,9 @@ export default function Edit({auth, servers, resource}) {
             <Head title="Edit IP"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('ip.index')}>
+                    <Button size="xs" href={route('ip.show', resource.id)}>
                         <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to IPs
+                        Back to IP
                     </Button>
                     <Button color={'failure'} size="xs" onClick={() => setShowModal(true)} type="button">
                         <HiTrash className="mr-2 h-5 w-5"/>
