@@ -33,7 +33,7 @@ class CommandOutput extends Model
         });
 
         static::created(function ($commandOutput) {
-            ActionLog::make(1, 'Ran a command', $commandOutput->server_id ?? null, $commandOutput->command_id ?? null);
+            ActionLog::make(1, 'ran', 'command', 'Ran command: '.$commandOutput->the_command, $commandOutput->server_id ?? null, $commandOutput->command_id ?? null);
         });
     }
 
