@@ -11,6 +11,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
+        api_token: user.api_token,
     });
 
     const submit = (e) => {
@@ -25,13 +26,28 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Profile Information</h2>
 
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Update your account's profile information and email address.
+                    Update your account's username and email address.
                 </p>
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel for="name" value="Name" />
+                    <InputLabel for="api_token" value="API key" />
+
+                    <TextInput
+                        id="api_token"
+                        className="mt-1 block w-full"
+                        value={data.api_token}
+                        handleChange={(e) => setData('api_token', e.target.value)}
+                        disabled={true}
+                        autoComplete="api_token"
+                    />
+
+                    <InputError className="mt-2" message={errors.api_token} />
+                </div>
+
+                <div>
+                    <InputLabel for="name" value="Username" />
 
                     <TextInput
                         id="name"
