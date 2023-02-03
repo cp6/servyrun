@@ -183,7 +183,7 @@ class SftpConnectionController extends Controller
             'the_file' => 'file|required',
         ]);
 
-        dd($request->all());
+        $file = $request->file('the_file');
 
         $sftp = SftpConnection::do($sftpConnection);
 
@@ -191,9 +191,13 @@ class SftpConnectionController extends Controller
             return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
         }
 
-        //Upload file
+        $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_LOCAL_FILE);
 
-        return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "'.$file.'" not found']);
+        if ($upload_file){
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'success', 'alert_message' => $file->getClientOriginalName().'" uploaded as '.$request->save_as]);
+        }
+
+        return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File not uploaded as "'.$request->save_as.'"']);
 
     }
 

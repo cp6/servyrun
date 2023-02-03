@@ -207,6 +207,7 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                 <section className="bg-white/50 dark:bg-gray-700 rounded-l mt-4">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>SFTP Command output</h1>
                     <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8" id="command_output_div">
+                        <span className="text-gray-400 dark:text-gray-500">Nothing run yet</span>
                     </div>
                 </section>
             </div>
