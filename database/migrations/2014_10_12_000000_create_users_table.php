@@ -15,7 +15,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->char('api_token',32)->unique();
+            $table->char('api_token',64)->unique();
+            $table->string('login_ip_only')->default(null)->nullable();
+            $table->string('api_ip_only')->default(null)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
