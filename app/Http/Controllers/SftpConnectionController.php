@@ -107,10 +107,94 @@ class SftpConnectionController extends Controller
 
     }
 
-    public function run(SftpConnection $sftpConnection)
+    public function run(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
     {
         $this->authorize('view', $sftpConnection);
 
-        return $sftpConnection;
+        $command = $request->the_command1;
+
+        $time_start = microtime(true);
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            return response()->json(['message' => 'ERROR: SFTP connection could not be made! Check the logs for more information.', 'the_command' => $command], 400);
+        }
+
+        $output = SftpConnection::runSftpCommand($sftp, $command);
+
+        $time_end = microtime(true);
+
+        return response()->json([
+            'id' => $sftpConnection->id,
+            'server_id' => $sftpConnection->server_id,
+            'the_command' => $command,
+            'seconds_taken' => number_format($time_end - $time_start, 3),
+            'output' => $output
+        ], 200);
+
     }
+
+    public function downloadFile(Request $request, SftpConnection $sftpConnection)
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $file = $request->file;
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
+        }
+
+        $save_as = basename($file);
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if ($sftp->file_exists($file)) {
+
+            $file_size = $sftp->filesize($file);
+
+            $download = SftpConnection::downloadFile($sftp, $file);
+
+            header("Content-Description: File Transfer");
+            header("Content-Type: application/octet-stream");
+            header("Content-Transfer-Encoding: Binary");
+            header("Content-disposition: attachment; filename=\"$save_as\"");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate");
+            header("Pragma: public");
+            header("Content-length: $file_size");
+
+            return $download;
+
+        }
+
+        return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "'.$file.'" not found']);
+
+    }
+
+    public function uploadFile(Request $request, SftpConnection $sftpConnection)
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $request->validate([
+            'save_as' => 'string|required|max:255',
+            'the_file' => 'file|required',
+        ]);
+
+        dd($request->all());
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
+        }
+
+        //Upload file
+
+        return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "'.$file.'" not found']);
+
+    }
+
 }

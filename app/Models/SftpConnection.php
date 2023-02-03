@@ -5,7 +5,12 @@ namespace App\Models;
 use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Net\SFTP;
+use phpseclib3\Net\SSH2;
 
 class SftpConnection extends Model
 {
@@ -52,5 +57,82 @@ class SftpConnection extends Model
     {
         return $this->hasOne(Key::class, 'id', 'key_id');
     }
+
+    public static function makeSftpConnectionPassword(string $host, int $port, string $user, string $password, int $timeout = 8): ?SFTP
+    {
+        $sftp = new SFTP($host, $port, $timeout);
+
+        try {
+            $sftp->login($user, $password);
+        } catch (\Exception $exception) {
+            ActionLog::make(5, 'connect', 'SFTP', $exception->getMessage());
+            return null;
+        }
+
+        return $sftp;
+    }
+
+    public static function makeSftpConnectionKey(string $host, int $port, string $user, string $key_id, ?string $key_password = null, int $timeout = 8): ?SFTP
+    {
+        if (!is_null($key_password)) {
+
+            try {
+                $key = PublicKeyLoader::load(Storage::disk('private')->get("keys/$key_id"), $key_password);
+            } catch (\Exception $exception) {
+                return null;
+            }
+        } else {//No key password
+            try {
+                $key = PublicKeyLoader::load(Storage::disk('private')->get("keys/$key_id"));
+            } catch (\Exception $exception) {
+                return null;
+            }
+
+        }
+
+        $sftp = new SFTP($host, $port, $timeout);
+
+        try {
+            $sftp->login($user, $key);
+        } catch (\Exception $exception) {
+            ActionLog::make(5, 'connect', 'SSH', $exception->getMessage());
+            return null;
+        }
+
+        return $sftp;
+    }
+
+    public static function do(SftpConnection $sftpConnection, int $timeout = 8): ?SFTP
+    {
+        $connection = $sftpConnection->where('id', $sftpConnection->id)->with(['server.ip_ssh', 'key'])->firstOrFail();
+
+        if (is_null($connection->key_id)) {//Password
+            $ssh = self::makeSftpConnectionPassword($connection->server->ip_ssh->ip, $connection->port, $connection->username, Crypt::decryptString($connection->password), $timeout);
+        } else if (!is_null($connection->key->password)) {//Key with a password
+            $ssh = self::makeSftpConnectionKey($connection->server->ip_ssh->ip, $connection->port, $connection->username, $connection->key->saved_as, Crypt::decryptString($connection->password), $timeout);
+        } elseif (is_null($connection->key->password)) {//Key with NO password
+            $ssh = self::makeSftpConnectionKey($connection->server->ip_ssh->ip, $connection->port, $connection->username, $connection->key->saved_as, null, $timeout);
+        } else {
+            return null;
+        }
+
+        return $ssh;
+    }
+
+    public static function runSftpCommand($sftpConnection, string $command)
+    {
+        return $sftpConnection->exec($command);
+    }
+
+    public static function downloadFile($sftpConnection, string $file)
+    {
+        return $sftpConnection->get($file);
+    }
+
+    public static function uploadFile($sftpConnection, string $file)
+    {
+        //return $sftpConnection->get($file);
+    }
+
 
 }

@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm, usePage} from '@inertiajs/inertia-react';
-import {Button, Modal, Select} from "flowbite-react";
+import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -15,8 +15,10 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
 
     const user = usePage().props.auth.user;
 
-    const {data, setData, post, processing, reset, errors} = useForm({
-        the_command1: ''
+    const {data, setData, post, processing, processing2, reset, errors} = useForm({
+        the_command1: '',
+        file: '',
+        save_as: ''
     });
 
     const [showModal, setShowModal] = useState(false);
@@ -50,13 +52,19 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
 
             const the_output = <Output id='commandOutput' title={null} the_command={data.the_command1}
                                        created_at={new Date()}
-                                       the_output={JSON.stringify(the_response)} seconds={the_response.seconds_taken}
+                                       the_output={the_response.output} seconds={the_response.seconds_taken}
                                        rows={10}></Output>
 
             root.render(the_output);
 
         });
 
+    };
+
+    const uploadFile = (e) => {
+        e.preventDefault();
+
+        post(route('sftp.upload', resource.id));
     };
 
     const deleteItem = () => {
@@ -86,11 +94,11 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <Button color={'info'} size="xs" href={route('sftp.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
+                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
                         Back to SFTP connections
                     </Button>
                     <Button color={'failure'} size="xs" onClick={() => setShowModal(true)} type="button">
-                        <HiTrash className="mr-2 h-5 w-5" />
+                        <HiTrash className="mr-2 h-5 w-5"/>
                         Delete connection
                     </Button>
                 </div>
@@ -121,12 +129,78 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                             </PrimaryButton>
                         </form>
                     </div>
+                    <div className="py-2 px-4 mx-auto max-w-7xl">
+                        <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
+                            <div className="col-span-2">
+                                <form action={route('sftp.download', resource.id)} method={'post'}>
+                                    <input type="hidden" name="_token"
+                                           value={document.getElementsByName('csrf-token')[0].getAttribute('content')}/>
+                                    <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
+                                        <div className="col-span-4">
+                                            <p className={'text-lg text-gray-800 dark:text-white pb-2'}>Download a
+                                                file</p>
+                                            <InputLabel forInput="file" value="Full file path and name"/>
+                                            <TextInput
+                                                name="file"
+                                                value={data.file}
+                                                className="mt-1 block w-full"
+                                                autoComplete="file"
+                                                handleChange={(e) => setData('file', e.target.value)}
+                                                maxLength={255}
+                                            />
+                                            <InputError message={errors.file} className="mt-2"/>
+                                        </div>
+                                    </div>
+                                    <PrimaryButton
+                                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                                        processing={processing}>
+                                        Download file
+                                    </PrimaryButton>
+                                </form>
+                            </div>
+                            <div className="col-span-2">
+                                <form onSubmit={uploadFile}>
+                                    <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
+                                        <div className="col-span-3">
+                                            <p className={'text-lg text-gray-800 dark:text-white pb-2'}>Upload a
+                                                file</p>
+                                            <InputLabel forInput="save_as" value="Save as"/>
+                                            <TextInput
+                                                name="save_as"
+                                                value={data.save_as}
+                                                className="mt-1 block w-full"
+                                                autoComplete="file"
+                                                handleChange={(e) => setData('save_as', e.target.value)}
+                                                maxLength={255}
+                                            />
+                                            <InputError message={errors.save_as} className="mt-2"/>
+                                        </div>
+                                        <div className="col-span-1">
+                                            <p className={'text-lg text-gray-800 dark:text-white pb-2'}>&zwnj;</p>
+                                            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">File</label>
+                                            <input
+                                                type="file"
+                                                className="w-full px-4 py-2"
+                                                name="the_file"
+                                                onChange={(e) =>
+                                                    setData("the_file", e.target.files[0])
+                                                }
+                                            />
+                                            <span className="text-red-600">{errors.the_file}</span>
+                                        </div>
+                                    </div>
+                                    <PrimaryButton
+                                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                                        processing={processing}>
+                                        Upload file
+                                    </PrimaryButton>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </section>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-l mt-4">
-                    <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>Command output</h1>
-                    <p className='pl-4 text-gray-700 dark:text-gray-300'><a
-                        href={route('outputs.show.server', resource.server.id)}>View all</a>
-                    </p>
+                    <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>SFTP Command output</h1>
                     <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8" id="command_output_div">
                     </div>
                 </section>
