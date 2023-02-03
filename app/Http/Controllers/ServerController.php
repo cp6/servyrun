@@ -83,7 +83,7 @@ class ServerController extends Controller
     public function edit(Server $server): \Inertia\Response
     {
         return Inertia::render('Servers/Edit', [
-            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ip_ssh', 'ip_ssh.ip'])->first(),
+            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ip_ssh'])->first(),
             'types' => Type::all(),
             'locations' => Location::all()
         ]);
