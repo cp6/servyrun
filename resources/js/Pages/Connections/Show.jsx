@@ -16,8 +16,6 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
 
     const user = usePage().props.auth.user;
 
-    const output = '';
-
     const [isChecked, setIsChecked] = useState(false);
 
     const handleChange = event => {
@@ -66,7 +64,8 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
 
             const the_output = <Output id='commandOutput' title={null} the_command={the_response.the_command}
                                        created_at={new Date()}
-                                       the_output={the_response.output ?? the_response.message} seconds={the_response.seconds_taken}
+                                       the_output={the_response.output ?? the_response.message}
+                                       seconds={the_response.seconds_taken}
                                        rows={10}></Output>
 
             root.render(the_output);
@@ -105,11 +104,11 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <Button color={'info'} size="xs" href={route('connection.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
+                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
                         Back to connections
                     </Button>
                     <Button color={'failure'} size="xs" onClick={() => setShowModal(true)} type="button">
-                        <HiTrash className="mr-2 h-5 w-5" />
+                        <HiTrash className="mr-2 h-5 w-5"/>
                         Delete connection
                     </Button>
                     <Button color={'success'} size="xs" href={route('server.show', resource.server.id)}>
@@ -190,6 +189,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                         href={route('outputs.show.server', resource.server.id)}>View all</a>
                     </p>
                     <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8" id="command_output_div">
+                        <span className="text-gray-400 dark:text-gray-500">Nothing run yet</span>
                     </div>
                 </section>
             </div>
