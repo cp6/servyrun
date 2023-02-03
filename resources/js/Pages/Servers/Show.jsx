@@ -59,6 +59,11 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-l">
                     <div className="py-6 px-4 mx-auto max-w-6xl lg:py-10">
+                        {resource.operating_system !== null ?
+                            <span
+                                className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{resource.operating_system}</span>
+                            : null
+                        }
               <span
                   className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.type.name}</span>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
