@@ -51,7 +51,7 @@ export default function Dashboard({
                                 <Table className='px-4'>
                                     <Table.Head className='bg-gray-200 dark:bg-gray-600 rounded-0'>
                                         <Table.HeadCell>
-                                            Action
+                                            Message
                                         </Table.HeadCell>
                                         <Table.HeadCell>
                                             When
