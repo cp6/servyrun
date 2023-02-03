@@ -43,4 +43,14 @@ class SftpConnection extends Model
         });
     }
 
+    public function server(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Server::class, 'server_id', 'id');
+    }
+
+    public function key(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Key::class, 'id', 'key_id');
+    }
+
 }
