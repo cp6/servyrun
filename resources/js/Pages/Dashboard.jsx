@@ -3,10 +3,7 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import StatCard from "@/Components/StatCard";
 import {Table} from "flowbite-react/lib/esm/components/Table";
 import React from "react";
-import {HiEye} from "react-icons/hi";
-import {Button} from "flowbite-react";
 import {format} from "date-fns";
-import ResourceEmptyText from "@/Components/ResourceEmptyText";
 import YouAreNew from "@/Components/YouAreNew";
 
 export default function Dashboard({
@@ -15,6 +12,8 @@ export default function Dashboard({
                                       IpCount,
                                       ConnectionCount,
                                       KeyCount,
+                                      DbCount,
+                                      PingsCount,
                                       CommandCount,
                                       OutputCount,
                                       RecentActions
@@ -33,11 +32,14 @@ export default function Dashboard({
             {RecentActions.length > 0 ?
                 <>
                     <div className="mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div className='grid grid-cols-3 sm:grid-cols-6 gap-3'>
+                        <div className='grid grid-cols-3 sm:grid-cols-8 gap-3'>
                             <StatCard text='Servers' value={serversCount} route={route('server.index')}></StatCard>
-                            <StatCard text='Connections' value={ConnectionCount} route={route('connection.index')}></StatCard>
+                            <StatCard text='Connections' value={ConnectionCount}
+                                      route={route('connection.index')}></StatCard>
                             <StatCard text='Keys' value={KeyCount} route={route('key.index')}></StatCard>
                             <StatCard text='IPs' value={IpCount} route={route('ip.index')}></StatCard>
+                            <StatCard text='DBs' value={DbCount} route={route('db.index')}></StatCard>
+                            <StatCard text='Pings' value={PingsCount} route={route('ping.index')}></StatCard>
                             <StatCard text='Commands' value={CommandCount} route={route('command.index')}></StatCard>
                             <StatCard text='Outputs' value={OutputCount} route={route('outputs.index')}></StatCard>
                         </div>

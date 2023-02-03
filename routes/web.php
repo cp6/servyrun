@@ -40,6 +40,8 @@ Route::get('/', function () {
             'IpCount' => \App\Models\IpAddress::get()->count(),
             'KeyCount' => \App\Models\Key::get()->count(),
             'ConnectionCount' => \App\Models\Connection::get()->count(),
+            'DbCount' => \App\Models\Database::get()->count(),
+            'PingsCount' => \App\Models\Ping::get()->count(),
             'CommandCount' => \App\Models\Command::get()->count(),
             'OutputCount' => \App\Models\CommandOutput::get()->count(),
             'RecentActions' => \App\Models\ActionLog::orderBy('created_at', 'desc')->take(10)->get()
@@ -179,7 +181,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/sftp/create', [SftpConnectionController::class, 'create'])->name('sftp.create');
     Route::post('/sftp/', [SftpConnectionController::class, 'store'])->name('sftp.store');
     Route::get('/sftp/{sftpConnection}', [SftpConnectionController::class, 'show'])->name('sftp.show');
-    Route::post('/sftp/{sftpConnection}/run', [SftpConnectionController::class, 'run'])->name('sftp.run');//Send SFTP commands here
+    Route::post('/sftp/{sftpConnection}/run', [SftpConnectionController::class, 'run'])->name('sftp.run');//Run SFTP command
+    Route::post('/sftp/{sftpConnection}/download', [SftpConnectionController::class, 'downloadFile'])->name('sftp.download');//SFTP download file
+    Route::post('/sftp/{sftpConnection}/upload', [SftpConnectionController::class, 'uploadFile'])->name('sftp.upload');//SFTP upload a file
     Route::get('/sftp/{sftpConnection}/edit', [SftpConnectionController::class, 'edit'])->name('sftp.edit');
     Route::patch('/sftp/{sftpConnection}', [SftpConnectionController::class, 'update'])->name('sftp.update');
     Route::delete('/sftp/{sftpConnection}', [SftpConnectionController::class, 'destroy'])->name('sftp.destroy');
