@@ -61,6 +61,11 @@ class Server extends Model
         return $this->hasOne(Connection::class, 'server_id', 'id');
     }
 
+    public function sftp_conn(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {//SFTP Connection
+        return $this->hasOne(SftpConnection::class, 'server_id', 'id');
+    }
+
     public function ip_ssh(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(IpAddress::class, 'server_id', 'id')->where('is_ssh', 1);

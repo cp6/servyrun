@@ -46,7 +46,7 @@ class ServerController extends Controller
         $this->authorize('view', $server);
 
         return Inertia::render('Servers/Show', [
-            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn'])->first(),
+            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn', 'sftp_conn'])->firstOrFail(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
             'alert_message' => \Session::get('alert_message')
