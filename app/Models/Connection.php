@@ -91,31 +91,11 @@ class Connection extends Model
         try {
             $ssh->login($user, $password);
         } catch (\Exception $exception) {
-            ActionLog::make(5, $exception->getMessage());
+            ActionLog::make(5, 'connect', 'SSH', $exception->getMessage());
             return null;
         }
 
         return $ssh;
-    }
-
-    public static function makeConnectionHashedPassword(string $host, int $port, string $user, string $password, string $hashed_password, int $timeout = 8): ?SSH2
-    {
-        if (Hash::check($password, $hashed_password)) {//Password is a match
-
-            $ssh = new SSH2($host, $port, $timeout);
-
-            try {
-                $ssh->login($user, $password);
-            } catch (\Exception $exception) {
-                ActionLog::make(5, $exception->getMessage());
-                return null;
-            }
-
-            return $ssh;
-        }
-
-        return null;
-
     }
 
     public static function makeConnectionKey(string $host, int $port, string $user, string $key_id, ?string $key_password = null, int $timeout = 8): ?SSH2
@@ -141,7 +121,7 @@ class Connection extends Model
         try {
             $ssh->login($user, $key);
         } catch (\Exception $exception) {
-            ActionLog::make(5, $exception->getMessage());
+            ActionLog::make(5, 'connect', 'SSH', $exception->getMessage());
             return null;
         }
 
