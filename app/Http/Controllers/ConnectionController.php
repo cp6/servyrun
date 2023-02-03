@@ -78,7 +78,7 @@ class ConnectionController extends Controller
     {
         $this->authorize('view', $connection);
 
-        $data = Connection::where('id', $connection->id)->with(['server', 'key', 'server.ip_ssh'])->firstOrFail();
+        $data = Connection::where('id', $connection->id)->with(['key', 'server.ip_ssh'])->firstOrFail();
         $ip = $data->server->ip_ssh->ip;
 
         if ($connection->type === 1) {
