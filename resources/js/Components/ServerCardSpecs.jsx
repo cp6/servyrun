@@ -21,7 +21,7 @@ export default function ServerCardSpecs({resource}) {
                 <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">RAM
                     MB
                 </dt>
-                <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{resource.ram_mb ?? '-'}</dd>
+                <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.ram_mb)}</dd>
             </div>
         </dl>
     );
