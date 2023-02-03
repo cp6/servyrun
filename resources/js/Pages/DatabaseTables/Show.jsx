@@ -91,9 +91,9 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg">
-                    <div className="py-6 px-2 mx-auto max-w-4xl lg:py-10">
-                        <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name} ({resource.conn.host})</h2>
+                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
+                    <div className="py-4 px-2 md:px-6 max-w-4xl md:py-8">
+                        <h2 className="mt-1 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name} ({resource.conn.host})</h2>
                         <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Tables</h2>
 
                         {tables.length > 0 ?

@@ -3,7 +3,7 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiDownload, HiOutlineArrowLeft, HiRefresh} from "react-icons/hi";
+import {HiDownload, HiOutlineArrowLeft, HiRefresh, HiTrash} from "react-icons/hi";
 import axios from "axios";
 
 export default function Show({auth, resource, database, table, columns, alert_type, alert_message}) {
@@ -14,22 +14,6 @@ export default function Show({auth, resource, database, table, columns, alert_ty
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
     const [hasAlert, setHasAlert] = React.useState(true);
-
-    const deleteItem = () => {
-        const requestOptions = {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': document.getElementsByName('csrf-token')[0].getAttribute('content')
-            }
-        };
-
-        fetch(route('db.connection.destroy', resource.id), requestOptions).then(response => {
-            if (response.redirected) {
-                window.location.href = response.url;
-            }
-        });
-
-    };
 
     const refreshColumns = () => {
         setButtonsDisabled(true);
@@ -71,9 +55,9 @@ export default function Show({auth, resource, database, table, columns, alert_ty
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg">
-                    <div className="py-6 px-2 mx-auto max-w-4xl lg:py-10">
-                        <h2 className="mt-4 mb-3 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">
+                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
+                    <div className="py-4 px-2 md:px-6 max-w-4xl md:py-8">
+                        <h2 className="mt-1 mb-3 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">
                             {database.name}, {table.name} table columns</h2>
                         <ul className="max-w-3xl space-y-1 text-gray-500 list-none list-inside dark:text-gray-400">
                             {columns.map(columns =>
@@ -112,24 +96,6 @@ export default function Show({auth, resource, database, table, columns, alert_ty
                     </div>
                 </section>
             </div>
-
-            <Modal show={showModal} size="md">
-                <Modal.Body>
-                    <div className="text-center">
-                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                            Are you sure you want to delete this DB connection?
-                        </h3>
-                        <div className="flex justify-center gap-4">
-                            <Button color="failure" onClick={deleteItem}>
-                                Yes, I'm sure
-                            </Button>
-                            <Button onClick={() => setShowModal(false)} color="gray">
-                                No, cancel
-                            </Button>
-                        </div>
-                    </div>
-                </Modal.Body>
-            </Modal>
 
         </AuthenticatedLayout>
     );

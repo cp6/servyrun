@@ -4,6 +4,7 @@ import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
 import {
+    HiFolderOpen,
     HiLightningBolt,
     HiOutlineArrowLeft,
     HiPencil,
@@ -57,7 +58,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-l">
-                    <div className="py-6 px-4 mx-auto max-w-4xl lg:py-12">
+                    <div className="py-6 px-4 mx-auto max-w-6xl lg:py-10">
               <span
                   className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.type.name}</span>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
@@ -71,7 +72,6 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                 <UpdatedAtText updated_at={resource.updated_at} string_format={'hh:mm:ssa do LLL yyyy'}></UpdatedAtText>
                             </div>
                         </div>
-
                         <div className="flex items-center space-x-4 mt-2">
                             {
                                 (() => {
@@ -82,6 +82,19 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                                         className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                             <HiLightningBolt className="mr-2 h-5 w-5"/>
                                             Connect
+                                        </Button>)
+                                    }
+                                })()
+                            }
+                            {
+                                (() => {
+                                    if (typeof (resource.sftp_conn) != "undefined" && resource.sftp_conn !== null) {
+                                        return (<Button color={'warning'} size="sml"
+                                                        href={route('sftp.show', resource.sftp_conn.id)}
+                                                        type="button"
+                                                        className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center">
+                                            <HiFolderOpen className="mr-2 h-5 w-5"/>
+                                            SFTP Connect
                                         </Button>)
                                     }
                                 })()

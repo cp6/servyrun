@@ -54,7 +54,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg">
+                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
                     <div className="py-4 px-2 md:px-6 max-w-4xl md:py-8">
                         <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name}</h2>
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.conn.host} ({resource.conn.title})</p>

@@ -66,7 +66,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg">
+                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
                     <div className="py-4 px-2 md:px-6 max-w-4xl md:py-8">
                         <span
                             className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.type === 1 ? ("MySQL") : ("Other")}</span>

@@ -10,6 +10,7 @@ import ReactDOM from "react-dom/client";
 import Output from "@/Components/Output";
 import ResponseAlert from "@/Components/Alert";
 import {HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
+import {HiCpuChip} from "react-icons/all";
 
 export default function Show({auth, resource, ip, method, commands, alert_type, alert_message}) {
 
@@ -110,6 +111,10 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                     <Button color={'failure'} size="xs" onClick={() => setShowModal(true)} type="button">
                         <HiTrash className="mr-2 h-5 w-5" />
                         Delete connection
+                    </Button>
+                    <Button color={'success'} size="xs" href={route('server.show', resource.server.id)}>
+                        <HiCpuChip className="mr-2 h-5 w-5"/>
+                        Server
                     </Button>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
