@@ -15,7 +15,8 @@ export default forwardRef(function TextInput(
         min,
         max,
         isFocused,
-        handleChange
+        handleChange,
+        disabled,
     },
     ref
 ) {
@@ -47,6 +48,7 @@ export default forwardRef(function TextInput(
                 min={min}
                 max={max}
                 onChange={(e) => handleChange(e)}
+                disabled={disabled}
             />
         </div>
     );
