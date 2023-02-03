@@ -179,6 +179,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/sftp/create', [SftpConnectionController::class, 'create'])->name('sftp.create');
     Route::post('/sftp/', [SftpConnectionController::class, 'store'])->name('sftp.store');
     Route::get('/sftp/{sftpConnection}', [SftpConnectionController::class, 'show'])->name('sftp.show');
+    Route::post('/sftp/{sftpConnection}/run', [SftpConnectionController::class, 'run'])->name('sftp.run');//Send SFTP commands here
     Route::get('/sftp/{sftpConnection}/edit', [SftpConnectionController::class, 'edit'])->name('sftp.edit');
     Route::patch('/sftp/{sftpConnection}', [SftpConnectionController::class, 'update'])->name('sftp.update');
     Route::delete('/sftp/{sftpConnection}', [SftpConnectionController::class, 'destroy'])->name('sftp.destroy');
