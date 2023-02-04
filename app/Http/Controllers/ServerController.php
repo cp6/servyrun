@@ -185,8 +185,6 @@ class ServerController extends Controller
             'ping_port' => $request->ping_port ?? 22,
         ]);
 
-        $ip = IpAddress::whereRelation('assignedSSH', 'server_id', $server->id)->first();
-
         return redirect(route('server.show', $server))->with(['alert_type' => 'success', 'alert_message' => 'Server updated successfully']);
     }
 
