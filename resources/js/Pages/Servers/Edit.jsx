@@ -43,9 +43,9 @@ export default function Edit({auth, types, locations, resource}) {
             <Head title="Edit server"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('server.index')}>
+                    <Button size="xs" href={route('server.show', resource.id)}>
                         <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to servers
+                        Back to server
                     </Button>
                 </div>
                 <div className="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6">
