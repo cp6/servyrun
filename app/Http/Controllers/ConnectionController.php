@@ -104,6 +104,47 @@ class ConnectionController extends Controller
 
     }
 
+    public function edit(Connection $connection): \Inertia\Response
+    {
+        $this->authorize('view', $connection);
+
+        $data = Connection::where('id', $connection->id)->with(['key', 'server.ip_ssh'])->firstOrFail();
+        $ip = $data->server->ip_ssh->ip;
+
+        return Inertia::render('Connections/Edit', [
+            'resource' => $data,
+            'ip' => $ip,
+            'commands' => Command::get(),
+            'servers' => Server::get(),
+            'keys' => Key::get(),
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
+
+    }
+
+    public function update(Request $request, Connection $connection)
+    {
+        $request->validate([
+            'server_id' => 'string|size:8|required',
+            'key_id' => 'string|size:8|sometimes|nullable',
+            'ssh_port' => 'integer|required',
+            'username' => 'string|required|max:64',
+            'password' => 'string|required',
+        ]);
+
+        $connection->update([
+            'server_id' => $request->server_id,
+            'key_id' => $request->key_id ?? null,
+            'ssh_port' => $request->ssh_port,
+            'username' => $request->username,
+            'password' => $request->password
+        ]);
+
+        return redirect(route('connection.show', $connection))->with(['alert_type' => 'success', 'alert_message' => 'Connection updated successfully']);
+    }
+
     public function run(Request $request, Connection $connection)
     {
         $this->authorize('view', $connection);

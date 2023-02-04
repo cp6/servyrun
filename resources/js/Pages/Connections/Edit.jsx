@@ -6,208 +6,121 @@ import InputError from "@/Components/InputError";
 import {Select, Button} from "flowbite-react";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
+import {HiOutlineArrowLeft} from "react-icons/hi";
 
-export default function Edit({auth, types, locations, os, resource}) {
+export default function Edit({auth, servers, keys, ip, resource}) {
 
     const user = usePage().props.auth.user;
 
     const {data, setData, patch, processing, errors} = useForm({
-        title: resource.title,
-        hostname: resource.hostname,
-        server_type: resource.type_id,
-        location: resource.location_id,
-        ip: resource.ips[0].ip.ip,
-        os: resource.os_id,
-        cpu: resource.cpu,
-        cpu_cores: resource.cpu_cores,
-        cpu_freq: resource.cpu_freq,
-        disk_gb: resource.disk_gb,
-        ram_mb: resource.ram_mb,
-        ping_port: resource.ping_port,
+        server_id: resource.server_id,
+        username: resource.username,
+        ssh_port: resource.ssh_port,
+        key_id: resource.key_id,
+        password: '',
     });
 
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route('server.update', resource.id));
+        patch(route('connection.update', resource.id));
     };
 
     return (
         <AuthenticatedLayout
             auth={auth}
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Edit
-                server</h2>}
+                connection</h2>}
         >
-            <Head title="Edit server"/>
+            <Head title="Edit connection"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('server.index')}>
-                        Back to servers
+                    <Button size="xs" href={route('connection.show', resource.id)}>
+                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
+                        Back to connection
                     </Button>
                 </div>
                 <form onSubmit={submit}>
-                    <div className="grid gap-2 sm:grid-cols-2 sm:gap-4">
-                        <div className="w-full">
-                            <InputLabel forInput="hostname" value="Hostname"/>
-                            <TextInput
-                                name="hostname"
-                                value={data.hostname || ''}
-                                className="mt-1 block w-full"
-                                autoComplete="hostname"
-                                handleChange={(e) => setData('hostname', e.target.value)}
-                                required
-                            />
-                            <InputError message={errors.hostname} className="mt-2"/>
-                        </div>
-                        <div className="w-full">
-                            <InputLabel forInput="title" value="Title"/>
-                            <TextInput
-                                name="title"
-                                className="mt-1 block w-full"
-                                autoComplete="title"
-                                value={data.title || ''}
-                                handleChange={(e) => setData('title', e.target.value)}
-                                required
-                            />
-                            <InputError message={errors.title} className="mt-2"/>
-                        </div>
-
-                        <div className="w-full">
+                    <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
+                        <div className="sm:col-span-4 col-span-4">
                             <div className="mb-2 block">
-                                <InputLabel forInput="server_type" value="Type"/>
+                                <InputLabel forInput="server_id" value="Server"/>
                             </div>
-                            <Select onChange={(e) => setData('server_type', e.target.value)}
-                                    name="server_type"
+                            <Select onChange={(e) => setData('server_id', e.target.value)}
+                                    name="server_id"
                                     required={true}
-                                    value={resource.type_id}
-                                    handleChange={(e) => setData('server_type', e.target.value)}
-
+                                    value={data.server_id}
+                                    handleChange={(e) => setData('server_id', e.target.value)}
                             >
-                                <option value=''>Choose</option>
-                                {types.map(types => <option key={types.id} value={types.id}>{types.name}</option>)}
+                                <option value=''>Choose one</option>
+                                {servers.map(servers => <option key={servers.id}
+                                    value={servers.id}>{servers.title} ({servers.hostname} | {ip})</option>)}
                             </Select>
                         </div>
-                        <div>
-                            <div className="mb-2 block">
-                                <InputLabel forInput="location" value="Location"/>
-                            </div>
-                            <Select onChange={(e) => setData('location', e.target.value)}
-                                    name="location"
-                                    required={true}
-                                    value={resource.location.id}
-                                    handleChange={(e) => setData('location', e.target.value)}
-                            >
-                                <option value=''>Choose</option>
-                                {locations.map(locations => <option key={locations.id} value={locations.id}>{locations.name}</option>)}
-                            </Select>
-                        </div>
-                        <div>
-                            <InputLabel forInput="ip" value="IP address"/>
+                        <div className="sm:col-span-2 col-span-4">
+                            <InputLabel forInput="username" value="Username"/>
                             <TextInput
-                                name="ip"
+                                id="username"
+                                name="username"
+                                value={data.username}
                                 className="mt-1 block w-full"
-                                autoComplete="ip"
-                                value={resource.ips[0].ip.ip || ''}
-                                handleChange={(e) => setData('ip', e.target.value)}
+                                autoComplete="username"
+                                handleChange={(e) => setData('username', e.target.value)}
+                                maxLength={64}
                                 required
                             />
-                            <InputError message={errors.ip} className="mt-2"/>
+                            <InputError message={errors.username} className="mt-2"/>
                         </div>
-                        <div>
-                            <InputLabel forInput="ping_port" value="Ping port"/>
+                        <div className="sm:col-span-2 col-span-4">
+                            <InputLabel forInput="ssh_port" value="SSH port"/>
                             <TextInput
-                                type="number"
-                                name="ping_port"
+                                type='number'
+                                name="ssh_port"
                                 className="mt-1 block w-full"
-                                autoComplete="ping_port"
-                                value={data.ping_port || ''}
-                                handleChange={(e) => setData('ping_port', e.target.value)}
+                                autoComplete="ssh_port"
+                                value={data.ssh_port}
+                                handleChange={(e) => setData('ssh_port', e.target.value)}
+                                required
                             />
-                            <InputError message={errors.ping_port} className="mt-2"/>
+                            <InputError message={errors.ssh_port} className="mt-2"/>
                         </div>
-                        <div className='col-span-2 text-center mt-2'>
-                            <p className='text-gray-400 dark:text-white'>The following can be auto filled with the
-                                server connection</p>
-                        </div>
-                        <div>
+                        <p><a className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                              href={route('key.index')}>Manage keys</a></p>
+                        <div className="sm:col-span-4 col-span-4">
                             <div className="mb-2 block">
-                                <InputLabel forInput="os" value="Operating system"/>
+                                <InputLabel forInput="key_id" value="Key"/>
                             </div>
-                            <Select onChange={(e) => setData('os', e.target.value)}
-                                    name="os"
-                                    value={resource.os_id || ''}
-                                    handleChange={(e) => setData('os', e.target.value)}
+                            <Select onChange={(e) => setData('key_id', e.target.value)}
+                                    name="key_id"
+                                    value={data.key_id}
+                                    handleChange={(e) => setData('key_id', e.target.value)}
                             >
-                                <option value=''>Choose</option>
-                                {os.map(os => <option key={os.id} value={os.id}>{os.name}</option>)}
+                                <option value=''>None. Use password</option>
+                                {keys.map(keys => <option key={keys.id}
+                                                          value={keys.id}>{keys.original_name}</option>)}
                             </Select>
                         </div>
-                        <div>
-                            <InputLabel forInput="cpu" value="CPU"/>
-                            <TextInput
-                                name="cpu"
-                                className="mt-1 block w-full"
-                                autoComplete="cpu"
-                                value={data.cpu || ''}
-                                handleChange={(e) => setData('cpu', e.target.value)}
-                            />
-                            <InputError message={errors.cpu} className="mt-2"/>
+                        <div className='mt-2 sm:col-span-4 col-span-4'>
+                            <p className='text-gray-500 dark:text-gray-400'>Passwords are stored encrypted</p>
+                            <p className='text-yellow-500 dark:text-yellow-400'>You cannot edit the existing password, it must be re-set</p>
                         </div>
-                        <div>
-                            <InputLabel forInput="cpu_cores" value="Cores"/>
+                        <div className="col-span-4">
+                            <InputLabel forInput="password" value="Password"/>
                             <TextInput
-                                type="number"
-                                name="cpu_cores"
+                                name="password"
                                 className="mt-1 block w-full"
-                                autoComplete="cpu_cores"
-                                value={data.cpu_cores || ''}
-                                handleChange={(e) => setData('cpu_cores', e.target.value)}
+                                autoComplete="password"
+                                value={data.password}
+                                handleChange={(e) => setData('password', e.target.value)}
+                                required={true}
                             />
-                            <InputError message={errors.cpu_cores} className="mt-2"/>
-                        </div>
-                        <div>
-                            <InputLabel forInput="cpu_freq" value="Freq"/>
-                            <TextInput
-                                type="number"
-                                step="0.01"
-                                name="cpu_freq"
-                                className="mt-1 block w-full"
-                                autoComplete="cpu_freq"
-                                value={data.cpu_freq || ''}
-                                handleChange={(e) => setData('cpu_freq', e.target.value)}
-                            />
-                            <InputError message={errors.cpu_freq} className="mt-2"/>
-                        </div>
-                        <div>
-                            <InputLabel forInput="disk_gb" value="Disk GB"/>
-                            <TextInput
-                                type="number"
-                                name="disk_gb"
-                                className="mt-1 block w-full"
-                                autoComplete="disk_gb"
-                                value={data.disk_gb || ''}
-                                handleChange={(e) => setData('disk_gb', e.target.value)}
-                            />
-                            <InputError message={errors.disk_gb} className="mt-2"/>
-                        </div>
-                        <div>
-                            <InputLabel forInput="ram_mb" value="RAM MB"/>
-                            <TextInput
-                                type="number"
-                                step="1"
-                                name="ram_mb"
-                                className="mt-1 block w-full"
-                                autoComplete="ram_mb"
-                                value={data.ram_mb || ''}
-                                handleChange={(e) => setData('ram_mb', e.target.value)}
-                            />
-                            <InputError message={errors.ram_mb} className="mt-2"/>
+                            <InputError message={errors.password} className="mt-2"/>
                         </div>
                     </div>
                     <PrimaryButton
                         className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                         processing={processing}>
-                        Update Server
+                        Update Connection
                     </PrimaryButton>
                 </form>
             </div>
