@@ -64,7 +64,7 @@ export default function Create({auth, servers, keys, alert_type, alert_message})
                                         handleChange={(e) => setData('server_id', e.target.value)}
                                 >
                                     <option value=''>Choose one</option>
-                                    {servers.map(servers => <option
+                                    {servers.map(servers => <option key={servers.id}
                                         value={servers.id}>{servers.title} ({servers.hostname})</option>)}
                                 </Select>
                             </div>
