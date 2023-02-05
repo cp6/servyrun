@@ -9,7 +9,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import ReactDOM from "react-dom/client";
 import Output from "@/Components/Output";
 import ResponseAlert from "@/Components/Alert";
-import {HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
+import {HiBookOpen, HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
 import {HiCpuChip} from "react-icons/all";
 
 export default function Show({auth, resource, ip, alert_type, alert_message}) {
@@ -97,6 +97,10 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                     <Button color={'info'} size="xs" href={route('sftp.index')}>
                         <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
                         Back to SFTP connections
+                    </Button>
+                    <Button color={'light'} size="xs" href={route('sftp.read', resource.id)}>
+                        <HiBookOpen className="mr-2 h-5 w-5"/>
+                        Read file
                     </Button>
                     <Button color={'failure'} size="xs" onClick={() => setShowModal(true)} type="button">
                         <HiTrash className="mr-2 h-5 w-5"/>
