@@ -89,6 +89,22 @@ class SftpConnectionController extends Controller
         ]);
     }
 
+    public function read(SftpConnection $sftpConnection)
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $data = SftpConnection::where('id', $sftpConnection->id)->with(['server', 'key', 'server.ip_ssh'])->firstOrFail();
+        $ip = $data->server->ip_ssh->ip;
+
+        return Inertia::render('Sftp/Read', [
+            'resource' => $data,
+            'ip' => $ip,
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
+    }
+
     public function edit(SftpConnection $sftpConnection)
     {
         $this->authorize('view', $sftpConnection);
@@ -170,8 +186,33 @@ class SftpConnectionController extends Controller
 
         }
 
-        return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "'.$file.'" not found']);
+        return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "' . $file . '" not found']);
+    }
 
+    public function readFile(Request $request, SftpConnection $sftpConnection)
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $file = $request->file;
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            //return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
+            return response()->json(['success' => false, 'contents' => 'Could not connect', 'size' => null]);
+        }
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if ($sftp->file_exists($file)) {
+
+            $download = SftpConnection::downloadFile($sftp, $file);
+
+            return response()->json(['success' => true, 'contents' => $download, 'size' => $sftp->filesize($file)]);
+        }
+
+        //return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "' . $file . '" not found']);
+        return response()->json(['success' => false, 'contents' => 'File "' . $file . '" could not be found', 'size' => null]);
     }
 
     public function uploadFile(Request $request, SftpConnection $sftpConnection)
@@ -193,11 +234,11 @@ class SftpConnectionController extends Controller
 
         $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_LOCAL_FILE);
 
-        if ($upload_file){
-            return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'success', 'alert_message' => $file->getClientOriginalName().'" uploaded as '.$request->save_as]);
+        if ($upload_file) {
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'success', 'alert_message' => $file->getClientOriginalName() . '" uploaded as ' . $request->save_as]);
         }
 
-        return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File not uploaded as "'.$request->save_as.'"']);
+        return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File not uploaded as "' . $request->save_as . '"']);
 
     }
 
