@@ -199,20 +199,22 @@ class SftpConnectionController extends Controller
 
         if (is_null($sftp)) {
             //return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
-            return response()->json(['success' => false, 'contents' => 'Could not connect', 'size' => null]);
+            return response()->json(['success' => false, 'contents' => 'Could not connect', 'size' => null, 'file' => null, 'extension' => null]);
         }
 
         $sftp = SftpConnection::do($sftpConnection);
 
         if ($sftp->file_exists($file)) {
 
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+
             $download = SftpConnection::downloadFile($sftp, $file);
 
-            return response()->json(['success' => true, 'contents' => $download, 'size' => $sftp->filesize($file)]);
+            return response()->json(['success' => true, 'contents' => $download, 'size' => $sftp->filesize($file), 'file' => $file, 'extension' => $extension]);
         }
 
         //return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "' . $file . '" not found']);
-        return response()->json(['success' => false, 'contents' => 'File "' . $file . '" could not be found', 'size' => null]);
+        return response()->json(['success' => false, 'contents' => 'File "' . $file . '" could not be found', 'size' => null, 'file' => null, 'extension' => null]);
     }
 
     public function uploadFile(Request $request, SftpConnection $sftpConnection)
@@ -240,6 +242,25 @@ class SftpConnectionController extends Controller
 
         return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File not uploaded as "' . $request->save_as . '"']);
 
+    }
+
+    public function overwriteFile(Request $request, SftpConnection $sftpConnection)
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
+        }
+
+        if (is_null($request->contents)) {
+            return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Contents cannot be empty']);
+        }
+
+        $upload_file = $sftp->put($request->save_as, $request->contents, SFTP::SOURCE_STRING);
+
+        return $upload_file;
     }
 
 }
