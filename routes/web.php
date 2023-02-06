@@ -186,6 +186,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/sftp/{sftpConnection}/run', [SftpConnectionController::class, 'run'])->name('sftp.run');//Run SFTP command
     Route::post('/sftp/{sftpConnection}/download', [SftpConnectionController::class, 'downloadFile'])->name('sftp.download');//SFTP download file
     Route::post('/sftp/{sftpConnection}/upload', [SftpConnectionController::class, 'uploadFile'])->name('sftp.upload');//SFTP upload a file
+    Route::post('/sftp/{sftpConnection}/overwrite', [SftpConnectionController::class, 'overwriteFile'])->name('sftp.overwrite');//SFTP upload an edited file
     Route::get('/sftp/{sftpConnection}/edit', [SftpConnectionController::class, 'edit'])->name('sftp.edit');
     Route::patch('/sftp/{sftpConnection}', [SftpConnectionController::class, 'update'])->name('sftp.update');
     Route::delete('/sftp/{sftpConnection}', [SftpConnectionController::class, 'destroy'])->name('sftp.destroy');
