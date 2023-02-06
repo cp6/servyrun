@@ -1,13 +1,24 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import {Button} from "flowbite-react";
-import React from "react";
+import React, {useEffect} from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ResponseAlert from "@/Components/Alert";
 import {HiOutlineArrowLeft} from "react-icons/hi";
+import axios from "axios";
+import Prism from "prismjs";
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-textile';
+import 'prismjs/components/prism-sql';
+import 'prismjs/components/prism-ini';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-log';
+import 'prismjs/plugins/line-numbers/prism-line-numbers';
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+
 
 export default function Read({auth, resource, ip, alert_type, alert_message}) {
 
@@ -19,9 +30,17 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
 
     const [hasAlert, setHasAlert] = React.useState(true);
 
-    const [textBoxContent, setTextBoxContent] = React.useState(null);
+    const [codeContent, setCodeContent] = React.useState(null);
+
+    const [secretCodeContent, setSecretCodeContent] = React.useState(null);
+
+    const [filePath, setFilePath] = React.useState(null);
 
     const [fileSize, setFileSize] = React.useState(null);
+
+    const [fileExt, setFileExt] = React.useState(null);
+
+    const [editable, setEditable] = React.useState(false);
 
     async function postData() {
 
@@ -42,15 +61,42 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
 
     const submit = (e) => {
         e.preventDefault();
-        const container = document.getElementById('command_output_div');
 
         const createOutput = postData().then((the_response) => {
 
-            setTextBoxContent(the_response.contents);
+            setCodeContent(the_response.contents);
+            setSecretCodeContent(the_response.contents);
+            setFilePath(the_response.file);
+            setFileExt(the_response.extension);
+
+            if (the_response.size > 1000000) {//Over 1MB do not allow editing
+                setEditable(false);
+            } else {
+                setEditable(true);
+            }
+
             setFileSize(new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 2}).format(the_response.size / 1000 / 1000));
 
         });
 
+    };
+
+    useEffect(() => {
+        Prism.highlightAll();
+    }, []);
+
+    const sendContents = () => {
+        const codeForUpload = {save_as: filePath, contents: secretCodeContent};
+
+        axios.post(route('sftp.overwrite', resource.id), codeForUpload).then(response => {
+            console.log('POSTed update');
+        }).catch(err => {
+            console.log('Error POSTing update');
+        });
+    };
+
+    const handleCodeChange = (event) => {
+        setSecretCodeContent(event.target.firstChild.innerText);
     };
 
     return (
@@ -96,16 +142,22 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                         </form>
                     </div>
                 </section>
-                <section className="bg-white/50 dark:bg-gray-700 rounded-l mt-2">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-l mt-2 py-2">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>File contents</h1>
+                    {filePath !== null ?
+                        <p className='text-md text-gray-700 dark:text-gray-300 pl-4 pt-2'>{filePath}</p> : null}
                     {fileSize !== null ?
                         <p className='text-md text-gray-600 dark:text-gray-400 pl-4 pt-2'>{fileSize}MB</p> : null}
-
-                    <div className="py-6 px-4 mx-auto max-w-7xl lg:pb-8" id="command_output_div">
-                               <textarea id={"output"} rows={30}
-                                         className="overflow-scroll block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                         defaultValue={textBoxContent}></textarea>
+                    <div className="py-6 pl-2 mx-auto max-w-7xl lg:pb-8 h-96 overflow-scroll" id="command_output_div">
+                        <div className="Code line-numbers">
+                         <pre contentEditable={editable} onInput={handleCodeChange}><code id={'codeTag'} className={`language-${fileExt}`}>{codeContent}</code></pre>
+                        </div>
                     </div>
+                    <PrimaryButton onClick={sendContents}
+                                   className="inline-flex items-center ml-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                    >
+                        Update file
+                    </PrimaryButton>
                 </section>
             </div>
 
