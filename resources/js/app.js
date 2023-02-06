@@ -16,3 +16,5 @@ import './components/Example';
 
 
 require ('./switcher');
+require ('./prism');
+
