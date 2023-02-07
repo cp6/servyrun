@@ -23,8 +23,8 @@ export default function Create({auth, alert_type, alert_message, commands}) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('key.store'));
-        navigate(route('key.index'));
+        post(route('command-group.store'));
+        navigate(route('command-group.index'));
     };
 
     return (
@@ -35,7 +35,7 @@ export default function Create({auth, alert_type, alert_message, commands}) {
             <Head title="Create command group"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <BackButton href={route('key.index')}>Back to command groups</BackButton>
+                    <BackButton href={route('command-group.index')}>Back to command groups</BackButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

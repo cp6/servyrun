@@ -13,7 +13,7 @@ class CommandGroupController extends Controller
     public function index(): \Inertia\Response
     {
         return Inertia::render('CommandGroups/Index', [
-            'groups' => CommandGroup::with(['command'])->get(),
+            'groups' => CommandGroup::with(['the_command'])->get(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
             'alert_message' => \Session::get('alert_message')
@@ -54,7 +54,12 @@ class CommandGroupController extends Controller
 
     public function show(CommandGroup $commandGroup)
     {
-        //
+        return Inertia::render('CommandGroups/Show', [
+            'resource' => CommandGroup::where('id', $commandGroup->id)->with('the_command', 'assigned.server')->firstOrFail(),
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
     }
 
     public function edit(CommandGroup $commandGroup)

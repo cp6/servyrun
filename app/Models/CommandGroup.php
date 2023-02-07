@@ -43,12 +43,12 @@ class CommandGroup extends Model
         });
     }
 
-    public function command(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function the_command(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Command::class, 'id', 'command_id');
     }
 
-    public function servers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function assigned(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(CommandGroupAssigned::class, 'group_id', 'id');
     }
