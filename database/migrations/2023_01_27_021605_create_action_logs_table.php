@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->char('user_id', 6);
             $table->char('server_id', 8)->default(null)->nullable();
-            $table->char('connection_id', 8)->default(null)->nullable();
+            $table->char('connection_id', 12)->default(null)->nullable();
             $table->char('database_id', 8)->default(null)->nullable();
             $table->char('command_id', 8)->default(null)->nullable();
             $table->tinyInteger('result');//1 = success, 2 = info, 3 = warning, 5 = error, 6 = fail
