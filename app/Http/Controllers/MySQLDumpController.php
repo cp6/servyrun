@@ -48,18 +48,27 @@ class MySQLDumpController extends Controller
 
         $db = Database::where('name', $request->database_name)->with(['conn'])->firstOrFail();
 
-        $mysql_dump = new MySQLDump();
-        $mysql_dump->connection_id = $request->connection_id;
-        $mysql_dump->server_id = $request->server_id;
-        $mysql_dump->database_id = $db->id;
-        $mysql_dump->db_connection_id = $db->conn->id;
-        $mysql_dump->these_tables = $request->these_tables;
-        $mysql_dump->save_to = $request->save_to;
-        $mysql_dump->save_as = $request->save_as;
-        $mysql_dump->flags = $request->custom_flags;
-        $mysql_dump->compress = (isset($request->compress)) ? (int)$request->compress : 0;
-        $mysql_dump->option = (isset($request->option)) ? (int)$request->option : 0;
-        $mysql_dump->save();
+        try {
+
+            $mysql_dump = new MySQLDump();
+            $mysql_dump->connection_id = $request->connection_id;
+            $mysql_dump->server_id = $request->server_id;
+            $mysql_dump->database_id = $db->id;
+            $mysql_dump->db_connection_id = $db->conn->id;
+            $mysql_dump->these_tables = $request->these_tables;
+            $mysql_dump->save_to = $request->save_to;
+            $mysql_dump->save_as = $request->save_as;
+            $mysql_dump->flags = $request->custom_flags;
+            $mysql_dump->compress = (isset($request->compress)) ? (int)$request->compress : 0;
+            $mysql_dump->option = (isset($request->option)) ? (int)$request->option : 0;
+            $mysql_dump->save();
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('mysqldump.create'))->with(['alert_type' => 'failure', 'alert_message' => 'MySQL dump could not be created error ' . $exception->getCode()]);
+        }
+
+
 
         return redirect(route('mysqldump.show', $mysql_dump))->with(['alert_type' => 'success', 'alert_message' => 'Create MySQLdump successfully']);
     }

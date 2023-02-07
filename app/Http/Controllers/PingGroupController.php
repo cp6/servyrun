@@ -62,11 +62,18 @@ class PingGroupController extends Controller
 
         $group_id = Str::random(8);
 
-        $ping_group = new PingGroup();
-        $ping_group->id = $group_id;
-        $ping_group->title = $request->title;
-        $ping_group->amount = count($servers_array);
-        $ping_group->save();
+        try {
+
+            $ping_group = new PingGroup();
+            $ping_group->id = $group_id;
+            $ping_group->title = $request->title;
+            $ping_group->amount = count($servers_array);
+            $ping_group->save();
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('ping-group.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Ping group could not be created error ' . $exception->getCode()]);
+        }
 
         foreach ($servers_array as $server_id) {
 

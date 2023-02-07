@@ -53,13 +53,20 @@ class KeyController extends Controller
 
         $path = $file->storeAs("keys", $save_as, 'private');
 
-        $key = new Key();
-        $key->id = $id;
-        $key->file_id = $file_id_long;
-        $key->password = ($request->password) ? Crypt::encryptString($request->password) : null;
-        $key->original_name = $file->getClientOriginalName();
-        $key->saved_as = $save_as;
-        $key->save();
+        try {
+
+            $key = new Key();
+            $key->id = $id;
+            $key->file_id = $file_id_long;
+            $key->password = ($request->password) ? Crypt::encryptString($request->password) : null;
+            $key->original_name = $file->getClientOriginalName();
+            $key->saved_as = $save_as;
+            $key->save();
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('key.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Key could not be created error ' . $exception->getCode()]);
+        }
 
         return redirect(route('key.index'))->with(['alert_type' => 'success', 'alert_message' => 'Key uploaded and created']);
     }

@@ -46,29 +46,36 @@ class SftpConnectionController extends Controller
             'ssh_port' => 'integer|sometimes|nullable'
         ]);
 
-        $sftp_conn = new SftpConnection();
+        try {
 
-        if (!is_null($request->connection_id)) {
+            $sftp_conn = new SftpConnection();
 
-            $connection = Connection::where('id', $request->connection_id)->first();
+            if (!is_null($request->connection_id)) {
 
-            $sftp_conn->server_id = $connection->server_id;
-            $sftp_conn->username = $connection->username;
-            $sftp_conn->port = $connection->ssh_port;
-            $sftp_conn->key_id = $connection->key_id;
-            $sftp_conn->password = $connection->password;
+                $connection = Connection::where('id', $request->connection_id)->first();
 
-        } else {
+                $sftp_conn->server_id = $connection->server_id;
+                $sftp_conn->username = $connection->username;
+                $sftp_conn->port = $connection->ssh_port;
+                $sftp_conn->key_id = $connection->key_id;
+                $sftp_conn->password = $connection->password;
 
-            $sftp_conn->server_id = $request->server_id;
-            $sftp_conn->username = $request->username ?? 'root';
-            $sftp_conn->port = $request->port ?? 22;
-            $sftp_conn->key_id = $request->key_id ?? null;
-            $sftp_conn->password = ($request->password) ? Crypt::encryptString($request->password) : null;
+            } else {
 
+                $sftp_conn->server_id = $request->server_id;
+                $sftp_conn->username = $request->username ?? 'root';
+                $sftp_conn->port = $request->port ?? 22;
+                $sftp_conn->key_id = $request->key_id ?? null;
+                $sftp_conn->password = ($request->password) ? Crypt::encryptString($request->password) : null;
+
+            }
+
+            $sftp_conn->save();
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('sftp.create'))->with(['alert_type' => 'failure', 'alert_message' => 'SFTP connection could not be created error ' . $exception->getCode()]);
         }
-
-        $sftp_conn->save();
 
         return redirect(route('sftp.show', $sftp_conn))->with(['alert_type' => 'success', 'alert_message' => 'SFTP connection created successfully']);
     }

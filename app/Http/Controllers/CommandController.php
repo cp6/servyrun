@@ -45,11 +45,18 @@ class CommandController extends Controller
             'command' => 'string|required|max:255'
         ]);
 
-        $command = new Command();
-        $command->id = Str::random(8);
-        $command->title = $request->title;
-        $command->command = $request->command;
-        $command->save();
+        try {
+
+            $command = new Command();
+            $command->id = Str::random(8);
+            $command->title = $request->title;
+            $command->command = $request->command;
+            $command->save();
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('command.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Command could not be created error ' . $exception->getCode()]);
+        }
 
         return redirect(route('command.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command create successfully']);
     }

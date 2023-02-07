@@ -12,18 +12,18 @@ class DatabaseTableController extends Controller
 {
     public function index()
     {
-        //
+        abort(404);
     }
 
 
     public function create()
     {
-        //
+        abort(404);
     }
 
     public function store(Request $request)
     {
-        //
+        abort(404);
     }
 
     public function show(DatabaseTable $databaseTable)
