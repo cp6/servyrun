@@ -31,7 +31,7 @@ class Connection extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($connection) {
+        static::creating(function (Connection $connection) {
             $connection->id = Str::random(12);
             $connection->user_id = \Auth::id();
         });

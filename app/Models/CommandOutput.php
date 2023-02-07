@@ -26,6 +26,7 @@ class CommandOutput extends Model
     {
         return $this->withoutGlobalScope('UserOwnedScope');
     }
+
     protected static function booted(): void
     {
         static::creating(function (CommandOutput $commandOutput) {
