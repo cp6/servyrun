@@ -13,13 +13,7 @@ export default defineConfig({
         }),
         react({
             include: "**/*.jsx",
-        }),
-        ["prismjs", {
-            "languages": ["javascript", "css", "markup", "sql", "ini", "php", "html", "log"],
-            "plugins": ["line-numbers"],
-            "theme": "atom-dark",
-            "css": true
-        }]
+        })
     ],
     server: {
         host: 'surcuri.test'
