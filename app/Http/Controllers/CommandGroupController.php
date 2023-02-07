@@ -69,11 +69,30 @@ class CommandGroupController extends Controller
 
     public function update(Request $request, CommandGroup $commandGroup)
     {
-        //
+        $request->validate([
+            'title' => 'string|required|max:64',
+            'command_id' => 'string|required|size:8'
+        ]);
+
+        try {
+
+            $commandGroup->title = $request->title;
+            $commandGroup->command_id = $request->command_id;
+            $commandGroup->save();
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('command-group.edit', $commandGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Command group could not be edited error ' . $exception->getCode()]);
+        }
+
+        return redirect(route('command-group.show', $commandGroup))->with(['alert_type' => 'success', 'alert_message' => 'Command group updated successfully']);
     }
 
     public function destroy(CommandGroup $commandGroup)
     {
-        //
+        $commandGroup->delete();
+
+        return redirect(route('command-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command group deleted successfully']);
     }
+
 }
