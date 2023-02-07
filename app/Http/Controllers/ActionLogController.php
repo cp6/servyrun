@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\ActionLog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
 
 class ActionLogController extends Controller
