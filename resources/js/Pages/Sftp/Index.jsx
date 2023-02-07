@@ -1,9 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
-import {Button, Card} from "flowbite-react";
-import {HiKey, HiPlus} from "react-icons/hi";
+import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
+import AddButton from "@/Components/AddButton";
 
 export default function Index({auth, connections, alert_type, alert_message}) {
 
@@ -20,10 +20,7 @@ export default function Index({auth, connections, alert_type, alert_message}) {
             <Head title={main_title}/>
             <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('sftp.create')}>
-                        <HiPlus className="mr-2 h-5 w-5" />
-                        Add {title}
-                    </Button>
+                    <AddButton href={route('sftp.create')}>Add SFTP connection</AddButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

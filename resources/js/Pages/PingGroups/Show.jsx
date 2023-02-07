@@ -7,6 +7,9 @@ import ResponseAlert from "@/Components/Alert";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
 import {HiOutlineArrowLeft, HiPlay, HiTrash} from "react-icons/hi";
+import IndigoButton from "@/Components/IndigoButton";
+import DeleteButton from "@/Components/DeleteButton";
+import EmeraldButton from "@/Components/EmeraldButton";
 
 export default function Show({auth, pingGroup, pings, hasAlert, alert_type, alert_message}) {
 
@@ -49,21 +52,11 @@ export default function Show({auth, pingGroup, pings, hasAlert, alert_type, aler
             <Head title={'Ping group ' + pingGroup.title}/>
                 <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                     <div className="flex flex-wrap gap-2 mb-2">
-                        <Button color={'info'} size="xs" href={route('ping.index')}>
-                            <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                            All pings
-                        </Button>
+                        <IndigoButton href={route('ping.index')}><HiOutlineArrowLeft className="mr-2 h-5 w-5" />All pings</IndigoButton>
                         <form onSubmit={submit}>
-                            <Button color={'warning'} size="xs" onClick={submit} type="button"
-                                    disabled={buttonDisabled}>
-                                <HiPlay className="mr-2 h-5 w-5" />
-                                Run this ping group
-                            </Button>
+                            <EmeraldButton onClick={submit} disabled={buttonDisabled}><HiPlay className="mr-2 h-5 w-5" />Run this ping group</EmeraldButton>
                         </form>
-                        <Button color={'failure'} size="xs" onClick={() => setShowModal(true)} type="button">
-                            <HiTrash className="mr-2 h-5 w-5" />
-                            Delete group
-                        </Button>
+                        <DeleteButton onClick={() => setShowModal(true)}>Delete group</DeleteButton>
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>

@@ -3,12 +3,15 @@ import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import {Select, Button} from "flowbite-react";
+import {Select} from "flowbite-react";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
-import {HiOutlineArrowLeft} from "react-icons/hi";
+import BackButton from "@/Components/BackButton";
+import ResponseAlert from "@/Components/Alert";
 
-export default function Create({auth, servers, keys}) {
+export default function Create({auth, servers, keys, alert_type, alert_message}) {
+
+    const [hasAlert, setHasAlert] = React.useState(true);
 
     const {data, setData, post, processing, reset, errors} = useForm({
         server1_id: null,
@@ -40,11 +43,10 @@ export default function Create({auth, servers, keys}) {
             <Head title="Create connection"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('ping-group.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to ping groups
-                    </Button>
+                    <BackButton href={route('ping-group.index')}>Back to ping groups</BackButton>
                 </div>
+                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
+                               alert_message={alert_message}></ResponseAlert>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                     <form onSubmit={submit}>
                         <div className="grid gap-2 grid-cols-1 sm:grid-cols-6">

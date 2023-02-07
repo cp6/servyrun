@@ -5,10 +5,7 @@ import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
 import {
     HiFolderOpen,
-    HiLightningBolt,
-    HiOutlineArrowLeft,
-    HiPencil,
-    HiTrash
+    HiLightningBolt
 } from 'react-icons/hi';
 import ServerCardSpecs from "@/Components/ServerCardSpecs";
 import ServerCardConnection from "@/Components/ServerCardConnection";
@@ -16,6 +13,12 @@ import CreatedAtText from "@/Components/CreatedAtText";
 import UpdatedAtText from "@/Components/UpdatedAtText";
 import ServerCardDetails from "@/Components/ServerCardDetails";
 import ServerStatusButton from "@/Components/ServerStatusButton";
+import DeleteButton from "@/Components/DeleteButton";
+import BackButton from "@/Components/BackButton";
+import EditButton from "@/Components/EditButton";
+import IndigoButton from "@/Components/IndigoButton";
+import TealButton from "@/Components/TealButton";
+import MonoButton from "@/Components/MonoButton";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
 
@@ -50,10 +53,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             <Head title={"Server " + resource.hostname}/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('server.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
-                        Back to servers
-                    </Button>
+                    <BackButton href={route('server.index')}>Back to servers</BackButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
@@ -64,8 +64,8 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                 className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{resource.operating_system}</span>
                             : null
                         }
-              <span
-                  className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.type.name}</span>
+                        <span
+                            className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.type.name}</span>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'md:col-span-1 col-span-2'}>
                                 <ServerCardDetails resource={resource}></ServerCardDetails>
@@ -73,58 +73,42 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                             <div className={'md:col-span-1 col-span-2'}>
                                 <ServerCardSpecs resource={resource}></ServerCardSpecs>
                                 <ServerCardConnection connection={resource.conn}></ServerCardConnection>
-                                <CreatedAtText created_at={resource.created_at} string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
-                                <UpdatedAtText updated_at={resource.updated_at} string_format={'hh:mm:ssa do LLL yyyy'}></UpdatedAtText>
+                                <CreatedAtText created_at={resource.created_at}
+                                               string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
+                                <UpdatedAtText updated_at={resource.updated_at}
+                                               string_format={'hh:mm:ssa do LLL yyyy'}></UpdatedAtText>
                             </div>
                         </div>
                         <div className="flex items-center space-x-4 mt-2">
                             {
                                 (() => {
                                     if (typeof (resource.conn) != "undefined" && resource.conn !== null) {
-                                        return (<Button color={'success'} size="sml"
-                                                        href={route('connection.show', resource.conn.id)}
-                                                        type="button"
-                                                        className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                            <HiLightningBolt className="mr-2 h-5 w-5"/>
-                                            Connect
-                                        </Button>)
+                                        return (
+                                            <IndigoButton href={route('connection.show', resource.conn.id)}>
+                                                <HiLightningBolt className="mr-2 h-5 w-5"/>
+                                                Connect</IndigoButton>)
                                     }
                                 })()
                             }
                             {
                                 (() => {
                                     if (typeof (resource.sftp_conn) != "undefined" && resource.sftp_conn !== null) {
-                                        return (<Button color={'warning'} size="sml"
-                                                        href={route('sftp.show', resource.sftp_conn.id)}
-                                                        type="button"
-                                                        className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center">
+                                        return (<TealButton href={route('sftp.show', resource.sftp_conn.id)}>
                                             <HiFolderOpen className="mr-2 h-5 w-5"/>
-                                            SFTP Connect
-                                        </Button>)
+                                            SFTP Connect</TealButton>)
                                     }
                                 })()
                             }
-                            <Button color={'purple'} size="sml" href={route('server.edit', resource.id)}
-                                    type="button"
-                                    className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiPencil className="mr-2 h-5 w-5"/>
-                                Edit server
-                            </Button>
-                            <Button color={'failure'} size="sml" onClick={() => setShowModal(true)} type="button"
-                                    className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiTrash className="mr-2 h-5 w-5"/>
-                                Delete server
-                            </Button>
+                            <EditButton href={route('server.edit', resource.id)}>Edit server</EditButton>
+                            <DeleteButton onClick={() => setShowModal(true)}>Delete server</DeleteButton>
                             <ServerStatusButton resource={resource}></ServerStatusButton>
                             {
                                 (() => {
                                     if ((typeof (resource.conn) != "undefined" && resource.conn !== null) && (typeof (resource.cpu_freq) === "undefined" || resource.cpu_freq === null)) {
-                                        return (<Button color={'info'} size="sml"
-                                                        href={route('server.get-information', resource.id)}
-                                                        type="button"
-                                                        className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                            Get server specs
-                                        </Button>)
+                                        return (
+                                            <MonoButton href={route('server.get-information', resource.id)}>Fetch server
+                                                specs</MonoButton>
+                                        )
                                     }
                                 })()
                             }

@@ -1,9 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/inertia-react';
 import React from "react";
-import {Button, Card} from "flowbite-react";
-import {HiPlus} from "react-icons/hi";
+import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
+import AddButton from "@/Components/AddButton";
 
 export default function Index({auth, servers, alert_type, alert_message}) {
 
@@ -17,10 +17,7 @@ export default function Index({auth, servers, alert_type, alert_message}) {
             <Head title="Servers"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('server.create')}>
-                        <HiPlus className="mr-2 h-5 w-5"/>
-                        Add server
-                    </Button>
+                    <AddButton href={route('server.create')}>Add server</AddButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

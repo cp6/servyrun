@@ -7,7 +7,7 @@ import {Select, Button} from "flowbite-react";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ResponseAlert from "@/Components/Alert";
-import {HiOutlineArrowLeft} from "react-icons/hi";
+import BackButton from "@/Components/BackButton";
 
 export default function Create({auth, types, locations, title, alert_type, alert_message}) {
 
@@ -81,10 +81,7 @@ export default function Create({auth, types, locations, title, alert_type, alert
             <Head title="Create server"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('server.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
-                        Back to servers
-                    </Button>
+                    <BackButton href={route('server.index')}>Back to servers</BackButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

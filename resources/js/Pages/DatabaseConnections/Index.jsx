@@ -1,11 +1,17 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/inertia-react';
 import React from "react";
-import {Button, Card} from "flowbite-react";
-import {HiDatabase, HiPlus} from "react-icons/hi";
+import {Card} from "flowbite-react";
+import {HiDatabase} from "react-icons/hi";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
+import ResponseAlert from "@/Components/Alert";
+import AddButton from "@/Components/AddButton";
+import TealButton from "@/Components/TealButton";
 
-export default function Index({auth, connections}) {
+export default function Index({auth, connections, alert_type, alert_message}) {
+
+    const [hasAlert, setHasAlert] = React.useState(true);
+
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -14,15 +20,11 @@ export default function Index({auth, connections}) {
             <Head title="DB connections"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('db.connection.create')}>
-                        <HiPlus className="mr-2 h-5 w-5" />
-                        Add DB connection
-                    </Button>
-                    <Button color={'success'} size={'xs'} href={route('db.index')}>
-                        <HiDatabase className="mr-2 h-5 w-5" />
-                        Databases
-                    </Button>
+                    <AddButton href={route('db.connection.create')}>Add DB connection</AddButton>
+                    <TealButton href={route('db.index')}><HiDatabase className="mr-2 h-5 w-5" />Databases</TealButton>
                 </div>
+                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
+                               alert_message={alert_message}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
 
                     { connections.length > 0 ?

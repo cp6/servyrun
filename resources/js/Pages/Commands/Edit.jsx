@@ -8,6 +8,8 @@ import React, {useState} from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import DangerButton from "@/Components/DangerButton";
 import {HiOutlineArrowLeft} from "react-icons/hi";
+import UpdateButton from "@/Components/UpdateButton";
+import BackButton from "@/Components/BackButton";
 
 export default function Edit({auth, servers, resource}) {
 
@@ -51,10 +53,7 @@ export default function Edit({auth, servers, resource}) {
             <Head title="Edit command"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('command.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to commands
-                    </Button>
+                    <BackButton href={route('command.index')}>Back to commands</BackButton>
                 </div>
                 <form onSubmit={submit}>
                     <div className="grid gap-2 sm:grid-cols-2 sm:gap-4">
@@ -83,11 +82,7 @@ export default function Edit({auth, servers, resource}) {
                             <InputError message={errors.asn} className="mt-2"/>
                         </div>
                     </div>
-                    <PrimaryButton
-                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 mr-4"
-                        processing={processing}>
-                        Update command
-                    </PrimaryButton>
+                    <UpdateButton processing={processing}>Update command</UpdateButton>
                     <DangerButton onClick={() => setShowModal(true)} type="button"
                                   className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800 mr-4">
                         Delete command

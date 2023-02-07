@@ -5,8 +5,9 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import {Select, Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
-import PrimaryButton from "@/Components/PrimaryButton";
-import {HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
+import UpdateButton from "@/Components/UpdateButton";
+import BackButton from "@/Components/BackButton";
+import DeleteButton from "@/Components/DeleteButton";
 
 export default function Edit({auth, servers, resource}) {
 
@@ -58,14 +59,8 @@ export default function Edit({auth, servers, resource}) {
             <Head title="Edit IP"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('ip.show', resource.id)}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to IP
-                    </Button>
-                    <Button color={'failure'} size="xs" onClick={() => setShowModal(true)} type="button">
-                        <HiTrash className="mr-2 h-5 w-5"/>
-                        Delete IP
-                    </Button>
+                    <BackButton href={route('ip.show', resource.id)}>Back to IP</BackButton>
+                    <DeleteButton onClick={() => setShowModal(true)}>Delete IP</DeleteButton>
                 </div>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                 <form onSubmit={submit}>
@@ -181,11 +176,7 @@ export default function Edit({auth, servers, resource}) {
 
                         </div>
                     </div>
-                    <PrimaryButton
-                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                        processing={processing}>
-                        Update IP
-                    </PrimaryButton>
+                    <UpdateButton processing={processing}>Update IP</UpdateButton>
                 </form>
                 </section>
             </div>

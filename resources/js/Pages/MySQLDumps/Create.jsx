@@ -3,12 +3,12 @@ import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import {Select, Button} from "flowbite-react";
+import {Select} from "flowbite-react";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ResponseAlert from "@/Components/Alert";
-import {HiOutlineArrowLeft} from "react-icons/hi";
 import axios from "axios";
+import BackButton from "@/Components/BackButton";
 
 export default function Create({auth, servers, alert_type, alert_message}) {
 
@@ -101,10 +101,7 @@ export default function Create({auth, servers, alert_type, alert_message}) {
             <Head title="Create MySQL dump"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('server.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
-                        Back to MySQL dumps
-                    </Button>
+                    <BackButton href={route('mysqldump.index')}>Back to MySQL dumps</BackButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

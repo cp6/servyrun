@@ -1,9 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
-import {Button, Card} from "flowbite-react";
-import {HiKey, HiPlus} from "react-icons/hi";
+import {Card} from "flowbite-react";
+import {HiKey} from "react-icons/hi";
 import ResponseAlert from "@/Components/Alert";
+import AddButton from "@/Components/AddButton";
+import EmeraldButton from "@/Components/EmeraldButton";
 
 export default function Index({auth, connections, alert_type, alert_message}) {
 
@@ -20,14 +22,8 @@ export default function Index({auth, connections, alert_type, alert_message}) {
             <Head title={main_title}/>
             <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('connection.create')}>
-                        <HiPlus className="mr-2 h-5 w-5" />
-                        Add {title}
-                    </Button>
-                    <Button color={'success'} size="xs" href={route('key.index')}>
-                        <HiKey className="mr-2 h-5 w-5" />
-                        Keys
-                    </Button>
+                    <AddButton href={route('connection.create')}>Add connection</AddButton>
+                    <EmeraldButton href={route('key.index')}><HiKey className="mr-2 h-5 w-5" />Keys</EmeraldButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

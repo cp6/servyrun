@@ -7,6 +7,7 @@ import {Button} from "flowbite-react";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import {HiOutlineArrowLeft} from "react-icons/hi";
+import BackButton from "@/Components/BackButton";
 
 export default function Create({auth}) {
 
@@ -33,10 +34,7 @@ export default function Create({auth}) {
             <Head title="Create command"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('command.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to commands
-                    </Button>
+                    <BackButton href={route('command.index')}>Back to commands</BackButton>
                 </div>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                 <form onSubmit={submit}>

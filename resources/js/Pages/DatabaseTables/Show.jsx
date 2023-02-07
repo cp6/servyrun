@@ -3,9 +3,12 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiOutlineArrowLeft, HiRefresh, HiCalculator, HiTrash} from "react-icons/hi";
-import ResourceEmptyText from "@/Components/ResourceEmptyText";
+import {HiRefresh, HiCalculator} from "react-icons/hi";
 import axios from "axios";
+import BackButton from "@/Components/BackButton";
+import DeleteButton from "@/Components/DeleteButton";
+import TealButton from "@/Components/TealButton";
+import IndigoButton from "@/Components/IndigoButton";
 
 export default function Show({auth, resource, tables, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -72,22 +75,10 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
             <Head title={resource.name + " tables"}></Head>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('db.show', resource.id)}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to Database
-                    </Button>
-                    <Button color={'failure'} size="xs" onClick={() => setShowModal(true)}>
-                        <HiTrash className="mr-2 h-5 w-5" />
-                        Delete Table
-                    </Button>
-                    <Button color={'success'} size="xs" onClick={refreshTables} disabled={buttonsDisabled}>
-                        <HiRefresh className="mr-2 h-5 w-5" />
-                        Refresh tables
-                    </Button>
-                    <Button color={'purple'} size="xs" onClick={getSize} disabled={buttonsDisabled}>
-                        <HiCalculator className="mr-2 h-5 w-5" />
-                        Get size and row counts
-                    </Button>
+                    <BackButton href={route('db.show', resource.id)}>Back to Database</BackButton>
+                    <DeleteButton onClick={() => setShowModal(true)}>Delete Table</DeleteButton>
+                    <TealButton onClick={refreshTables} disabled={buttonsDisabled}><HiRefresh className="mr-2 h-5 w-5" />Refresh tables</TealButton>
+                    <IndigoButton onClick={getSize} disabled={buttonsDisabled}><HiCalculator className="mr-2 h-5 w-5" />Get size and row counts</IndigoButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

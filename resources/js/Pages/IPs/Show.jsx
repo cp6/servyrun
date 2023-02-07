@@ -3,10 +3,14 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiOutlineArrowLeft, HiPencil, HiTrash} from "react-icons/hi";
+import {HiPencil} from "react-icons/hi";
 import {HiCpuChip} from "react-icons/all";
 import CreatedAtText from "@/Components/CreatedAtText";
 import UpdatedAtText from "@/Components/UpdatedAtText";
+import BackButton from "@/Components/BackButton";
+import SkyButton from "@/Components/SkyButton";
+import DeleteButton from "@/Components/DeleteButton";
+import TealButton from "@/Components/TealButton";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -39,14 +43,8 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             <Head title={"IP " + resource.ip}></Head>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('ip.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
-                        Back to IPs
-                    </Button>
-                    <Button color={'success'} size="xs" href={route('server.show', resource.server.id)}>
-                        <HiCpuChip className="mr-2 h-5 w-5"/>
-                        Server
-                    </Button>
+                    <BackButton href={route('ip.index',)}>Back to IPs</BackButton>
+                    <SkyButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</SkyButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
@@ -86,21 +84,9 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                             </div>
                         </div>
 
-
-
-
                         <div className="flex items-center space-x-4">
-                            <Button color={'purple'} size="sml" href={route('ip.edit', resource.id)}
-                                    type="button"
-                                    className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiPencil className="mr-2 h-5 w-5"/>
-                                Edit IP
-                            </Button>
-                            <Button color={'failure'} size="sml" onClick={() => setShowModal(true)} type="button"
-                                    className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiTrash className="mr-2 h-5 w-5"/>
-                                Delete IP
-                            </Button>
+                            <TealButton href={route('ip.edit', resource.id)}><HiPencil className="mr-2 h-5 w-5"/>Edit IP</TealButton>
+                            <DeleteButton onClick={() => setShowModal(true)}>Delete IP</DeleteButton>
                         </div>
                     </div>
                 </section>

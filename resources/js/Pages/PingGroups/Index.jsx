@@ -1,13 +1,15 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
-import {Button, Card} from "flowbite-react";
-import {HiOutlineArrowLeft, HiPlus} from "react-icons/hi";
+import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
+import AddButton from "@/Components/AddButton";
+import BackButton from "@/Components/BackButton";
 
-export default function Index({auth, mustVerifyEmail, groups, hasAlert, alert_type, alert_message}) {
+export default function Index({auth, mustVerifyEmail, groups, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
+    const [hasAlert, setHasAlert] = React.useState(true);
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -16,14 +18,8 @@ export default function Index({auth, mustVerifyEmail, groups, hasAlert, alert_ty
             <Head title="Servers"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('ping.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        All pings
-                    </Button>
-                    <Button color={'success'} size="xs" href={route('ping-group.create')}>
-                        <HiPlus className="mr-2 h-5 w-5" />
-                        Create ping group
-                    </Button>
+                    <BackButton href={route('ping.index')}>All pings</BackButton>
+                    <AddButton href={route('ping-group.create')}>Create ping group</AddButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

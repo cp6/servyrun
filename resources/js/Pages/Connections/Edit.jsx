@@ -3,10 +3,10 @@ import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import {Select, Button} from "flowbite-react";
+import {Select} from "flowbite-react";
 import React from "react";
-import PrimaryButton from "@/Components/PrimaryButton";
-import {HiOutlineArrowLeft} from "react-icons/hi";
+import UpdateButton from "@/Components/UpdateButton";
+import BackButton from "@/Components/BackButton";
 
 export default function Edit({auth, servers, keys, ip, resource}) {
 
@@ -35,10 +35,7 @@ export default function Edit({auth, servers, keys, ip, resource}) {
             <Head title="Edit connection"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('connection.show', resource.id)}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to connection
-                    </Button>
+                    <BackButton href={route('connection.show', resource.id)}>Back to connection</BackButton>
                 </div>
                 <form onSubmit={submit}>
                     <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
@@ -117,11 +114,7 @@ export default function Edit({auth, servers, keys, ip, resource}) {
                             <InputError message={errors.password} className="mt-2"/>
                         </div>
                     </div>
-                    <PrimaryButton
-                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                        processing={processing}>
-                        Update Connection
-                    </PrimaryButton>
+                    <UpdateButton processing={processing}>Update connection</UpdateButton>
                 </form>
             </div>
         </AuthenticatedLayout>

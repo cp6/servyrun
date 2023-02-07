@@ -1,12 +1,17 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/inertia-react';
 import React from "react";
-import {Button, Card} from "flowbite-react";
-import {HiLockOpen, HiPlus} from "react-icons/hi";
-import {data} from "autoprefixer";
+import {Card} from "flowbite-react";
+import {HiLockOpen} from "react-icons/hi";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
+import ResponseAlert from "@/Components/Alert";
+import AddButton from "@/Components/AddButton";
+import TealButton from "@/Components/TealButton";
 
-export default function Index({auth, databases}) {
+export default function Index({auth, databases, alert_type, alert_message}) {
+
+    const [hasAlert, setHasAlert] = React.useState(true);
+
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -15,15 +20,11 @@ export default function Index({auth, databases}) {
             <Head title="Databases"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('db.create')}>
-                        <HiPlus className="mr-2 h-5 w-5"/>
-                        Add Database
-                    </Button>
-                    <Button color={'success'} size="xs" href={route('db.connection.index')}>
-                        <HiLockOpen className="mr-2 h-5 w-5"/>
-                        Database connections
-                    </Button>
+                    <AddButton href={route('db.create')}>Add database</AddButton>
+                    <TealButton href={route('db.connection.index')}><HiLockOpen className="mr-2 h-5 w-5" /> Database connections</TealButton>
                 </div>
+                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
+                               alert_message={alert_message}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
                     {databases.length > 0 ?
                         databases.map(databases =>

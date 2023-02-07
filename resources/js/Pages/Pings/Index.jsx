@@ -7,6 +7,7 @@ import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {HiUserGroup} from "react-icons/hi";
 import {format} from "date-fns";
+import TealButton from "@/Components/TealButton";
 
 export default function Index({auth, pings, hasAlert, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -21,10 +22,7 @@ export default function Index({auth, pings, hasAlert, alert_type, alert_message}
             <Head title={main_title}/>
                 <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                     <div className="flex flex-wrap gap-2 mb-4">
-                        <Button color={'info'} size="xs" href={route('ping-group.index')}>
-                            <HiUserGroup className="mr-2 h-5 w-5" />
-                            Ping Groups
-                        </Button>
+                        <TealButton href={route('ping-group.index')}><HiUserGroup className="mr-2 h-5 w-5" />Ping groups</TealButton>
                     </div>
                     <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
                         <section className="p-2 shadow-md dark:shadow-md bg-white/50 dark:bg-transparent dark:shadow rounded-lg dark:border dark:border-gray-700">

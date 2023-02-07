@@ -3,8 +3,12 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiLightningBolt, HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
+import {HiLightningBolt} from "react-icons/hi";
 import {HiMagnifyingGlass} from "react-icons/all";
+import BackButton from "@/Components/BackButton";
+import DeleteButton from "@/Components/DeleteButton";
+import TealButton from "@/Components/TealButton";
+import IndigoButton from "@/Components/IndigoButton";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -47,10 +51,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             <Head title={resource.name + " database"}></Head>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('db.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to Databases
-                    </Button>
+                    <BackButton href={route('db.index')}>Back to databases</BackButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
@@ -59,21 +60,9 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                         <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name}</h2>
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.conn.host} ({resource.conn.title})</p>
                         <div className="flex space-x-1 md:space-x-4">
-                            <Button color={'failure'} size="sml" onClick={() => setShowModal(true)} type="button"
-                                    className="text-white shrink items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiTrash className="mr-2 h-5 w-5" />
-                                Delete Database
-                            </Button>
-                            <Button href={route('db.show.tables', resource.id)} color={'success'} size="sml" type="button"
-                                    className="text-white shrink items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiMagnifyingGlass className="mr-2 h-5 w-5" />
-                                View tables
-                            </Button>
-                            <Button href={route('db.connection.show', resource.db_connection_id)} color={'info'} size="sml" type="button"
-                                    className="text-white shrink items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiLightningBolt className="mr-2 h-5 w-5" />
-                                View connection
-                            </Button>
+                            <DeleteButton onClick={() => setShowModal(true)}>Delete Database</DeleteButton>
+                            <TealButton href={route('db.show.tables', resource.id)}><HiMagnifyingGlass className="mr-2 h-5 w-5" />View tables</TealButton>
+                            <IndigoButton href={route('db.connection.show', resource.db_connection_id)}><HiLightningBolt className="mr-2 h-5 w-5" />View connection</IndigoButton>
                         </div>
                     </div>
                 </section>

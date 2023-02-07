@@ -1,10 +1,13 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
-import {Button, Card, Modal} from "flowbite-react";
+import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiHashtag, HiOutlineArrowLeft, HiTrash, HiVariable} from "react-icons/hi";
+import {HiHashtag} from "react-icons/hi";
 import axios from "axios";
+import BackButton from "@/Components/BackButton";
+import TealButton from "@/Components/TealButton";
+import DeleteButton from "@/Components/DeleteButton";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -55,14 +58,8 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             <Head title={"DB connection"}></Head>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('db.connection.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
-                        Back to DB connections
-                    </Button>
-                    <Button color={'success'} size="xs" onClick={getVersion}>
-                        <HiHashtag className="mr-2 h-5 w-5"/>
-                        Get version
-                    </Button>
+                    <BackButton href={route('db.connection.index')}>Back to DB connections</BackButton>
+                    <TealButton onClick={getVersion}><HiHashtag className="mr-2 h-5 w-5" />Get version</TealButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
@@ -78,11 +75,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                         <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.host}</h2>
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.title}</p>
                         <div className="flex space-x-1 md:space-x-4">
-                            <Button color={'failure'} size="sml" onClick={() => setShowModal(true)} type="button"
-                                    className="text-white shrink items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiTrash className="mr-2 h-5 w-5" />
-                                Delete Connection
-                            </Button>
+                            <DeleteButton onClick={() => setShowModal(true)}>Delete Connection</DeleteButton>
                             <button onClick={handleClick} type="button"
                                     className={
                                         (() => {

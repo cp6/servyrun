@@ -9,8 +9,12 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import ReactDOM from "react-dom/client";
 import Output from "@/Components/Output";
 import ResponseAlert from "@/Components/Alert";
-import {HiBookOpen, HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
+import {HiBookOpen} from "react-icons/hi";
 import {HiCpuChip} from "react-icons/all";
+import BackButton from "@/Components/BackButton";
+import DeleteButton from "@/Components/DeleteButton";
+import EmeraldButton from "@/Components/EmeraldButton";
+import SkyButton from "@/Components/SkyButton";
 
 export default function Show({auth, resource, ip, alert_type, alert_message}) {
 
@@ -94,22 +98,10 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
             <Head title={"SFTP connection " + resource.id}/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('sftp.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
-                        Back to SFTP connections
-                    </Button>
-                    <Button color={'light'} size="xs" href={route('sftp.read', resource.id)}>
-                        <HiBookOpen className="mr-2 h-5 w-5"/>
-                        Read file
-                    </Button>
-                    <Button color={'failure'} size="xs" onClick={() => setShowModal(true)} type="button">
-                        <HiTrash className="mr-2 h-5 w-5"/>
-                        Delete connection
-                    </Button>
-                    <Button color={'success'} size="xs" href={route('server.show', resource.server.id)}>
-                        <HiCpuChip className="mr-2 h-5 w-5"/>
-                        Server
-                    </Button>
+                    <BackButton href={route('sftp.index')}>Back to SFTP connections</BackButton>
+                    <EmeraldButton href={route('sftp.read', resource.id)}><HiBookOpen className="mr-2 h-5 w-5"/>Read file</EmeraldButton>
+                    <DeleteButton onClick={() => setShowModal(true)}>Delete connection</DeleteButton>
+                    <SkyButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</SkyButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

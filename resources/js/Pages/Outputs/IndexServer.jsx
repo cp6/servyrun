@@ -38,7 +38,7 @@ export default function IndexServer({auth, server, outputs}) {
                                 id: "id",
                                 name: "View",
                                 sort: false,
-                                formatter: (cell) => html(`<a class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-1.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" href=${route('outputs.show', cell)}>View</a>`)
+                                formatter: (cell) => html(`<a className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-1.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" href=${route('outputs.show', cell)}>View</a>`)
                             },
                             {
                                 id: "created_at",

@@ -3,9 +3,11 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import {Button, Card, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiDownload, HiOutlineArrowLeft, HiTrash} from "react-icons/hi";
+import {HiDownload} from "react-icons/hi";
 import CreatedAtText from "@/Components/CreatedAtText";
-import UpdatedAtText from "@/Components/UpdatedAtText";
+import BackButton from "@/Components/BackButton";
+import DeleteButton from "@/Components/DeleteButton";
+import IndigoButton from "@/Components/IndigoButton";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -38,17 +40,14 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             <Head title={"Key " + resource.id}></Head>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('key.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
-                        Back to Keys
-                    </Button>
+                    <BackButton href={route('key.index')}>Back to keys</BackButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
                     <div className="py-6 px-2 mx-auto max-w-4xl lg:py-10">
                         <span
-                            className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.id === 1 ? ("IPv4") : ("IPv6")}</span>
+                            className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.password === null ? ("NO password") : ("Password")}</span>
                         <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.original_name}</h2>
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">
                             {
@@ -60,16 +59,8 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.file_id}</p>
                         <CreatedAtText created_at={resource.created_at} string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
                         <div className="flex items-center space-x-4">
-                            <Button color={'failure'} size="sml" onClick={() => setShowModal(true)} type="button"
-                                    className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiTrash className="mr-2 h-5 w-5"/>
-                                Delete Key
-                            </Button>
-                            <Button color={'success'} size="sml" href={route('key.download', resource.id)} type="button"
-                                    className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <HiDownload className="mr-2 h-5 w-5"/>
-                                Download Key
-                            </Button>
+                            <DeleteButton onClick={() => setShowModal(true)}>Delete key</DeleteButton>
+                            <IndigoButton href={route('key.download', resource.id)}><HiDownload className="mr-2 h-5 w-5" />Download key</IndigoButton>
                         </div>
                     </div>
                 </section>

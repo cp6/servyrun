@@ -1,10 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
-import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiDownload, HiOutlineArrowLeft, HiRefresh, HiTrash} from "react-icons/hi";
+import {HiDownload, HiRefresh} from "react-icons/hi";
 import axios from "axios";
+import BackButton from "@/Components/BackButton";
+import OrangeButton from "@/Components/OrangeButton";
+import TealButton from "@/Components/TealButton";
 
 export default function Show({auth, resource, database, table, columns, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -39,19 +41,9 @@ export default function Show({auth, resource, database, table, columns, alert_ty
             <Head title={table.name + " table columns"}></Head>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('db.show.tables', database.id)}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
-                        Back to database tables
-                    </Button>
-                    <Button color={'success'} onClick={refreshColumns} size="xs" disabled={buttonsDisabled}>
-                        <HiRefresh className="mr-2 h-5 w-5"/>
-                        Refresh columns
-                    </Button>
-                    <Button color={'warning'} href={route('db.table.columns.download', [database.id, table.id])} size="xs"
-                            disabled={buttonsDisabled} title={'Only do this for small tables'}>
-                        <HiDownload className="mr-2 h-5 w-5"/>
-                        Download as JSON
-                    </Button>
+                    <BackButton href={route('db.show.tables', database.id)}>Back to database tables</BackButton>
+                    <TealButton onClick={refreshColumns} disabled={buttonsDisabled}><HiRefresh className="mr-2 h-5 w-5" />Refresh columns</TealButton>
+                    <OrangeButton href={route('db.table.columns.download', [database.id, table.id])}><HiDownload className="mr-2 h-5 w-5"/>Download as JSON</OrangeButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

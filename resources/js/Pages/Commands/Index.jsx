@@ -1,13 +1,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
-import {Button} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
-import {HiPlay, HiPlus} from "react-icons/hi";
+import {HiPlay} from "react-icons/hi";
 import {format} from "date-fns";
+import AddButton from "@/Components/AddButton";
+import EmeraldButton from "@/Components/EmeraldButton";
 
 export default function Index({auth, commands, hasAlert, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -22,14 +23,8 @@ export default function Index({auth, commands, hasAlert, alert_type, alert_messa
             <Head title={main_title}/>
                 <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                     <div className="flex flex-wrap gap-2 mb-4">
-                        <Button color={'info'} size={'xs'} href={route('command.create')}>
-                            <HiPlus className="mr-2 h-5 w-5" />
-                            Add {title}
-                        </Button>
-                        <Button color={'success'} size={'xs'} href={route('outputs.index')}>
-                            <HiPlay className="mr-2 h-5 w-5" />
-                            Command outputs
-                        </Button>
+                        <AddButton href={route('command.create')}>Add command</AddButton>
+                        <EmeraldButton href={route('outputs.index')}><HiPlay className="mr-2 h-5 w-5" />  Command outputs</EmeraldButton>
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>
@@ -56,12 +51,12 @@ export default function Index({auth, commands, hasAlert, alert_type, alert_messa
                                     {
                                         id: "id",
                                         name: "Edit",
-                                        data: (row) => html(`<a class="text-blue-700 dark:text-blue-400" href='${route('command.edit', row.id)}'>Edit</a>`),
+                                        data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('command.edit', row.id)}'>Edit</a>`),
                                     },
                                     {
                                         id: "id",
                                         name: "Outputs",
-                                        data: (row) => html(`<a class="text-blue-700 dark:text-blue-400" href='${route('outputs.show.command', row.id)}'>View</a>`),
+                                        data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('outputs.show.command', row.id)}'>View</a>`),
                                     },
                                     {
                                         id: "created_at",

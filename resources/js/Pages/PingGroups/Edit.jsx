@@ -3,10 +3,10 @@ import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import {Select, Button} from "flowbite-react";
+import {Select} from "flowbite-react";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
-import {HiOutlineArrowLeft} from "react-icons/hi";
+import BackButton from "@/Components/BackButton";
 
 export default function Edit({auth, servers, resource}) {
 
@@ -40,10 +40,7 @@ export default function Edit({auth, servers, resource}) {
             <Head title="Create connection"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button size="xs" href={route('ping-group.index')}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5" />
-                        Back to ping groups
-                    </Button>
+                    <BackButton href={route('ping-group.index')}>Back to ping groups</BackButton>
                 </div>
                 <form onSubmit={submit}>
                     <div className="grid gap-2 grid-cols-1 sm:grid-cols-6">

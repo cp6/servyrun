@@ -1,13 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm, usePage} from '@inertiajs/inertia-react';
-import {Button} from "flowbite-react";
 import React, {useEffect} from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ResponseAlert from "@/Components/Alert";
-import {HiOutlineArrowLeft} from "react-icons/hi";
 import axios from "axios";
 import Prism from "prismjs";
 import 'prismjs/components/prism-bash';
@@ -18,6 +16,8 @@ import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-log';
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
 import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+import UpdateButton from "@/Components/UpdateButton";
+import BackButton from "@/Components/BackButton";
 
 
 export default function Read({auth, resource, ip, alert_type, alert_message}) {
@@ -109,10 +109,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
             <Head title={"Read file " + resource.id}/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button color={'info'} size="xs" href={route('sftp.show', resource.id)}>
-                        <HiOutlineArrowLeft className="mr-2 h-5 w-5"/>
-                        Back to SFTP connection
-                    </Button>
+                    <BackButton href={route('sftp.show', resource.id)}>Back to SFTP connection</BackButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
@@ -153,11 +150,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                          <pre contentEditable={editable} onInput={handleCodeChange}><code id={'codeTag'} className={`language-${fileExt}`}>{codeContent}</code></pre>
                         </div>
                     </div>
-                    <PrimaryButton onClick={sendContents}
-                                   className="inline-flex items-center ml-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                    >
-                        Update file
-                    </PrimaryButton>
+                    <UpdateButton onClick={sendContents}>Update file</UpdateButton>
                 </section>
             </div>
 

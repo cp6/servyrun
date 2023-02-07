@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
-import {Alert, Button, Card} from "flowbite-react";
+import {Card} from "flowbite-react";
 import Output from "@/Components/Output";
 
 export default function Show({auth, resource}) {

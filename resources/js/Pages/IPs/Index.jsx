@@ -1,13 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
-import {Button} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
-import {HiPlus} from "react-icons/hi";
 import {format} from "date-fns";
+import AddButton from "@/Components/AddButton";
 
 export default function Index({auth, ips, hasAlert, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -21,10 +20,7 @@ export default function Index({auth, ips, hasAlert, alert_type, alert_message}) 
             <Head title={main_title}/>
                 <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                     <div className="flex flex-wrap gap-2 mb-4">
-                        <Button color={'info'} size="xs" href={route('ip.create')}>
-                            <HiPlus className="mr-2 h-5 w-5"/>
-                            Add {title}
-                        </Button>
+                        <AddButton href={route('ip.create')}>Add IP</AddButton>
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>
@@ -51,7 +47,7 @@ export default function Index({auth, ips, hasAlert, alert_type, alert_message}) 
                             {
                                 id: "id",
                                 name: "Edit",
-                                data: (row) => html(`<a class="text-blue-700 dark:text-blue-400" href='${route('ip.edit', row.id)}'>Edit</a>`),
+                                data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('ip.edit', row.id)}'>Edit</a>`),
                             },
                             {
                                 id: "created_at",
