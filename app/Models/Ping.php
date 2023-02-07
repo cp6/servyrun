@@ -52,7 +52,7 @@ class Ping extends Model
 
     public static function checkIsUp(Server $server, int $port = 80, int $timeout = 4): array
     {
-        $data = Server::where('id', $server->id)->with(['ip_ssh.ip'])->firstOrFail();
+        $data = Server::where('id', $server->id)->with(['ip_ssh'])->firstOrFail();
 
         if (isset($data->ip_ssh->ip)) {
 
