@@ -53,4 +53,9 @@ class DatabaseTable extends Model
         return $this->hasOne(Database::class, 'id', 'database_id');
     }
 
+    public function columns(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(DatabaseTableColumn::class, 'table_id', 'id');
+    }
+
 }
