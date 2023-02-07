@@ -28,12 +28,12 @@ class CommandOutput extends Model
     }
     protected static function booted(): void
     {
-        static::creating(function ($commandOutput) {
+        static::creating(function (CommandOutput $commandOutput) {
             $commandOutput->user_id = \Auth::id();
         });
 
-        static::created(function ($commandOutput) {
-            ActionLog::make(1, 'ran', 'command', 'Ran command: '.$commandOutput->the_command, $commandOutput->server_id ?? null, $commandOutput->command_id ?? null);
+        static::created(function (CommandOutput $commandOutput) {
+            ActionLog::make(1, 'ran', 'command', 'Ran command: '.$commandOutput->the_command.' seconds: '.$commandOutput->seconds_taken, $commandOutput->server_id ?? null, $commandOutput->command_id ?? null);
         });
     }
 

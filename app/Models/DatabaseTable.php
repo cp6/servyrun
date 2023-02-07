@@ -25,9 +25,21 @@ class DatabaseTable extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($server) {
-            $server->id = Str::random(8);
-            $server->user_id = \Auth::id();
+        static::creating(function (DatabaseTable $databaseTable) {
+            $databaseTable->id = Str::random(8);
+            $databaseTable->user_id = \Auth::id();
+        });
+
+        static::created(function (DatabaseTable $databaseTable) {
+            ActionLog::make(1, 'create', 'database table', 'Created database table '.$databaseTable->id);
+        });
+
+        static::updated(function (DDatabaseTable $databaseTable) {
+            ActionLog::make(1, 'delete', 'database table', 'Updated database table '.$databaseTable->id);
+        });
+
+        static::deleted(function (DatabaseTable $databaseTable) {
+            ActionLog::make(1, 'delete', 'database table', 'Deleted database table');
         });
     }
 

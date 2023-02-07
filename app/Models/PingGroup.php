@@ -25,19 +25,19 @@ class PingGroup extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($pingGroup) {
+        static::creating(function (PingGroup $pingGroup) {
             $pingGroup->user_id = \Auth::id();
         });
 
-        static::created(function () {
-            ActionLog::make(1, 'create', 'ping group', 'Created ping group');
+        static::created(function (PingGroup $pingGroup) {
+            ActionLog::make(1, 'create', 'ping group', 'Created ping group '.$pingGroup->id);
         });
 
-        static::updated(function () {
-            ActionLog::make(1, 'update', 'ping group', 'Updated ping group');
+        static::updated(function (PingGroup $pingGroup) {
+            ActionLog::make(1, 'update', 'ping group', 'Updated ping group '.$pingGroup->id);
         });
 
-        static::deleted(function () {
+        static::deleted(function (PingGroup $pingGroup) {
             ActionLog::make(1, 'delete', 'ping group', 'Deleted ping group');
         });
     }

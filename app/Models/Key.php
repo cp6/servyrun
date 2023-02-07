@@ -24,19 +24,19 @@ class Key extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($key) {
+        static::creating(function (Key $key) {
             $key->user_id = \Auth::id();
         });
 
-        static::created(function () {
-            ActionLog::make(1, 'create', 'key', 'Created key');
+        static::created(function (Key $key) {
+            ActionLog::make(1, 'create', 'key', 'Created key '.$key->id);
         });
 
-        static::updated(function () {
-            ActionLog::make(1, 'update', 'key', 'Updated key');
+        static::updated(function (Key $key) {
+            ActionLog::make(1, 'update', 'key', 'Updated key '.$key->id);
         });
 
-        static::deleted(function () {
+        static::deleted(function (Key $key) {
             ActionLog::make(1, 'delete', 'key', 'Deleted key');
         });
     }

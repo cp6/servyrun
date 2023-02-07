@@ -20,12 +20,12 @@ class Ping extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($ping) {
+        static::creating(function (Ping $ping) {
             $ping->user_id = \Auth::id();
         });
 
         static::created(function (Ping $ping) {
-            ActionLog::make(1, 'create', 'ping', 'Ran a ping');
+            ActionLog::make(1, 'create', 'ping', 'Ran ping '.$ping->id);
         });
 
     }

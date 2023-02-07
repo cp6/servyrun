@@ -37,11 +37,11 @@ class Connection extends Model
         });
 
         static::created(function (Connection $connection) {
-            ActionLog::make(1, 'create', 'connection', 'Created connection', $connection->server_id);
+            ActionLog::make(1, 'create', 'connection', 'Created connection', $connection->server_id, null, $connection->id);
         });
 
         static::updated(function (Connection $connection) {
-            ActionLog::make(1, 'update', 'connection', 'Updated connection', $connection->server_id);
+            ActionLog::make(1, 'update', 'connection', 'Updated connection', $connection->server_id, null, $connection->id);
         });
 
         static::deleted(function (Connection $connection) {

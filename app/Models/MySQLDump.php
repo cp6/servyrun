@@ -21,10 +21,23 @@ class MySQLDump extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($mySQLDump) {
+        static::creating(function (MySQLDump $mySQLDump) {
             $mySQLDump->id = Str::random(8);
             $mySQLDump->user_id = \Auth::id();
         });
+
+        static::created(function (MySQLDump $mySQLDump) {
+            ActionLog::make(1, 'create', 'MySQLdump', 'Created MySQLdump '.$mySQLDump->id);
+        });
+
+        static::updated(function (MySQLDump $mySQLDump) {
+            ActionLog::make(1, 'update', 'MySQLdump', 'Updated MySQLdump '.$mySQLDump->id);
+        });
+
+        static::deleted(function (MySQLDump $mySQLDump) {
+            ActionLog::make(1, 'deleted', 'MySQLdump', 'Deleted MySQLdump');
+        });
+
     }
 
     protected static function createCommand(MySQLDump $mySQLDump): string

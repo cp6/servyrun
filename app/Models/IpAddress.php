@@ -25,19 +25,19 @@ class IpAddress extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($ipAddress) {
+        static::creating(function (IpAddress $ipAddress) {
             $ipAddress->user_id = \Auth::id();
         });
 
         static::created(function (IpAddress $ipAddress) {
-            ActionLog::make(1, 'create', 'ip', 'Created ip address');
+            ActionLog::make(1, 'create', 'ip', 'Created ip address '.$ipAddress->id);
         });
 
-        static::updated(function () {
-            ActionLog::make(1, 'update', 'ip', 'Updated ip address');
+        static::updated(function (IpAddress $ipAddress) {
+            ActionLog::make(1, 'update', 'ip', 'Updated ip address '.$ipAddress->id);
         });
 
-        static::deleted(function () {
+        static::deleted(function (IpAddress $ipAddress) {
             ActionLog::make(1, 'deleted', 'ip', 'Deleted ip address');
         });
     }

@@ -36,6 +36,10 @@ class Database extends Model
             $database->id = Str::random(8);
             $database->user_id = \Auth::id();
         });
+
+        static::created(function (Database $database) {
+            ActionLog::make(1, 'create', 'database', 'Created database '.$database->id);
+        });
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\HasOne

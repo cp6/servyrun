@@ -29,9 +29,21 @@ class DatabaseConnection extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($server) {
-            $server->id = Str::random(8);
-            $server->user_id = \Auth::id();
+        static::creating(function (DatabaseConnection $databaseConnection) {
+            $databaseConnection->id = Str::random(8);
+            $databaseConnection->user_id = \Auth::id();
+        });
+
+        static::created(function (DatabaseConnection $databaseConnection) {
+            ActionLog::make(1, 'create', 'database connection', 'Created database connection '.$databaseConnection->id);
+        });
+
+        static::updated(function (DatabaseConnection $databaseConnection) {
+            ActionLog::make(1, 'delete', 'database connection', 'Updated database connection '.$databaseConnection->id);
+        });
+
+        static::deleted(function (DatabaseConnection $databaseConnection) {
+            ActionLog::make(1, 'delete', 'database connection', 'Deleted database connection');
         });
     }
 

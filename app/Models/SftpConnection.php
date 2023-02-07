@@ -30,17 +30,17 @@ class SftpConnection extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($sftpConnection) {
+        static::creating(function (SftpConnection $sftpConnection) {
             $sftpConnection->id = Str::random(8);
             $sftpConnection->user_id = \Auth::id();
         });
 
         static::created(function (SftpConnection $sftpConnection) {
-            ActionLog::make(1, 'create', 'SFTP', 'Created SFTP connection', $sftpConnection->server_id);
+            ActionLog::make(1, 'create', 'SFTP', 'Created SFTP connection '.$sftpConnection->id, $sftpConnection->server_id);
         });
 
         static::updated(function (SftpConnection $sftpConnection) {
-            ActionLog::make(1, 'update', 'SFTP', 'Updated SFTP connection', $sftpConnection->server_id);
+            ActionLog::make(1, 'update', 'SFTP', 'Updated SFTP connection '.$sftpConnection->id, $sftpConnection->server_id);
         });
 
         static::deleted(function (SftpConnection $sftpConnection) {

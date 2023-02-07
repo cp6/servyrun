@@ -28,21 +28,21 @@ class Server extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($server) {
+        static::creating(function (Server $server) {
             $server->id = Str::random(8);
             $server->user_id = \Auth::id();
         });
 
-        static::created(function ($server) {
-            ActionLog::make(1, 'create', 'server', 'Created server', $server->id);
+        static::created(function (Server $server) {
+            ActionLog::make(1, 'create', 'server', 'Created server '.$server->title, $server->id);
         });
 
-        static::updated(function ($server) {
-            ActionLog::make(1, 'update', 'server', 'Updated server', $server->id);
+        static::updated(function (Server $server) {
+            ActionLog::make(1, 'update', 'server', 'Updated server '.$server->title, $server->id);
         });
 
-        static::deleted(function ($server) {
-            ActionLog::make(1, 'delete', 'server', 'Deleted server', $server->id);
+        static::deleted(function (Server $server) {
+            ActionLog::make(1, 'delete', 'server', 'Deleted server');
         });
     }
 

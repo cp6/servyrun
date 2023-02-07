@@ -20,9 +20,14 @@ class DatabaseTableColumn extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($server) {
-            $server->user_id = \Auth::id();
+        static::creating(function (DatabaseTableColumn $databaseTableColumn) {
+            $databaseTableColumn->user_id = \Auth::id();
         });
+
+        static::created(function (DatabaseTableColumn $databaseTableColumn) {
+            ActionLog::make(1, 'create', 'database column', 'Created database column '.$databaseTableColumn->id);
+        });
+
     }
 
 }

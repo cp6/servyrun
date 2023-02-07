@@ -22,12 +22,12 @@ class PingGroupAssigned extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($pingGroupAssigned) {
+        static::creating(function (PingGroupAssigned $pingGroupAssigned) {
             $pingGroupAssigned->user_id = \Auth::id();
         });
 
-        static::created(function ($pingGroupAssigned) {
-            ActionLog::make(1, 'Ping group assigned', $pingGroupAssigned->server_id);
+        static::created(function (PingGroupAssigned $pingGroupAssigned) {
+            ActionLog::make(1, 'ran', 'Ping group assigned','Ping group assigned '.$pingGroupAssigned->id, $pingGroupAssigned->server_id);
         });
     }
 

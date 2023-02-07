@@ -32,8 +32,8 @@ class Command extends Model
             ActionLog::make(1, 'create', 'command', 'Created command: '.$command->title);
         });
 
-        static::updated(function () {
-            ActionLog::make(1, 'update', 'command', 'Updated command');
+        static::updated(function (Command $command) {
+            ActionLog::make(1, 'update', 'command', 'Updated command: '.$command->title);
         });
 
         static::deleted(function () {
