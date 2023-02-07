@@ -48,7 +48,6 @@ class CommandController extends Controller
         try {
 
             $command = new Command();
-            $command->id = Str::random(8);
             $command->title = $request->title;
             $command->command = $request->command;
             $command->save();
