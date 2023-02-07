@@ -47,17 +47,30 @@ class ActionLog extends Model
 
     public static function make(int $result, string $action, string $resource_type, ?string $message = null, ?string $server_id = null, ?string $command_id = null, ?string $connection_id = null, ?string $database_id = null): ActionLog
     {//Insert an action log
-        $action_log = new ActionLog();
-        $action_log->result = $result;
-        $action_log->action = $action;
-        $action_log->resource_type = $resource_type;
-        $action_log->message = $message;
-        $action_log->server_id = $server_id;
-        $action_log->command_id = $command_id;
-        $action_log->connection_id = $connection_id;
-        $action_log->database_id = $database_id;
-        $action_log->save();
-        return $action_log;
+        try {
+
+            $action_log = new ActionLog();
+            $action_log->result = $result;
+            $action_log->action = $action;
+            $action_log->resource_type = $resource_type;
+            $action_log->message = $message;
+            $action_log->server_id = $server_id;
+            $action_log->command_id = $command_id;
+            $action_log->connection_id = $connection_id;
+            $action_log->database_id = $database_id;
+            $action_log->save();
+            return $action_log;
+
+        } catch (\Exception $exception) {
+            $action_log = new ActionLog();
+            $action_log->result = 5;
+            $action_log->action = 'create';
+            $action_log->resource_type = 'log';
+            $action_log->message = 'Failed to create log: ' . $exception->getMessage();
+            $action_log->save();
+            return $action_log;
+        }
+
     }
 
 }
