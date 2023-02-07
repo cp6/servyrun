@@ -57,6 +57,11 @@ class DatabaseConnection extends Model
         return $this->hasOne(Server::class, 'id', 'server_id');
     }
 
+    public function databases(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Database::class, 'db_connection_id', 'id');
+    }
+
     public static function tryConnection(DatabaseConnection $databaseConnection): bool
     {
         try {
