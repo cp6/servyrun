@@ -30,4 +30,9 @@ class DatabaseTableColumn extends Model
 
     }
 
+    public function table(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(DatabaseTable::class, 'id', 'table_id');
+    }
+
 }
