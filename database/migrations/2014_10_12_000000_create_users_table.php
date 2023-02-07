@@ -18,6 +18,7 @@ return new class extends Migration
             $table->char('api_token',64)->unique();
             $table->string('login_ip_only')->default(null)->nullable();
             $table->string('api_ip_only')->default(null)->nullable();
+            $table->boolean('email_when_login')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
