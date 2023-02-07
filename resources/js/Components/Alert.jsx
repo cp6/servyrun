@@ -7,7 +7,7 @@ export default function ResponseAlert({has_an_alert, alert_type, alert_message})
 
     return (
         hasAlert && alert_message ? (
-            <Alert color={alert_type} className='mb-3' onDismiss={function onDismiss() {
+            <Alert color={alert_type} className='mb-3 shadow-sm' onDismiss={function onDismiss() {
                 setHasAlert(false)
             }}><span>{alert_message}</span></Alert>
         ) : <div className='py-8'></div>
