@@ -1,5 +1,5 @@
 import React from "react";
-import {HiClipboardCopy, HiLightningBolt} from "react-icons/hi";
+import {HiClipboardCopy} from "react-icons/hi";
 
 export default function ServerCardDetails({resource}) {
     return (
