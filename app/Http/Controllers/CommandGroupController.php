@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Command;
 use App\Models\CommandGroup;
+use App\Models\Connection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -54,6 +55,8 @@ class CommandGroupController extends Controller
 
     public function show(CommandGroup $commandGroup)
     {
+        $this->authorize('view', $commandGroup);
+
         return Inertia::render('CommandGroups/Show', [
             'resource' => CommandGroup::where('id', $commandGroup->id)->with('the_command', 'assigned.server')->firstOrFail(),
             'hasAlert' => \Session::exists('alert_type'),
@@ -62,13 +65,23 @@ class CommandGroupController extends Controller
         ]);
     }
 
-    public function edit(CommandGroup $commandGroup)
+    public function edit(CommandGroup $commandGroup): \Inertia\Response
     {
-        //
+        $this->authorize('view', $commandGroup);
+
+        return Inertia::render('CommandGroups/Edit', [
+            'resource' => CommandGroup::where('id', $commandGroup->id)->with('the_command', 'assigned.server')->firstOrFail(),
+            'connections' => Connection::with('server')->get(),
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
     }
 
     public function update(Request $request, CommandGroup $commandGroup)
     {
+        $this->authorize('update', $commandGroup);
+
         $request->validate([
             'title' => 'string|required|max:64',
             'command_id' => 'string|required|size:8'
@@ -90,6 +103,8 @@ class CommandGroupController extends Controller
 
     public function destroy(CommandGroup $commandGroup)
     {
+        $this->authorize('delete', $commandGroup);
+
         $commandGroup->delete();
 
         return redirect(route('command-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command group deleted successfully']);
