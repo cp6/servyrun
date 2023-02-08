@@ -20,6 +20,43 @@ class IpAddressController extends Controller
         ]);
     }
 
+    public function create(): \Inertia\Response
+    {
+        return Inertia::render('IPs/Create', [
+            'servers' => Server::get(),
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'server_id' => 'string|required|size:8',
+            'ip' => 'ip|required'
+        ]);
+
+        try {
+
+            $ip_address = new IpAddress;
+            $ip_address->server_id = $request->server_id;
+            $ip_address->ip = $request->ip;
+            $ip_address->is_ipv4 = (filter_var($request->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) ? 0 : 1;
+            $ip_address->is_ssh = 0;
+            $ip_address->is_main = 0;
+            $ip_address->save();
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('ip.create'))->with(['alert_type' => 'failure', 'alert_message' => 'IP could not be created error ' . $exception->getCode()]);
+        }
+
+        IpAddress::fetchUpdateIpDetails($ip_address);//Get IP ASN and GEO data etc
+
+        return redirect(route('ip.show', $ip_address))->with(['alert_type' => 'success', 'alert_message' => 'IP address created successfully']);
+    }
+
     public function edit(IpAddress $ipAddress): \Inertia\Response
     {
         return Inertia::render('IPs/Edit', [
