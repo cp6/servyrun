@@ -26,6 +26,7 @@ class IpAddress extends Model
     protected static function booted(): void
     {
         static::creating(function (IpAddress $ipAddress) {
+            $ipAddress->id = \Str::random(8);
             $ipAddress->user_id = \Auth::id();
         });
 

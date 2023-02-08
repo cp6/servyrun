@@ -130,17 +130,16 @@ class ServerController extends Controller
             return redirect(route('server.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Server could not be created error ' . $exception->getCode()]);
         }
 
-        $ip_id = Str::random(8);
-
         try {
+
             $ip_address = new IpAddress;
-            $ip_address->id = $ip_id;
             $ip_address->server_id = $server->id;
             $ip_address->ip = $request->ip;
             $ip_address->is_ipv4 = (filter_var($request->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) ? 0 : 1;
             $ip_address->is_ssh = 1;
             $ip_address->is_main = 1;
             $ip_address->save();
+
         } catch (\Exception $exception) {
 
             return redirect(route('server.create'))->with(['alert_type' => 'failure', 'alert_message' => 'IP could not be created error ' . $exception->getCode()]);
