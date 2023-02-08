@@ -6,7 +6,6 @@ use App\Models\Command;
 use App\Models\CommandGroup;
 use App\Models\Connection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class CommandGroupController extends Controller
