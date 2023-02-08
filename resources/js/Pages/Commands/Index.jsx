@@ -5,26 +5,28 @@ import ResponseAlert from "@/Components/Alert";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
-import {HiPlay} from "react-icons/hi";
+import {HiPlay, HiUserGroup} from "react-icons/hi";
 import {format} from "date-fns";
 import AddButton from "@/Components/AddButton";
 import EmeraldButton from "@/Components/EmeraldButton";
+import IndigoButton from "@/Components/IndigoButton";
 
-export default function Index({auth, commands, hasAlert, alert_type, alert_message}) {
+export default function Index({auth, commands, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
-    const main_title = 'Commands';
-    const title = 'command';
+
+    const [hasAlert, setHasAlert] = React.useState(true);
 
     return (
         <AuthenticatedLayout
             auth={auth}
             header={<h2
-                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{main_title}</h2>}>
-            <Head title={main_title}/>
+                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Commands</h2>}>
+            <Head title={'Commands'}/>
                 <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                     <div className="flex flex-wrap gap-2 mb-4">
                         <AddButton href={route('command.create')}>Add command</AddButton>
                         <EmeraldButton href={route('outputs.index')}><HiPlay className="mr-2 h-5 w-5" />  Command outputs</EmeraldButton>
+                        <IndigoButton href={route('outputs.index')}><HiUserGroup className="mr-2 h-5 w-5" />  Command groups</IndigoButton>
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>
