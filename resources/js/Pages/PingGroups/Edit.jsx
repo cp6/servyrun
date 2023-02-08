@@ -37,7 +37,7 @@ export default function Edit({auth, servers, resource}) {
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Edit ping
                 group</h2>}
         >
-            <Head title="Create connection"/>
+            <Head title="Edit ping group"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('ping-group.index')}>Back to ping groups</BackButton>
