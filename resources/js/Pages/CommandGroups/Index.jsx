@@ -36,7 +36,7 @@ export default function Index({auth, groups, alert_type, alert_message}) {
                                                      (() => {
                                                          if (group.server_count !== null) {
                                                              return (
-                                                                 group.server_count + "servers"
+                                                                 (group.server_count === 1)? group.server_count + " server" :  group.server_count + " servers"
                                                              )
                                                          } else {
                                                              return (
