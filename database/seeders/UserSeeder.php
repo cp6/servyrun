@@ -12,22 +12,23 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'id' => Str::random(6),
+            'id' => 'd8okvl',
             'name' => 'chief420',
             'email' => 'test@mail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'api_token' => Str::random(64)
+            'api_token' => 'vASuNoCPgjiBxfhookSdiIQVNEu2kAZy0buHpeCUTFkg7bOtXFxT3CWGNvcg5KMC'
         ]);
+
         User::create([
-            'id' => Str::random(6),
+            'id' => 'aY7km3',
             'name' => 'gazza_bazza',
             'email' => 'garry@mail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'api_token' => Str::random(64)
+            'api_token' => '2znJJgnN0lmKS8WuN8WjUpLKAuW1gaJR9OYdS4N6HEgcc3CzAHBvvx5IDJWbbzSl'
         ]);
     }
 }

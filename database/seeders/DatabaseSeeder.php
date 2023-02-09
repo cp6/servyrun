@@ -12,6 +12,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(TypeSeeder::class);
         $this->call(LocationSeeder::class);
-        //$this->call(OsSeeder::class);
+        $this->call(ServerSeeder::class);
+        $this->call(ConnectionSeeder::class);
+        $this->call(IpAddressSeeder::class);
     }
 }
