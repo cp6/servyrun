@@ -13,6 +13,7 @@ import {HiCpuChip} from "react-icons/all";
 import BackButton from "@/Components/BackButton";
 import DeleteButton from "@/Components/DeleteButton";
 import SkyButton from "@/Components/SkyButton";
+import EditButton from "@/Components/EditButton";
 
 export default function Show({auth, resource, ip, method, commands, alert_type, alert_message}) {
 
@@ -108,6 +109,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                     <BackButton href={route('connection.index')}>Back to connections</BackButton>
                     <DeleteButton onClick={() => setShowModal(true)}>Delete connection</DeleteButton>
                     <SkyButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</SkyButton>
+                    <EditButton href={route('connection.edit', resource.id)}>Edit</EditButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

@@ -7,10 +7,13 @@ import {Select} from "flowbite-react";
 import React from "react";
 import UpdateButton from "@/Components/UpdateButton";
 import BackButton from "@/Components/BackButton";
+import ResponseAlert from "@/Components/Alert";
 
-export default function Edit({auth, servers, keys, ip, resource}) {
+export default function Edit({auth, servers, keys, ip, resource, alert_type, alert_message}) {
 
     const user = usePage().props.auth.user;
+
+    const [hasAlert, setHasAlert] = React.useState(true);
 
     const {data, setData, patch, processing, errors} = useForm({
         server_id: resource.server_id,
@@ -24,6 +27,7 @@ export default function Edit({auth, servers, keys, ip, resource}) {
         e.preventDefault();
 
         patch(route('connection.update', resource.id));
+        navigate(route('connection.show', resource.id));
     };
 
     return (
@@ -37,6 +41,9 @@ export default function Edit({auth, servers, keys, ip, resource}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('connection.show', resource.id)}>Back to connection</BackButton>
                 </div>
+                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
+                               alert_message={alert_message}></ResponseAlert>
+                <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                 <form onSubmit={submit}>
                     <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
                         <div className="sm:col-span-4 col-span-4">
@@ -116,6 +123,7 @@ export default function Edit({auth, servers, keys, ip, resource}) {
                     </div>
                     <UpdateButton processing={processing}>Update connection</UpdateButton>
                 </form>
+                </section>
             </div>
         </AuthenticatedLayout>
     );
