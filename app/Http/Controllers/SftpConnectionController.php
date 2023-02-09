@@ -116,6 +116,19 @@ class SftpConnectionController extends Controller
     {
         $this->authorize('view', $sftpConnection);
 
+        $data = SftpConnection::where('id', $sftpConnection->id)->with(['key', 'server.ip_ssh'])->firstOrFail();
+        $ip = $data->server->ip_ssh->ip;
+
+        return Inertia::render('Sftp/Edit', [
+            'resource' => $data,
+            'ip' => $ip,
+            'servers' => Server::get(),
+            'keys' => Key::get(),
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
+
     }
 
     public function update(Request $request, SftpConnection $sftpConnection)
