@@ -18,200 +18,200 @@ class ApiController extends Controller
 {
     public function userIndex(): \Illuminate\Http\JsonResponse
     {
-        return response()->json(\Auth::user());
+        return response()->json(\Auth::user())->header('Content-Type', 'application/json');
     }
 
     public function actionLogsIndex(): \Illuminate\Http\JsonResponse
     {
         $logs = ActionLog::Paginate(20);
-        return response()->json($logs);
+        return response()->json($logs)->header('Content-Type', 'application/json');
     }
 
     public function typesIndex(): \Illuminate\Http\JsonResponse
     {
         $types = Type::Paginate(20);
-        return response()->json($types);
+        return response()->json($types)->header('Content-Type', 'application/json');
     }
 
     public function typesShow(Type $type): \Illuminate\Http\JsonResponse
     {
         $data = $type->where('id', $type->id)->first();
-        return response()->json($data);
+        return response()->json($data)->header('Content-Type', 'application/json');
     }
 
     public function locationsIndex(): \Illuminate\Http\JsonResponse
     {
         $locations = Location::Paginate(20);
-        return response()->json($locations);
+        return response()->json($locations)->header('Content-Type', 'application/json');
     }
 
     public function locationsShow(Location $location): \Illuminate\Http\JsonResponse
     {
         $data = $location->where('id', $location->id)->first();
-        return response()->json($data);
+        return response()->json($data)->header('Content-Type', 'application/json');
     }
 
     public function outputsIndex(): \Illuminate\Http\JsonResponse
     {
         $command_outputs = CommandOutput::Paginate(20);
-        return response()->json($command_outputs);
+        return response()->json($command_outputs)->header('Content-Type', 'application/json');
     }
 
     public function outputsShow(CommandOutput $commandOutput): \Illuminate\Http\JsonResponse
     {
         $data = $commandOutput->where('id', $commandOutput->id)->first();
-        return response()->json($data);
+        return response()->json($data)->header('Content-Type', 'application/json');
     }
 
     public function outputsServerIndex(Server $server): \Illuminate\Http\JsonResponse
     {
         $command_outputs = CommandOutput::where('server_id', $server->id)->Paginate();
-        return response()->json($command_outputs);
+        return response()->json($command_outputs)->header('Content-Type', 'application/json');
     }
 
     public function outputsCommandIndex(Command $command): \Illuminate\Http\JsonResponse
     {
         $command_outputs = CommandOutput::where('command_id', $command->id)->Paginate();
-        return response()->json($command_outputs);
+        return response()->json($command_outputs)->header('Content-Type', 'application/json');
     }
 
     public function keysIndex(): \Illuminate\Http\JsonResponse
     {
         $keys = Key::Paginate(20);
-        return response()->json($keys);
+        return response()->json($keys)->header('Content-Type', 'application/json');
     }
 
     public function pingsIndex(): \Illuminate\Http\JsonResponse
     {
         $pings = Ping::Paginate(20);
-        return response()->json($pings);
+        return response()->json($pings)->header('Content-Type', 'application/json');
     }
 
     public function pingsShow(Ping $ping): \Illuminate\Http\JsonResponse
     {
         $data = Ping::where('id', $ping->id)->with(['from_server', 'to_server', 'group', 'server'])->Paginate();
-        return response()->json($data);
+        return response()->json($data)->header('Content-Type', 'application/json');
     }
 
     public function serversIndex(): \Illuminate\Http\JsonResponse
     {
         $servers = Server::Paginate(20);
-        return response()->json($servers);
+        return response()->json($servers)->header('Content-Type', 'application/json');
     }
 
     public function serversShow(Server $server): \Illuminate\Http\JsonResponse
     {
         $data = $server->where('id', $server->id)->with(['type', 'location', 'conn', 'ips'])->first();
-        return response()->json($data);
+        return response()->json($data)->header('Content-Type', 'application/json');
     }
 
     public function serversUpdate(Server $server, Request $request): \Illuminate\Http\JsonResponse
     {
         $server->update($request->all());
-        return response()->json($server->Paginate(20));
+        return response()->json($server->Paginate(20))->header('Content-Type', 'application/json');
     }
 
     public function serversStore(Server $server, Request $request): \Illuminate\Http\JsonResponse
     {
         $server->create($request->all());
-        return response()->json($server->Paginate(20));
+        return response()->json($server->Paginate(20))->header('Content-Type', 'application/json');
     }
 
     public function serversDestroy(Server $server): \Illuminate\Http\JsonResponse
     {
         $result = $server->delete();
-        return response()->json(['result' => $result]);
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
     }
 
     public function connectionsIndex(): \Illuminate\Http\JsonResponse
     {
         $connections = Connection::Paginate(20);
-        return response()->json($connections);
+        return response()->json($connections)->header('Content-Type', 'application/json');
     }
 
     public function connectionsShow(Connection $connection): \Illuminate\Http\JsonResponse
     {
         $data = $connection->where('id', $connection->id)->with(['server', 'key'])->first();
-        return response()->json($data);
+        return response()->json($data)->header('Content-Type', 'application/json');
     }
 
     public function connectionsUpdate(Connection $connection, Request $request): \Illuminate\Http\JsonResponse
     {
         $connection->update($request->all());
-        return response()->json($connection->Paginate(20));
+        return response()->json($connection->Paginate(20))->header('Content-Type', 'application/json');
     }
 
     public function connectionsStore(Connection $connection, Request $request): \Illuminate\Http\JsonResponse
     {
         $connection->create($request->all());
-        return response()->json($connection->Paginate(20));
+        return response()->json($connection->Paginate(20))->header('Content-Type', 'application/json');
     }
 
     public function connectionsDestroy(Connection $connection): \Illuminate\Http\JsonResponse
     {
         $result = $connection->delete();
-        return response()->json(['result' => $result]);
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
     }
 
     public function ipsIndex(): \Illuminate\Http\JsonResponse
     {
         $ipAddresses = IpAddress::Paginate(20);
-        return response()->json($ipAddresses);
+        return response()->json($ipAddresses)->header('Content-Type', 'application/json');
     }
 
     public function ipsShow(IpAddress $ipAddress): \Illuminate\Http\JsonResponse
     {
         $data = $ipAddress->where('id', $ipAddress->id)->with(['server', 'key'])->first();
-        return response()->json($data);
+        return response()->json($data)->header('Content-Type', 'application/json');
     }
 
     public function ipsUpdate(IpAddress $ipAddress, Request $request): \Illuminate\Http\JsonResponse
     {
         $ipAddress->update($request->all());
-        return response()->json($ipAddress->Paginate(20));
+        return response()->json($ipAddress->Paginate(20))->header('Content-Type', 'application/json');
     }
 
     public function ipsStore(IpAddress $ipAddress, Request $request): \Illuminate\Http\JsonResponse
     {
         $ipAddress->create($request->all());
-        return response()->json($ipAddress->Paginate(20));
+        return response()->json($ipAddress->Paginate(20))->header('Content-Type', 'application/json');
     }
 
     public function ipsDestroy(IpAddress $ipAddress): \Illuminate\Http\JsonResponse
     {
         $result = $ipAddress->delete();
-        return response()->json(['result' => $result]);
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
     }
 
 
     public function commandsIndex(): \Illuminate\Http\JsonResponse
     {
         $commands = Command::Paginate(20);
-        return response()->json($commands);
+        return response()->json($commands)->header('Content-Type', 'application/json');
     }
 
     public function commandsShow(Command $command): \Illuminate\Http\JsonResponse
     {
         $data = $command->where('id', $command->id)->first();
-        return response()->json($data);
+        return response()->json($data)->header('Content-Type', 'application/json');
     }
 
     public function commandsUpdate(Command $command, Request $request): \Illuminate\Http\JsonResponse
     {
         $command->update($request->all());
-        return response()->json($command->Paginate(20));
+        return response()->json($command->Paginate(20))->header('Content-Type', 'application/json');
     }
 
     public function commandsStore(Command $command, Request $request): \Illuminate\Http\JsonResponse
     {
         $command->create($request->all());
-        return response()->json($command->Paginate(20));
+        return response()->json($command->Paginate(20))->header('Content-Type', 'application/json');
     }
 
     public function commandsDestroy(Command $command): \Illuminate\Http\JsonResponse
     {
         $result = $command->delete();
-        return response()->json(['result' => $result]);
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
     }
 
 }

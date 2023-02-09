@@ -59,7 +59,7 @@ class ServerController extends Controller
 
         $data = $server->where('id', $server->id)->with(['ip_ssh'])->firstOrFail();
 
-        return response()->json(array('ip' => $data->ip_ssh->ip));
+        return response()->json(array('ip' => $data->ip_ssh->ip))->header('Content-Type', 'application/json');
     }
 
     public function getServerConnections(Server $server): \Illuminate\Http\JsonResponse
@@ -68,7 +68,7 @@ class ServerController extends Controller
 
         $connections = Connection::where('server_id', $server->id)->get();
 
-        return response()->json($connections);
+        return response()->json($connections)->header('Content-Type', 'application/json');
     }
 
     public function getServerDatabaseConnections(Server $server): \Illuminate\Http\JsonResponse
@@ -77,7 +77,7 @@ class ServerController extends Controller
 
         $connections = DatabaseConnection::where('server_id', $server->id)->get();
 
-        return response()->json($connections);
+        return response()->json($connections)->header('Content-Type', 'application/json');
     }
 
     public function edit(Server $server): \Inertia\Response
@@ -212,17 +212,17 @@ class ServerController extends Controller
             case "A":
                 $data = dns_get_record($domain_name, DNS_A);
                 if (isset($data['0']['ip'])) {
-                    return response()->json(array('ip' => $data['0']['ip']));
+                    return response()->json(array('ip' => $data['0']['ip']))->header('Content-Type', 'application/json');
                 }
                 break;
             case "AAAA":
                 $data = dns_get_record($domain_name, DNS_AAAA);
                 if (isset($data['0']['ipv6'])) {
-                    return response()->json(array('ip' => $data['0']['ipv6']));
+                    return response()->json(array('ip' => $data['0']['ipv6']))->header('Content-Type', 'application/json');
                 }
                 break;
         }
-        return response()->json(array('ip' => null));
+        return response()->json(array('ip' => null))->header('Content-Type', 'application/json');
     }
 
 }

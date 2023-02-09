@@ -167,7 +167,7 @@ class SftpConnectionController extends Controller
             'the_command' => $command,
             'seconds_taken' => number_format($time_end - $time_start, 3),
             'output' => $output
-        ], 200);
+        ], 200)->header('Content-Type', 'application/json');
 
     }
 
@@ -219,7 +219,7 @@ class SftpConnectionController extends Controller
 
         if (is_null($sftp)) {
             //return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
-            return response()->json(['success' => false, 'contents' => 'Could not connect', 'size' => null, 'file' => null, 'extension' => null]);
+            return response()->json(['success' => false, 'contents' => 'Could not connect', 'size' => null, 'file' => null, 'extension' => null])->header('Content-Type', 'application/json');
         }
 
         $sftp = SftpConnection::do($sftpConnection);
@@ -230,11 +230,11 @@ class SftpConnectionController extends Controller
 
             $download = SftpConnection::downloadFile($sftp, $file);
 
-            return response()->json(['success' => true, 'contents' => $download, 'size' => $sftp->filesize($file), 'file' => $file, 'extension' => $extension]);
+            return response()->json(['success' => true, 'contents' => $download, 'size' => $sftp->filesize($file), 'file' => $file, 'extension' => $extension])->header('Content-Type', 'application/json');
         }
 
         //return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "' . $file . '" not found']);
-        return response()->json(['success' => false, 'contents' => 'File "' . $file . '" could not be found', 'size' => null, 'file' => null, 'extension' => null]);
+        return response()->json(['success' => false, 'contents' => 'File "' . $file . '" could not be found', 'size' => null, 'file' => null, 'extension' => null])->header('Content-Type', 'application/json');
     }
 
     public function uploadFile(Request $request, SftpConnection $sftpConnection)

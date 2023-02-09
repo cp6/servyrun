@@ -103,6 +103,6 @@ class MySQLDumpController extends Controller
 
         $run = MySQLDump::runCommand($mySQLDump);
 
-        return response()->json(['result' => $run]);
+        return response()->json(['result' => $run])->header('Content-Type', 'application/json');
     }
 }

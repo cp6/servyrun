@@ -177,11 +177,11 @@ class ConnectionController extends Controller
             //Key NO password
             $ssh = Connection::makeConnectionKey($con->server->ip_ssh->ip, $con->ssh_port, $con->username, $con->key->saved_as, null, $timeout);
         } else {
-            return response()->json(['message' => 'ERROR: Connection type was not valid', 'the_command' => $command], 400);
+            return response()->json(['message' => 'ERROR: Connection type was not valid', 'the_command' => $command], 400)->header('Content-Type', 'application/json');
         }
 
         if (is_null($ssh)) {
-            return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'the_command' => $command], 400);
+            return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'the_command' => $command], 400)->header('Content-Type', 'application/json');
         }
 
         $output = Connection::runCommand($ssh, $command);
@@ -213,7 +213,7 @@ class ConnectionController extends Controller
             });
         }
 
-        return response()->json($command_output);
+        return response()->json($command_output)->header('Content-Type', 'application/json');
 
     }
 
@@ -232,7 +232,7 @@ class ConnectionController extends Controller
 
         $ssh = Connection::do($connection);
 
-        return response()->json(['id' => $ssh->getServerIdentification()], 200);
+        return response()->json(['id' => $ssh->getServerIdentification()], 200)->header('Content-Type', 'application/json');
     }
 
 }
