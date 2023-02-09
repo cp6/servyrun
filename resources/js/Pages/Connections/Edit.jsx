@@ -46,7 +46,7 @@ export default function Edit({auth, servers, keys, ip, resource, alert_type, ale
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                 <form onSubmit={submit}>
                     <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
-                        <div className="sm:col-span-4 col-span-4">
+                        <div className="sm:col-span-2 col-span-4">
                             <div className="mb-2 block">
                                 <InputLabel forInput="server_id" value="Server"/>
                             </div>
@@ -61,7 +61,7 @@ export default function Edit({auth, servers, keys, ip, resource, alert_type, ale
                                     value={servers.id}>{servers.title} ({servers.hostname} | {ip})</option>)}
                             </Select>
                         </div>
-                        <div className="sm:col-span-2 col-span-4">
+                        <div className="sm:col-span-1 col-span-4">
                             <InputLabel forInput="username" value="Username"/>
                             <TextInput
                                 id="username"
@@ -75,7 +75,7 @@ export default function Edit({auth, servers, keys, ip, resource, alert_type, ale
                             />
                             <InputError message={errors.username} className="mt-2"/>
                         </div>
-                        <div className="sm:col-span-2 col-span-4">
+                        <div className="sm:col-span-1 col-span-4">
                             <InputLabel forInput="ssh_port" value="SSH port"/>
                             <TextInput
                                 type='number'
