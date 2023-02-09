@@ -1,5 +1,5 @@
 import React from "react";
-import {HiClipboardCopy} from "react-icons/hi";
+import {HiClipboardCopy, HiLightningBolt, HiStar} from "react-icons/hi";
 
 export default function ServerCardDetails({resource}) {
     return (
@@ -13,6 +13,8 @@ export default function ServerCardDetails({resource}) {
                             <p key={ip.id}>
                                 <HiClipboardCopy className="mr-2 mb-1 h-5 w-5 inline hover:cursor-grab" onClick={() => {navigator.clipboard.writeText(ip.ip)}} title={'Copy IP'}/>
                                 <a href={route('ip.show', ip.id)}>{ip.ip}</a>
+                                {(ip.is_main)? <HiStar className="ml-2 mb-1 h-5 w-5 inline text-yellow-400" title={'Main ip'}/> : null}
+                                {(ip.is_ssh)? <HiLightningBolt className="ml-2 mb-1 h-5 w-5 inline text-green-400" title={'SSH ip'}/> : null}
                             </p>
                         </>
                     ))}
