@@ -102,11 +102,11 @@ class Ping extends Model
 
     public static function fromServerToServer(Server $server_from, Server $server_to): ?Ping
     {
-        $to = Server::where('id', $server_to->id)->with(['ip_ssh.ip'])->firstOrFail();
+        $to = Server::where('id', $server_to->id)->with(['ip_ssh'])->firstOrFail();
 
         $command = self::buildCommand($to->ip_ssh->ip, 4);
 
-        $connection = Server::where('id', $server_from->id)->with(['conn.key', 'conn', 'ip_ssh', 'ip_ssh.ip'])->firstOrFail();
+        $connection = Server::where('id', $server_from->id)->with(['conn.key', 'conn', 'ip_ssh'])->firstOrFail();
 
         if ($connection->conn->type === 1) {//Stored password
             $ssh = Connection::makeConnectionPassword($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->password, 12);
