@@ -122,6 +122,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pings', [PingController::class, 'index'])->name('ping.index');
     Route::get('/ping/test', [PingController::class, 'test'])->name('ping.test');
     Route::get('/ping/from/{server1}/to/{server2}', [PingController::class, 'pingFromTo'])->name('ping-from-to');
+    Route::get('/ping/from/{server1}/to/{server2}/run', [PingController::class, 'runPingFromTo'])->name('run.ping-from-to');
     Route::get('/ping/{server}', [PingController::class, 'checkIsUp'])->name('check-is-up');
 
     Route::get('/ping-groups', [PingGroupController::class, 'index'])->name('ping-group.index');

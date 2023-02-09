@@ -26,7 +26,21 @@ class PingController extends Controller
         return response()->json(Ping::checkIsUp($server), 200)->header('Content-Type', 'application/json');
     }
 
-    public function pingFromTo(Server $server1, Server $server2): \Illuminate\Http\JsonResponse
+    public function pingFromTo(Server $server1, Server $server2): \Inertia\Response
+    {
+        return Inertia::render('Pings/FromTo', [
+            'pings' => Ping::where('from_server_id', $server1->id)->where('server_id', $server2->id)
+                ->with(['to_server.ip_ssh', 'from_server.ip_ssh'])->orderBy('created_at', 'desc')->take(999)->get(),
+            'minPing' => Ping::where('from_server_id', $server1->id)->where('server_id', $server2->id)->orderBy('min')->pluck('min')->first(),
+            'maxPing' => Ping::where('from_server_id', $server1->id)->where('server_id', $server2->id)->orderBy('max', 'desc')->pluck('max')->first(),
+            'avgPing' => Ping::where('from_server_id', $server1->id)->where('server_id', $server2->id)->avg('avg'),
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
+    }
+
+    public function runPingFromTo(Server $server1, Server $server2): \Illuminate\Http\JsonResponse
     {
         $this->authorize('view', $server1);
         $this->authorize('view', $server2);
