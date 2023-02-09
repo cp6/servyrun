@@ -10,6 +10,7 @@ import {HiOutlineArrowLeft, HiPlay, HiTrash} from "react-icons/hi";
 import IndigoButton from "@/Components/IndigoButton";
 import DeleteButton from "@/Components/DeleteButton";
 import EmeraldButton from "@/Components/EmeraldButton";
+import EditButton from "@/Components/EditButton";
 
 export default function Show({auth, pingGroup, pings, hasAlert, alert_type, alert_message}) {
 
@@ -57,6 +58,7 @@ export default function Show({auth, pingGroup, pings, hasAlert, alert_type, aler
                             <EmeraldButton onClick={submit} disabled={buttonDisabled}><HiPlay className="mr-2 h-5 w-5" />Run this ping group</EmeraldButton>
                         </form>
                         <DeleteButton onClick={() => setShowModal(true)}>Delete group</DeleteButton>
+                        <EditButton href={route('ping-group.edit', pingGroup.id)}>Edit group</EditButton>
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>
