@@ -26,7 +26,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'api_token'
+        'api_token',
+        'login_ip_only',
+        'api_ip_only',
+        'email_when_login'
     ];
 
     /**
