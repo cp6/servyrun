@@ -8,12 +8,15 @@ import React, {useState} from "react";
 import UpdateButton from "@/Components/UpdateButton";
 import BackButton from "@/Components/BackButton";
 import DeleteButton from "@/Components/DeleteButton";
+import ResponseAlert from "@/Components/Alert";
 
-export default function Edit({auth, servers, resource}) {
+export default function Edit({auth, servers, resource, alert_type, alert_message}) {
 
     const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
+
+    const [hasAlert, setHasAlert] = React.useState(true);
 
     const {data, setData, patch, processing, errors} = useForm({
         ip: resource.ip,
@@ -24,13 +27,14 @@ export default function Edit({auth, servers, resource}) {
         country: resource.country,
         city: resource.city,
         continent: resource.continent,
-        server_id: (resource.assigned) ? resource.assigned.server_id : null,
+        server_id: (resource.server_id) ? resource.server_id : null,
     });
 
     const submit = (e) => {
         e.preventDefault();
 
         patch(route('ip.update', resource.id));
+        navigate(route('ip.show', resource.id));
     };
 
     const deleteItem = () => {
@@ -62,6 +66,8 @@ export default function Edit({auth, servers, resource}) {
                     <BackButton href={route('ip.show', resource.id)}>Back to IP</BackButton>
                     <DeleteButton onClick={() => setShowModal(true)}>Delete IP</DeleteButton>
                 </div>
+                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
+                               alert_message={alert_message}></ResponseAlert>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                 <form onSubmit={submit}>
                     <div className="grid gap-2 sm:grid-cols-2 sm:gap-4">
