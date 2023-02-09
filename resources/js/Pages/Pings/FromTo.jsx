@@ -1,17 +1,38 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
-import React from "react";
+import React, {useState} from "react";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
 import ResponseAlert from "@/Components/Alert";
 import BackButton from "@/Components/BackButton";
+import TealButton from "@/Components/TealButton";
+import axios from "axios";
+import {HiPlay} from "react-icons/hi";
 
 export default function Index({auth, pings, minPing, maxPing, avgPing, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
 
     const [hasAlert, setHasAlert] = React.useState(true);
+
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
+
+    const runPing = () => {
+        setButtonsDisabled(true);
+
+        const config = {
+            headers: {Authorization: `Bearer ${user.api_token}`}
+        };
+
+        axios.get(route('run.ping-from-to', [pings[0].from_server.id, pings[0].to_server.id]), config).then(response => {
+            window.location.reload();
+        }).catch(err => {
+            console.log('Error running ping');
+            setButtonsDisabled(false);
+        });
+
+    };
 
     return (
         <AuthenticatedLayout
@@ -22,6 +43,8 @@ export default function Index({auth, pings, minPing, maxPing, avgPing, alert_typ
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('ping.index')}>Pings</BackButton>
+                    <TealButton onClick={runPing} disabled={buttonsDisabled}><HiPlay className="mr-2 h-5 w-5"/>Run this
+                        ping</TealButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
@@ -29,10 +52,12 @@ export default function Index({auth, pings, minPing, maxPing, avgPing, alert_typ
                     <div className={'col md:col-span-1 col-span-2'}>
                         <h2 className={'font-medium text-gray-900 dark:text-gray-300'}>From: <b><a
                             href={route('ip.show', pings[0].from_server.ip_ssh.id)}>{pings[0].from_server.ip_ssh.ip}</a></b> To: <b><a
-                            href={route('ip.show', pings[0].to_server.ip_ssh.id)}>{pings[0].to_server.ip_ssh.ip}</a></b></h2>
+                            href={route('ip.show', pings[0].to_server.ip_ssh.id)}>{pings[0].to_server.ip_ssh.ip}</a></b>
+                        </h2>
                     </div>
                     <div className={'col md:col-span-1 col-span-2 md:text-end'}>
-                        <h2 className={'font-medium text-gray-900 dark:text-gray-300'}>Average: <b>{avgPing}</b> Lowest: <b>{minPing}</b> Highest: <b>{maxPing}</b></h2>
+                        <h2 className={'font-medium text-gray-900 dark:text-gray-300'}>Average: <b>{avgPing}</b> Lowest: <b>{minPing}</b> Highest: <b>{maxPing}</b>
+                        </h2>
                     </div>
                 </div>
                 <section
