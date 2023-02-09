@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('send_email')->default(null)->nullable();
             $table->boolean('is_public')->default(0)->nullable();
             $table->float('seconds_taken')->default(null)->nullable();
+            $table->boolean('is_async')->default(0);
             $table->timestamps();
             $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
