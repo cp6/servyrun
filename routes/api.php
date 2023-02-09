@@ -29,7 +29,7 @@ Route::get('/types', function () {
     return \App\Models\Type::all()->toJson();
 });
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
 //Everything in this group needs API bearer token
 
 //Databases
