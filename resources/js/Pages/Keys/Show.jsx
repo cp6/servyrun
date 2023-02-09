@@ -44,50 +44,58 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
-                    <div className="py-6 px-2 mx-auto max-w-4xl lg:py-10">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <div className="py-6 px-2 mx-auto max-w-6xl lg:py-10">
+                        <div className={'grid grid-cols-2'}>
+                            <div className={'md:col-span-1 col-span-2'}>
                         <span
                             className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.password === null ? ("NO password") : ("Password")}</span>
-                        <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.original_name}</h2>
-                        <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">
-                            {
-                                (typeof (resource.conn[0]) != "undefined" && resource.conn[0] !== null)
-                                    ? resource.conn[0].server.hostname
-                                    : null
-                            }
-                        </p>
-                        <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.file_id}</p>
-                        <CreatedAtText created_at={resource.created_at} string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
-                        <div className="flex items-center space-x-4">
-                            <DeleteButton onClick={() => setShowModal(true)}>Delete key</DeleteButton>
-                            <IndigoButton href={route('key.download', resource.id)}><HiDownload className="mr-2 h-5 w-5" />Download key</IndigoButton>
+                                <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.original_name}</h2>
+                                <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">
+                                    {
+                                        (typeof (resource.conn[0]) != "undefined" && resource.conn[0] !== null)
+                                            ? resource.conn[0].server.hostname
+                                            : null
+                                    }
+                                </p>
+                                <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.file_id}</p>
+                                <CreatedAtText created_at={resource.created_at}
+                                               string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
+                                <div className="flex items-center space-x-4">
+                                    <DeleteButton onClick={() => setShowModal(true)}>Delete key</DeleteButton>
+                                    <IndigoButton href={route('key.download', resource.id)}><HiDownload
+                                        className="mr-2 h-5 w-5"/>Download key</IndigoButton>
+                                </div>
+                            </div>
+                            <div className={'md:col-span-1 col-span-2 pl-4'}>
+                                {
+                                    (() => {
+                                        if (resource.conn.length > 0) {
+                                            return (
+                                                <div className="mt-2">
+                                                    <h2 className={'text-md font-bold my-2 text-gray-800 md:text-lg dark:text-gray-200'}>Servers
+                                                        using this key</h2>
+                                                    <ul class="list-disc">
+                                                        {resource.conn.map(server =>
+                                                            <li key={server.server.id}
+                                                                className={'text-gray-800 dark:text-gray-300'}><a
+                                                                href={route('server.show', server.server.id)}>{server.server.hostname} ({server.server.title})</a>
+                                                            </li>)}
+                                                    </ul>
+                                                </div>
+                                            );
+                                        } else {
+                                            return (
+                                                <h2 className={'text-md ml-2 my-4 font-semibold leading-none text-gray-800 md:text-lg dark:text-gray-300'}>There
+                                                    are no
+                                                    servers in this group</h2>);
+                                        }
+                                    })()
+                                }
+                            </div>
                         </div>
                     </div>
                 </section>
-                {
-                    resource.conn.length === 0
-                        ?
-                        <h2 className={'text-md ml-2 my-4 font-semibold leading-none text-gray-800 md:text-lg dark:text-gray-300'}>There
-                            are no
-                            servers using this key</h2>
-                        :
-                        <h2 className={'text-md ml-2 my-4 font-semibold leading-none text-gray-800 md:text-lg dark:text-gray-300'}>Servers
-                            using this key</h2>
-                }
-                <div className="mt-2 grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
-                    {resource.conn.map(server => <Card key={server.server.id}
-                                                       href={route('server.show', server.server.id)}
-                                                       className={'dark:bg-gray-700 shadow-none'}>
-                        <div className="flex flex-col items-center pb-3">
-                            <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                                {server.server.hostname}
-                            </h5>
-                            <span className="text-sm text-gray-500 dark:text-gray-400">
-       {server.server.title}
-      </span>
-                        </div>
-                    </Card>)}
-                </div>
             </div>
 
             <Modal show={showModal} size="md">
