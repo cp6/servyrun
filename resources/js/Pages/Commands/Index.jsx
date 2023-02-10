@@ -26,7 +26,7 @@ export default function Index({auth, commands, alert_type, alert_message}) {
                     <div className="flex flex-wrap gap-2 mb-4">
                         <AddButton href={route('command.create')}>Add command</AddButton>
                         <EmeraldButton href={route('outputs.index')}><HiPlay className="mr-2 h-5 w-5" />  Command outputs</EmeraldButton>
-                        <IndigoButton href={route('outputs.index')}><HiUserGroup className="mr-2 h-5 w-5" />  Command groups</IndigoButton>
+                        <IndigoButton href={route('command-group.index')}><HiUserGroup className="mr-2 h-5 w-5" />  Command groups</IndigoButton>
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>
