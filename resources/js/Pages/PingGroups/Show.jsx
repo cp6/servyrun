@@ -62,7 +62,7 @@ export default function Show({auth, pingGroup, pings, hasAlert, alert_type, aler
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>
-                    <div className="py-6 px-1 mx-auto max-w-7xl">
+                    <div className="px-1 mx-auto max-w-7xl">
                         <section className="p-2 shadow-md dark:shadow-md bg-white/50 dark:bg-transparent dark:shadow rounded-lg dark:border dark:border-gray-700">
                         {
                             pings.length === 0
