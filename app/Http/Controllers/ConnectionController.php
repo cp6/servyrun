@@ -185,7 +185,6 @@ class ConnectionController extends Controller
         }
 
 
-
         $output = Connection::runCommand($ssh, $command);
 
         $time_end = microtime(true);
@@ -214,6 +213,8 @@ class ConnectionController extends Controller
                 $message->from(\Auth::user()->email, \Auth::user()->name);
             });
         }
+
+        $connection->update(['last_used' => Date('Y-m-d H:i:s')]);
 
         return response()->json($command_output)->header('Content-Type', 'application/json');
 
