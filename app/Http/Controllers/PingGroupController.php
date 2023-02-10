@@ -27,7 +27,7 @@ class PingGroupController extends Controller
     public function create(): \Inertia\Response
     {
         return Inertia::render('PingGroups/Create', [
-            'servers' => Server::has('conn')->get(),
+            'connections' => Connection::has('server')->with('server')->get(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
             'alert_message' => \Session::get('alert_message')
@@ -38,27 +38,27 @@ class PingGroupController extends Controller
     {
         $request->validate([
             'title' => 'string|required|max:64',
-            'server1_id' => 'string|required|size:8',
-            'server2_id' => 'string|required|size:8',
-            'server3_id' => 'string|nullable|size:8',
-            'server4_id' => 'string|nullable|size:8',
-            'server5_id' => 'string|nullable|size:8',
-            'server6_id' => 'string|nullable|size:8',
-            'server7_id' => 'string|nullable|size:8',
-            'server8_id' => 'string|nullable|size:8'
+            'connection1_id' => 'string|required|size:12',
+            'connection2_id' => 'string|required|size:12',
+            'connection3_id' => 'string|nullable|size:12',
+            'connection4_id' => 'string|nullable|size:12',
+            'connection5_id' => 'string|nullable|size:12',
+            'connection6_id' => 'string|nullable|size:12',
+            'connection7_id' => 'string|nullable|size:12',
+            'connection8_id' => 'string|nullable|size:12'
         ]);
 
-        $servers_array = array();
-        $servers_array[] = $request->server1_id;//Required
-        $servers_array[] = $request->server2_id;//Required
-        $servers_array[] = $request->server3_id ?? null;
-        $servers_array[] = $request->server4_id ?? null;
-        $servers_array[] = $request->server5_id ?? null;
-        $servers_array[] = $request->server6_id ?? null;
-        $servers_array[] = $request->server7_id ?? null;
-        $servers_array[] = $request->server8_id ?? null;
+        $connections_array = array();
+        $connections_array[] = $request->connection1_id;//Required
+        $connections_array[] = $request->connection2_id;//Required
+        $connections_array[] = $request->connection3_id ?? null;
+        $connections_array[] = $request->connection4_id ?? null;
+        $connections_array[] = $request->connection5_id ?? null;
+        $connections_array[] = $request->connection6_id ?? null;
+        $connections_array[] = $request->connection7_id ?? null;
+        $connections_array[] = $request->connection8_id ?? null;
 
-        $servers_array = array_filter(array_unique($servers_array));
+        $connections_array = array_filter(array_unique($connections_array));
 
         $group_id = Str::random(8);
 
@@ -67,7 +67,7 @@ class PingGroupController extends Controller
             $ping_group = new PingGroup();
             $ping_group->id = $group_id;
             $ping_group->title = $request->title;
-            $ping_group->amount = count($servers_array);
+            $ping_group->amount = count($connections_array);
             $ping_group->save();
 
         } catch (\Exception $exception) {
@@ -75,11 +75,13 @@ class PingGroupController extends Controller
             return redirect(route('ping-group.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Ping group could not be created error ' . $exception->getCode()]);
         }
 
-        foreach ($servers_array as $server_id) {
+        foreach ($connections_array as $connection_id) {
+            $connection = Connection::where('id', $connection_id)->first();
 
             $ping_group_assigned = new PingGroupAssigned();
             $ping_group_assigned->group_id = $group_id;
-            $ping_group_assigned->server_id = $server_id;
+            $ping_group_assigned->server_id = Server::where('id', $connection->server_id)->first()->id;
+            $ping_group_assigned->connection_id = $connection_id;
             $ping_group_assigned->save();
 
         }
@@ -161,65 +163,66 @@ class PingGroupController extends Controller
     public function run(PingGroup $pingGroup)
     {
         $run_pg = PingGroup::runPings($pingGroup);
-        if (is_null($run_pg)){
+        if (is_null($run_pg)) {
             return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Issue running Ping group. Check action logs for more information.']);
         }
         return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'info', 'alert_message' => 'Ping group ran']);
     }
-/*
-    public function run2(PingGroup $pingGroup)
-    {
-        $data = $pingGroup->with(['assigned.server.conn.key', 'assigned.server.ip_ssh'])->firstOrFail();
-        $amount = $pingGroup->amount;
 
-        foreach ($data->assigned as $ip) {
-            $current_server_id = $ip->server->id;
-            $current_ip = $ip->server->ip_ssh->ip;
-            $current_connection_type = $ip->server->connection->type;
+    /*
+        public function run2(PingGroup $pingGroup)
+        {
+            $data = $pingGroup->with(['assigned.server.conn.key', 'assigned.server.ip_ssh'])->firstOrFail();
+            $amount = $pingGroup->amount;
 
-            for ($i = 0; $i < $amount; $i++) {
-                $loop_server_id = $data->assigned[$i]->server->id;
-                $loop_ip = $data->assigned[$i]->server->ip_ssh->ip;
+            foreach ($data->assigned as $ip) {
+                $current_server_id = $ip->server->id;
+                $current_ip = $ip->server->ip_ssh->ip;
+                $current_connection_type = $ip->server->connection->type;
 
-                if ($current_ip !== $loop_ip) {
+                for ($i = 0; $i < $amount; $i++) {
+                    $loop_server_id = $data->assigned[$i]->server->id;
+                    $loop_ip = $data->assigned[$i]->server->ip_ssh->ip;
 
-                    $command = Ping::buildCommand($loop_ip, 3);//Ping loop IP address 3 times
+                    if ($current_ip !== $loop_ip) {
 
-                    if ($current_connection_type === 1) {
-                        //Stored password
-                        $ssh = Connection::makeConnectionPassword($current_ip, $ip->server->connection->ssh_port, $ip->server->connection->username, $ip->server->connection->password, 12);
+                        $command = Ping::buildCommand($loop_ip, 3);//Ping loop IP address 3 times
 
-                        $ssh_output = Connection::runCommand($ssh, $command);
-                    } elseif ($current_connection_type === 3) {
-                        //Key NO password
+                        if ($current_connection_type === 1) {
+                            //Stored password
+                            $ssh = Connection::makeConnectionPassword($current_ip, $ip->server->connection->ssh_port, $ip->server->connection->username, $ip->server->connection->password, 12);
 
-                    } elseif ($current_connection_type === 4) {
-                        //Key with stored password
+                            $ssh_output = Connection::runCommand($ssh, $command);
+                        } elseif ($current_connection_type === 3) {
+                            //Key NO password
+
+                        } elseif ($current_connection_type === 4) {
+                            //Key with stored password
+
+                        }
+
+                        $ping_result_array = Ping::parseResult(Ping::pingOutputToArray($ssh_output));
+
+                        $ping = new Ping();
+                        $ping->ping_group = $pingGroup->id;
+                        $ping->server_id = $loop_server_id;
+                        $ping->from_server_id = $current_server_id;
+                        $ping->min = $ping_result_array['min'] ?? null;
+                        $ping->max = $ping_result_array['max'] ?? null;
+                        $ping->avg = $ping_result_array['avg'] ?? null;
+                        $ping->was_up = (isset($ping_result_array['avg'])) ? 1 : 0;
+                        $ping->save();
 
                     }
-
-                    $ping_result_array = Ping::parseResult(Ping::pingOutputToArray($ssh_output));
-
-                    $ping = new Ping();
-                    $ping->ping_group = $pingGroup->id;
-                    $ping->server_id = $loop_server_id;
-                    $ping->from_server_id = $current_server_id;
-                    $ping->min = $ping_result_array['min'] ?? null;
-                    $ping->max = $ping_result_array['max'] ?? null;
-                    $ping->avg = $ping_result_array['avg'] ?? null;
-                    $ping->was_up = (isset($ping_result_array['avg'])) ? 1 : 0;
-                    $ping->save();
 
                 }
 
             }
 
+            return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'success', 'alert_message' => 'Ping group ran successfully']);
+
         }
-
-        return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'success', 'alert_message' => 'Ping group ran successfully']);
-
-    }
-    */
+        */
 
 
     public function destroy(PingGroup $pingGroup)
