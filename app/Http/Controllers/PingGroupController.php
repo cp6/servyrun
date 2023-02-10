@@ -144,7 +144,7 @@ class PingGroupController extends Controller
 
         }
 
-        return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'success', 'alert_message' => 'Ping group created successfully']);
+        return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'success', 'alert_message' => 'Ping group updated successfully']);
     }
 
     public function show(PingGroup $pingGroup): \Inertia\Response
