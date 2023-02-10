@@ -8,9 +8,9 @@ import {HiCpuChip} from "react-icons/all";
 import CreatedAtText from "@/Components/CreatedAtText";
 import UpdatedAtText from "@/Components/UpdatedAtText";
 import BackButton from "@/Components/BackButton";
-import SkyButton from "@/Components/SkyButton";
 import DeleteButton from "@/Components/DeleteButton";
 import TealButton from "@/Components/TealButton";
+import EmeraldButton from "@/Components/EmeraldButton";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -44,7 +44,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('ip.index',)}>Back to IPs</BackButton>
-                    <SkyButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</SkyButton>
+                    <EmeraldButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</EmeraldButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

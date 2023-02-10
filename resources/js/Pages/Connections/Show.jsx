@@ -12,8 +12,8 @@ import ResponseAlert from "@/Components/Alert";
 import {HiCpuChip} from "react-icons/all";
 import BackButton from "@/Components/BackButton";
 import DeleteButton from "@/Components/DeleteButton";
-import SkyButton from "@/Components/SkyButton";
 import EditButton from "@/Components/EditButton";
+import EmeraldButton from "@/Components/EmeraldButton";
 
 export default function Show({auth, resource, ip, method, commands, alert_type, alert_message}) {
 
@@ -109,7 +109,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('connection.index')}>Back to connections</BackButton>
                     <DeleteButton onClick={() => setShowModal(true)}>Delete connection</DeleteButton>
-                    <SkyButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</SkyButton>
+                    <EmeraldButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</EmeraldButton>
                     <EditButton href={route('connection.edit', resource.id)}>Edit</EditButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
@@ -172,7 +172,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                                 </div>
                             </div>
                             <PrimaryButton
-                                className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                                className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900"
                                 processing={processing}>
                                 Run
                             </PrimaryButton>

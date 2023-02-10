@@ -14,7 +14,7 @@ import {HiCpuChip} from "react-icons/all";
 import BackButton from "@/Components/BackButton";
 import DeleteButton from "@/Components/DeleteButton";
 import EmeraldButton from "@/Components/EmeraldButton";
-import SkyButton from "@/Components/SkyButton";
+import TealButton from "@/Components/TealButton";
 
 export default function Show({auth, resource, ip, alert_type, alert_message}) {
 
@@ -99,9 +99,9 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.index')}>Back to SFTP connections</BackButton>
-                    <EmeraldButton href={route('sftp.read', resource.id)}><HiBookOpen className="mr-2 h-5 w-5"/>Read file</EmeraldButton>
+                    <TealButton href={route('sftp.read', resource.id)}><HiBookOpen className="mr-2 h-5 w-5"/>Read file</TealButton>
                     <DeleteButton onClick={() => setShowModal(true)}>Delete connection</DeleteButton>
-                    <SkyButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</SkyButton>
+                    <EmeraldButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</EmeraldButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
