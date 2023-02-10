@@ -175,62 +175,6 @@ class PingGroupController extends Controller
         return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'info', 'alert_message' => 'Ping group ran']);
     }
 
-    /*
-        public function run2(PingGroup $pingGroup)
-        {
-            $data = $pingGroup->with(['assigned.server.conn.key', 'assigned.server.ip_ssh'])->firstOrFail();
-            $amount = $pingGroup->amount;
-
-            foreach ($data->assigned as $ip) {
-                $current_server_id = $ip->server->id;
-                $current_ip = $ip->server->ip_ssh->ip;
-                $current_connection_type = $ip->server->connection->type;
-
-                for ($i = 0; $i < $amount; $i++) {
-                    $loop_server_id = $data->assigned[$i]->server->id;
-                    $loop_ip = $data->assigned[$i]->server->ip_ssh->ip;
-
-                    if ($current_ip !== $loop_ip) {
-
-                        $command = Ping::buildCommand($loop_ip, 3);//Ping loop IP address 3 times
-
-                        if ($current_connection_type === 1) {
-                            //Stored password
-                            $ssh = Connection::makeConnectionPassword($current_ip, $ip->server->connection->ssh_port, $ip->server->connection->username, $ip->server->connection->password, 12);
-
-                            $ssh_output = Connection::runCommand($ssh, $command);
-                        } elseif ($current_connection_type === 3) {
-                            //Key NO password
-
-                        } elseif ($current_connection_type === 4) {
-                            //Key with stored password
-
-                        }
-
-                        $ping_result_array = Ping::parseResult(Ping::pingOutputToArray($ssh_output));
-
-                        $ping = new Ping();
-                        $ping->ping_group = $pingGroup->id;
-                        $ping->server_id = $loop_server_id;
-                        $ping->from_server_id = $current_server_id;
-                        $ping->min = $ping_result_array['min'] ?? null;
-                        $ping->max = $ping_result_array['max'] ?? null;
-                        $ping->avg = $ping_result_array['avg'] ?? null;
-                        $ping->was_up = (isset($ping_result_array['avg'])) ? 1 : 0;
-                        $ping->save();
-
-                    }
-
-                }
-
-            }
-
-            return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'success', 'alert_message' => 'Ping group ran successfully']);
-
-        }
-        */
-
-
     public function destroy(PingGroup $pingGroup)
     {
         $this->authorize('delete', $pingGroup);
