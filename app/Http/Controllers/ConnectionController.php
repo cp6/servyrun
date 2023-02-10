@@ -104,6 +104,34 @@ class ConnectionController extends Controller
 
     }
 
+    public function debug(Connection $connection)
+    {
+        $this->authorize('view', $connection);
+
+        $con = Connection::where('id', $connection->id)->with(['server', 'server.ips'])->firstOrFail();
+
+        if ($connection->type === 1) {
+            //Password
+            $ssh = Connection::makeConnectionPassword($con->server->ip_ssh->ip, $con->ssh_port, $con->username, Crypt::decryptString($connection->password));
+        } else if ($connection->type === 2) {
+            //Key with password
+            $ssh = Connection::makeConnectionKey($con->server->ip_ssh->ip, $con->ssh_port, $con->username, $con->key->saved_as, Crypt::decryptString($con->key->password));
+        } elseif ($connection->type === 3) {
+            //Key NO password
+            $ssh = Connection::makeConnectionKey($con->server->ip_ssh->ip, $con->ssh_port, $con->username, $con->key->saved_as, null);
+        } else {
+            return response()->json(['message' => 'ERROR: Connection type was not valid', 'output' => 'ERROR: Connection type was not valid'], 400)->header('Content-Type', 'application/json');
+        }
+
+        if (is_null($ssh) || !$ssh->isAuthenticated()) {
+            return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'output' => 'ERROR: Connection could not be made! Check the logs for more information.'], 400)->header('Content-Type', 'application/json');
+        }
+
+        dump($ssh);
+
+        exit;
+    }
+
     public function edit(Connection $connection): \Inertia\Response
     {
         $this->authorize('view', $connection);
