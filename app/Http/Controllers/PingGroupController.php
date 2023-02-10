@@ -76,13 +76,19 @@ class PingGroupController extends Controller
         }
 
         foreach ($connections_array as $connection_id) {
-            $connection = Connection::where('id', $connection_id)->first();
 
-            $ping_group_assigned = new PingGroupAssigned();
-            $ping_group_assigned->group_id = $group_id;
-            $ping_group_assigned->server_id = Server::where('id', $connection->server_id)->first()->id;
-            $ping_group_assigned->connection_id = $connection_id;
-            $ping_group_assigned->save();
+            try {
+                $connection = Connection::where('id', $connection_id)->first();
+
+                $ping_group_assigned = new PingGroupAssigned();
+                $ping_group_assigned->group_id = $group_id;
+                $ping_group_assigned->server_id = Server::where('id', $connection->server_id)->first()->id;
+                $ping_group_assigned->connection_id = $connection_id;
+                $ping_group_assigned->save();
+            } catch (\Exception $exception) {
+
+                return redirect(route('ping-group.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Ping group could not be created error ' . $exception->getCode()]);
+            }
 
         }
 
