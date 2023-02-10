@@ -14,7 +14,7 @@ class Command extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['title', 'command', 'last_used'];
+    protected $fillable = ['title', 'command', 'is_async', 'last_used'];
 
     protected static function boot(): void
     {
