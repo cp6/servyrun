@@ -90,6 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/connections/create', [ConnectionController::class, 'create'])->name('connection.create');
     Route::post('/connections', [ConnectionController::class, 'store'])->name('connection.store');
     Route::get('/connections/{connection}', [ConnectionController::class, 'show'])->name('connection.show');
+    Route::get('/connections/{connection}/debug', [ConnectionController::class, 'debug'])->name('connection.debug');
     Route::post('/connections/{connection}/verify', [ConnectionController::class, 'verify'])->name('connection.verify');
     Route::get('/connections/{connection}/edit', [ConnectionController::class, 'edit'])->name('connection.edit');
     Route::patch('/connections/{connection}', [ConnectionController::class, 'update'])->name('connection.update');
