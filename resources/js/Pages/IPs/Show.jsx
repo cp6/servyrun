@@ -48,7 +48,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <div className="py-4 px-2 md:px-6 max-w-6xl md:py-8">
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'md:col-span-1 col-span-2'}>
