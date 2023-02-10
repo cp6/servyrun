@@ -41,4 +41,9 @@ class PingGroupAssigned extends Model
         return $this->belongsTo(Server::class, 'server_id', 'id');
     }
 
+    public function conn(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Connection::class, 'connection_id', 'id');
+    }
+
 }
