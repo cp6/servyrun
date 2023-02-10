@@ -139,7 +139,7 @@ class ConnectionController extends Controller
             'key_id' => $request->key_id ?? null,
             'ssh_port' => $request->ssh_port,
             'username' => $request->username,
-            'password' => $request->password
+            'password' => ($request->password) ? Crypt::encryptString($request->password) : null
         ]);
 
         return redirect(route('connection.show', $connection))->with(['alert_type' => 'success', 'alert_message' => 'Connection updated successfully']);
@@ -177,12 +177,14 @@ class ConnectionController extends Controller
             //Key NO password
             $ssh = Connection::makeConnectionKey($con->server->ip_ssh->ip, $con->ssh_port, $con->username, $con->key->saved_as, null, $timeout);
         } else {
-            return response()->json(['message' => 'ERROR: Connection type was not valid', 'the_command' => $command], 400)->header('Content-Type', 'application/json');
+            return response()->json(['message' => 'ERROR: Connection type was not valid', 'the_command' => $command, 'output' => 'ERROR: Connection type was not valid'], 400)->header('Content-Type', 'application/json');
         }
 
-        if (is_null($ssh)) {
-            return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'the_command' => $command], 400)->header('Content-Type', 'application/json');
+        if (is_null($ssh) || !$ssh->isAuthenticated()) {
+            return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'the_command' => $command, 'output' => 'ERROR: Connection could not be made! Check the logs for more information.'], 400)->header('Content-Type', 'application/json');
         }
+
+
 
         $output = Connection::runCommand($ssh, $command);
 
