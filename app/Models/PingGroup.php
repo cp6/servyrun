@@ -49,14 +49,15 @@ class PingGroup extends Model
 
     public static function runPings(PingGroup $pingGroup): ?PingGroup
     {
-        $data = $pingGroup->with(['assigned.server.conn.key', 'assigned.server.ip_ssh'])->firstOrFail();
+        $data = $pingGroup->with(['assigned.conn.server.ip_ssh', 'assigned.conn.key'])->firstOrFail();
+
         $amount = $pingGroup->amount;
 
         foreach ($data->assigned as $ip) {
             $current_server = $ip->server;
             $current_server_id = $current_server->id;
             $current_ip = $current_server->ip_ssh->ip;
-            //dd($ip->server->conn);//Connection throwing error
+
             if (!isset($current_server->conn->type)){
                 ActionLog::make(5, "run", "ping group", "Failed running ping group for {$current_server->id} because no conn type", $current_server->id);
                 continue;
