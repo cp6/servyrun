@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
-import {Button, Modal} from "flowbite-react";
+import {Button, Modal, Dropdown} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
 import {
@@ -19,14 +19,17 @@ import EditButton from "@/Components/EditButton";
 import IndigoButton from "@/Components/IndigoButton";
 import TealButton from "@/Components/TealButton";
 import MonoButton from "@/Components/MonoButton";
+import axios from "axios";
 
-export default function Show({auth, resource, alert_type, alert_message}) {
+export default function Show({auth, resource, servers, alert_type, alert_message}) {
 
     const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
 
     const [hasAlert, setHasAlert] = React.useState(true);
+
+    const [dropDownEnabled, setDropDownEnabled] = React.useState(false);
 
     const deleteItem = () => {
         const requestOptions = {
@@ -42,6 +45,16 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             }
         });
 
+    };
+
+    const doPingFromTo = event => {
+        setDropDownEnabled(false);
+        axios.get(route('run.ping-from-to', [resource.id, event.target.id])).then(response => {
+            window.location.href = route('ping-from-to', [resource.id, event.target.id]);
+        }).catch(err => {
+            console.log('Error running ping');
+        });
+        setDropDownEnabled(true);
     };
 
     return (
@@ -112,6 +125,19 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                     }
                                 })()
                             }
+                            <Dropdown
+                                label="Ping another server"
+                                dismissOnClick={false}
+                                disabled={dropDownEnabled}
+                                className={'dark:bg-gray-500'}
+                                size={'sm'}
+                            >
+
+                                {servers.map(server =>
+                                    <Dropdown.Item key={server.id} className={(dropDownEnabled)? 'hidden' : null}>
+                                        <a onClick={doPingFromTo} id={server.id}>{server.hostname} ({server.title})</a>
+                                    </Dropdown.Item>)}
+                            </Dropdown>
                         </div>
                     </div>
                 </section>
