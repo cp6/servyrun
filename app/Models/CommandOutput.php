@@ -14,7 +14,7 @@ class CommandOutput extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['the_command', 'output', 'send_email', 'is_public', 'seconds_taken', 'is_async'];
+    protected $fillable = ['the_command', 'output', 'send_email', 'is_public', 'seconds_taken', 'is_async', 'connection_id'];
 
     protected static function boot(): void
     {

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->char('server_id', 8);
             $table->char('user_id', 6);
             $table->char('command_id', 8)->default(null)->nullable();
+            $table->char('connection_id', 12)->default(null)->nullable();
             $table->string('the_command');
             $table->text('output');
             $table->boolean('send_email')->default(null)->nullable();
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('command_id')->references('id')->on('commands')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('connection_id')->references('id')->on('connections')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
