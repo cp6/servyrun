@@ -82,7 +82,7 @@ class PingGroupController extends Controller
 
                 $ping_group_assigned = new PingGroupAssigned();
                 $ping_group_assigned->group_id = $group_id;
-                $ping_group_assigned->server_id = Server::where('id', $connection->server_id)->first()->id;
+                $ping_group_assigned->server_id = $connection->server_id;
                 $ping_group_assigned->connection_id = $connection_id;
                 $ping_group_assigned->save();
             } catch (\Exception $exception) {
@@ -99,7 +99,7 @@ class PingGroupController extends Controller
     {
         return Inertia::render('PingGroups/Edit', [
             'resource' => $pingGroup->with(['assigned'])->firstOrFail(),
-            'servers' => Server::get(),
+            'connections' => Connection::has('server')->with('server')->get(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
             'alert_message' => \Session::get('alert_message')
@@ -110,44 +110,47 @@ class PingGroupController extends Controller
     {
         $request->validate([
             'title' => 'string|required|max:64',
-            'server1_id' => 'string|required|size:8',
-            'server2_id' => 'string|required|size:8',
-            'server3_id' => 'string|nullable|size:8',
-            'server4_id' => 'string|nullable|size:8',
-            'server5_id' => 'string|nullable|size:8',
-            'server6_id' => 'string|nullable|size:8',
-            'server7_id' => 'string|nullable|size:8',
-            'server8_id' => 'string|nullable|size:8'
+            'connection1_id' => 'string|required|size:12',
+            'connection2_id' => 'string|required|size:12',
+            'connection3_id' => 'string|nullable|size:12',
+            'connection4_id' => 'string|nullable|size:12',
+            'connection5_id' => 'string|nullable|size:12',
+            'connection6_id' => 'string|nullable|size:12',
+            'connection7_id' => 'string|nullable|size:12',
+            'connection8_id' => 'string|nullable|size:12'
         ]);
 
-        $servers_array = array();
-        $servers_array[] = $request->server1_id;//Required
-        $servers_array[] = $request->server2_id;//Required
-        $servers_array[] = $request->server3_id ?? null;
-        $servers_array[] = $request->server4_id ?? null;
-        $servers_array[] = $request->server5_id ?? null;
-        $servers_array[] = $request->server6_id ?? null;
-        $servers_array[] = $request->server7_id ?? null;
-        $servers_array[] = $request->server8_id ?? null;
+        $connections_array = array();
+        $connections_array[] = $request->connection1_id;//Required
+        $connections_array[] = $request->connection2_id;//Required
+        $connections_array[] = $request->connection3_id ?? null;
+        $connections_array[] = $request->connection4_id ?? null;
+        $connections_array[] = $request->connection5_id ?? null;
+        $connections_array[] = $request->connection6_id ?? null;
+        $connections_array[] = $request->connection7_id ?? null;
+        $connections_array[] = $request->connection8_id ?? null;
 
-        $servers_array = array_filter(array_unique($servers_array));
+        $connections_array = array_filter(array_unique($connections_array));
 
         $group_id = $pingGroup->id;
 
         $pingGroup->update([
             'title' => $request->title,
-            'amount' => count($servers_array)
+            'amount' => count($connections_array)
         ]);
 
         //Delete all assigned
         DB::table('ping_group_assigned')->where('group_id', $group_id)->delete();
 
         //Create assigned
-        foreach ($servers_array as $server_id) {
+        foreach ($connections_array as $connection_id) {
+
+            $connection = Connection::where('id', $connection_id)->first();
 
             $ping_group_assigned = new PingGroupAssigned();
             $ping_group_assigned->group_id = $group_id;
-            $ping_group_assigned->server_id = $server_id;
+            $ping_group_assigned->connection_id = $connection_id;
+            $ping_group_assigned->server_id = $connection->server_id;
             $ping_group_assigned->save();
 
         }
