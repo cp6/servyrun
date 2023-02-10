@@ -19,10 +19,10 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
 
     const user = usePage().props.auth.user;
 
-    const [isChecked, setIsChecked] = useState(false);
+    const [isEmailChecked, setIsEmailChecked] = useState(false);
 
-    const handleChange = event => {
-        setIsChecked(event.target.checked);
+    const handleEmailChange = event => {
+        setIsEmailChecked(event.target.checked);
         data.email = event.target.checked;
     };
 
@@ -50,7 +50,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                 'the_command1': data.the_command1,
                 'command_id': data.command_id || null,
                 'timeout': data.timeout || 10,
-                'email': data.email || null,
+                'email': data.email || false
             })
         });
 
@@ -59,6 +59,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
 
     const submit = (e) => {
         e.preventDefault();
+
         const container = document.getElementById('command_output_div');
 
         const root = ReactDOM.createRoot(container);
@@ -118,7 +119,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                     <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8">
                         <form onSubmit={submit}>
                             <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
-                                <div className="sm:col-span-3 col-span-4">
+                                <div className="sm:col-span-4 col-span-4">
                                     <InputLabel forInput="the_command1" value="Command"/>
                                     <TextInput
                                         name="the_command1"
@@ -163,9 +164,9 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                                     <input
                                         type="checkbox"
                                         name="email"
-                                        value={isChecked ? 1 : 0}
-                                        onChange={handleChange}
-                                        checked={isChecked}
+                                        value={isEmailChecked ? 1 : 0}
+                                        onChange={handleEmailChange}
+                                        checked={isEmailChecked}
                                     />
                                     <InputError message={errors.email} className="mt-2"/>
                                 </div>
