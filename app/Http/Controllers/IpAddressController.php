@@ -120,4 +120,13 @@ class IpAddressController extends Controller
         return redirect(route('ip.index'))->with(['alert_type' => 'success', 'alert_message' => 'IP address deleted successfully']);
     }
 
+    public function geoIpUpdate(IpAddress $ipAddress): \Illuminate\Http\JsonResponse
+    {//Update data from GEO IP API call
+        $this->authorize('view', $ipAddress);
+
+        IpAddress::fetchUpdateIpDetails($ipAddress);
+
+        return response()->json($ipAddress)->header('Content-Type', 'application/json');
+    }
+
 }

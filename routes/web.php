@@ -138,6 +138,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ips/create', [IpAddressController::class, 'create'])->name('ip.create');
     Route::post('/ips', [IpAddressController::class, 'store'])->name('ip.store');
     Route::get('/ips/{ipAddress}', [IpAddressController::class, 'show'])->name('ip.show');
+    Route::get('/ips/{ipAddress}/geo', [IpAddressController::class, 'geoIpUpdate'])->name('ip.geo.update');
     Route::get('/ips/{ipAddress}/edit', [IpAddressController::class, 'edit'])->name('ip.edit');
     Route::patch('/ips/{ipAddress}', [IpAddressController::class, 'update'])->name('ip.update');
     Route::delete('/ips/{ipAddress}', [IpAddressController::class, 'destroy'])->name('ip.destroy');
