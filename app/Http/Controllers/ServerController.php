@@ -47,6 +47,7 @@ class ServerController extends Controller
 
         return Inertia::render('Servers/Show', [
             'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn', 'sftp_conn'])->firstOrFail(),
+            'servers' => Server::has('conn')->whereNot('id', $server->id)->select(['id', 'hostname', 'title'])->get(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
             'alert_message' => \Session::get('alert_message')
