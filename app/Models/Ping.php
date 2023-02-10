@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 
 class Ping extends Model
 {
@@ -109,13 +110,13 @@ class Ping extends Model
         $connection = Server::where('id', $server_from->id)->with(['conn.key', 'conn', 'ip_ssh'])->firstOrFail();
 
         if ($connection->conn->type === 1) {//Stored password
-            $ssh = Connection::makeConnectionPassword($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->password, 12);
+            $ssh = Connection::makeConnectionPassword($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, Crypt::decryptString($connection->conn->password), 20);
         } elseif ($connection->conn->type === 3) { //Key with stored password
-            $ssh = Connection::makeConnectionKey($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, $connection->conn->key->password, 12);
+            $ssh = Connection::makeConnectionKey($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, Crypt::decryptString($connection->conn->key->password), 20);
         } elseif ($connection->conn->type === 5) { //Key NO stored password
-            $ssh = Connection::makeConnectionKey($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, null, 12);
+            $ssh = Connection::makeConnectionKey($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, null, 20);
         } else {        //Cannot run because connection not of valid type
-            ActionLog::make(5, 'Failed running ping because conn type invalid for ' . $connection->id);
+            ActionLog::make(5, 'run','ping', 'Failed running ping from to because conn type invalid for ' . $server_from->id);
             return null;
         }
 
