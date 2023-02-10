@@ -58,7 +58,7 @@ class PingGroup extends Model
             $current_ip = $current_server->ip_ssh->ip;
             //dd($ip->server->conn);//Connection throwing error
             if (!isset($current_server->conn->type)){
-                ActionLog::make(5, "Failed running ping group for {$current_server->id} because no conn type");
+                ActionLog::make(5, "run", "ping group", "Failed running ping group for {$current_server->id} because no conn type", $current_server->id);
                 continue;
             }
             $current_connection_type = $current_server->conn->type;
