@@ -11,11 +11,13 @@ return new class extends Migration {
             $table->id();
             $table->char('group_id', 8);
             $table->char('server_id', 8);
+            $table->char('connection_id', 12);
             $table->char('user_id', 6);
             $table->timestamps();
             $table->unique(['group_id', 'server_id']);
             $table->foreign('group_id')->references('id')->on('ping_groups')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('connection_id')->references('id')->on('connections')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

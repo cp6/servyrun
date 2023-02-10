@@ -25,6 +25,7 @@ class Command extends Model
     protected static function booted(): void
     {
         static::creating(function ($command) {
+            $command->id = \Str::random(8);
             $command->user_id = \Auth::id();
         });
 

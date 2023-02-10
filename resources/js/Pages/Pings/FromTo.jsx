@@ -56,7 +56,7 @@ export default function Index({auth, pings, minPing, maxPing, avgPing, alert_typ
                         </h2>
                     </div>
                     <div className={'col md:col-span-1 col-span-2 md:text-end'}>
-                        <h2 className={'font-medium text-gray-900 dark:text-gray-300'}>Average: <b>{avgPing}</b> Lowest: <b>{minPing}</b> Highest: <b>{maxPing}</b>
+                        <h2 className={'font-medium text-gray-900 dark:text-gray-300'}>Average: <b>{new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 6}).format(avgPing)}</b> Lowest: <b>{minPing}</b> Highest: <b>{maxPing}</b>
                         </h2>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ return new class extends Migration
             $table->char('user_id', 6);
             $table->string('title',32)->default(null)->nullable();
             $table->string('command');
-            $table->boolean('is_async')->default(0);
+            $table->boolean('is_async')->default(null)->nullable();
             $table->dateTime('last_used')->default(null)->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

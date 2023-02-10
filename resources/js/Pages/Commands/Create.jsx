@@ -3,10 +3,8 @@ import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import {Button} from "flowbite-react";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
-import {HiOutlineArrowLeft} from "react-icons/hi";
 import BackButton from "@/Components/BackButton";
 
 export default function Create({auth}) {
@@ -22,6 +20,7 @@ export default function Create({auth}) {
         e.preventDefault();
 
         post(route('command.store'));
+
         navigate(route('command.index'));
     };
 
