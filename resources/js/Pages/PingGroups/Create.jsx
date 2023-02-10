@@ -9,7 +9,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import BackButton from "@/Components/BackButton";
 import ResponseAlert from "@/Components/Alert";
 
-export default function Create({auth, connections, servers, keys, alert_type, alert_message}) {
+export default function Create({auth, connections, alert_type, alert_message}) {
 
     const [hasAlert, setHasAlert] = React.useState(true);
 
@@ -69,9 +69,9 @@ export default function Create({auth, connections, servers, keys, alert_type, al
                             </div>
                             <div className="sm:col-span-2 col-span-6">
                                 <div className="mb-2 block">
-                                    <InputLabel forInput="server1_id" value="Server 1"/>
+                                    <InputLabel forInput="connection1_id" value="Server 1"/>
                                 </div>
-                                <Select onChange={(e) => setData('server1_id', e.target.value)}
+                                <Select onChange={(e) => setData('connection1_id', e.target.value)}
                                         name="connection1_id"
                                         required={true}
                                         value={data.connection1_id}
