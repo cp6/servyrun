@@ -29,6 +29,46 @@ The full features of Surcuri as of February 2023:
 - View files through SFTP.
 - Edit (smaller) files.
 
+# Contents
+
+1. [ Servers ](#server)
+2. [ Connections ](#connection)
+3. [ Keys ](#key)
+4. [ SFTP ](#stp)
+5. [ Databases ](#database)
+6. [ IP addresses ](#ip)
+7. [ Pings ](#pings)
+8. [ Ping groups ](#pinggroups)
+9. [ Commands ](#commands)
+10. [ Command groups ](#commandgroups)
+11. [ Logs ](#logs)
+12. [ MySQLdump ](#mysqldump)
+13. [ API ](#api)
+
+<a name="server"></a>
+
+## Servers
+
+comment
+
+<a name="connection"></a>
+
+## Connections
+
+comment
+
+<a name="key"></a>
+
+## Keys
+
+comment
+
+<a name="sftp"></a>
+
+## SFTP
+
+comment
+
 ## License
 
 Surcuri is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
