@@ -12,16 +12,46 @@ export default function ServerCardSpecs({resource}) {
                 <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{resource.cpu_freq ?? '-'}</dd>
             </div>
             <div>
-                <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Disk
-                    GB
-                </dt>
-                <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{resource.disk_gb ?? '-'}</dd>
+                {
+                    (() => {
+                        if (resource.disk_tb !== null) {
+                            return (
+                                <>
+                                    <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Disk TB</dt>
+                                    <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.disk_tb)}</dd>
+                                </>
+                            )
+                        } else {
+                            return (
+                                <>
+                                    <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Disk GB</dt>
+                                    <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{(resource.disk_gb === null) ? '-' : new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.disk_gb)}</dd>
+                                </>
+                            )
+                        }
+                    })()
+                }
             </div>
             <div>
-                <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">RAM
-                    MB
-                </dt>
-                <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{(resource.ram_mb === null) ? '-' : new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.ram_mb)}</dd>
+                {
+                    (() => {
+                        if (resource.ram_gb !== null) {
+                            return (
+                                <>
+                                    <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">RAM GB</dt>
+                                    <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.ram_gb)}</dd>
+                                </>
+                            )
+                        } else {
+                            return (
+                                <>
+                                    <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">RAM MB</dt>
+                                    <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{(resource.ram_mb === null) ? '-' : new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.ram_mb)}</dd>
+                                </>
+                            )
+                        }
+                    })()
+                }
             </div>
         </dl>
     );
