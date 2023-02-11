@@ -7,8 +7,12 @@ import {Select} from "flowbite-react";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import BackButton from "@/Components/BackButton";
+import ResponseAlert from "@/Components/Alert";
+import UpdateButton from "@/Components/UpdateButton";
 
-export default function Edit({auth, connections, resource, commands}) {
+export default function Edit({auth, connections, resource, commands, alert_type, alert_message}) {
+
+    const [hasAlert, setHasAlert] = React.useState(true);
 
     const {data, setData, patch, processing, errors} = useForm({
         connection1_id: (typeof resource.assigned[0] !== 'undefined') ? resource.assigned[0].connection_id : null,
@@ -44,8 +48,11 @@ export default function Edit({auth, connections, resource, commands}) {
             <Head title="Edit command group"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <BackButton href={route('command-group.index')}>Back to command groups</BackButton>
+                    <BackButton href={route('command-group.show', resource.id)}>Back to command group</BackButton>
                 </div>
+                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
+                               alert_message={alert_message}></ResponseAlert>
+                <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                 <form onSubmit={submit}>
                     <div className="grid gap-2 grid-cols-1 sm:grid-cols-6">
                         <div className="col-span-2 mb-3">
@@ -258,12 +265,9 @@ export default function Edit({auth, connections, resource, commands}) {
                             </Select>
                         </div>
                     </div>
-                    <PrimaryButton
-                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                        processing={processing}>
-                        Edit group
-                    </PrimaryButton>
+                    <UpdateButton processing={processing}>Update command group</UpdateButton>
                 </form>
+                </section>
             </div>
         </AuthenticatedLayout>
     );

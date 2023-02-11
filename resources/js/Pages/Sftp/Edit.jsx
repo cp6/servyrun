@@ -16,7 +16,7 @@ export default function Edit({auth, servers, keys, ip, resource, alert_type, ale
     const {data, setData, patch, processing, errors} = useForm({
         server_id: resource.server_id,
         username: resource.username,
-        ssh_port: resource.ssh_port,
+        ssh_port: resource.port,
         key_id: resource.key_id,
         password: '',
     });

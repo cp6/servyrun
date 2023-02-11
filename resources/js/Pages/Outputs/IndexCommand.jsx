@@ -18,7 +18,7 @@ export default function IndexCommand({auth, command, outputs}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                 </div>
                 <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
-                    <section className="p-2 shadow-md dark:shadow-md bg-white/50 dark:bg-transparent dark:shadow rounded-lg dark:border dark:border-gray-700">
+                    <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                     <Grid
                         data={outputs}
                         columns={[

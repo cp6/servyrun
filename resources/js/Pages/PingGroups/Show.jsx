@@ -6,22 +6,16 @@ import {Grid} from "gridjs-react";
 import ResponseAlert from "@/Components/Alert";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
-import {HiOutlineArrowLeft, HiPlay, HiTrash} from "react-icons/hi";
-import IndigoButton from "@/Components/IndigoButton";
-import DeleteButton from "@/Components/DeleteButton";
-import EmeraldButton from "@/Components/EmeraldButton";
-import EditButton from "@/Components/EditButton";
+import {HiPencil, HiPlay, HiTrash} from "react-icons/hi";
+import BackButton from "@/Components/BackButton";
 
 export default function Show({auth, pingGroup, pings, hasAlert, alert_type, alert_message}) {
-
-    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
 
     const {post} = useForm({});
 
     const submit = (e) => {
-        setButtonDisabled(true);
         e.preventDefault();
         post(route('ping-group.run2', pingGroup.id));
     };
@@ -51,17 +45,27 @@ export default function Show({auth, pingGroup, pings, hasAlert, alert_type, aler
             <Head title={'Ping group ' + pingGroup.title}/>
                 <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                     <div className="flex flex-wrap gap-2 mb-2">
-                        <IndigoButton href={route('ping.index')}><HiOutlineArrowLeft className="mr-2 h-5 w-5" />All pings</IndigoButton>
-                        <form onSubmit={submit}>
-                            <EmeraldButton onClick={submit} disabled={buttonDisabled}><HiPlay className="mr-2 h-5 w-5" />Run this ping group</EmeraldButton>
-                        </form>
-                        <DeleteButton onClick={() => setShowModal(true)}>Delete group</DeleteButton>
-                        <EditButton href={route('ping-group.edit', pingGroup.id)}>Edit group</EditButton>
+                        <BackButton href={route('ping.index')}>All pings</BackButton>
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>
                     <div className="px-1 mx-auto max-w-7xl">
-                        <section className="p-2 shadow-md dark:shadow-md bg-white/50 dark:bg-transparent dark:shadow rounded-lg dark:border dark:border-gray-700">
+                        <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
+                            <div className="flex items-center justify-between mb-2 px-2">
+                                <div></div>
+                                <small className="text-end">
+                                    <HiTrash
+                                        className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                        onClick={() => setShowModal(true)} title={'Delete ping group'}/>
+                                    <HiPencil
+                                        className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                        onClick={event => window.location.href = route('ping-group.edit', pingGroup.id)}
+                                        title={'Edit ping group'}/>
+                                    <HiPlay
+                                        className="md:ml-3 ml-1 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                        onClick={submit} title={'Run ping group'}/>
+                                </small>
+                            </div>
                         {
                             pings.length === 0
                                 ?

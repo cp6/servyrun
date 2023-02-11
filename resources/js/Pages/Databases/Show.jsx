@@ -3,12 +3,9 @@ import {Head} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiLightningBolt} from "react-icons/hi";
+import {HiLightningBolt, HiTrash} from "react-icons/hi";
 import {HiMagnifyingGlass} from "react-icons/all";
 import BackButton from "@/Components/BackButton";
-import DeleteButton from "@/Components/DeleteButton";
-import TealButton from "@/Components/TealButton";
-import IndigoButton from "@/Components/IndigoButton";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
 
@@ -54,15 +51,26 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
-                    <div className="py-4 px-2 md:px-6 max-w-4xl md:py-8">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <div className="py-6 px-2 mx-auto max-w-6xl lg:py-8">
+                        <div className="flex items-center justify-between">
+                            <div></div>
+                            <small className="text-end">
+                                <HiTrash
+                                    className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={() => setShowModal(true)} title={'Delete database'}/>
+                                <HiMagnifyingGlass
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('db.show.tables', resource.id)}
+                                    title={'View tables'}/>
+                                <HiLightningBolt
+                                    className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('db.connection.show', resource.db_connection_id)}
+                                    title={'View connection'}/>
+                            </small>
+                        </div>
                         <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name}</h2>
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.conn.host} ({resource.conn.title})</p>
-                        <div className="flex space-x-1 md:space-x-4">
-                            <DeleteButton onClick={() => setShowModal(true)}>Delete Database</DeleteButton>
-                            <TealButton href={route('db.show.tables', resource.id)}><HiMagnifyingGlass className="mr-2 h-5 w-5" />View tables</TealButton>
-                            <IndigoButton href={route('db.connection.show', resource.db_connection_id)}><HiLightningBolt className="mr-2 h-5 w-5" />View connection</IndigoButton>
-                        </div>
                     </div>
                 </section>
             </div>

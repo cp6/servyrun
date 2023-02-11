@@ -3,12 +3,9 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiRefresh, HiCalculator} from "react-icons/hi";
+import {HiRefresh, HiCalculator, HiTrash} from "react-icons/hi";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
-import DeleteButton from "@/Components/DeleteButton";
-import TealButton from "@/Components/TealButton";
-import IndigoButton from "@/Components/IndigoButton";
 
 export default function Show({auth, resource, tables, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
@@ -76,15 +73,27 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('db.show', resource.id)}>Back to Database</BackButton>
-                    <DeleteButton onClick={() => setShowModal(true)}>Delete Table</DeleteButton>
-                    <TealButton onClick={refreshTables} disabled={buttonsDisabled}><HiRefresh className="mr-2 h-5 w-5" />Refresh tables</TealButton>
-                    <IndigoButton onClick={getSize} disabled={buttonsDisabled}><HiCalculator className="mr-2 h-5 w-5" />Get size and row counts</IndigoButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
-                    <div className="py-4 px-2 md:px-6 max-w-4xl md:py-8">
-                        <h2 className="mt-1 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name} ({resource.conn.host})</h2>
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <div className="py-6 px-2 mx-auto max-w-6xl lg:py-8">
+                        <div className="flex items-center justify-between">
+                            <div><h2 className="mt-1 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name} ({resource.conn.host})</h2></div>
+                            <small className="text-end">
+                                <HiTrash
+                                    className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={() => setShowModal(true)} title={'Delete table'}/>
+                                <HiRefresh
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={refreshTables}
+                                    title={'Refresh tables'}/>
+                                <HiCalculator
+                                    className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={getSize}
+                                    title={'Get size and row counts'}/>
+                            </small>
+                        </div>
                         <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Tables</h2>
 
                         {tables.length > 0 ?

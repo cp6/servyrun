@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
 import {
     HiFolderOpen,
-    HiLightningBolt
+    HiLightningBolt, HiPencil, HiTrash
 } from 'react-icons/hi';
 import ServerCardSpecs from "@/Components/ServerCardSpecs";
 import ServerCardConnection from "@/Components/ServerCardConnection";
@@ -13,11 +13,7 @@ import CreatedAtText from "@/Components/CreatedAtText";
 import UpdatedAtText from "@/Components/UpdatedAtText";
 import ServerCardDetails from "@/Components/ServerCardDetails";
 import ServerStatusButton from "@/Components/ServerStatusButton";
-import DeleteButton from "@/Components/DeleteButton";
 import BackButton from "@/Components/BackButton";
-import EditButton from "@/Components/EditButton";
-import IndigoButton from "@/Components/IndigoButton";
-import TealButton from "@/Components/TealButton";
 import MonoButton from "@/Components/MonoButton";
 import axios from "axios";
 
@@ -68,15 +64,53 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-700 rounded-l">
-                    <div className="py-6 px-4 mx-auto max-w-6xl lg:py-10">
-                        {resource.operating_system !== null ?
-                            <span
-                                className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{resource.operating_system}</span>
-                            : null
-                        }
-                        <span
-                            className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.type.name}</span>
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8">
+                        <div className="flex items-center justify-between mb-4">
+                            <div>
+                                {resource.operating_system !== null ?
+                                    <span
+                                        className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{resource.operating_system}</span>
+                                    : null
+                                }
+                                <span
+                                    className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4">{resource.type.name}</span>
+                            </div>
+                            <small className="text-end">
+                                <HiTrash
+                                    className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={() => setShowModal(true)} title={'Delete server'}/>
+                                <HiPencil
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('server.edit', resource.id)}
+                                    title={'Edit server'}/>
+                                {
+                                    (() => {
+                                        if ((typeof (resource.conn) != "undefined" && resource.conn !== null)) {
+                                            return (
+                                                <HiLightningBolt
+                                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                                    onClick={event => window.location.href = route('connection.show', resource.conn.id)}
+                                                    title={'Go to connection'}/>
+                                            )
+                                        }
+                                    })()
+                                }
+                                {
+                                    (() => {
+                                        if ((typeof (resource.sftp_conn) != "undefined" && resource.sftp_conn !== null)) {
+                                            return (
+                                                <HiFolderOpen
+                                                    className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                                    onClick={event => window.location.href = route('sftp.show', resource.sftp_conn.id)}
+                                                    title={'Go to SFTP connection'}/>
+                                            )
+                                        }
+                                    })()
+                                }
+                                <ServerStatusButton resource={resource}></ServerStatusButton>
+                            </small>
+                        </div>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'md:col-span-1 col-span-2'}>
                                 <ServerCardDetails resource={resource}></ServerCardDetails>
@@ -84,35 +118,19 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                             <div className={'md:col-span-1 col-span-2'}>
                                 <ServerCardSpecs resource={resource}></ServerCardSpecs>
                                 <ServerCardConnection connection={resource.conn}></ServerCardConnection>
+                            </div>
+                        </div>
+                        <div className={'grid md:grid-cols-2 grid-cols-1'}>
+                            <div className={'col-span-1'}>
                                 <CreatedAtText created_at={resource.created_at}
                                                string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
+                            </div>
+                            <div className={'col-span-1'}>
                                 <UpdatedAtText updated_at={resource.updated_at}
                                                string_format={'hh:mm:ssa do LLL yyyy'}></UpdatedAtText>
                             </div>
                         </div>
                         <div className="flex items-center space-x-4 mt-2">
-                            {
-                                (() => {
-                                    if (typeof (resource.conn) != "undefined" && resource.conn !== null) {
-                                        return (
-                                            <IndigoButton href={route('connection.show', resource.conn.id)}>
-                                                <HiLightningBolt className="mr-2 h-5 w-5"/>
-                                                Connect</IndigoButton>)
-                                    }
-                                })()
-                            }
-                            {
-                                (() => {
-                                    if (typeof (resource.sftp_conn) != "undefined" && resource.sftp_conn !== null) {
-                                        return (<TealButton href={route('sftp.show', resource.sftp_conn.id)}>
-                                            <HiFolderOpen className="mr-2 h-5 w-5"/>
-                                            SFTP Connect</TealButton>)
-                                    }
-                                })()
-                            }
-                            <EditButton href={route('server.edit', resource.id)}>Edit server</EditButton>
-                            <DeleteButton onClick={() => setShowModal(true)}>Delete server</DeleteButton>
-                            <ServerStatusButton resource={resource}></ServerStatusButton>
                             {
                                 (() => {
                                     if ((typeof (resource.conn) != "undefined" && resource.conn !== null) && (typeof (resource.cpu_freq) === "undefined" || resource.cpu_freq === null)) {
@@ -132,7 +150,7 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                             >
 
                                 {servers.map(server =>
-                                    <Dropdown.Item key={server.id} className={(dropDownEnabled)? 'hidden' : null}>
+                                    <Dropdown.Item key={server.id} className={(dropDownEnabled) ? 'hidden' : null}>
                                         <a onClick={doPingFromTo} id={server.id}>{server.hostname} ({server.title})</a>
                                     </Dropdown.Item>)}
                             </Dropdown>

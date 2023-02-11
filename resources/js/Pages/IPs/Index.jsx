@@ -21,7 +21,7 @@ export default function Index({auth, ips, hasAlert, alert_type, alert_message}) 
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>
-                    <section className="p-2 shadow-md dark:shadow-md bg-white/50 dark:bg-transparent dark:shadow rounded-lg dark:border dark:border-gray-700">
+                    <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                     <Grid
                         data={ips}
                         columns={[
@@ -40,6 +40,11 @@ export default function Index({auth, ips, hasAlert, alert_type, alert_message}) 
                                 name: "Server",
                                 sort: true,
                                 data: (row) => (row.server_id) ? html(`<a href='${route('server.show', row.server_id)}'>${row.server.hostname}</a>`) : null,
+                            },
+                            {
+                                id: "id",
+                                name: "View",
+                                data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('ip.show', row.id)}'>View</a>`),
                             },
                             {
                                 id: "id",

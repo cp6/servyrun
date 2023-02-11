@@ -28,7 +28,7 @@ export default function Index({auth, databases, alert_type, alert_message}) {
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
                     {databases.length > 0 ?
                         databases.map(databases =>
-                            <Card key={databases.id} href={route('db.show', databases.id)}>
+                            <Card key={databases.id} href={route('db.show', databases.id)} className={'dark:bg-gray-700 hover:dark:bg-gray-900'}>
                                 <div className="flex justify-end px-1">
                                 <span
                                     className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{databases.conn.type === 1 ? 'MySQL' : 'Other'}</span>

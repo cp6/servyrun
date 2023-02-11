@@ -5,18 +5,14 @@ import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
 import CreatedAtText from "@/Components/CreatedAtText";
 import BackButton from "@/Components/BackButton";
-import DeleteButton from "@/Components/DeleteButton";
-import EditButton from "@/Components/EditButton";
-import {HiPlay} from "react-icons/hi";
+import {HiPencil, HiPlay, HiTrash} from "react-icons/hi";
 import axios from "axios";
-import EmeraldButton from "@/Components/EmeraldButton";
+import UpdatedAtText from "@/Components/UpdatedAtText";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
-
-    const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
     const [hasAlert, setHasAlert] = React.useState(true);
 
@@ -37,13 +33,11 @@ export default function Show({auth, resource, alert_type, alert_message}) {
     };
 
     const runGroup = () => {
-        setButtonsDisabled(true);
 
         axios.get(route('command-group.run', resource.id)).then(response => {
-            setButtonsDisabled(false);
+
         }).catch(err => {
             console.log('Error running this command group');
-            setButtonsDisabled(false);
         });
 
     };
@@ -57,25 +51,32 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('command-group.index')}>Back to command groups</BackButton>
-                    <EditButton href={route('command-group.edit', resource.id)}>Edit/Add servers</EditButton>
-                    <EmeraldButton onClick={runGroup} disabled={buttonsDisabled}><HiPlay
-                        className="mr-2 h-5 w-5"/>Run</EmeraldButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
-                    <div className="py-4 px-2 md:px-6 max-w-6xl md:py-8 grid grid-cols-2">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <div className="py-6 px-2 mx-auto max-w-6xl lg:py-8">
+                        <div className="flex items-center justify-between mb-2">
+                                <h2 className="mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.title}</h2>
+                            <small className="text-end">
+                                <HiTrash
+                                    className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={() => setShowModal(true)} title={'Delete command group'}/>
+                                <HiPencil
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('command-group.edit', resource.id)}
+                                    title={'Edit command group'}/>
+                                <HiPlay
+                                    className="md:ml-3 ml-1 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={runGroup} title={'Run command group'}/>
+                            </small>
+                        </div>
+                        <div className={'grid grid-cols-2'}>
                         <div className={'md:col-span-1 col-span-2'}>
-                            <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.title}</h2>
                             <code
-                                className={'text-red-500 bg-gray-300 dark:bg-black p-1 rounded-md'}>{resource.the_command.command}</code>
+                                className={'text-red-500 bg-gray-300 dark:bg-black p-1 rounded-md my-2'}>{resource.the_command.command}</code>
                             {(resource.email_output) ? <p className="my-2 text-md text-gray-900 dark:text-white">Emails
                                 to {user.email}</p> : null}
-                            <CreatedAtText created_at={resource.created_at}
-                                           string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
-                            <div className="flex items-center space-x-4">
-                                <DeleteButton onClick={() => setShowModal(true)}>Delete command group</DeleteButton>
-                            </div>
                         </div>
                         <div className={'md:col-span-1 col-span-2'}>
                             {
@@ -84,7 +85,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                         return (
                                             <div className="mt-2">
                                                 <h2 className={'text-md font-bold mb-2 text-gray-800 md:text-lg dark:text-gray-200'}>Servers in group</h2>
-                                                <ul class="list-disc">
+                                                <ul className="list-disc">
                                                     {resource.assigned.map(server =>
                                                         <li key={server.server.id} className={'text-gray-800 dark:text-gray-300'}><a
                                                             href={route('server.show', server.server.id)}>{server.server.hostname} ({server.server.title})</a>
@@ -102,6 +103,17 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                             }
                         </div>
                         </div>
+                        <div className={'grid md:grid-cols-2 grid-cols-1'}>
+                            <div className={'col-span-1'}>
+                                <CreatedAtText created_at={resource.created_at}
+                                               string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
+                            </div>
+                            <div className={'col-span-1'}>
+                                <UpdatedAtText updated_at={resource.updated_at}
+                                               string_format={'hh:mm:ssa do LLL yyyy'}></UpdatedAtText>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
 

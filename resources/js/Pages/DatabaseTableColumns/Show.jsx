@@ -2,23 +2,17 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiDownload, HiRefresh} from "react-icons/hi";
+import {HiDownload, HiRefresh, HiTrash} from "react-icons/hi";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
-import OrangeButton from "@/Components/OrangeButton";
-import TealButton from "@/Components/TealButton";
-
 export default function Show({auth, resource, database, table, columns, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
 
-    const [buttonsDisabled, setButtonsDisabled] = useState(false);
-
     const [hasAlert, setHasAlert] = React.useState(true);
 
     const refreshColumns = () => {
-        setButtonsDisabled(true);
 
         const config = {
             headers: {Authorization: `Bearer ${user.api_token}`}
@@ -28,7 +22,6 @@ export default function Show({auth, resource, database, table, columns, alert_ty
             window.location.reload();
         }).catch(err => {
             console.log('Error refreshing columns');
-            setButtonsDisabled(false);
         });
 
     };
@@ -42,15 +35,28 @@ export default function Show({auth, resource, database, table, columns, alert_ty
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('db.show.tables', database.id)}>Back to database tables</BackButton>
-                    <TealButton onClick={refreshColumns} disabled={buttonsDisabled}><HiRefresh className="mr-2 h-5 w-5" />Refresh columns</TealButton>
-                    <OrangeButton href={route('db.table.columns.download', [database.id, table.id])}><HiDownload className="mr-2 h-5 w-5"/>Download as JSON</OrangeButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-900 rounded-lg shadow-sm">
-                    <div className="py-4 px-2 md:px-6 max-w-4xl md:py-8">
-                        <h2 className="mt-1 mb-3 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">
-                            {database.name}, {table.name} table columns</h2>
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <div className="py-6 px-2 mx-auto max-w-6xl lg:py-8">
+                        <div className="flex items-center justify-between">
+                            <div><h2 className="mt-1 mb-3 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">
+                                {database.name}, {table.name} table columns</h2></div>
+                            <small className="text-end">
+                                <HiTrash
+                                    className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={() => setShowModal(true)} title={'Delete columns'}/>
+                                <HiRefresh
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={refreshColumns}
+                                    title={'Refresh columns'}/>
+                                <HiDownload
+                                    className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href =route('db.table.columns.download', [database.id, table.id])}
+                                    title={'Download as JSON'}/>
+                            </small>
+                        </div>
                         <ul className="max-w-3xl space-y-1 text-gray-500 list-none list-inside dark:text-gray-400">
                             {columns.map(columns =>
                                 <li key={columns.id}>

@@ -60,9 +60,7 @@ export default function Index({auth, pings, minPing, maxPing, avgPing, alert_typ
                         </h2>
                     </div>
                 </div>
-                <section
-                    className="p-2 shadow-md dark:shadow-md bg-white/50 dark:bg-transparent dark:shadow rounded-lg dark:border dark:border-gray-700">
-
+                <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                     {
                         pings.length === 0
                             ?

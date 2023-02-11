@@ -16,8 +16,7 @@ export default function Index({auth, logs}) {
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'Action logs'}</h2>}>
             <Head title={'Action logs'}/>
             <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
-                <section
-                    className="p-2 shadow-md dark:shadow-md bg-white/50 dark:bg-transparent dark:shadow rounded-lg dark:border dark:border-gray-700">
+                <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                     {
                         logs.length === 0
                             ?

@@ -111,7 +111,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-700 rounded-l">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>Read a file</h1>
                     <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8">
                         <form onSubmit={submit}>
@@ -137,7 +137,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                         </form>
                     </div>
                 </section>
-                <section className="bg-white/50 dark:bg-gray-700 rounded-l mt-2 py-2">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg mt-2 py-2">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>File contents</h1>
                     {filePath !== null ?
                         <p className='text-md text-gray-700 dark:text-gray-300 pl-4 pt-2'>{filePath}</p> : null}

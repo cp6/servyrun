@@ -1,15 +1,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import ResponseAlert from "@/Components/Alert";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
-import {HiPlay, HiUserGroup} from "react-icons/hi";
+import {HiUserGroup} from "react-icons/hi";
 import {format} from "date-fns";
 import AddButton from "@/Components/AddButton";
-import EmeraldButton from "@/Components/EmeraldButton";
-import IndigoButton from "@/Components/IndigoButton";
+import {HiListBullet} from "react-icons/all";
 
 export default function Index({auth, commands, alert_type, alert_message}) {
 
@@ -24,12 +23,23 @@ export default function Index({auth, commands, alert_type, alert_message}) {
                 <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                     <div className="flex flex-wrap gap-2 mb-4">
                         <AddButton href={route('command.create')}>Add command</AddButton>
-                        <EmeraldButton href={route('outputs.index')}><HiPlay className="mr-2 h-5 w-5" />  Command outputs</EmeraldButton>
-                        <IndigoButton href={route('command-group.index')}><HiUserGroup className="mr-2 h-5 w-5" />  Command groups</IndigoButton>
                     </div>
                     <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                    alert_message={alert_message}></ResponseAlert>
-                    <section className="p-2 shadow-md dark:shadow-md bg-white/50 dark:bg-transparent dark:shadow rounded-lg dark:border dark:border-gray-700">
+                    <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
+                        <div className="flex items-center justify-between mb-2 px-3">
+                            <div></div>
+                            <small className="text-end">
+                                <HiListBullet
+                                    className="mr-2 md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('outputs.index')}
+                                    title={'Command outputs'}/>
+                                <HiUserGroup
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('command-group.index')}
+                                    title={'Command groups'}/>
+                            </small>
+                        </div>
                     {
                         commands.length === 0
                             ?

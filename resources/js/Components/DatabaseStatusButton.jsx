@@ -2,15 +2,15 @@ import {HiLightBulb} from "react-icons/hi";
 import React, {useState} from "react";
 import axios from "axios";
 
-export default function ServerStatusButton({resource}) {
+export default function DatabaseStatusButton({resource}) {
 
     const [isUp, setIsUp] = useState(null);
 
-    const [title, setTitle] = useState('Check if server is up');
+    const [title, setTitle] = useState('Check if can connect');
 
     const handleClick = () => {
-        axios.get(route('check-is-up', resource.id)).then(response => {
-            setIsUp(response.data.is_up);
+        axios.get(route('db.connection.connect', resource.id)).then(response => {
+            setIsUp(response.data.result);
         }).catch(err => {
             setIsUp(!isUp);
         });

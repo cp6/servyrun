@@ -29,7 +29,7 @@ export default function Index({auth, connections, alert_type, alert_message}) {
 
                     { connections.length > 0 ?
                         connections.map(connections =>
-                            <Card key={connections.id} href={route('db.connection.show', connections.id)}>
+                            <Card key={connections.id} href={route('db.connection.show', connections.id)} className={'dark:bg-gray-700 hover:dark:bg-gray-900'}>
                                 <div className="flex justify-end px-1">
                                 <span
                                     className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{connections.type === 1? 'MySQL' : 'Other'}</span>

@@ -9,12 +9,8 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import ReactDOM from "react-dom/client";
 import Output from "@/Components/Output";
 import ResponseAlert from "@/Components/Alert";
-import {HiBookOpen} from "react-icons/hi";
-import {HiCpuChip} from "react-icons/all";
+import {HiBookOpen, HiPencil, HiServer, HiTrash} from "react-icons/hi";
 import BackButton from "@/Components/BackButton";
-import DeleteButton from "@/Components/DeleteButton";
-import EmeraldButton from "@/Components/EmeraldButton";
-import TealButton from "@/Components/TealButton";
 
 export default function Show({auth, resource, ip, alert_type, alert_message}) {
 
@@ -97,15 +93,25 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.index')}>Back to SFTP connections</BackButton>
-                    <TealButton href={route('sftp.read', resource.id)}><HiBookOpen className="mr-2 h-5 w-5"/>Read file</TealButton>
-                    <DeleteButton onClick={() => setShowModal(true)}>Delete connection</DeleteButton>
-                    <EmeraldButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</EmeraldButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-700 rounded-l">
-                    <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>Run SFTP command</h1>
-                    <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <div className="py-6 px-4 mx-auto max-w-7xl">
+                        <div className="flex items-center justify-between mb-4">
+                            <h1 className='text-2xl font-bold text-gray-800 dark:text-white'>Run SFTP command</h1>
+                            <small className="text-end">
+                                <HiTrash
+                                    className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={() => setShowModal(true)} title={'Delete SFTP connection'}/>
+                                <HiPencil className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                          onClick={event => window.location.href = route('sftp.edit', resource.id)} title={'Edit SFTP connection'}/>
+                                <HiBookOpen className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                          onClick={event => window.location.href = route('sftp.read', resource.id)} title={'Read a file'}/>
+                                <HiServer className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                          onClick={event => window.location.href = route('server.show', resource.server.id)} title={'Go to server'}/>
+                            </small>
+                        </div>
                         <form onSubmit={submit}>
                             <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
                                 <div className="col-span-4">
@@ -198,7 +204,7 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                         </div>
                     </div>
                 </section>
-                <section className="bg-white/50 dark:bg-gray-700 rounded-l mt-4">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg mt-4">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>SFTP Command output</h1>
                     <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8" id="command_output_div">
                         <span className="text-gray-400 dark:text-gray-500">Nothing run yet</span>

@@ -9,11 +9,8 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import ReactDOM from "react-dom/client";
 import Output from "@/Components/Output";
 import ResponseAlert from "@/Components/Alert";
-import {HiCpuChip} from "react-icons/all";
 import BackButton from "@/Components/BackButton";
-import DeleteButton from "@/Components/DeleteButton";
-import EditButton from "@/Components/EditButton";
-import EmeraldButton from "@/Components/EmeraldButton";
+import {HiPencil, HiServer, HiTrash} from "react-icons/hi";
 
 export default function Show({auth, resource, ip, method, commands, alert_type, alert_message}) {
 
@@ -106,15 +103,23 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('connection.index')}>Back to connections</BackButton>
-                    <DeleteButton onClick={() => setShowModal(true)}>Delete connection</DeleteButton>
-                    <EmeraldButton href={route('server.show', resource.server.id)}><HiCpuChip className="mr-2 h-5 w-5"/>Server</EmeraldButton>
-                    <EditButton href={route('connection.edit', resource.id)}>Edit</EditButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
-                <section className="bg-white/50 dark:bg-gray-700 rounded-l">
-                    <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>Run command</h1>
-                    <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <div className="py-4 px-4 mx-auto max-w-7xl">
+                        <div className="flex items-center justify-between mb-4">
+                            <h1 className='text-2xl font-bold text-gray-800 dark:text-white'>Run command</h1>
+                            <small className="text-end">
+                                <HiTrash
+                                    className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={() => setShowModal(true)} title={'Delete connection'}/>
+                                <HiPencil className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                          onClick={event => window.location.href = route('connection.edit', resource.id)} title={'Edit connection'}/>
+                                <HiServer className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                          onClick={event => window.location.href = route('server.show', resource.server.id)} title={'Go to server'}/>
+                            </small>
+                        </div>
                         <form onSubmit={submit}>
                             <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
                                 <div className="sm:col-span-4 col-span-4">
@@ -177,7 +182,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                         </form>
                     </div>
                 </section>
-                <section className="bg-white/50 dark:bg-gray-700 rounded-l mt-4">
+                <section className="bg-white/50 dark:bg-gray-700 rounded-lg mt-4">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>Command output</h1>
                     <p className='pl-4 text-gray-700 dark:text-gray-300'><a
                         href={route('outputs.show.server', resource.server.id)}>View all</a>
