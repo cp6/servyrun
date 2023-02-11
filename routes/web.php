@@ -119,6 +119,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/outputs/command/{command}', [CommandOutputController::class, 'showCommand'])->name('outputs.show.command');
 
     Route::get('/logs', [ActionLogController::class, 'index'])->name('log.index');
+    Route::get('/logs/{actionLog}', [ActionLogController::class, 'show'])->name('log.show');
 
     Route::get('/pings', [PingController::class, 'index'])->name('ping.index');
     Route::get('/ping/test', [PingController::class, 'test'])->name('ping.test');
