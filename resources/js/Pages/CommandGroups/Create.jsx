@@ -18,8 +18,6 @@ export default function Create({auth, alert_type, alert_message, commands}) {
         title: ''
     });
 
-    const user = usePage().props.auth.user;
-
     const submit = (e) => {
         e.preventDefault();
 

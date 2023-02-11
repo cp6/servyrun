@@ -8,7 +8,7 @@ import AddButton from "@/Components/AddButton";
 
 export default function Index({auth, groups, alert_type, alert_message}) {
     const [hasAlert, setHasAlert] = React.useState(true);
-    const user = usePage().props.auth.user;
+
     return (
         <AuthenticatedLayout
             auth={auth}

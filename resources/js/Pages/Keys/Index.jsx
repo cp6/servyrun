@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
@@ -8,15 +8,13 @@ import AddButton from "@/Components/AddButton";
 
 export default function Index({auth, keys, alert_type, alert_message}) {
     const [hasAlert, setHasAlert] = React.useState(true);
-    const user = usePage().props.auth.user;
-    const main_title = 'Keys';
-    const title = 'key';
+
     return (
         <AuthenticatedLayout
             auth={auth}
             header={<h2
-                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{main_title}</h2>}>
-            <Head title={main_title}/>
+                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'Keys'}</h2>}>
+            <Head title={'Keys'}/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <AddButton href={route('key.create')}>Add key</AddButton>

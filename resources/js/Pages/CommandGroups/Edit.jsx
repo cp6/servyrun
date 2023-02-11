@@ -28,8 +28,6 @@ export default function Edit({auth, connections, resource, commands}) {
         timeout: resource.timeout
     });
 
-    const user = usePage().props.auth.user;
-
     const submit = (e) => {
         e.preventDefault();
 

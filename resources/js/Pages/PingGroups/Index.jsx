@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
@@ -8,7 +8,7 @@ import AddButton from "@/Components/AddButton";
 import BackButton from "@/Components/BackButton";
 
 export default function Index({auth, mustVerifyEmail, groups, alert_type, alert_message}) {
-    const user = usePage().props.auth.user;
+
     const [hasAlert, setHasAlert] = React.useState(true);
     return (
         <AuthenticatedLayout

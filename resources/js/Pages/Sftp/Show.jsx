@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm, usePage} from '@inertiajs/inertia-react';
+import {Head, useForm} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import InputLabel from "@/Components/InputLabel";
@@ -17,8 +17,6 @@ import EmeraldButton from "@/Components/EmeraldButton";
 import TealButton from "@/Components/TealButton";
 
 export default function Show({auth, resource, ip, alert_type, alert_message}) {
-
-    const user = usePage().props.auth.user;
 
     const {data, setData, post, processing, processing2, reset, errors} = useForm({
         the_command1: '',

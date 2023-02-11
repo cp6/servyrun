@@ -11,15 +11,12 @@ export default function Index({auth, connections, alert_type, alert_message}) {
 
     const [hasAlert, setHasAlert] = React.useState(true);
 
-    const user = usePage().props.auth.user;
-    const main_title = 'Server connections';
-    const title = 'connection';
     return (
         <AuthenticatedLayout
             auth={auth}
             header={<h2
-                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{main_title}</h2>}>
-            <Head title={main_title}/>
+                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'Server connections'}</h2>}>
+            <Head title={'Server connections'}/>
             <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <AddButton href={route('connection.create')}>Add connection</AddButton>

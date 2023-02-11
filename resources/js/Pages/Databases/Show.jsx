@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
@@ -11,7 +11,6 @@ import TealButton from "@/Components/TealButton";
 import IndigoButton from "@/Components/IndigoButton";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
-    const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
 

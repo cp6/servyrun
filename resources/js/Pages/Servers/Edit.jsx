@@ -11,8 +11,6 @@ import BackButton from "@/Components/BackButton";
 
 export default function Edit({auth, types, locations, resource, alert_type, alert_message}) {
 
-    const user = usePage().props.auth.user;
-
     const [hasAlert, setHasAlert] = React.useState(true);
 
     const {data, setData, patch, processing, errors} = useForm({

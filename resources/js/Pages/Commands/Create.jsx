@@ -14,8 +14,6 @@ export default function Create({auth}) {
         command: ''
     });
 
-    const user = usePage().props.auth.user;
-
     const submit = (e) => {
         e.preventDefault();
 

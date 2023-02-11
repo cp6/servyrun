@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import {Card} from "flowbite-react";
 import Output from "@/Components/Output";
@@ -7,7 +7,7 @@ import EmeraldButton from "@/Components/EmeraldButton";
 import {HiCpuChip} from "react-icons/all";
 
 export default function Show({auth, resource}) {
-    const user = usePage().props.auth.user;
+
     return (
         <AuthenticatedLayout
             auth={auth}

@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
@@ -10,14 +10,13 @@ import IndigoButton from "@/Components/IndigoButton";
 import BackButton from "@/Components/BackButton";
 
 export default function Index({auth, outputs}) {
-    const user = usePage().props.auth.user;
-    const title = 'Command outputs';
+
     return (
         <AuthenticatedLayout
             auth={auth}
             header={<h2
-                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{title}</h2>}>
-            <Head title={title}/>
+                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'Command outputs'}</h2>}>
+            <Head title={'Command outputs'}/>
             <div className="py-6 px-2 mx-auto max-w-7xl lg:py-8">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('command.index')}>Back to commands</BackButton>

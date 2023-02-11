@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm, usePage} from '@inertiajs/inertia-react';
+import {Head, useForm} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -28,8 +28,6 @@ export default function Create({auth, types, locations, title, alert_type, alert
     });
 
     const [hasAlert, setHasAlert] = React.useState(true);
-
-    const user = usePage().props.auth.user;
 
     const submit = (e) => {
         e.preventDefault();

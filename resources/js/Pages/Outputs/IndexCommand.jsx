@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
@@ -7,14 +7,13 @@ import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
 
 export default function IndexCommand({auth, command, outputs}) {
-    const user = usePage().props.auth.user;
-    const title = 'Command outputs for ';
+
     return (
         <AuthenticatedLayout
             auth={auth}
             header={<h2
-                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{title + command.title}</h2>}>
-            <Head title={title + command.title}/>
+                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'Command outputs for ' + command.title}</h2>}>
+            <Head title={'Command outputs for ' + command.title}/>
             <div className="py-6 px-2 mx-auto max-w-7xl lg:py-8">
                 <div className="flex flex-wrap gap-2 mb-4">
                 </div>

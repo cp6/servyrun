@@ -19,8 +19,6 @@ export default function Create({auth, servers, keys, alert_type, alert_message})
         password: ''
     });
 
-    const user = usePage().props.auth.user;
-
     const [hasAlert, setHasAlert] = React.useState(true);
 
     const submit = (e) => {

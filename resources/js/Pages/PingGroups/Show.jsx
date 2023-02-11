@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm, usePage} from '@inertiajs/inertia-react';
+import {Head, useForm} from '@inertiajs/inertia-react';
 import React, {useState} from "react";
 import {Button, Modal} from "flowbite-react";
 import {Grid} from "gridjs-react";
@@ -13,8 +13,6 @@ import EmeraldButton from "@/Components/EmeraldButton";
 import EditButton from "@/Components/EditButton";
 
 export default function Show({auth, pingGroup, pings, hasAlert, alert_type, alert_message}) {
-
-    const user = usePage().props.auth.user;
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 

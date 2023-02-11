@@ -12,7 +12,6 @@ import EmeraldButton from "@/Components/EmeraldButton";
 import IndigoButton from "@/Components/IndigoButton";
 
 export default function Index({auth, commands, alert_type, alert_message}) {
-    const user = usePage().props.auth.user;
 
     const [hasAlert, setHasAlert] = React.useState(true);
 

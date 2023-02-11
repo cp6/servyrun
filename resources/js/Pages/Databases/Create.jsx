@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm, usePage} from '@inertiajs/inertia-react';
+import {Head, useForm} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -25,8 +25,6 @@ export default function Create({auth, connections, alert_type, alert_message}) {
     const [dbNames, setDbNames] = React.useState([]);
 
     const [dbNamesStatus, setDbNamesStatus] = React.useState(1);
-
-    const user = usePage().props.auth.user;
 
     const submit = (e) => {
         e.preventDefault();

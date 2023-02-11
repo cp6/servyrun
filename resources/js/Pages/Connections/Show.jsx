@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm, usePage} from '@inertiajs/inertia-react';
+import {Head, useForm} from '@inertiajs/inertia-react';
 import {Button, Modal, Select} from "flowbite-react";
 import React, {useState} from "react";
 import InputLabel from "@/Components/InputLabel";
@@ -16,8 +16,6 @@ import EditButton from "@/Components/EditButton";
 import EmeraldButton from "@/Components/EmeraldButton";
 
 export default function Show({auth, resource, ip, method, commands, alert_type, alert_message}) {
-
-    const user = usePage().props.auth.user;
 
     const [isEmailChecked, setIsEmailChecked] = useState(false);
 

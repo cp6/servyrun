@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm, usePage} from '@inertiajs/inertia-react';
+import {Head, useForm} from '@inertiajs/inertia-react';
 import React, {useEffect} from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -21,8 +21,6 @@ import BackButton from "@/Components/BackButton";
 
 
 export default function Read({auth, resource, ip, alert_type, alert_message}) {
-
-    const user = usePage().props.auth.user;
 
     const {data, setData, post, processing, reset, errors} = useForm({
         file: ''

@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
@@ -10,7 +10,6 @@ import IndigoButton from "@/Components/IndigoButton";
 import ResponseAlert from "@/Components/Alert";
 
 export default function Index({auth, pings, alert_type, alert_message}) {
-    const user = usePage().props.auth.user;
 
     const [hasAlert, setHasAlert] = React.useState(true);
 

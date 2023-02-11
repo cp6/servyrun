@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import ResponseAlert from "@/Components/Alert";
 import {Grid} from "gridjs-react";
@@ -9,7 +9,6 @@ import {format} from "date-fns";
 import AddButton from "@/Components/AddButton";
 
 export default function Index({auth, ips, hasAlert, alert_type, alert_message}) {
-    const user = usePage().props.auth.user;
     return (
         <AuthenticatedLayout
             auth={auth}

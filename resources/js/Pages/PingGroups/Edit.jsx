@@ -1,11 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm, usePage} from '@inertiajs/inertia-react';
+import {Head, useForm} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import {Select} from "flowbite-react";
 import React from "react";
-import PrimaryButton from "@/Components/PrimaryButton";
 import BackButton from "@/Components/BackButton";
 import UpdateButton from "@/Components/UpdateButton";
 
@@ -22,8 +21,6 @@ export default function Edit({auth, connections, resource}) {
         connection8_id: (typeof resource.assigned[7] !== 'undefined') ? resource.assigned[7].connection_id : null,
         title: resource.title
     });
-
-    const user = usePage().props.auth.user;
 
     const submit = (e) => {
         e.preventDefault();

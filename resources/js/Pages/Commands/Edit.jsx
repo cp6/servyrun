@@ -3,17 +3,14 @@ import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import {Select, Button, Modal} from "flowbite-react";
+import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
-import PrimaryButton from "@/Components/PrimaryButton";
 import DangerButton from "@/Components/DangerButton";
-import {HiOutlineArrowLeft} from "react-icons/hi";
 import UpdateButton from "@/Components/UpdateButton";
 import BackButton from "@/Components/BackButton";
 
 export default function Edit({auth, servers, resource}) {
 
-    const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
 

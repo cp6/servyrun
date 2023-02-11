@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm, usePage} from '@inertiajs/inertia-react';
+import {Head, useForm} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -14,8 +14,6 @@ import {HiRefresh} from "react-icons/hi";
 import axios from "axios";
 
 export default function Edit({auth, servers, resource, alert_type, alert_message}) {
-
-    const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
 

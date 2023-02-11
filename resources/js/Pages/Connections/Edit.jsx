@@ -11,8 +11,6 @@ import ResponseAlert from "@/Components/Alert";
 
 export default function Edit({auth, servers, keys, ip, resource, alert_type, alert_message}) {
 
-    const user = usePage().props.auth.user;
-
     const [hasAlert, setHasAlert] = React.useState(true);
 
     const {data, setData, patch, processing, errors} = useForm({
