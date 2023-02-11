@@ -5,10 +5,9 @@ import {Grid} from 'gridjs-react';
 import {format} from "date-fns";
 import {GridJsPagination, gridJsTableStyling} from '@/gridJsConfig'
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
+import {html} from "gridjs";
 
 export default function Index({auth, logs}) {
-
-    const user = usePage().props.auth.user;
 
     return (
         <AuthenticatedLayout
@@ -47,6 +46,11 @@ export default function Index({auth, logs}) {
                                         id: "message",
                                         name: "Message",
                                         sort: false,
+                                    },
+                                    {
+                                        id: "id",
+                                        name: "View",
+                                        data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('log.show', row.id)}'>View</a>`),
                                     },
                                     {
                                         id: "created_at",
