@@ -147,7 +147,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                         <p className='text-md text-gray-600 dark:text-gray-400 pl-4 pt-2'>{fileSize}MB</p> : null}
                     <div className="py-6 pl-2 mx-auto max-w-7xl lg:pb-8 h-96 overflow-scroll" id="command_output_div">
                         <div className="Code line-numbers">
-                         <pre contentEditable={editable} onInput={handleCodeChange}><code id={'codeTag'} className={`language-${fileExt}`}>{codeContent}</code></pre>
+                         <pre contentEditable={editable} onChange={handleCodeChange} onInput={handleCodeChange}><code id={'codeTag'} className={`language-${fileExt}`}>{codeContent}</code></pre>
                         </div>
                     </div>
                     <UpdateButton onClick={sendContents}>Update file</UpdateButton>
