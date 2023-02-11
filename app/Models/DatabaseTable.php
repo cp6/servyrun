@@ -34,7 +34,7 @@ class DatabaseTable extends Model
             ActionLog::make(1, 'create', 'database table', 'Created database table '.$databaseTable->id);
         });
 
-        static::updated(function (DDatabaseTable $databaseTable) {
+        static::updated(function (DatabaseTable $databaseTable) {
             ActionLog::make(1, 'delete', 'database table', 'Updated database table '.$databaseTable->id);
         });
 
