@@ -2,11 +2,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import {Card} from "flowbite-react";
-import {HiLockOpen} from "react-icons/hi";
+import {HiDownload, HiLockOpen} from "react-icons/hi";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
 import ResponseAlert from "@/Components/Alert";
 import AddButton from "@/Components/AddButton";
 import TealButton from "@/Components/TealButton";
+import IndigoButton from "@/Components/IndigoButton";
 
 export default function Index({auth, databases, alert_type, alert_message}) {
 
@@ -22,6 +23,7 @@ export default function Index({auth, databases, alert_type, alert_message}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <AddButton href={route('db.create')}>Add database</AddButton>
                     <TealButton href={route('db.connection.index')}><HiLockOpen className="mr-2 h-5 w-5" /> Database connections</TealButton>
+                    <IndigoButton href={route('mysqldump.index')}><HiDownload className="mr-2 h-5 w-5" /> MySQLdump</IndigoButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

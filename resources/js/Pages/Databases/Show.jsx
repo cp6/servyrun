@@ -6,6 +6,8 @@ import ResponseAlert from "@/Components/Alert";
 import {HiLightningBolt, HiTrash} from "react-icons/hi";
 import {HiMagnifyingGlass} from "react-icons/all";
 import BackButton from "@/Components/BackButton";
+import CreatedAtText from "@/Components/CreatedAtText";
+import UpdatedAtText from "@/Components/UpdatedAtText";
 
 export default function Show({auth, resource, alert_type, alert_message}) {
 
@@ -71,6 +73,16 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                         </div>
                         <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name}</h2>
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.conn.host} ({resource.conn.title})</p>
+                        <div className={'grid md:grid-cols-2 grid-cols-1'}>
+                            <div className={'col-span-1'}>
+                                <CreatedAtText created_at={resource.created_at}
+                                               string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
+                            </div>
+                            <div className={'col-span-1'}>
+                                <UpdatedAtText updated_at={resource.updated_at}
+                                               string_format={'hh:mm:ssa do LLL yyyy'}></UpdatedAtText>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>
