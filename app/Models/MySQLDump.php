@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
@@ -17,7 +18,13 @@ class MySQLDump extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['connection_id', 'server_id', 'database_id', 'db_connection_id', 'user_id', 'these_tables', 'save_to', 'save_as', 'compress', 'option', 'flags', 'last_ran'];
+    protected $fillable = ['connection_id', 'server_id', 'database_id', 'db_connection_id', 'these_tables', 'save_to', 'save_as', 'compress', 'option', 'flags', 'last_ran'];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(new UserOwnedScope());
+    }
 
     protected static function booted(): void
     {
@@ -27,17 +34,37 @@ class MySQLDump extends Model
         });
 
         static::created(function (MySQLDump $mySQLDump) {
-            ActionLog::make(1, 'create', 'MySQLdump', 'Created MySQLdump '.$mySQLDump->id);
+            ActionLog::make(1, 'create', 'MySQLdump', 'Created MySQLdump ' . $mySQLDump->id);
         });
 
         static::updated(function (MySQLDump $mySQLDump) {
-            ActionLog::make(1, 'update', 'MySQLdump', 'Updated MySQLdump '.$mySQLDump->id);
+            ActionLog::make(1, 'update', 'MySQLdump', 'Updated MySQLdump ' . $mySQLDump->id);
         });
 
         static::deleted(function (MySQLDump $mySQLDump) {
             ActionLog::make(1, 'deleted', 'MySQLdump', 'Deleted MySQLdump');
         });
 
+    }
+
+    public function server(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Server::class, 'id', 'server_id');
+    }
+
+    public function database(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Database::class, 'id', 'database_id');
+    }
+
+    public function database_conn(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(DatabaseConnection::class, 'id', 'db_connection_id');
+    }
+
+    public function conn(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Connection::class, 'id', 'connection_id');
     }
 
     protected static function createCommand(MySQLDump $mySQLDump): string
