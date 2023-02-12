@@ -13,9 +13,14 @@ use Inertia\Inertia;
 
 class MySQLDumpController extends Controller
 {
-    public function index()
+    public function index(): \Inertia\Response
     {
-        //
+        return Inertia::render('MySQLDumps/Index', [
+            'dumps' => MySQLDump::with(['server', 'database', 'database_conn', 'conn'])->get(),
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
     }
 
     public function create(): \Inertia\Response
