@@ -12,6 +12,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         name: user.name,
         email: user.email,
         api_token: user.api_token,
+        login_ip_only: user.login_ip_only,
+        api_ip_only: user.api_ip_only,
     });
 
     const submit = (e) => {
@@ -44,6 +46,34 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     />
 
                     <InputError className="mt-2" message={errors.api_token} />
+                </div>
+
+                <div>
+                    <InputLabel for="login_ip_only" value="Login allowed from this IP address only" />
+
+                    <TextInput
+                        id="login_ip_only"
+                        className="mt-1 block w-full"
+                        value={data.login_ip_only}
+                        handleChange={(e) => setData('login_ip_only', e.target.value)}
+                        autoComplete="login_ip_only"
+                    />
+
+                    <InputError className="mt-2" message={errors.login_ip_only} />
+                </div>
+
+                <div>
+                    <InputLabel for="api_ip_only" value="API access allowed from this IP address only" />
+
+                    <TextInput
+                        id="api_ip_only"
+                        className="mt-1 block w-full"
+                        value={data.login_ip_only}
+                        handleChange={(e) => setData('api_ip_only', e.target.value)}
+                        autoComplete="api_ip_only"
+                    />
+
+                    <InputError className="mt-2" message={errors.api_ip_only} />
                 </div>
 
                 <div>
