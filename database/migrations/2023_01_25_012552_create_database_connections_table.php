@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password')->default(null)->nullable();
             $table->tinyInteger('type')->default(1);//1  = MySQL
             $table->string('version')->default(null)->nullable();
+            $table->string('privileges')->default(null)->nullable();
             $table->timestamps();
             $table->unique(['user_id', 'host', 'username']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -35,11 +35,11 @@ class DatabaseConnection extends Model
         });
 
         static::created(function (DatabaseConnection $databaseConnection) {
-            ActionLog::make(1, 'create', 'database connection', 'Created database connection '.$databaseConnection->id);
+            ActionLog::make(1, 'create', 'database connection', 'Created database connection ' . $databaseConnection->id);
         });
 
         static::updated(function (DatabaseConnection $databaseConnection) {
-            ActionLog::make(1, 'delete', 'database connection', 'Updated database connection '.$databaseConnection->id);
+            ActionLog::make(1, 'delete', 'database connection', 'Updated database connection ' . $databaseConnection->id);
         });
 
         static::deleted(function (DatabaseConnection $databaseConnection) {
@@ -135,6 +135,16 @@ class DatabaseConnection extends Model
             return null;
         }
         return $this->db_con->query("SELECT VERSION();")->fetchColumn();
+    }
+
+    public function getPrivileges(string $host, string $user): bool|array
+    {
+        if (!isset($this->db_con)) {
+            return false;
+        }
+        $select = $this->db_con->prepare("SELECT Select_priv, Insert_priv, Update_priv, Delete_priv, Reload_priv, Alter_priv, Create_user_priv, Create_tmp_table_priv FROM mysql.user WHERE `host` = ? AND `user` = ?;");
+        $select->execute([$host, $user]);
+        return $select->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }
