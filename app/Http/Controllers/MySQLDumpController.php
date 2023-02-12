@@ -83,6 +83,12 @@ class MySQLDumpController extends Controller
     {
         $this->authorize('view', $mySQLDump);
 
+        return Inertia::render('MySQLDumps/Show', [
+            'resource' => MySQLDump::where('id', $mySQLDump->id)->with(['server', 'conn', 'database', 'database_conn'])->first(),
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
     }
 
     public function edit(MySQLDump $mySQLDump)
