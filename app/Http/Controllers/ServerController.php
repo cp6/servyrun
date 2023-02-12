@@ -167,23 +167,36 @@ class ServerController extends Controller
             'cpu_freq' => 'numeric|sometimes|nullable',
             'disk_gb' => 'numeric|sometimes|nullable',
             'ram_gb' => 'numeric|sometimes|nullable',
-            'ping_port' => 'integer|required'
+            'ping_port' => 'integer|required',
+            'price' => 'numeric|nullable|sometimes|min:0|max:9999',
+            'currency' => 'string|nullable|sometimes|size:3',
+            'term' => 'integer|nullable|sometimes|min:0|max:13',
         ]);
 
-        $server->update([
-            'operating_system' => $request->os ?? null,
-            'location_id' => $request->location ?? null,
-            'type_id' => $request->server_type ?? null,
-            'hostname' => $request->hostname,
-            'title' => $request->title,
-            'cpu' => $request->cpu ?? null,
-            'cpu_cores' => $request->cpu_cores ?? null,
-            'cpu_freq' => $request->cpu_freq ?? null,
-            'cpu_freq_max' => $request->cpu_freq_max ?? null,
-            'disk_gb' => $request->disk_gb ?? null,
-            'ram_mb' => $request->ram_mb ?? null,
-            'ping_port' => $request->ping_port ?? 22,
-        ]);
+        try {
+            //TODO: Add in a price\currency as USD converter
+            $server->update([
+                'operating_system' => $request->os ?? null,
+                'location_id' => $request->location ?? null,
+                'type_id' => $request->server_type ?? null,
+                'hostname' => $request->hostname,
+                'title' => $request->title,
+                'cpu' => $request->cpu ?? null,
+                'cpu_cores' => $request->cpu_cores ?? null,
+                'cpu_freq' => $request->cpu_freq ?? null,
+                'cpu_freq_max' => $request->cpu_freq_max ?? null,
+                'disk_gb' => $request->disk_gb ?? null,
+                'ram_mb' => $request->ram_mb ?? null,
+                'ping_port' => $request->ping_port ?? 22,
+                'price' => $request->price ?? null,
+                'currency' => $request->currency ?? null,
+                'payment_term' => $request->term ?? null
+            ]);
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('server.show', $server))->with(['alert_type' => 'failure', 'alert_message' => 'Server update error: ' . $exception->getMessage()]);
+        }
 
         return redirect(route('server.show', $server))->with(['alert_type' => 'success', 'alert_message' => 'Server updated successfully']);
     }

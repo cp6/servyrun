@@ -27,6 +27,9 @@ export default function Edit({auth, types, locations, resource, alert_type, aler
         ram_mb: resource.ram_mb,
         swap_mb: resource.swap_mb,
         ping_port: resource.ping_port,
+        price: resource.price,
+        term: resource.payment_term,
+        currency: resource.currency,
     });
 
     const submit = (e) => {
@@ -178,7 +181,7 @@ export default function Edit({auth, types, locations, resource, alert_type, aler
                                 />
                                 <InputError message={errors.cpu_freq} className="mt-2"/>
                             </div>
-                            <div className="sm:col-span-2 col-span-4">
+                            <div className="sm:col-span-1 col-span-4">
                                 <InputLabel forInput="disk_gb" value="Disk GB"/>
                                 <TextInput
                                     type="number"
@@ -215,6 +218,59 @@ export default function Edit({auth, types, locations, resource, alert_type, aler
                                     handleChange={(e) => setData('swap_mb', e.target.value)}
                                 />
                                 <InputError message={errors.swap_mb} className="mt-2"/>
+                            </div>
+                            <div className="sm:col-span-1 col-span-4">
+                                <InputLabel forInput="price" value="Price"/>
+                                <TextInput
+                                    type="number"
+                                    step="0.01"
+                                    name="price"
+                                    className="mt-1 block w-full"
+                                    autoComplete="Price"
+                                    value={data.price || ''}
+                                    handleChange={(e) => setData('price', e.target.value)}
+                                />
+                                <InputError message={errors.price} className="mt-2"/>
+                            </div>
+                            <div className="sm:col-span-1 col-span-4">
+                                <InputLabel forInput="currency" value="Currency"/>
+                                <Select onChange={(e) => setData('currency', e.target.value)}
+                                        name="currency"
+                                        value={data.currency || ''}
+                                >
+                                    <option value=''>Choose</option>
+                                    <option key={1} value={'AUD'}>AUD</option>
+                                    <option key={2} value={'CAD'}>CAD</option>
+                                    <option key={3} value={'CHF'}>CHF</option>
+                                    <option key={4} value={'CNY'}>CNY</option>
+                                    <option key={5} value={'EUR'}>EUR</option>
+                                    <option key={6} value={'GBP'}>GBP</option>
+                                    <option key={7} value={'HKD'}>HKD</option>
+                                    <option key={8} value={'INR'}>INR</option>
+                                    <option key={9} value={'JPY'}>JPY</option>
+                                    <option key={10} value={'NZD'}>NZD</option>
+                                    <option key={11} value={'SGD'}>SGD</option>
+                                    <option key={12} value={'TWD'}>TWD</option>
+                                    <option key={13} value={'USD'}>USD</option>
+                                </Select>
+                                <InputError message={errors.currency} className="mt-2"/>
+                            </div>
+                            <div className="sm:col-span-1 col-span-4">
+                                <InputLabel forInput="term" value="Term"/>
+                                <Select onChange={(e) => setData('term', e.target.value)}
+                                        name="term"
+                                        value={data.term || ''}
+                                >
+                                    <option value=''>Choose</option>
+                                    <option key={1} value={1}>Weekly</option>
+                                    <option key={2} value={2}>Monthly</option>
+                                    <option key={3} value={3}>Quarterly</option>
+                                    <option key={4} value={4}>Semi annual</option>
+                                    <option key={5} value={5}>Annual</option>
+                                    <option key={6} value={6}>Bi Annual</option>
+                                    <option key={7} value={7}>Tri Annual</option>
+                                </Select>
+                                <InputError message={errors.term} className="mt-2"/>
                             </div>
                         </div>
                         <UpdateButton processing={processing}>Update server</UpdateButton>
