@@ -2,33 +2,30 @@ import React from "react";
 
 export default function ServerCardConnection({connection = null}) {
     return (
-        <dl>
+        <>
             {
                 (() => {
                     if (typeof (connection) != "undefined" && connection !== null) {
                         return (
-                            <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Connection</dt>);
+                            <p className="mb-2 leading-none text-gray-900 dark:text-gray-100 inline">Connection is </p>);
                     } else {
                         return (
-                            <dt className="mb-2 font-semibold leading-none text-yellow-500 dark:text-yellow-400">No connection set</dt>);
+                            <p className="mb-2 font-semibold leading-none text-yellow-500 dark:text-yellow-400 inline">No
+                                connection set</p>);
                     }
                 })()
             }
-            <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">
+            <p className="mb-4 text-gray-500 sm:mb-5 dark:text-gray-100 inline">
                 {
                     (() => {
                         if (typeof (connection) != "undefined" && connection !== null) {
                             if (typeof (connection.key_id) != "undefined" && connection.key_id !== null) {
                                 return (
-                                    connection.username + ":" + connection.ssh_port + " KEY"
-                                );
-                            } else if (typeof (connection.hashed_password) != "undefined" && connection.hashed_password !== null) {
-                                return (
-                                    connection.username + ":" + connection.ssh_port + " HASH PASSWORD"
+                                    connection.username + ":" + connection.ssh_port + " with key"
                                 );
                             } else if (connection.password !== 'undefined') {
                                 return (
-                                    connection.username + ":" + connection.ssh_port + " PASSWORD"
+                                    connection.username + ":" + connection.ssh_port + " with password"
                                 );
                             } else {
                                 return ('')
@@ -36,7 +33,7 @@ export default function ServerCardConnection({connection = null}) {
                         }
                     })()
                 }
-            </dd>
-        </dl>
+            </p>
+        </>
     );
 }

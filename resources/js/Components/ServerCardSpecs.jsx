@@ -53,6 +53,20 @@ export default function ServerCardSpecs({resource}) {
                     })()
                 }
             </div>
+            <div>
+                {
+                    (() => {
+                        if (resource.price !== null && resource.currency !== null) {
+                            return (
+                                <>
+                                    <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Price {resource.currency}</dt>
+                                    <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">{resource.price}</dd>
+                                </>
+                            )
+                        }
+                    })()
+                }
+            </div>
         </dl>
     );
 }
