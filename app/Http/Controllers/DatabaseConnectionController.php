@@ -11,7 +11,7 @@ use Inertia\Inertia;
 
 class DatabaseConnectionController extends Controller
 {
-    public function index()
+    public function index(): \Inertia\Response
     {
         return Inertia::render('DatabaseConnections/Index', [
             'connections' => DatabaseConnection::get(),
@@ -21,7 +21,7 @@ class DatabaseConnectionController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): \Inertia\Response
     {
         return Inertia::render('DatabaseConnections/Create', [
             'servers' => Server::get(),
@@ -62,11 +62,23 @@ class DatabaseConnectionController extends Controller
 
     }
 
-    public function show(DatabaseConnection $databaseConnection)
+    public function show(DatabaseConnection $databaseConnection): \Inertia\Response
     {
         $this->authorize('view', $databaseConnection);
 
         return Inertia::render('DatabaseConnections/Show', [
+            'resource' => $databaseConnection,
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
+    }
+
+    public function edit(DatabaseConnection $databaseConnection): \Inertia\Response
+    {
+        $this->authorize('view', $databaseConnection);
+
+        return Inertia::render('DatabaseConnections/Edit', [
             'resource' => $databaseConnection,
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
@@ -142,15 +154,65 @@ class DatabaseConnectionController extends Controller
 
     }
 
-    public function edit(DatabaseConnection $databaseConnection)
+    public function getPrivileges(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
     {
-        //
+        $this->authorize('view', $databaseConnection);
+
+        if (is_null($databaseConnection->privileges)) {
+
+            $connect = $databaseConnection->dbConnect($databaseConnection, '');
+
+            if (!$connect) {
+                return response()->json(['message' => 'Could not connect', 'databases' => null], 400)->header('Content-Type', 'application/json');
+            }
+
+            $cu = $databaseConnection->getCurrentUser();
+            $connection_type = substr($cu, strpos($cu, "@") + 1);
+
+            $privileges = $databaseConnection->getPrivileges($connection_type, $databaseConnection->username);
+
+            if (!$privileges){
+                return response()->json(['privileges' => null], 200)->header('Content-Type', 'application/json');
+            }
+
+            dd($privileges);
+
+            $databaseConnection->version = $version;
+            $databaseConnection->type = $type;
+            $databaseConnection->save();
+        }
+
+        return response()->json(['privileges' => $databaseConnection->privileges], 200)->header('Content-Type', 'application/json');
+
     }
 
     public function update(Request $request, DatabaseConnection $databaseConnection)
     {
         $this->authorize('update', $databaseConnection);
 
+        $request->validate([
+            'host' => 'string|required|max:125',
+            'title' => 'string|sometimes|nullable|max:64',
+            'port' => 'integer|required',
+            'username' => 'string|required',
+            'password' => 'string|nullable'
+        ]);
+
+        try {
+
+            $databaseConnection->title = $request->title;
+            $databaseConnection->host = $request->host;
+            $databaseConnection->port = $request->port ?? 3306;
+            $databaseConnection->username = $request->username ?? 'root';
+            $databaseConnection->password = ($request->password) ? Crypt::encryptString($request->password) : null;
+            $databaseConnection->save();
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('db.connection.create'))->with(['alert_type' => 'failure', 'alert_message' => 'DB connection could not be updated error ' . $exception->getMessage()]);
+        }
+
+        return redirect(route('db.connection.show', $databaseConnection))->with(['alert_type' => 'success', 'alert_message' => 'DB connection updated successfully']);
     }
 
     public function destroy(DatabaseConnection $databaseConnection)

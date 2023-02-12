@@ -17,7 +17,7 @@ class DatabaseConnection extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['user_id', 'server_id', 'host', 'title', 'port', 'username', 'password', 'type', 'version'];
+    protected $fillable = ['user_id', 'server_id', 'host', 'title', 'port', 'username', 'password', 'type', 'version', 'privileges'];
 
     public \PDO $db_con;
 
@@ -137,14 +137,27 @@ class DatabaseConnection extends Model
         return $this->db_con->query("SELECT VERSION();")->fetchColumn();
     }
 
+    public function getCurrentUser(): ?string
+    {
+        if (!isset($this->db_con)) {
+            return null;
+        }
+        return $this->db_con->query("SELECT CURRENT_USER();")->fetchColumn();
+    }
+
     public function getPrivileges(string $host, string $user): bool|array
     {
         if (!isset($this->db_con)) {
             return false;
         }
-        $select = $this->db_con->prepare("SELECT Select_priv, Insert_priv, Update_priv, Delete_priv, Reload_priv, Alter_priv, Create_user_priv, Create_tmp_table_priv FROM mysql.user WHERE `host` = ? AND `user` = ?;");
-        $select->execute([$host, $user]);
-        return $select->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $select = $this->db_con->prepare("SELECT Select_priv, Insert_priv, Update_priv, Delete_priv, Reload_priv, Alter_priv, Create_user_priv, Create_tmp_table_priv FROM `mysql`.`user` WHERE `host` = ? AND `user` = ?;");
+            $select->execute([$host, $user]);
+            return $select->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Exception $exception) {
+            return false;
+        }
+
     }
 
 }
