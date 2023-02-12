@@ -39,11 +39,12 @@ class MySQLDumpController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'connection_id' => 'string|required|size:8',
+            'connection_id' => 'string|required|size:12',
             'server_id' => 'string|required|size:8',
             'database_name' => 'string|required',
             'db_connection_id' => 'string|required|size:8',
-            'these_tables' => 'string|nullable|max:255',
+            'these_tables' => 'string|nullable|sometimes|max:255',
+            'certain_tables' => 'string|nullable|sometimes|max:255',
             'save_to' => 'string|sometimes|nullable|max:64',
             'save_as' => 'string|sometimes|nullable|max:64',
             'compress' => 'integer|required',

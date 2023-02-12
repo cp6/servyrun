@@ -21,7 +21,7 @@ export default function Create({auth, servers, alert_type, alert_message}) {
         save_to: '',
         save_as: 'dump.sql',
         option: '',
-        compress: '',
+        compress: '0',
         custom_flags: '',
         these_tables: ''
     });
