@@ -17,6 +17,8 @@ class ActionLogController extends Controller
 
     public function show(ActionLog $actionLog): \Inertia\Response
     {
+        $this->authorize('view', $actionLog);
+
         return Inertia::render('ActionLogs/Show', [
             'resource' => ActionLog::where('id', $actionLog->id)->with(['server', 'command', 'database', 'connection'])->first()
         ]);
