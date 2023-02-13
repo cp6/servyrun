@@ -142,19 +142,27 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                                     }
                                 })()
                             }
-                            <Dropdown
-                                label="Ping another server"
-                                dismissOnClick={false}
-                                disabled={dropDownEnabled}
-                                className={'dark:bg-gray-500'}
-                                size={'sm'}
-                            >
+                            {
+                                (() => {
+                                    if ((typeof (resource.conn) != "undefined" && resource.conn !== null)) {
+                                        return (
+                                            <Dropdown
+                                                label="Ping another server"
+                                                dismissOnClick={false}
+                                                disabled={dropDownEnabled}
+                                                className={'dark:bg-gray-500'}
+                                                size={'sm'}
+                                            >
 
-                                {servers.map(server =>
-                                    <Dropdown.Item key={server.id} className={(dropDownEnabled) ? 'hidden' : null}>
-                                        <a onClick={doPingFromTo} id={server.id}>{server.hostname} ({server.title})</a>
-                                    </Dropdown.Item>)}
-                            </Dropdown>
+                                                {servers.map(server =>
+                                                    <Dropdown.Item key={server.id} className={(dropDownEnabled) ? 'hidden' : null}>
+                                                        <a onClick={doPingFromTo} id={server.id}>{server.hostname} ({server.title})</a>
+                                                    </Dropdown.Item>)}
+                                            </Dropdown>
+                                        )
+                                    }
+                                })()
+                            }
                         </div>
                     </div>
                 </section>
