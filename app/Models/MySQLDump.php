@@ -106,7 +106,7 @@ class MySQLDump extends Model
         return "mysqldump -u {$db->conn->username} -p{$password} {$save_to} {$db_tables} {$option} {$mySQLDump->flags} {$compress} {$mySQLDump->save_as}";
     }
 
-    protected static function runCommand(MySQLDump $mySQLDump): ?string
+    public static function runCommand(MySQLDump $mySQLDump): ?string
     {
         $conn = Connection::where('id', $mySQLDump->connection_id)->firstOrFail();
 
@@ -114,7 +114,11 @@ class MySQLDump extends Model
 
         $command = self::createCommand($mySQLDump);
 
-        return Connection::runCommand($connection, $command);
+        $run = Connection::runCommand($connection, $command);
+
+        $mySQLDump->update(['last_ran' => date('Y-m-d H:i:s')]);
+
+        return $run;
     }
 
 }

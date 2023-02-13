@@ -18,7 +18,7 @@ export default function Index({auth, dumps, alert_type, alert_message}) {
             <Head title="MySQL dumps"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <AddButton href={route('db.create')}>Add MySQL dump</AddButton>
+                    <AddButton href={route('mysqldump.create')}>Add MySQL dump</AddButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>

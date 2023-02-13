@@ -3,7 +3,7 @@ import {Head} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiHashtag, HiPencil, HiTrash} from "react-icons/hi";
+import {HiHashtag, HiPencil, HiPlay, HiTrash} from "react-icons/hi";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
 import DatabaseStatusButton from "@/Components/DatabaseStatusButton";
@@ -34,8 +34,8 @@ export default function Show({auth, resource, alert_type, alert_message}) {
 
     };
 
-    const getVersion = () => {
-        axios.get(route('db.connection.version', resource.id)).then(response => {
+    const runTheDump = () => {
+        axios.get(route('mysqldump.run', resource.id)).then(response => {
             window.location.reload();
         }).catch(err => {
             console.log('Error getting version');
@@ -58,10 +58,12 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                     <div className="py-6 px-2 mx-auto max-w-6xl lg:py-8">
                         <div className="flex items-center justify-between">
                             <div>           <span
-                                className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4"><a href={route('db.show', resource.database.id)}>Database {resource.database.name}</a></span>
+                                className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-4"><a
+                                href={route('db.show', resource.database.id)}>Database {resource.database.name}</a></span>
                                 {resource.version !== null ?
                                     <span
-                                        className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"><a href={route('server.show.show', resource.server.id)}>Server {resource.server.title}</a></span>
+                                        className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"><a
+                                        href={route('server.show', resource.server.id)}>Server {resource.server.title}</a></span>
                                     :
                                     null}</div>
                             <small className="text-end">
@@ -70,16 +72,21 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                     onClick={() => setShowModal(true)} title={'Delete MySQL dump'}/>
                                 <HiPencil
                                     className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                    onClick={event => window.location.href = route('db.connection.edit', resource.id)}
+                                    onClick={event => window.location.href = route('mysqldump.edit', resource.id)}
                                     title={'Edit MySQL dump'}/>
+                                <HiPlay
+                                    className="md:ml-3 ml-1 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={runTheDump} title={'Run this MySQL dump'}/>
                             </small>
                         </div>
                         {
                             (() => {
                                 if (typeof (resource.these_tables) != "undefined" && resource.these_tables !== null) {
                                     return (
-                                        <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">These
-                                            tables: {resource.these_tables}</h2>
+                                        <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-600 md:text-2xl dark:text-gray-300">These
+                                            tables only: <span
+                                                className={'text-gray-900 dark:text-white'}>{resource.these_tables}</span>
+                                        </h2>
                                     )
                                 } else {
                                     return (
@@ -89,9 +96,15 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                 }
                             })()
                         }
-                        <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">Save
-                            as: {resource.save_to}/{resource.save_as}</h2>
-                        <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">User: {resource.database_conn.username}</h2>
+                        <h2 className="mt-4 mb-2 text-md font-bold leading-none text-gray-600 md:text-xl dark:text-gray-300">Save
+                            as: <span
+                                className={'text-gray-900 dark:text-white'}>{resource.save_to}/{resource.save_as}</span>
+                        </h2>
+                        <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-600 md:text-xl dark:text-gray-300">DB
+                            user: <span
+                                className={'text-gray-900 dark:text-white'}>{resource.database_conn.username}</span>
+                        </h2>
+                        <p className="mb-4 text-xl font-bold leading-none md:text-2xl text-gray-900 dark:text-white">{resource.compress === 1 ? 'compress' : null}</p>
                         <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.flags}</p>
                         <div className={'grid md:grid-cols-3 grid-cols-3'}>
                             <div className={'col-span-1'}>

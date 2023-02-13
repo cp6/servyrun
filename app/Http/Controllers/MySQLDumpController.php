@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Connection;
 use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\MySQLDump;
 use App\Models\Server;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
 
 class MySQLDumpController extends Controller
@@ -26,7 +24,6 @@ class MySQLDumpController extends Controller
     public function create(): \Inertia\Response
     {
         return Inertia::render('MySQLDumps/Create', [
-            //'connections' => Connection::get(),
             'servers' => Server::get(),
             'databases' => Database::get(),
             'databaseConnections' => DatabaseConnection::get(),
@@ -74,12 +71,10 @@ class MySQLDumpController extends Controller
             return redirect(route('mysqldump.create'))->with(['alert_type' => 'failure', 'alert_message' => 'MySQL dump could not be created error ' . $exception->getCode()]);
         }
 
-
-
         return redirect(route('mysqldump.show', $mysql_dump))->with(['alert_type' => 'success', 'alert_message' => 'Create MySQLdump successfully']);
     }
 
-    public function show(MySQLDump $mySQLDump)
+    public function show(MySQLDump $mySQLDump): \Inertia\Response
     {
         $this->authorize('view', $mySQLDump);
 
@@ -91,15 +86,48 @@ class MySQLDumpController extends Controller
         ]);
     }
 
-    public function edit(MySQLDump $mySQLDump)
+    public function edit(MySQLDump $mySQLDump): \Inertia\Response
     {
         $this->authorize('view', $mySQLDump);
 
+        return Inertia::render('MySQLDumps/Edit', [
+            'resource' => MySQLDump::where('id', $mySQLDump->id)->with(['server', 'conn', 'database', 'database_conn'])->first(),
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
     }
 
     public function update(Request $request, MySQLDump $mySQLDump)
     {
         $this->authorize('update', $mySQLDump);
+
+        $request->validate([
+            'these_tables' => 'string|nullable|sometimes|max:255',
+            'save_to' => 'string|sometimes|nullable|max:64',
+            'save_as' => 'string|sometimes|nullable|max:64',
+            'compress' => 'integer|required',
+            'option' => 'integer|sometimes|nullable',
+            'custom_flags' => 'string|nullable|sometimes|max:64'
+        ]);
+
+        try {
+
+            $mySQLDump->update([
+                'these_tables' => $request->these_tables ?? null,
+                'save_to' => $request->save_to ?? null,
+                'save_as' => $request->save_as,
+                'compress' => $request->compress,
+                'option' => $request->option ?? null,
+                'custom_flags' => $request->custom_flags ?? null
+            ]);
+
+        } catch (\Exception $exception) {
+
+            return redirect(route('mysqldump.edit', $mySQLDump))->with(['alert_type' => 'failure', 'alert_message' => 'MySQL dump could not be updated error ' . $exception->getMessage()]);
+        }
+
+        return redirect(route('mysqldump.show', $mySQLDump))->with(['alert_type' => 'success', 'alert_message' => 'MySQL dump was updated successfully']);
 
     }
 
@@ -107,9 +135,12 @@ class MySQLDumpController extends Controller
     {
         $this->authorize('delete', $mySQLDump);
 
+        $mySQLDump->delete();
+
+        return redirect(route('mysqldump.index'))->with(['alert_type' => 'success', 'alert_message' => 'MySQL dump deleted successfully']);
     }
 
-    public function run(MySQLDump $mySQLDump)
+    public function run(MySQLDump $mySQLDump): \Illuminate\Http\JsonResponse
     {
         $this->authorize('view', $mySQLDump);
 
@@ -117,4 +148,5 @@ class MySQLDumpController extends Controller
 
         return response()->json(['result' => $run])->header('Content-Type', 'application/json');
     }
+
 }
