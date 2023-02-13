@@ -40,21 +40,32 @@ The full features of Surcuri as of February 2023:
 - View files through SFTP.
 - Edit (smaller) files.
 
-# Contents
+# API Contents
 
-1. [ Servers ](#servers)
-2. [ Connections ](#connections)
-3. [ Keys ](#keys)
-4. [ SFTP ](#stp)
-5. [ Databases ](#databases)
-6. [ IP addresses ](#ips)
-7. [ Pings ](#pings)
-8. [ Ping groups ](#pinggroups)
-9. [ Commands ](#commands)
-10. [ Command groups ](#commandgroups)
-11. [ Logs ](#logs)
-12. [ MySQLdump ](#mysqldump)
-13. [ API ](#api)
+1. [ Information ](#apiinfo)
+2. [ Servers ](#servers)
+3. [ Connections ](#connections)
+4. [ Keys ](#keys)
+5. [ SFTP ](#stp)
+6. [ Database Connections ](#databaseconnections)
+7. [ Databases ](#databases)
+8. [ IP addresses ](#ips)
+9. [ Pings ](#pings)
+10. [ Ping groups ](#pinggroups)
+11. [ Commands ](#commands)
+12. [ Command groups ](#commandgroups)
+13. [ Logs ](#logs)
+14. [ MySQLdump ](#mysqldump)
+
+<a name="apiinfo"></a>
+
+## Information
+
+Get your API token from your profile page: ```/profile```
+
+Your API token must be included in each request header as ```'Authorization: Bearer YOUR_API_TOKEN'```
+
+```'Accept: application/json'``` and ```'Content-Type: application/json'``` are required for requests.
 
 <a name="servers"></a>
 
@@ -86,13 +97,26 @@ The full features of Surcuri as of February 2023:
 
 `POST` `/servers/`
 
-**Requires 'hostname' parameter**
+**'hostname' is the only required parameter**
+
+An example body to create a server:
+
+```json
+{
+    "title": "SYD-1C-2GB-30GB",
+    "hostname": "syd.server.com",
+    "type_id": 1,
+    "cpu_cores": 1,
+    "cpu_freq": 3.1,
+    "ram_gb": 2,
+    "disk_gb": 30,
+    "ping_port": 80
+}
+```
 
 #### Destroy a server
 
 `DELETE` `/servers/{Server}`
-
-
 
 
 ---
@@ -111,7 +135,7 @@ comment
 
 #### Get a connections with server and key
 
-`GET` `/connections/{Connection}`
+`GET` `/connections/{connection}`
 
 #### Get connection edit/create parameters
 
@@ -119,7 +143,7 @@ comment
 
 #### Update a connection
 
-`PATCH` `/connections/{Connection}`
+`PATCH` `/connections/{connection}`
 
 #### Create a connection
 
@@ -127,7 +151,7 @@ comment
 
 #### Destroy a connection
 
-`DELETE` `/connections/{Connection}`
+`DELETE` `/connections/{connection}`
 
 
 ---
@@ -138,6 +162,19 @@ comment
 
 comment
 
+### Keys API calls
+
+#### Get all keys
+
+`GET` `/keys/`
+
+#### Get a key with its connection
+
+`GET` `/keys/{key}`
+
+#### Destroy a key
+
+`DELETE` `/keys/{key}`
 
 ---
 
@@ -147,6 +184,66 @@ comment
 
 comment
 
+### SFTP connections API calls
+
+#### Get all SFTP connections
+
+`GET` `/sftp/`
+
+#### Get a SFTP connection with its server and key
+
+`GET` `/sftp/{sftpConnection}`
+
+#### Get SFTP connection edit/create parameters
+
+`GET` `/sftp/help`
+
+#### Update a SFTP connection
+
+`PATCH` `/sftp/{sftpConnection}`
+
+#### Create a SFTP connection
+
+`POST` `/sftp/`
+
+#### Destroy a SFTP connection
+
+`DELETE` `/sftp/{sftpConnection}`
+
+---
+
+<a name="databaseconnections"></a>
+
+## Database connections
+
+comment
+
+### Database connections API calls
+
+#### Get all Database connections
+
+`GET` `/db/connections/`
+
+#### Get a database connections with server and key
+
+`GET` `/db/connections/{databaseConnection}`
+
+#### Get database connection edit/create parameters
+
+`GET` `/db/connections/help`
+
+#### Update a database connection
+
+`PATCH` `/db/connections/{databaseConnection}`
+
+#### Create a database connection
+
+`POST` `/db/connections/`
+
+#### Destroy a database connection
+
+`DELETE` `/db/connections/{databaseConnection}`
+
 ---
 
 <a name="databases"></a>
@@ -154,6 +251,20 @@ comment
 ## Databases
 
 comment
+
+### Database API calls
+
+#### Get all Databases
+
+`GET` `/db/`
+
+#### Get a database server and key
+
+`GET` `/db/{databaseConnection}`
+
+#### Destroy a database
+
+`DELETE` `/db/{databaseConnection}`
 
 ---
 
@@ -246,14 +357,6 @@ comment
 ## MySQLdump
 
 comment
-
----
-
-<a name="api"></a>
-
-## API
-
-Get your API key from your profile page: ```/profile```
 
 ---
 

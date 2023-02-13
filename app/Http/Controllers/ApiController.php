@@ -11,6 +11,7 @@ use App\Models\Key;
 use App\Models\Location;
 use App\Models\Ping;
 use App\Models\Server;
+use App\Models\SftpConnection;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
@@ -87,6 +88,18 @@ class ApiController extends Controller
         return response()->json($keys)->header('Content-Type', 'application/json');
     }
 
+    public function keysShow(Key $key): \Illuminate\Http\JsonResponse
+    {
+        $keys = Key::where('id', $key->id)->with(['conn'])->first();
+        return response()->json($keys)->header('Content-Type', 'application/json');
+    }
+
+    public function keysDestroy(Key $key): \Illuminate\Http\JsonResponse
+    {
+        $result = $key->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
     public function pingsIndex(): \Illuminate\Http\JsonResponse
     {
         $pings = Ping::Paginate(20);
@@ -120,7 +133,7 @@ class ApiController extends Controller
     public function serversStore(Server $server, Request $request): \Illuminate\Http\JsonResponse
     {
         $server->create($request->all());
-        return response()->json($server->Paginate(20))->header('Content-Type', 'application/json');
+        return response()->json($server)->header('Content-Type', 'application/json');
     }
 
     public function serversDestroy(Server $server): \Illuminate\Http\JsonResponse
@@ -167,6 +180,41 @@ class ApiController extends Controller
     public function connectionsHelp(Connection $connection): \Illuminate\Http\JsonResponse
     {
         return response()->json($connection->getFillable())->header('Content-Type', 'application/json');
+    }
+
+    public function sftpIndex(): \Illuminate\Http\JsonResponse
+    {
+        $sftp = SftpConnection::Paginate(20);
+        return response()->json($sftp)->header('Content-Type', 'application/json');
+    }
+
+    public function sftpShow(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $data = $sftpConnection->where('id', $sftpConnection->id)->with(['server', 'key'])->first();
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function sftpUpdate(SftpConnection $sftpConnection, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $sftpConnection->update($request->all());
+        return response()->json($sftpConnection->Paginate(20))->header('Content-Type', 'application/json');
+    }
+
+    public function sftpStore(SftpConnection $sftpConnection, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $sftpConnection->create($request->all());
+        return response()->json($sftpConnection->Paginate(20))->header('Content-Type', 'application/json');
+    }
+
+    public function sftpDestroy(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $result = $sftpConnection->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function sftpHelp(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($sftpConnection->getFillable())->header('Content-Type', 'application/json');
     }
 
     public function ipsIndex(): \Illuminate\Http\JsonResponse

@@ -64,6 +64,8 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::get('/outputs/{commandOutput}', [ApiController::class, 'outputsShow'])->middleware(['throttle:30,1'])->name('api.outputs.show');
 
     Route::get('/keys', [ApiController::class, 'keysIndex'])->middleware(['throttle:30,1'])->name('api.keys.index');
+    Route::get('/keys/{key}', [ApiController::class, 'keysShow'])->middleware(['throttle:30,1'])->name('api.keys.show');
+    Route::delete('/keys/{key}', [ApiController::class, 'keysDestroy'])->middleware(['throttle:30,1'])->name('api.keys.destroy');
 
     Route::get('/pings', [ApiController::class, 'pingsIndex'])->middleware(['throttle:30,1'])->name('api.pings.index');
 
@@ -82,6 +84,13 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::post('/connections', [ApiController::class, 'connectionsStore'])->middleware(['throttle:20,1'])->name('api.connection.store');
     Route::delete('/connections/{connection}', [ApiController::class, 'connectionsDestroy'])->middleware(['throttle:20,1'])->name('api.connection.destroy');
 
+    Route::get('/sftp', [ApiController::class, 'sftpIndex'])->middleware(['throttle:30,1'])->name('api.sftp.index');
+    Route::get('/sftp/help', [ApiController::class, 'sftpHelp'])->middleware(['throttle:30,1'])->name('api.sftp.help');
+    Route::get('/sftp/{sftpConnection}', [ApiController::class, 'sftpShow'])->middleware(['throttle:30,1'])->name('api.sftp.show');
+    Route::patch('/sftp/{sftpConnection}', [ApiController::class, 'sftpUpdate'])->middleware(['throttle:20,1'])->name('api.sftp.update');
+    Route::post('/sftp', [ApiController::class, 'sftpStore'])->middleware(['throttle:20,1'])->name('api.sftp.store');
+    Route::delete('/sftp/{sftpConnection}', [ApiController::class, 'sftpDestroy'])->middleware(['throttle:20,1'])->name('api.sftp.destroy');
+
     Route::get('/ips', [ApiController::class, 'ipsIndex'])->middleware(['throttle:30,1'])->name('api.ips.index');
     Route::get('/ips/help', [ApiController::class, 'ipsHelp'])->middleware(['throttle:30,1'])->name('api.ips.help');
     Route::get('/ips/{ipAddress}', [ApiController::class, 'ipsShow'])->middleware(['throttle:30,1'])->name('api.ips.show');
@@ -94,5 +103,20 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::patch('/commands/{command}', [ApiController::class, 'commandsUpdate'])->middleware(['throttle:20,1'])->name('api.commands.update');
     Route::post('/commands', [ApiController::class, 'commandsStore'])->middleware(['throttle:20,1'])->name('api.commands.store');
     Route::delete('/commands/{command}', [ApiController::class, 'commandsDestroy'])->middleware(['throttle:20,1'])->name('api.commands.destroy');
+
+    Route::get('/db/connection', [ApiController::class, 'dbConnectionIndex'])->middleware(['throttle:30,1'])->name('api.db.connection.index');
+    Route::get('/db/connection/help', [ApiController::class, 'dbConnectionHelp'])->middleware(['throttle:30,1'])->name('api.db.connection.help');
+    Route::get('/db/connection/{databaseConnection}', [ApiController::class, 'dbConnectionShow'])->middleware(['throttle:30,1'])->name('api.db.connection.show');
+    Route::patch('/db/connection/{databaseConnection}', [ApiController::class, 'dbConnectionUpdate'])->middleware(['throttle:20,1'])->name('api.db.connection.update');
+    Route::post('/db/connection', [ApiController::class, 'dbConnectionStore'])->middleware(['throttle:20,1'])->name('api.db.connection.store');
+    Route::delete('/db/connection/{databaseConnection}', [ApiController::class, 'dbConnectionDestroy'])->middleware(['throttle:20,1'])->name('api.db.connection.destroy');
+
+    Route::get('/db', [ApiController::class, 'dbIndex'])->middleware(['throttle:30,1'])->name('api.db.index');
+    Route::get('/db/help', [ApiController::class, 'dbHelp'])->middleware(['throttle:30,1'])->name('api.db.help');
+    Route::get('/db/{database}', [ApiController::class, 'dbShow'])->middleware(['throttle:30,1'])->name('api.db.show');
+    Route::patch('/db/{database}', [ApiController::class, 'dbUpdate'])->middleware(['throttle:20,1'])->name('api.db.update');
+    Route::post('/db', [ApiController::class, 'dbStore'])->middleware(['throttle:20,1'])->name('api.db.store');
+    Route::delete('/db/{database}', [ApiController::class, 'dbDestroy'])->middleware(['throttle:20,1'])->name('api.db.destroy');
+
 
 });
