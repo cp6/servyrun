@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActionLog;
 use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\MySQLDump;
