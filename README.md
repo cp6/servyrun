@@ -60,7 +60,39 @@ The full features of Surcuri as of February 2023:
 
 ## Servers
 
-comment
+### Server API calls
+
+#### Get all servers
+
+`GET` `/servers/`
+
+#### Get a server with IPs, location, type and connection
+
+`GET` `/servers/{Server}`
+
+#### Get servers SSH IP
+
+`GET` `/servers/{Server}/ip`
+
+#### Get Servers edit/create parameters
+
+`GET` `/servers/help`
+
+#### Update a server
+
+`PATCH` `/servers/{Server}`
+
+#### Create a server
+
+`POST` `/servers/`
+
+**Requires 'hostname' parameter**
+
+#### Destroy a server
+
+`DELETE` `/servers/{Server}`
+
+
 
 
 ---
@@ -70,6 +102,32 @@ comment
 ## Connections
 
 comment
+
+### Connection API calls
+
+#### Get all connections
+
+`GET` `/connections/`
+
+#### Get a connections with server and key
+
+`GET` `/connections/{Connection}`
+
+#### Get connection edit/create parameters
+
+`GET` `/connections/help`
+
+#### Update a connection
+
+`PATCH` `/connections/{Connection}`
+
+#### Create a connection
+
+`POST` `/connections/`
+
+#### Destroy a connection
+
+`DELETE` `/connections/{Connection}`
 
 
 ---
@@ -104,6 +162,32 @@ comment
 ## IP addresses
 
 comment
+
+### Ip address API calls
+
+#### Get all Ip addresses
+
+`GET` `/ips/`
+
+#### Get an Ip address with its server
+
+`GET` `/ips/{ipAddress}`
+
+#### Get Ip address edit/create parameters
+
+`GET` `/ips/help`
+
+#### Update an Ip address
+
+`PATCH` `/ips/{ipAddress}`
+
+#### Create an Ip address
+
+`POST` `/ips/`
+
+#### Destroy an Ip address
+
+`DELETE` `/ips/{ipAddress}`
 
 ---
 
@@ -145,6 +229,16 @@ comment
 
 comment
 
+### Action logs API calls
+
+#### Get all logs
+
+`GET` `/logs/`
+
+#### Get a log
+
+`GET` `/logs/{actionLog}`
+
 ---
 
 <a name="mysqldump"></a>
@@ -159,7 +253,7 @@ comment
 
 ## API
 
-comment
+Get your API key from your profile page: ```/profile```
 
 ---
 

@@ -27,6 +27,12 @@ class ApiController extends Controller
         return response()->json($logs)->header('Content-Type', 'application/json');
     }
 
+    public function actionLogsShow(ActionLog $actionLog): \Illuminate\Http\JsonResponse
+    {
+        $log = ActionLog::where('id', $actionLog->id)->with(['server', 'connection', 'command', 'database'])->first();
+        return response()->json($log)->header('Content-Type', 'application/json');
+    }
+
     public function typesIndex(): \Illuminate\Http\JsonResponse
     {
         $types = Type::Paginate(20);
@@ -123,6 +129,11 @@ class ApiController extends Controller
         return response()->json(['result' => $result])->header('Content-Type', 'application/json');
     }
 
+    public function serversHelp(Server $server): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($server->getFillable())->header('Content-Type', 'application/json');
+    }
+
     public function connectionsIndex(): \Illuminate\Http\JsonResponse
     {
         $connections = Connection::Paginate(20);
@@ -153,6 +164,11 @@ class ApiController extends Controller
         return response()->json(['result' => $result])->header('Content-Type', 'application/json');
     }
 
+    public function connectionsHelp(Connection $connection): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($connection->getFillable())->header('Content-Type', 'application/json');
+    }
+
     public function ipsIndex(): \Illuminate\Http\JsonResponse
     {
         $ipAddresses = IpAddress::Paginate(20);
@@ -161,7 +177,7 @@ class ApiController extends Controller
 
     public function ipsShow(IpAddress $ipAddress): \Illuminate\Http\JsonResponse
     {
-        $data = $ipAddress->where('id', $ipAddress->id)->with(['server', 'key'])->first();
+        $data = $ipAddress->where('id', $ipAddress->id)->with(['server'])->first();
         return response()->json($data)->header('Content-Type', 'application/json');
     }
 
@@ -183,6 +199,10 @@ class ApiController extends Controller
         return response()->json(['result' => $result])->header('Content-Type', 'application/json');
     }
 
+    public function ipsHelp(IpAddress $ipAddress): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($ipAddress->getFillable())->header('Content-Type', 'application/json');
+    }
 
     public function commandsIndex(): \Illuminate\Http\JsonResponse
     {

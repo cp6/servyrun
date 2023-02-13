@@ -56,6 +56,7 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::get('/locations/{location}', [ApiController::class, 'locationsShow'])->middleware(['throttle:30,1'])->name('api.locations.show');
 
     Route::get('/logs', [ApiController::class, 'actionLogsIndex'])->middleware(['throttle:30,1'])->name('api.logs.index');
+    Route::get('/logs/{actionLog}', [ApiController::class, 'actionLogsShow'])->middleware(['throttle:30,1'])->name('api.logs.show');
 
     Route::get('/outputs', [ApiController::class, 'outputsIndex'])->middleware(['throttle:30,1'])->name('api.outputs.index');
     Route::get('/outputs/server/{server}', [ApiController::class, 'outputsServerIndex'])->middleware(['throttle:30,1'])->name('api.outputs.server.index');
@@ -67,6 +68,7 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::get('/pings', [ApiController::class, 'pingsIndex'])->middleware(['throttle:30,1'])->name('api.pings.index');
 
     Route::get('/servers', [ApiController::class, 'serversIndex'])->middleware(['throttle:30,1'])->name('api.server.index');
+    Route::get('/servers/help', [ApiController::class, 'serversHelp'])->middleware(['throttle:30,1'])->name('api.server.help');
     Route::get('/servers/{server}', [ApiController::class, 'serversShow'])->middleware(['throttle:30,1'])->name('api.server.show');
     Route::get('/servers/{server}/ip', [ServerController::class, 'ip'])->middleware(['throttle:20,1'])->name('server.ip');//IP for the server
     Route::patch('/servers/{server}', [ApiController::class, 'serversUpdate'])->middleware(['throttle:20,1'])->name('api.server.update');
@@ -74,12 +76,14 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::delete('/servers/{server}', [ApiController::class, 'serversDestroy'])->middleware(['throttle:20,1'])->name('api.server.destroy');
 
     Route::get('/connections', [ApiController::class, 'connectionsIndex'])->middleware(['throttle:30,1'])->name('api.connection.index');
+    Route::get('/connections/help', [ApiController::class, 'connectionsHelp'])->middleware(['throttle:30,1'])->name('api.connection.help');
     Route::get('/connections/{connection}', [ApiController::class, 'connectionsShow'])->middleware(['throttle:30,1'])->name('api.connection.show');
     Route::patch('/connections/{connection}', [ApiController::class, 'connectionsUpdate'])->middleware(['throttle:20,1'])->name('api.connection.update');
     Route::post('/connections', [ApiController::class, 'connectionsStore'])->middleware(['throttle:20,1'])->name('api.connection.store');
     Route::delete('/connections/{connection}', [ApiController::class, 'connectionsDestroy'])->middleware(['throttle:20,1'])->name('api.connection.destroy');
 
     Route::get('/ips', [ApiController::class, 'ipsIndex'])->middleware(['throttle:30,1'])->name('api.ips.index');
+    Route::get('/ips/help', [ApiController::class, 'ipsHelp'])->middleware(['throttle:30,1'])->name('api.ips.help');
     Route::get('/ips/{ipAddress}', [ApiController::class, 'ipsShow'])->middleware(['throttle:30,1'])->name('api.ips.show');
     Route::patch('/ips/{ipAddress}', [ApiController::class, 'ipsUpdate'])->middleware(['throttle:20,1'])->name('api.ips.update');
     Route::post('/ips', [ApiController::class, 'ipsStore'])->middleware(['throttle:20,1'])->name('api.ips.store');
