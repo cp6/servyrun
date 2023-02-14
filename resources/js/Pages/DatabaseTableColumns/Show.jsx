@@ -5,6 +5,7 @@ import ResponseAlert from "@/Components/Alert";
 import {HiDownload, HiRefresh, HiTrash} from "react-icons/hi";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
+import {Dropdown} from "flowbite-react";
 export default function Show({auth, resource, database, table, columns, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
 
@@ -42,7 +43,8 @@ export default function Show({auth, resource, database, table, columns, alert_ty
                     <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between">
                             <div><h2 className="mb-3 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">
-                                {database.name}, {table.name} table columns</h2></div>
+                                {database.name}, {table.name} table columns</h2>
+                                <p className="mb-4 text-sm text-gray-900 dark:text-white">Click column name to download as array</p></div>
                             <small className="text-end">
                                 <HiTrash
                                     className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
@@ -60,7 +62,7 @@ export default function Show({auth, resource, database, table, columns, alert_ty
                         <ul className="max-w-3xl space-y-1 text-gray-500 list-none list-inside dark:text-gray-400">
                             {columns.map(columns =>
                                 <li key={columns.id}>
-                                    <span className="text-gray-900 dark:text-gray-200">{columns.name}</span>
+                                    <span className="text-gray-900 dark:text-gray-200"><a href={route('db.table.columns.download.single', [database.id, table.id, columns.id])}>{columns.name}</a></span>
                                     <span
                                         className="ml-2 bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{columns.type}</span>
                                     {

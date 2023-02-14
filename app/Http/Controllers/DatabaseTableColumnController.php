@@ -129,4 +129,21 @@ class DatabaseTableColumnController extends Controller
 
         return redirect(route('db.show.table', $table_id))->with(['alert_type' => 'success', 'alert_message' => 'Deleted successfully']);
     }
+
+    public function downloadColumn(Database $database, DatabaseTable $databaseTable, DatabaseTableColumn $databaseTableColumn): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $this->authorize('view', $databaseTableColumn);
+
+        $connection = DatabaseConnection::where('id', $database->db_connection_id)->firstOrFail();
+
+        $connection->dbConnect($connection, $database->name);
+
+        $data = $connection->getTableColumnData($databaseTable, $databaseTableColumn);
+
+        return response()->streamDownload(function () use ($data) {
+            echo json_encode($data, JSON_THROW_ON_ERROR);
+        }, date('Y-m-d-His') . "_{$database->name}_{$databaseTable->name}_{$databaseTableColumn->name}.json");
+
+    }
+
 }
