@@ -6,12 +6,10 @@ use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SSH2;
-use function Psy\debug;
 
 class Connection extends Model
 {
@@ -66,17 +64,17 @@ class Connection extends Model
 
     public static function do(Connection $connection, int $timeout = 10): ?SSH2
     {
-        $connection = $connection->where('id', $connection->id)->with(['server.ip_ssh', 'key'])->firstOrFail();
+        $conn = $connection->where('id', $connection->id)->with(['server.ip_ssh', 'key'])->firstOrFail();
 
-        if ($connection->type === 1) {
+        if ($conn->type === 1) {
             //Password auto
-            $ssh = self::makeConnectionPassword($connection->server->ip_ssh->ip, $connection->ssh_port, $connection->username, Crypt::decryptString($connection->password), $timeout);
-        } else if ($connection->type === 2) {
+            $ssh = self::makeConnectionPassword($conn->server->ip_ssh->ip, $conn->ssh_port, $conn->username, Crypt::decryptString($conn->password), $timeout);
+        } else if ($conn->type === 2) {
             //Key with a password
-            $ssh = self::makeConnectionKey($connection->server->ip_ssh->ip, $connection->ssh_port, $connection->username, $connection->key->saved_as, Crypt::decryptString($connection->password), $timeout);
-        } elseif ($connection->type === 3) {
+            $ssh = self::makeConnectionKey($conn->server->ip_ssh->ip, $conn->ssh_port, $conn->username, $conn->key->saved_as, Crypt::decryptString($conn->password), $timeout);
+        } elseif ($conn->type === 3) {
             //Key with NO password
-            $ssh = self::makeConnectionKey($connection->server->ip_ssh->ip, $connection->ssh_port, $connection->username, $connection->key->saved_as, null, $timeout);
+            $ssh = self::makeConnectionKey($conn->server->ip_ssh->ip, $conn->ssh_port, $conn->username, $conn->key->saved_as, null, $timeout);
         } else {
             return null;
         }
@@ -94,6 +92,7 @@ class Connection extends Model
             ActionLog::make(5, 'connect', 'SSH', $exception->getMessage());
             return null;
         }
+        ActionLog::make(1, 'connected', 'connection', "Made connection {$user}:{$port} with password");
 
         return $ssh;
     }
@@ -107,13 +106,14 @@ class Connection extends Model
             } catch (\Exception $exception) {
                 return null;
             }
+            ActionLog::make(1, 'connected', 'connection', "Made connection with key: {$key_id} and password");
         } else {//No key password
             try {
                 $key = PublicKeyLoader::load(Storage::disk('private')->get("keys/$key_id"));
             } catch (\Exception $exception) {
                 return null;
             }
-
+            ActionLog::make(1, 'connected', 'connection', "Made connection with key: {$key_id}");
         }
 
         $ssh = new SSH2($host, $port, $timeout);
@@ -121,12 +121,11 @@ class Connection extends Model
         try {
             $ssh->login($user, $key);
         } catch (\Exception $exception) {
-            ActionLog::make(5, 'connect', 'SSH', $exception->getMessage());
+            ActionLog::make(5, 'connecting', 'connection', $exception->getMessage());
             return null;
         }
 
         return $ssh;
     }
-
 
 }
