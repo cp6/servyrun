@@ -60,12 +60,9 @@ class PingGroupController extends Controller
 
         $connections_array = array_filter(array_unique($connections_array));
 
-        $group_id = Str::random(8);
-
         try {
 
             $ping_group = new PingGroup();
-            $ping_group->id = $group_id;
             $ping_group->title = $request->title;
             $ping_group->amount = count($connections_array);
             $ping_group->save();
@@ -81,7 +78,7 @@ class PingGroupController extends Controller
                 $connection = Connection::where('id', $connection_id)->first();
 
                 $ping_group_assigned = new PingGroupAssigned();
-                $ping_group_assigned->group_id = $group_id;
+                $ping_group_assigned->group_id = $ping_group->id;
                 $ping_group_assigned->server_id = $connection->server_id;
                 $ping_group_assigned->connection_id = $connection_id;
                 $ping_group_assigned->save();

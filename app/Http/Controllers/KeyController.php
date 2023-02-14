@@ -46,7 +46,6 @@ class KeyController extends Controller
             return redirect(route('key.create'))->with(['alert_type' => 'failure', 'alert_message' => 'File too large must be under 20KB']);
         }
 
-        $id = Str::random(8);
         $file_id_long = Str::random(32);
 
         $save_as = $file_id_long . '.' . $file->getClientOriginalExtension();
@@ -56,7 +55,6 @@ class KeyController extends Controller
         try {
 
             $key = new Key();
-            $key->id = $id;
             $key->file_id = $file_id_long;
             $key->password = ($request->password) ? Crypt::encryptString($request->password) : null;
             $key->original_name = $file->getClientOriginalName();

@@ -13,8 +13,6 @@ class Server extends Model
 
     public $incrementing = false;
 
-    protected $primaryKey = 'id';
-
     protected $keyType = 'string';
 
     protected $fillable = ['location_id', 'type_id', 'operating_system', 'hostname', 'title', 'cpu', 'cpu_cores', 'cpu_freq', 'disk_gb', 'disk_tb', 'ram_mb', 'ram_gb', 'swap_mb', 'bandwidth_gb', 'ping_port', 'price', 'price_usd', 'currency', 'payment_term', 'next_due_date'];
@@ -34,11 +32,11 @@ class Server extends Model
         });
 
         static::created(function (Server $server) {
-            ActionLog::make(1, 'create', 'server', 'Created server '.$server->title, $server->id);
+            ActionLog::make(1, 'create', 'server', 'Created server ' . $server->title, $server->id);
         });
 
         static::updated(function (Server $server) {
-            ActionLog::make(1, 'update', 'server', 'Updated server '.$server->title, $server->id);
+            ActionLog::make(1, 'update', 'server', 'Updated server ' . $server->title, $server->id);
         });
 
         static::deleted(function (Server $server) {

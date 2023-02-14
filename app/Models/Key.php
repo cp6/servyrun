@@ -26,6 +26,7 @@ class Key extends Model
     protected static function booted(): void
     {
         static::creating(function (Key $key) {
+            $key->id = \Str::random(8);
             $key->user_id = \Auth::id();
         });
 

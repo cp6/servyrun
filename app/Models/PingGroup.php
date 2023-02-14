@@ -26,6 +26,7 @@ class PingGroup extends Model
     protected static function booted(): void
     {
         static::creating(function (PingGroup $pingGroup) {
+            $pingGroup->id = \Str::random(8);
             $pingGroup->user_id = \Auth::id();
         });
 
