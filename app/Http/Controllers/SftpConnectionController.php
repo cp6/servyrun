@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActionLog;
 use App\Models\Connection;
 use App\Models\Key;
 use App\Models\Server;
@@ -13,7 +14,7 @@ use phpseclib3\Net\SFTP;
 
 class SftpConnectionController extends Controller
 {
-    public function index()
+    public function index(): \Inertia\Response
     {
         return Inertia::render('Sftp/Index', [
             'connections' => SftpConnection::with(['server'])->get(),
@@ -80,7 +81,7 @@ class SftpConnectionController extends Controller
         return redirect(route('sftp.show', $sftp_conn))->with(['alert_type' => 'success', 'alert_message' => 'SFTP connection created successfully']);
     }
 
-    public function show(SftpConnection $sftpConnection)
+    public function show(SftpConnection $sftpConnection): \Inertia\Response
     {
         $this->authorize('view', $sftpConnection);
 
@@ -96,7 +97,7 @@ class SftpConnectionController extends Controller
         ]);
     }
 
-    public function read(SftpConnection $sftpConnection)
+    public function read(SftpConnection $sftpConnection): \Inertia\Response
     {
         $this->authorize('view', $sftpConnection);
 
@@ -112,7 +113,7 @@ class SftpConnectionController extends Controller
         ]);
     }
 
-    public function edit(SftpConnection $sftpConnection)
+    public function edit(SftpConnection $sftpConnection): \Inertia\Response
     {
         $this->authorize('view', $sftpConnection);
 
@@ -164,6 +165,8 @@ class SftpConnectionController extends Controller
 
         $time_end = microtime(true);
 
+        ActionLog::make(1, 'run', 'sftp', 'Ran SFTP command: '.$command, $sftpConnection->server_id);
+
         return response()->json([
             'id' => $sftpConnection->id,
             'server_id' => $sftpConnection->server_id,
@@ -194,6 +197,8 @@ class SftpConnectionController extends Controller
 
             $file_size = $sftp->filesize($file);
 
+            ActionLog::make(1, 'download', 'sftp', 'Downloaded file: '.$file, $sftpConnection->server_id);
+
             $download = SftpConnection::downloadFile($sftp, $file);
 
             header("Content-Description: File Transfer");
@@ -212,7 +217,7 @@ class SftpConnectionController extends Controller
         return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "' . $file . '" not found']);
     }
 
-    public function readFile(Request $request, SftpConnection $sftpConnection)
+    public function readFile(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
     {
         $this->authorize('view', $sftpConnection);
 
@@ -221,7 +226,7 @@ class SftpConnectionController extends Controller
         $sftp = SftpConnection::do($sftpConnection);
 
         if (is_null($sftp)) {
-            //return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
+
             return response()->json(['success' => false, 'contents' => 'Could not connect', 'size' => null, 'file' => null, 'extension' => null])->header('Content-Type', 'application/json');
         }
 
@@ -233,10 +238,11 @@ class SftpConnectionController extends Controller
 
             $download = SftpConnection::downloadFile($sftp, $file);
 
+            ActionLog::make(1, 'read', 'sftp', 'Read file: '.$file, $sftpConnection->server_id);
+
             return response()->json(['success' => true, 'contents' => $download, 'size' => $sftp->filesize($file), 'file' => $file, 'extension' => $extension])->header('Content-Type', 'application/json');
         }
 
-        //return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File "' . $file . '" not found']);
         return response()->json(['success' => false, 'contents' => 'File "' . $file . '" could not be found', 'size' => null, 'file' => null, 'extension' => null])->header('Content-Type', 'application/json');
     }
 
@@ -260,8 +266,12 @@ class SftpConnectionController extends Controller
         $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_LOCAL_FILE);
 
         if ($upload_file) {
+            ActionLog::make(1, 'upload', 'sftp', 'Uploaded file as: '.$request->save_as, $sftpConnection->server_id);
+
             return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'success', 'alert_message' => $file->getClientOriginalName() . '" uploaded as ' . $request->save_as]);
         }
+
+        ActionLog::make(6, 'upload', 'sftp', 'Uploaded file failed', $sftpConnection->server_id);
 
         return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File not uploaded as "' . $request->save_as . '"']);
 
@@ -281,9 +291,7 @@ class SftpConnectionController extends Controller
             return redirect(route('sftp.read', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Contents cannot be empty']);
         }
 
-        $upload_file = $sftp->put($request->save_as, $request->contents, SFTP::SOURCE_STRING);
-
-        return $upload_file;
+        return $sftp->put($request->save_as, $request->contents, SFTP::SOURCE_STRING);
     }
 
 }
