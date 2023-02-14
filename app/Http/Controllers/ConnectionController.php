@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActionLog;
 use App\Models\Command;
 use App\Models\CommandOutput;
 use App\Models\Connection;

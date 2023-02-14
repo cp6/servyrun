@@ -22,7 +22,7 @@ class Database extends Model
 
     protected $table = 'databases';
 
-    protected $fillable = ['db_connection_id', 'user_id', 'name'];
+    protected $fillable = ['name'];
 
     protected static function boot(): void
     {

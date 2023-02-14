@@ -17,7 +17,7 @@ class DatabaseConnection extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['user_id', 'server_id', 'host', 'title', 'port', 'username', 'password', 'type', 'version', 'privileges'];
+    protected $fillable = ['host', 'title', 'port', 'username', 'password', 'type', 'version', 'privileges'];
 
     public \PDO $db_con;
 
