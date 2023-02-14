@@ -103,7 +103,7 @@ class DatabaseTableController extends Controller
 
         return response()->streamDownload(function () use ($data) {
             echo json_encode($data, JSON_THROW_ON_ERROR);
-        }, date('Y-m-d-His') . "_{$databaseTable->name}.json");
+        }, date('Y-m-d-His') . "_{$database->name}_{$databaseTable->name}.json");
 
     }
 
