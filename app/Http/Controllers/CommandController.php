@@ -89,7 +89,12 @@ class CommandController extends Controller
     public function destroy(Command $command)
     {
         $this->authorize('delete', $command);
-        $command->delete();
+
+        try {
+            $command->delete();
+        } catch (\Exception $exception){
+            return redirect(route('command.index'))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('command.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command deleted successfully']);
     }

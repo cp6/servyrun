@@ -115,7 +115,11 @@ class IpAddressController extends Controller
     {
         $this->authorize('delete', $ipAddress);
 
-        $ipAddress->delete();
+        try {
+            $ipAddress->delete();
+        } catch (\Exception $exception){
+            return redirect(route('ip.show', $ipAddress))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('ip.index'))->with(['alert_type' => 'success', 'alert_message' => 'IP address deleted successfully']);
     }

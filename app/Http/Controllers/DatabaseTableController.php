@@ -48,7 +48,11 @@ class DatabaseTableController extends Controller
     {
         $this->authorize('delete', $databaseTable);
 
-        $databaseTable->delete();
+        try {
+            $databaseTable->delete();
+        } catch (\Exception $exception){
+            return redirect(route('db.show', $databaseTable))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('db.index'))->with(['alert_type' => 'success', 'alert_message' => 'Table deleted successfully']);
     }

@@ -182,7 +182,11 @@ class PingGroupController extends Controller
     {
         $this->authorize('delete', $pingGroup);
 
-        $pingGroup->delete();
+        try {
+            $pingGroup->delete();
+        } catch (\Exception $exception){
+            return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('ping-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Ping group deleted successfully']);
     }

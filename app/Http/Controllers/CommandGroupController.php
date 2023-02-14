@@ -160,7 +160,11 @@ class CommandGroupController extends Controller
     {
         $this->authorize('delete', $commandGroup);
 
-        $commandGroup->delete();
+        try {
+            $commandGroup->delete();
+        } catch (\Exception $exception){
+            return redirect(route('command-group.show', $commandGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('command-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command group deleted successfully']);
     }

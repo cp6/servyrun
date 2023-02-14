@@ -142,7 +142,11 @@ class SftpConnectionController extends Controller
     {
         $this->authorize('delete', $sftpConnection);
 
-        $sftpConnection->delete();
+        try {
+            $sftpConnection->delete();
+        } catch (\Exception $exception){
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('mysqldump.index'))->with(['alert_type' => 'success', 'alert_message' => 'SFTP connection deleted successfully']);
     }

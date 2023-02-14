@@ -253,7 +253,11 @@ class ConnectionController extends Controller
     {
         $this->authorize('delete', $connection);
 
-        $connection->delete();
+        try {
+            $connection->delete();
+        } catch (\Exception $exception){
+            return redirect(route('connection.show', $connection))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('connection.index'))->with(['alert_type' => 'success', 'alert_message' => 'Connection deleted successfully']);
     }

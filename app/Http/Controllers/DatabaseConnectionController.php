@@ -219,7 +219,11 @@ class DatabaseConnectionController extends Controller
     {
         $this->authorize('delete', $databaseConnection);
 
-        $databaseConnection->delete();
+        try {
+            $databaseConnection->delete();
+        } catch (\Exception $exception){
+            return redirect(route('db.connection.show', $databaseConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('db.connection.index'))->with(['alert_type' => 'success', 'alert_message' => 'Database connection deleted successfully']);
     }

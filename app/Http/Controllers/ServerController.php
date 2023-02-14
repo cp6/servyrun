@@ -205,7 +205,11 @@ class ServerController extends Controller
     {
         $this->authorize('delete', $server);
 
-        $server->delete();
+        try {
+            $server->delete();
+        } catch (\Exception $exception){
+            return redirect(route('server.show', $server))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('server.index'))->with(['alert_type' => 'success', 'alert_message' => 'Server deleted successfully']);
     }

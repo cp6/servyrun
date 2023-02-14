@@ -136,7 +136,11 @@ class MySQLDumpController extends Controller
     {
         $this->authorize('delete', $mySQLDump);
 
-        $mySQLDump->delete();
+        try {
+            $mySQLDump->delete();
+        } catch (\Exception $exception){
+            return redirect(route('mysqldump.show', $mySQLDump))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        }
 
         return redirect(route('mysqldump.index'))->with(['alert_type' => 'success', 'alert_message' => 'MySQL dump deleted successfully']);
     }
