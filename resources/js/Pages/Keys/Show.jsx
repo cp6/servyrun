@@ -42,7 +42,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
-                    <div className="py-6 px-2 mx-auto max-w-6xl lg:py-8">
+                    <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between">
                      <span
                          className="bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{resource.password === null ? ("No password") : ("Has password")}</span>

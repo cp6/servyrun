@@ -39,9 +39,9 @@ export default function Show({auth, resource, database, table, columns, alert_ty
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
-                    <div className="py-6 px-2 mx-auto max-w-6xl lg:py-8">
+                    <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between">
-                            <div><h2 className="mt-1 mb-3 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">
+                            <div><h2 className="mb-3 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">
                                 {database.name}, {table.name} table columns</h2></div>
                             <small className="text-end">
                                 <HiTrash

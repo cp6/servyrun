@@ -65,7 +65,7 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
-                    <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8">
+                    <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between mb-4">
                             <div>
                                 {resource.operating_system !== null ?

@@ -195,7 +195,7 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                                         </div>
                                     </div>
                                     <PrimaryButton
-                                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                                        className="inline-flex items-center px-5 py-2.5 mt-3"
                                         processing={processing}>
                                         Upload file
                                     </PrimaryButton>
@@ -206,7 +206,7 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                 </section>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg mt-4">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>SFTP Command output</h1>
-                    <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8" id="command_output_div">
+                    <div className="py-4 px-4 mx-auto max-w-7xl" id="command_output_div">
                         <span className="text-gray-400 dark:text-gray-500">Nothing run yet</span>
                     </div>
                 </section>

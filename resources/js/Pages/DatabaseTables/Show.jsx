@@ -77,7 +77,7 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
-                    <div className="py-6 px-2 mx-auto max-w-6xl lg:py-8">
+                    <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between">
                             <div><h2 className="mt-1 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name} ({resource.conn.host})</h2></div>
                             <small className="text-end">
