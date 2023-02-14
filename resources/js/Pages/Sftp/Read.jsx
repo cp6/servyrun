@@ -113,7 +113,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                                alert_message={alert_message}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>Read a file</h1>
-                    <div className="py-6 px-4 mx-auto max-w-7xl lg:py-8">
+                    <div className="py-4 px-4 mx-auto max-w-7xl">
                         <form onSubmit={submit}>
                             <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
                                 <div className="col-span-4">
@@ -130,7 +130,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                                 </div>
                             </div>
                             <PrimaryButton
-                                className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                                className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-900 hover:bg-purple-800"
                                 processing={processing}>
                                 Read
                             </PrimaryButton>
@@ -148,7 +148,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                          <pre contentEditable={editable} onChange={handleCodeChange} onInput={handleCodeChange}><code id={'codeTag'} className={`language-${fileExt}`}>{codeContent}</code></pre>
                         </div>
                     </div>
-                    <UpdateButton onClick={sendContents}>Update file</UpdateButton>
+                    <UpdateButton onClick={sendContents} className={'ml-2'}>Update file</UpdateButton>
                 </section>
             </div>
 
