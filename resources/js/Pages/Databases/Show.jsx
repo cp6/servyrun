@@ -4,7 +4,7 @@ import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
 import {HiLightningBolt, HiTrash} from "react-icons/hi";
-import {HiMagnifyingGlass} from "react-icons/all";
+import {HiTableCells} from "react-icons/all";
 import BackButton from "@/Components/BackButton";
 import CreatedAtText from "@/Components/CreatedAtText";
 import UpdatedAtText from "@/Components/UpdatedAtText";
@@ -61,7 +61,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                                 <HiTrash
                                     className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
                                     onClick={() => setShowModal(true)} title={'Delete database'}/>
-                                <HiMagnifyingGlass
+                                <HiTableCells
                                     className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
                                     onClick={event => window.location.href = route('db.show.tables', resource.id)}
                                     title={'View tables'}/>
