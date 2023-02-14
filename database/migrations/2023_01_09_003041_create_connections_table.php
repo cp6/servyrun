@@ -18,6 +18,7 @@ return new class extends Migration
             $table->char('key_id', 8)->default(null)->nullable();
             $table->string('password')->default(null)->nullable();
             $table->boolean('submit_password')->default(null)->nullable();
+            $table->boolean('sudo')->default(null)->nullable();
             $table->dateTime('last_used')->default(null)->nullable();
             $table->timestamps();
             $table->unique(['user_id', 'server_id', 'username', 'type']);

@@ -19,7 +19,7 @@ class Connection extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['type', 'username', 'ssh_port', 'key_id', 'password', 'last_used'];
+    protected $fillable = ['type', 'username', 'ssh_port', 'key_id', 'password', 'submit_password', 'sudo', 'last_used'];
 
     protected static function boot(): void
     {
