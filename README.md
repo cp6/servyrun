@@ -40,6 +40,10 @@ The full features of Surcuri as of February 2023:
 - View files through SFTP.
 - Edit (smaller) files.
 
+## External services used
+
+* https://ipwhois.io/documentation for IP address GEO data
+
 # API Contents
 
 1. [ Information ](#apiinfo)
