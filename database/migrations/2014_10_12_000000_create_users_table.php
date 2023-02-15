@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('login_ip_only')->default(null)->nullable();
             $table->string('api_ip_only')->default(null)->nullable();
             $table->boolean('email_when_login')->default(0);
+            $table->boolean('check_uptime_server_index')->default(1);
+            $table->boolean('check_uptime_connection_index')->default(1);
+            $table->boolean('check_uptime_db_connection_index')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });
