@@ -1,9 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/inertia-react';
 import React from "react";
-import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
 import AddButton from "@/Components/AddButton";
+import SftpConnectionStatusDot from "@/Components/SftpConnectionStatusDot";
 
 export default function Index({auth, connections, alert_type, alert_message}) {
 
@@ -22,14 +22,18 @@ export default function Index({auth, connections, alert_type, alert_message}) {
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
-                    {connections.map(connections => <Card key={connections.id}
-                                                          href={route('sftp.show', connections.id)} className={'dark:bg-gray-700 hover:dark:bg-gray-900'}>
-                        <div className="flex justify-end px-1">
-                                             <span
-                                                 className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                    {connections.map(connection =>
+                        <section key={connection.id}
+                                 className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
+                                 onClick={event => window.location.href = route('sftp.show', connection.id)}>
+                            <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
+                                <div className="flex items-center justify-between mb-3">
+                                    <div>
+                              <span
+                                  className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                                                  {
                                                      (() => {
-                                                         if (typeof (connections.key_id) != "undefined" && connections.key_id !== null) {
+                                                         if (typeof (connection.key_id) != "undefined" && connection.key_id !== null) {
                                                              return (
                                                                  "KEY"
                                                              )
@@ -41,20 +45,26 @@ export default function Index({auth, connections, alert_type, alert_message}) {
                                                      })()
                                                  }
                                              </span>
-                            <span
-                                className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">
-                                                 PORT {connections.port}
+                                        <span
+                                            className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">
+                                                 PORT {connection.port}
                                              </span>
-                        </div>
-                        <div className="flex flex-col justify-center items-center pb-3">
-                            <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                                {connections.username}
-                            </h5>
-                            <span className="text-sm text-gray-500 dark:text-gray-400">
-             {connections.server.hostname}
+                                    </div>
+                                    <small className="text-end">
+                                        <SftpConnectionStatusDot resource={connection}></SftpConnectionStatusDot>
+                                    </small>
+                                </div>
+
+                                <div className="flex flex-col justify-center items-center pb-3">
+                                    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                                        {connection.username}
+                                    </h5>
+                                    <span className="text-sm text-gray-500 dark:text-gray-400">
+             {connection.server.hostname}
       </span>
-                        </div>
-                    </Card>)}
+                                </div>
+                            </div>
+                        </section>)}
                 </div>
             </div>
         </AuthenticatedLayout>
