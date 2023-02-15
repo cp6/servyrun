@@ -22,14 +22,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',
-        'name',
-        'email',
-        'password',
-        'api_token',
-        'login_ip_only',
-        'api_ip_only',
-        'email_when_login'
+        'id', 'account_level', 'name', 'email', 'email_verified_at', 'password', 'api_token',
+        'login_ip_only', 'api_ip_only', 'email_when_login', 'check_uptime_server_index',
+        'check_uptime_connection_index', 'check_uptime_sftp_connection_index', 'check_uptime_db_connection_index', 'remember_token',
     ];
 
     /**
