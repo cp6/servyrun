@@ -52,7 +52,7 @@ export default function Index({auth, pings, alert_type, alert_message}) {
                                         id: "was_up",
                                         name: "Up",
                                         sort: true,
-                                        formatter: (cell) => (cell === 1) ? 'Y' : 'N'
+                                        formatter: (cell) => (cell === 1) ? html('<span class="text-green-500">Y</span>') :  html('<span class="text-red-500">N</span>')
                                     },
                                     {
                                         id: "avg",
