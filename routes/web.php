@@ -91,7 +91,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/connections', [ConnectionController::class, 'store'])->name('connection.store');
     Route::get('/connections/{connection}', [ConnectionController::class, 'show'])->name('connection.show');
     Route::get('/connections/{connection}/debug', [ConnectionController::class, 'debug'])->name('connection.debug');
-    Route::post('/connections/{connection}/verify', [ConnectionController::class, 'verify'])->name('connection.verify');
+    Route::get('/connections/{connection}/authenticated', [ConnectionController::class, 'authenticated'])->name('connection.authenticated');
     Route::get('/connections/{connection}/edit', [ConnectionController::class, 'edit'])->name('connection.edit');
     Route::patch('/connections/{connection}', [ConnectionController::class, 'update'])->name('connection.update');
     Route::delete('/connections/{connection}', [ConnectionController::class, 'destroy'])->name('connection.destroy');
@@ -122,7 +122,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/logs/{actionLog}', [ActionLogController::class, 'show'])->name('log.show');
 
     Route::get('/pings', [PingController::class, 'index'])->name('ping.index');
-    Route::get('/ping/test', [PingController::class, 'test'])->name('ping.test');
     Route::get('/ping/from/{server1}/to/{server2}', [PingController::class, 'pingFromTo'])->name('ping-from-to');
     Route::get('/ping/from/{server1}/to/{server2}/run', [PingController::class, 'runPingFromTo'])->name('run.ping-from-to');
     Route::get('/ping/{server}', [PingController::class, 'checkIsUp'])->name('check-is-up');

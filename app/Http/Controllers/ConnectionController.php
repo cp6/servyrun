@@ -270,4 +270,13 @@ class ConnectionController extends Controller
         return response()->json(['id' => $ssh->getServerIdentification()], 200)->header('Content-Type', 'application/json');
     }
 
+    public function authenticated(Connection $connection): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $connection);
+
+        $ssh = Connection::do($connection);
+
+        return response()->json(['authenticated' => $ssh->isAuthenticated()], 200)->header('Content-Type', 'application/json');
+    }
+
 }
