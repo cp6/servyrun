@@ -12,7 +12,7 @@ export default function ConnectionStatusDot({resource}) {
     }
 
     checkIsUp(resource).then((the_response) => {
-        setIsUp(the_response.authenticated);
+        setIsUp(the_response.result);
     });
 
     return (

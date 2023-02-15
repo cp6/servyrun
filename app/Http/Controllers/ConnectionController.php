@@ -276,7 +276,7 @@ class ConnectionController extends Controller
 
         $ssh = Connection::do($connection);
 
-        return response()->json(['authenticated' => $ssh->isAuthenticated()], 200)->header('Content-Type', 'application/json');
+        return response()->json(['result' => $ssh->isAuthenticated()], 200)->header('Content-Type', 'application/json');
     }
 
 }
