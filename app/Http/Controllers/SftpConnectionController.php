@@ -151,6 +151,15 @@ class SftpConnectionController extends Controller
         return redirect(route('mysqldump.index'))->with(['alert_type' => 'success', 'alert_message' => 'SFTP connection deleted successfully']);
     }
 
+    public function authenticated(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        return response()->json(['result' => $sftp->isAuthenticated()], 200)->header('Content-Type', 'application/json');
+    }
+
     public function run(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
     {
         $this->authorize('view', $sftpConnection);
