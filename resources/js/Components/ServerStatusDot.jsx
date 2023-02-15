@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {FaCircle} from "react-icons/all";
 
@@ -11,9 +11,11 @@ export default function ServerStatusDot({resource}) {
         return await res.data;
     }
 
-    checkIsUp(resource).then((the_response) => {
-        setIsUp(the_response.is_up);
-    });
+    useEffect(() => {
+        checkIsUp(resource).then((the_response) => {
+            setIsUp(the_response.is_up);
+        })
+    }, []);
 
     return (
         <>
