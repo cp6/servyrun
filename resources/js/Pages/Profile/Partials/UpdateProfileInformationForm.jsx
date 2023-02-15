@@ -2,18 +2,24 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Link, useForm, usePage } from '@inertiajs/inertia-react';
-import { Transition } from '@headlessui/react';
+import {Link, useForm, usePage} from '@inertiajs/inertia-react';
+import {Transition} from '@headlessui/react';
+import {Select} from "flowbite-react";
+import React from "react";
 
-export default function UpdateProfileInformation({ mustVerifyEmail, status, className }) {
+export default function UpdateProfileInformation({mustVerifyEmail, status, className}) {
     const user = usePage().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+    const {data, setData, patch, errors, processing, recentlySuccessful} = useForm({
         name: user.name,
         email: user.email,
         api_token: user.api_token,
         login_ip_only: user.login_ip_only,
         api_ip_only: user.api_ip_only,
+        check_uptime_server_index: 1,
+        check_uptime_connection_index: 1,
+        check_uptime_sftp_connection_index: 1,
+        check_uptime_db_connection_index: 1,
     });
 
     const submit = (e) => {
@@ -34,7 +40,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel for="api_token" value="API key" />
+                    <InputLabel for="api_token" value="API key"/>
 
                     <TextInput
                         id="api_token"
@@ -45,11 +51,11 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         autoComplete="api_token"
                     />
 
-                    <InputError className="mt-2" message={errors.api_token} />
+                    <InputError className="mt-2" message={errors.api_token}/>
                 </div>
 
                 <div>
-                    <InputLabel for="login_ip_only" value="Login allowed from this IP address only" />
+                    <InputLabel for="login_ip_only" value="Login allowed from this IP address only"/>
 
                     <TextInput
                         id="login_ip_only"
@@ -59,11 +65,11 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         autoComplete="login_ip_only"
                     />
 
-                    <InputError className="mt-2" message={errors.login_ip_only} />
+                    <InputError className="mt-2" message={errors.login_ip_only}/>
                 </div>
 
                 <div>
-                    <InputLabel for="api_ip_only" value="API access allowed from this IP address only" />
+                    <InputLabel for="api_ip_only" value="API access allowed from this IP address only"/>
 
                     <TextInput
                         id="api_ip_only"
@@ -73,11 +79,74 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         autoComplete="api_ip_only"
                     />
 
-                    <InputError className="mt-2" message={errors.api_ip_only} />
+                    <InputError className="mt-2" message={errors.api_ip_only}/>
                 </div>
 
                 <div>
-                    <InputLabel for="name" value="Username" />
+                    <InputLabel for="check_uptime_server_index" value="Check server uptime at servers index page"/>
+
+                    <Select name="check_uptime_server_index"
+                            value={data.check_uptime_server_index}
+                            onChange={(e) => setData('check_uptime_server_index', e.target.value)}
+                            handleChange={(e) => setData('check_uptime_server_index', e.target.value)}
+                    >
+                        <option value={0}>No</option>
+                        <option value={1}>Yes</option>
+                    </Select>
+
+                    <InputError className="mt-2" message={errors.check_uptime_server_index}/>
+                </div>
+
+
+                <div>
+                    <InputLabel for="check_uptime_connection_index" value="Check server uptime at servers index page"/>
+
+                    <Select name="check_uptime_connection_index"
+                            value={data.check_uptime_connection_index}
+                            onChange={(e) => setData('check_uptime_connection_index', e.target.value)}
+                            handleChange={(e) => setData('check_uptime_connection_index', e.target.value)}
+                    >
+                        <option value={0}>No</option>
+                        <option value={1}>Yes</option>
+                    </Select>
+
+                    <InputError className="mt-2" message={errors.check_uptime_connection_index}/>
+                </div>
+
+
+                <div>
+                    <InputLabel for="check_uptime_sftp_connection_index" value="Check server uptime at servers index page"/>
+
+                    <Select name="check_uptime_sftp_connection_index"
+                            value={data.check_uptime_sftp_connection_index}
+                            onChange={(e) => setData('check_uptime_sftp_connection_index', e.target.value)}
+                            handleChange={(e) => setData('check_uptime_sftp_connection_index', e.target.value)}
+                    >
+                        <option value={0}>No</option>
+                        <option value={1}>Yes</option>
+                    </Select>
+
+                    <InputError className="mt-2" message={errors.check_uptime_sftp_connection_index}/>
+                </div>
+
+
+                <div>
+                    <InputLabel for="check_uptime_db_connection_index" value="Check server uptime at servers index page"/>
+
+                    <Select name="check_uptime_db_connection_index"
+                            value={data.check_uptime_db_connection_index}
+                            onChange={(e) => setData('check_uptime_db_connection_index', e.target.value)}
+                            handleChange={(e) => setData('check_uptime_db_connection_index', e.target.value)}
+                    >
+                        <option value={0}>No</option>
+                        <option value={1}>Yes</option>
+                    </Select>
+
+                    <InputError className="mt-2" message={errors.check_uptime_db_connection_index}/>
+                </div>
+
+                <div>
+                    <InputLabel for="name" value="Username"/>
 
                     <TextInput
                         id="name"
@@ -89,11 +158,11 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         autoComplete="name"
                     />
 
-                    <InputError className="mt-2" message={errors.name} />
+                    <InputError className="mt-2" message={errors.name}/>
                 </div>
 
                 <div>
-                    <InputLabel for="email" value="Email" />
+                    <InputLabel for="email" value="Email"/>
 
                     <TextInput
                         id="email"
@@ -105,7 +174,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         autoComplete="email"
                     />
 
-                    <InputError className="mt-2" message={errors.email} />
+                    <InputError className="mt-2" message={errors.email}/>
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (

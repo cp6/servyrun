@@ -14,6 +14,7 @@
 [![Generic badge](https://img.shields.io/badge/React-18.2-9cf.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/Tailwind-3.2-informational.svg)](https://shields.io/)
 
+
 </p>
 
 # About Surcuri
