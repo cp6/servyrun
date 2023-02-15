@@ -6,13 +6,14 @@ export default function ServerStatusDot({resource}) {
 
     const [isUp, setIsUp] = useState(null);
 
-    const handleClick = () => {
-        axios.get(route('check-is-up', resource.id)).then(response => {
-            setIsUp(response.data.is_up);
-        }).catch(err => {
-            setIsUp(!isUp);
-        });
-    };
+    async function checkIsUp(resource) {
+        const res = await axios.get(route('check-is-up', resource.id));
+        return await res.data;
+    }
+
+    checkIsUp(resource).then((the_response) => {
+        setIsUp(the_response.is_up);
+    });
 
     return (
         <>
@@ -34,7 +35,6 @@ export default function ServerStatusDot({resource}) {
                         }
                     })()
                 }
-                onClick={handleClick}
                 title={(() => {
                     if (isUp) {
                         return (

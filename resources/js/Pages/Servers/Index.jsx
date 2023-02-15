@@ -27,14 +27,14 @@ export default function Index({auth, servers, alert_type, alert_message}) {
                                  className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
                                  onClick={event => window.location.href = route('server.show', servers.id)}>
                             <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
-                                <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center justify-between mb-3">
                                     <div>            {servers.operating_system !== null ?
                                         <span
                                             className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{servers.operating_system}</span>
                                         : null
                                     }
                                         <span
-                                            className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{servers.type.name}</span>
+                                            className="bg-indigo-200 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{servers.type.name}</span>
                                     </div>
                                     <small className="text-end">
                                         <ServerStatusDot resource={servers}></ServerStatusDot>
