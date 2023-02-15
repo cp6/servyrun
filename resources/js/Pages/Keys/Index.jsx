@@ -1,12 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/inertia-react';
 import React from "react";
-import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
 import AddButton from "@/Components/AddButton";
 
 export default function Index({auth, keys, alert_type, alert_message}) {
+
     const [hasAlert, setHasAlert] = React.useState(true);
 
     return (
@@ -22,25 +22,27 @@ export default function Index({auth, keys, alert_type, alert_message}) {
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
-
-
                     {
                         keys.length === 0
                             ?
                             <ResourceEmptyText resource={'keys'}></ResourceEmptyText>
                             :
-                            keys.map(keys => <Card key={keys.id}
-                                                   href={route('key.show', keys.id)} className={'dark:bg-gray-700 hover:dark:bg-gray-900'}>
-                                <div className="flex justify-end px-1">
-                                             <span
-                                                 className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                            keys.map(key =>
+                                    <section key={key.id}
+                                             className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
+                                             onClick={event => window.location.href = route('key.show', key.id)}>
+                                        <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
+                                            <div className="flex items-center justify-between mb-3">
+                                                <div>
+ <span
+     className="bg-indigo-200 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">
                                                  {
                                                      (() => {
-                                                         if (typeof (keys.hashed_password) != "undefined" && keys.hashed_password !== null) {
+                                                         if (typeof (key.hashed_password) != "undefined" && key.hashed_password !== null) {
                                                              return (
                                                                  "HASH PASSWORD"
                                                              )
-                                                         } else if (typeof (keys.password) != "undefined" && keys.password !== null) {
+                                                         } else if (typeof (key.password) != "undefined" && key.password !== null) {
                                                              return (
                                                                  "PASSWORD"
                                                              )
@@ -52,12 +54,15 @@ export default function Index({auth, keys, alert_type, alert_message}) {
                                                      })()
                                                  }
                                              </span>
-                                </div>
-                                <div className="flex flex-col justify-center items-center pb-3">
-                                    <h5 className="mb-1 lg font-medium text-gray-900 dark:text-white">{keys.original_name}</h5>
-                                    <span className="text-sm text-gray-500 dark:text-gray-400"></span>
-                                </div>
-                            </Card>)
+                                                </div>
+                                                <small className="text-end"></small>
+                                            </div>
+                                            <div className="flex flex-col justify-center items-center pb-3">
+                                                <h5 className="mb-2 lg font-medium text-gray-900 dark:text-white">{key.original_name}</h5>
+                                            </div>
+                                        </div>
+                                    </section>
+                            )
                     }
 
                 </div>

@@ -1,7 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/inertia-react';
 import React from "react";
-import {Card} from "flowbite-react";
 import {HiDatabase} from "react-icons/hi";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
 import ResponseAlert from "@/Components/Alert";
@@ -28,25 +27,23 @@ export default function Index({auth, connections, alert_type, alert_message}) {
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
 
                     { connections.length > 0 ?
-                        connections.map(connections =>
-                            <Card key={connections.id} href={route('db.connection.show', connections.id)} className={'dark:bg-gray-700 hover:dark:bg-gray-900'}>
-                                <div className="flex justify-end px-1">
-                                <span
-                                    className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{connections.type === 1? 'MySQL' : 'Other'}</span>
-                                    {connections.version !== null ?
-                                        <span
-                                            className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{connections.version}</span>
-                                        :
-                                        null}
-                                </div>
+                        connections.map(connection =>
+                            <section key={connection.id}
+                                     className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
+                                     onClick={event => window.location.href = route('db.connection.show', connection.id)}>
+                                <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <small className="text-end"></small>
+                                    </div>
                                 <div className="flex flex-col items-center pb-3">
                                     <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                                        {connections.host}
+                                        {connection.host}
                                     </h5>
-                                    <span className="text-md text-gray-500 dark:text-gray-400">{connections.title}</span>
-                                    <span className="text-sm text-gray-500 dark:text-gray-300">{connections.username}</span>
+                                    <span className="text-md text-gray-500 dark:text-gray-400">{connection.title}</span>
+                                    <span className="text-sm text-gray-500 dark:text-gray-300">{connection.username}</span>
                                 </div>
-                            </Card>
+                                </div>
+                            </section>
                         )
                         :
                         <ResourceEmptyText resource={'database connections'}></ResourceEmptyText>

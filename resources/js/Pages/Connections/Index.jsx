@@ -1,7 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
-import {Card} from "flowbite-react";
 import {HiKey} from "react-icons/hi";
 import ResponseAlert from "@/Components/Alert";
 import AddButton from "@/Components/AddButton";
@@ -20,23 +19,27 @@ export default function Index({auth, connections, alert_type, alert_message}) {
             <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <AddButton href={route('connection.create')}>Add connection</AddButton>
-                    <EmeraldButton href={route('key.index')}><HiKey className="mr-2 h-5 w-5" />Keys</EmeraldButton>
+                    <EmeraldButton href={route('key.index')}><HiKey className="mr-2 h-5 w-5"/>Keys</EmeraldButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
-                    {connections.map(connections => <Card key={connections.id}
-                                                          href={route('connection.show', connections.id)} className={'dark:bg-gray-700 hover:dark:bg-gray-900'}>
-                        <div className="flex justify-end px-1">
-                                             <span
-                                                 className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                    {connections.map(connection =>
+                        <section key={connection.id}
+                                 className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
+                                 onClick={event => window.location.href = route('connection.show', connection.id)}>
+                            <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
+                                <div className="flex items-center justify-between mb-2">
+                                    <div>
+<span
+    className="bg-indigo-200 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">
                                                  {
                                                      (() => {
-                                                         if (typeof (connections.key_id) != "undefined" && connections.key_id !== null) {
+                                                         if (typeof (connection.key_id) != "undefined" && connection.key_id !== null) {
                                                              return (
                                                                  "KEY"
                                                              )
-                                                         } else if (typeof (connections.hashed_password) != "undefined" && connections.hashed_password !== null) {
+                                                         } else if (typeof (connection.hashed_password) != "undefined" && connections.hashed_password !== null) {
                                                              return (
                                                                  "HASH PASSWORD"
                                                              )
@@ -48,20 +51,23 @@ export default function Index({auth, connections, alert_type, alert_message}) {
                                                      })()
                                                  }
                                              </span>
-                            <span
-                                className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">
-                                                 PORT {connections.ssh_port}
+                                        <span
+                                            className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                                                 PORT {connection.ssh_port}
                                              </span>
-                        </div>
-                        <div className="flex flex-col justify-center items-center pb-3">
-                            <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                                {connections.username}
-                            </h5>
-                            <span className="text-sm text-gray-500 dark:text-gray-400">
-             {connections.server.hostname}
+                                    </div>
+                                    <small className="text-end"></small>
+                                </div>
+                                <div className="flex flex-col justify-center items-center pb-3">
+                                    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                                        {connection.username}
+                                    </h5>
+                                    <span className="text-sm text-gray-500 dark:text-gray-400">
+             {connection.server.hostname}
       </span>
-                        </div>
-                    </Card>)}
+                                </div>
+                            </div>
+                        </section>)}
                 </div>
             </div>
         </AuthenticatedLayout>
