@@ -19,7 +19,13 @@ class ProfileUpdateRequest extends FormRequest
             'name' => ['string', 'max:255'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
             'login_ip_only' => ['ip', 'nullable', 'sometimes'],
-            'api_ip_only' => ['ip', 'nullable', 'sometimes']
+            'api_ip_only' => ['ip', 'nullable', 'sometimes'],
+            'check_uptime_server_index' => ['integer', 'required', 'min:0', 'max:1'],
+            'check_uptime_connection_index' => ['integer', 'required', 'min:0', 'max:1'],
+            'check_uptime_sftp_connection_index' => ['integer', 'required', 'min:0', 'max:1'],
+            'check_uptime_db_connection_index' => ['integer', 'required', 'min:0', 'max:1'],
+            'allow_api_access' => ['integer', 'required', 'min:0', 'max:1'],
+            'log_connections' => ['integer', 'required', 'min:0', 'max:1']
         ];
     }
 }

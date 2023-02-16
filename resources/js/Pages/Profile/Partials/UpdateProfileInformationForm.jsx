@@ -17,12 +17,12 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
         api_token: user.api_token,
         login_ip_only: user.login_ip_only,
         api_ip_only: user.api_ip_only,
-        check_uptime_server_index: 1,
-        check_uptime_connection_index: 1,
-        check_uptime_sftp_connection_index: 1,
-        check_uptime_db_connection_index: 1,
-        allow_api_access: 1,
-        log_connections: 1
+        check_uptime_server_index: user.check_uptime_server_index,
+        check_uptime_connection_index: user.check_uptime_connection_index,
+        check_uptime_sftp_connection_index: user.check_uptime_sftp_connection_index,
+        check_uptime_db_connection_index: user.check_uptime_db_connection_index,
+        allow_api_access: user.allow_api_access,
+        log_connections: user.log_connections,
     });
 
     const submit = (e) => {
