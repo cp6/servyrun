@@ -9,7 +9,7 @@ const gridJsTableStyling = {
     paginationButtonNext: 'text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-300',
     paginationButtonCurrent: 'text-gray-700 uppercase bg-gray-50 dark:bg-gray-600 dark:text-gray-100',
     paginationButtonPrev: 'text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-300',
-    search: 'text-gray-700 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-300'
+    search: 'text-gray-700 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-300 ml-2'
 };
 
 const GridJsPagination = {
