@@ -148,7 +148,7 @@ class ServerController extends Controller
 
         IpAddress::fetchUpdateIpDetails($ip_address);//Get IP ASN and GEO data etc
 
-        return redirect(route('server.show', $server))->with('success', 'Server created successfully');
+        return redirect(route('server.show', $server))->with(['alert_type' => 'success', 'alert_message' => "Server {$server->title} created successfully"]);
     }
 
     public function update(Request $request, Server $server)
