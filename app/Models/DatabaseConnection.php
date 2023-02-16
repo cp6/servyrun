@@ -69,13 +69,20 @@ class DatabaseConnection extends Model
         } catch (\Exception $e) {
             return false;
         }
+        if (\Auth::user()->log_connections) {
+            ActionLog::make(1, 'connected', 'database', "Made database connection {$databaseConnection->username}@{$databaseConnection->host}");
+        }
         return true;
     }
 
     public function dbConnect(DatabaseConnection $databaseConnection, string $database): PDO|bool
     {
         try {
-            return $this->db_con = new PDO("mysql:host=$databaseConnection->host;dbname=$database;charset=utf8mb4", $databaseConnection->username, Crypt::decryptString($databaseConnection->password));
+            $this->db_con = new PDO("mysql:host=$databaseConnection->host;dbname=$database;charset=utf8mb4", $databaseConnection->username, Crypt::decryptString($databaseConnection->password));
+            if (\Auth::user()->log_connections) {
+                ActionLog::make(1, 'connected', 'database', "Made database connection {$databaseConnection->username}@{$databaseConnection->host} {$database}");
+            }
+            return $this->db_con;
         } catch (\Exception $e) {
             return false;
         }

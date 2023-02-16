@@ -92,7 +92,10 @@ class Connection extends Model
             ActionLog::make(5, 'connect', 'SSH', $exception->getMessage());
             return null;
         }
-        ActionLog::make(1, 'connected', 'connection', "Made connection {$user}:{$port} with password");
+
+        if (\Auth::user()->log_connections) {
+            ActionLog::make(1, 'connected', 'connection', "Made connection {$user}:{$port} with password");
+        }
 
         return $ssh;
     }
@@ -106,14 +109,13 @@ class Connection extends Model
             } catch (\Exception $exception) {
                 return null;
             }
-            ActionLog::make(1, 'connected', 'connection', "Made connection with key: {$key_id} and password");
+
         } else {//No key password
             try {
                 $key = PublicKeyLoader::load(Storage::disk('private')->get("keys/$key_id"));
             } catch (\Exception $exception) {
                 return null;
             }
-            ActionLog::make(1, 'connected', 'connection', "Made connection with key: {$key_id}");
         }
 
         $ssh = new SSH2($host, $port, $timeout);
@@ -123,6 +125,10 @@ class Connection extends Model
         } catch (\Exception $exception) {
             ActionLog::make(5, 'connecting', 'connection', $exception->getMessage());
             return null;
+        }
+
+        if (\Auth::user()->log_connections) {
+            ActionLog::make(1, 'connected', 'connection', "Made connection {$user}:{$port} with key: {$key_id}");
         }
 
         return $ssh;

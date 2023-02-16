@@ -35,11 +35,11 @@ class SftpConnection extends Model
         });
 
         static::created(function (SftpConnection $sftpConnection) {
-            ActionLog::make(1, 'create', 'SFTP', 'Created SFTP connection '.$sftpConnection->id, $sftpConnection->server_id);
+            ActionLog::make(1, 'create', 'SFTP', 'Created SFTP connection ' . $sftpConnection->id, $sftpConnection->server_id);
         });
 
         static::updated(function (SftpConnection $sftpConnection) {
-            ActionLog::make(1, 'update', 'SFTP', 'Updated SFTP connection '.$sftpConnection->id, $sftpConnection->server_id);
+            ActionLog::make(1, 'update', 'SFTP', 'Updated SFTP connection ' . $sftpConnection->id, $sftpConnection->server_id);
         });
 
         static::deleted(function (SftpConnection $sftpConnection) {
@@ -66,6 +66,10 @@ class SftpConnection extends Model
         } catch (\Exception $exception) {
             ActionLog::make(5, 'connect', 'SFTP', $exception->getMessage());
             return null;
+        }
+
+        if (\Auth::user()->log_connections) {
+            ActionLog::make(1, 'connected', 'sftp', "Made sftp connection {$user}:{$port} with password");
         }
 
         return $sftp;
@@ -96,6 +100,10 @@ class SftpConnection extends Model
         } catch (\Exception $exception) {
             ActionLog::make(5, 'connect', 'SSH', $exception->getMessage());
             return null;
+        }
+
+        if (\Auth::user()->log_connections) {
+            ActionLog::make(1, 'connected', 'sftp', "Made sftp connection {$user}:{$port} with key: {$key_id}");
         }
 
         return $sftp;
