@@ -9,7 +9,7 @@ export default function Edit({auth, mustVerifyEmail, status}) {
     return (
         <AuthenticatedLayout
             auth={auth}
-            header={<h2 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Profile</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Edit profile</h2>}
         >
             <Head title={user.name + ' profile'}/>
             <div className="py-12">
@@ -18,12 +18,12 @@ export default function Edit({auth, mustVerifyEmail, status}) {
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
-                            className="max-w-xl"
+                            className="max-w-6xl"
                         />
                     </div>
 
                     <div className="p-4 sm:p-8 bg-white dark:bg-gray-700 shadow sm:rounded-lg">
-                        <UpdatePasswordForm className="max-w-xl"/>
+                        <UpdatePasswordForm className="max-w-6xl"/>
                     </div>
 
                     <div className="p-4 sm:p-8 bg-white dark:bg-gray-700 shadow sm:rounded-lg">
