@@ -120,6 +120,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/logs', [ActionLogController::class, 'index'])->name('log.index');
     Route::get('/logs/{actionLog}', [ActionLogController::class, 'show'])->name('log.show');
+    Route::delete('/logs/destroy', [ActionLogController::class, 'destroyAll'])->name('log.destroy-all');
 
     Route::get('/pings', [PingController::class, 'index'])->name('ping.index');
     Route::get('/ping/from/{server1}/to/{server2}', [PingController::class, 'pingFromTo'])->name('ping-from-to');
