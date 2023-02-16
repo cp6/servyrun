@@ -19,7 +19,7 @@ export default function Show({auth, resource}) {
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <div className="py-6 px-2 mx-auto max-w-6xl lg:py-10">
                         <div className={'grid grid-cols-2'}>
-                            <div className={'md:col-span-1 col-span-2'}>
+                            <div className={'md:col-span-2 col-span-2'}>
                         <span
                             className="bg-indigo-200 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{resource.action}</span>
                                 <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.resource_type}</h2>
