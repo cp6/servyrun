@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->char('api_token',64)->unique();
+            $table->boolean('allow_api_access')->default(1);
             $table->string('login_ip_only')->default(null)->nullable();
             $table->string('api_ip_only')->default(null)->nullable();
             $table->boolean('email_when_login')->default(0);
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->boolean('check_uptime_connection_index')->default(1);
             $table->boolean('check_uptime_sftp_connection_index')->default(1);
             $table->boolean('check_uptime_db_connection_index')->default(1);
+            $table->boolean('log_connections')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
