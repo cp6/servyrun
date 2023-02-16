@@ -1,12 +1,12 @@
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import {Link, useForm, usePage} from '@inertiajs/inertia-react';
 import {Transition} from '@headlessui/react';
 import {Select} from "flowbite-react";
 import React from "react";
 import UpdateButton from "@/Components/UpdateButton";
+import {HiClipboardCopy} from "react-icons/hi";
 
 export default function UpdateProfileInformation({mustVerifyEmail, status, className}) {
     const user = usePage().props.auth.user;
@@ -41,7 +41,7 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-6 sm:gap-4">
-                    <div className="md:col-start-1 md:col-end-5 col-span-4 mb-2">
+                    <div className="md:col-start-1 md:col-end-4 col-span-4 mb-2">
                         <InputLabel for="api_token" value="API key"/>
 
                         <TextInput
@@ -54,6 +54,11 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         />
 
                         <InputError className="mt-2" message={errors.api_token}/>
+                    </div>
+                    <div className="md:col-span-2 col-span-4 mb-2">
+                    <HiClipboardCopy className="mr-2 mt-4 h-5 w-5 inline hover:cursor-grab" onClick={() => {
+                        navigator.clipboard.writeText(data.api_token)
+                    }} title={'Copy API key'}/>
                     </div>
 
                     <div className="sm:col-span-3 col-span-4 mb-2">
