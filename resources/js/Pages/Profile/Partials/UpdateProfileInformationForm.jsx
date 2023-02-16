@@ -21,6 +21,8 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
         check_uptime_connection_index: 1,
         check_uptime_sftp_connection_index: 1,
         check_uptime_db_connection_index: 1,
+        allow_api_access: 1,
+        log_connections: 1
     });
 
     const submit = (e) => {
@@ -56,7 +58,7 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         <InputError className="mt-2" message={errors.api_token}/>
                     </div>
                     <div className="md:col-span-2 col-span-4 mb-2">
-                    <HiClipboardCopy className="mr-2 mt-4 h-5 w-5 inline hover:cursor-grab" onClick={() => {
+                    <HiClipboardCopy className="mr-2 mt-4 h-5 w-5 inline hover:cursor-grab dark:text-gray-300" onClick={() => {
                         navigator.clipboard.writeText(data.api_token)
                     }} title={'Copy API key'}/>
                     </div>
@@ -87,6 +89,38 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         />
 
                         <InputError className="mt-2" message={errors.api_ip_only}/>
+                    </div>
+
+                    <div className="sm:col-span-3 col-span-4 mb-2">
+                        <InputLabel for="allow_api_access" value="Allow API access"/>
+
+                        <Select name="allow_api_access"
+                                value={data.allow_api_access}
+                                onChange={(e) => setData('allow_api_access', e.target.value)}
+                                handleChange={(e) => setData('allow_api_access', e.target.value)}
+                        >
+                            <option value={0}>No</option>
+                            <option value={1}>Yes</option>
+                        </Select>
+
+                        <InputError className="mt-2" message={errors.allow_api_access}/>
+                    </div>
+
+
+                    <div className="sm:col-span-3 col-span-4 mb-2">
+                        <InputLabel for="log_connections"
+                                    value="Log connections"/>
+
+                        <Select name="log_connections"
+                                value={data.log_connections}
+                                onChange={(e) => setData('log_connections', e.target.value)}
+                                handleChange={(e) => setData('log_connections', e.target.value)}
+                        >
+                            <option value={0}>No</option>
+                            <option value={1}>Yes</option>
+                        </Select>
+
+                        <InputError className="mt-2" message={errors.log_connections}/>
                     </div>
 
                     <div className="sm:col-span-3 col-span-4 mb-2">

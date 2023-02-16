@@ -10,7 +10,7 @@ export default function ServerCardDetails({resource}) {
                 <dd className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-300">
                     {resource.ips.map(ip => (
                         <p key={ip.id}>
-                            <HiClipboardCopy className="mr-2 mb-1 h-5 w-5 inline hover:cursor-grab" onClick={() => {
+                            <HiClipboardCopy className="mr-2 mb-1 h-5 w-5 inline hover:cursor-grab dark:text-gray-300" onClick={() => {
                                 navigator.clipboard.writeText(ip.ip)
                             }} title={'Copy IP'}/>
                             <a href={route('ip.show', ip.id)}>{ip.ip}</a>
