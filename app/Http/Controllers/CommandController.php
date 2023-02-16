@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Command;
-use App\Models\IpAddress;
-use App\Models\Server;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class CommandController extends Controller
@@ -101,11 +98,11 @@ class CommandController extends Controller
 
     public function show(Command $command)
     {
-        dd($command);
+        abort(404);
     }
 
     public function run(Request $request)
     {
-        dd($request);
+        abort(404);
     }
 }
