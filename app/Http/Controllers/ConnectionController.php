@@ -9,7 +9,7 @@ use App\Models\Key;
 use App\Models\Server;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -229,17 +229,8 @@ class ConnectionController extends Controller
 
         if ($request['email']) {//Send output email
 
-            $data = array(
-                'hostname' => $con->server->hostname,
-                'command' => $command,
-                'output' => $output
-            );
+           Mail::to(\Auth::user()->email)->send(new \App\Mail\CommandOutput($command_output));
 
-            Mail::send('mail.output', $data, function ($message) {
-                $message->to(\Auth::user()->email, \Auth::user()->name)
-                    ->subject('Surcuri command output');
-                $message->from(\Auth::user()->email, \Auth::user()->name);
-            });
         }
 
         $connection->update(['last_used' => Date('Y-m-d H:i:s')]);
@@ -254,8 +245,8 @@ class ConnectionController extends Controller
 
         try {
             $connection->delete();
-        } catch (\Exception $exception){
-            return redirect(route('connection.show', $connection))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('connection.show', $connection))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]);
         }
 
         return redirect(route('connection.index'))->with(['alert_type' => 'success', 'alert_message' => 'Connection deleted successfully']);

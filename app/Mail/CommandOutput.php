@@ -13,28 +13,36 @@ class CommandOutput extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct()
+    public \App\Models\CommandOutput $commandOutput;
+
+    public function __construct(\App\Models\CommandOutput $commandOutput)
     {
-        //
+        $this->commandOutput = $commandOutput;
     }
 
-    public function envelope()
+    public function envelope(): Envelope
     {
         return new Envelope(
             subject: 'Command Output',
         );
     }
 
-    public function content()
+    public function content(): Content
     {
         return new Content(
             markdown: 'emails.output',
         );
     }
 
-    public function attachments()
+    public function attachments(): array
     {
         return [];
+    }
+
+    public function build(): CommandOutput
+    {
+        return $this->markdown('emails.output')
+            ->with('contents', $this->commandOutput);
     }
 
 }

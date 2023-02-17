@@ -1,12 +1,14 @@
 <x-mail::message>
-# Introduction
+# {{ config('app.name') }} command output
 
-The body of your message.
+### server: {{$contents['server']['hostname']}}
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+### command: {{$contents['the_command']}}
 
-Thanks,<br>
-{{ config('app.name') }}
+### seconds: {{$contents['seconds_taken']}}
+
+### output:
+
+    {{$contents['output']}}
+
 </x-mail::message>
