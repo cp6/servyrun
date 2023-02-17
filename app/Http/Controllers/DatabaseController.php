@@ -13,7 +13,7 @@ use Inertia\Inertia;
 
 class DatabaseController extends Controller
 {
-    public function index()
+    public function index(): \Inertia\Response
     {
         return Inertia::render('Databases/Index', [
             'databases' => Database::with(['conn'])->get(),
@@ -23,7 +23,7 @@ class DatabaseController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): \Inertia\Response
     {
         return Inertia::render('Databases/Create', [
             'connections' => DatabaseConnection::get(),
@@ -54,7 +54,7 @@ class DatabaseController extends Controller
         return redirect(route('db.show', $database))->with(['alert_type' => 'success', 'alert_message' => 'Database created successfully']);
     }
 
-    public function show(Database $database)
+    public function show(Database $database): \Inertia\Response
     {
         $this->authorize('view', $database);
 
@@ -68,12 +68,14 @@ class DatabaseController extends Controller
 
     public function edit(Database $database)
     {
-        //
+        abort(404);
     }
 
     public function update(Request $request, Database $database)
     {
         $this->authorize('update', $database);
+
+        abort(404);
     }
 
     public function destroy(Database $database)

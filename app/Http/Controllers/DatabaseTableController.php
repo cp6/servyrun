@@ -29,19 +29,19 @@ class DatabaseTableController extends Controller
     public function show(DatabaseTable $databaseTable)
     {
         $this->authorize('view', $databaseTable);
-
+        abort(404);
     }
 
     public function edit(DatabaseTable $databaseTable)
     {
         $this->authorize('view', $databaseTable);
-
+        abort(404);
     }
 
     public function update(Request $request, DatabaseTable $databaseTable)
     {
         $this->authorize('update', $databaseTable);
-
+        abort(404);
     }
 
     public function destroy(DatabaseTable $databaseTable)

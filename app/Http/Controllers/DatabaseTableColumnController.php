@@ -30,6 +30,8 @@ class DatabaseTableColumnController extends Controller
     public function show(DatabaseTableColumn $databaseTableColumn)
     {
         $this->authorize('view', $databaseTableColumn);
+
+        abort(404);
     }
 
     public function showForTable(Database $database, DatabaseTable $databaseTable): \Inertia\Response

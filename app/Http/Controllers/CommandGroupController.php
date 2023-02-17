@@ -55,7 +55,7 @@ class CommandGroupController extends Controller
         return redirect(route('command-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command group create successfully']);
     }
 
-    public function show(CommandGroup $commandGroup)
+    public function show(CommandGroup $commandGroup): \Inertia\Response
     {
         $this->authorize('view', $commandGroup);
 
@@ -169,7 +169,7 @@ class CommandGroupController extends Controller
         return redirect(route('command-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command group deleted successfully']);
     }
 
-    public function run(CommandGroup $commandGroup)
+    public function run(CommandGroup $commandGroup): \Illuminate\Http\JsonResponse
     {
         return CommandGroup::runCommandGroup($commandGroup);
     }
