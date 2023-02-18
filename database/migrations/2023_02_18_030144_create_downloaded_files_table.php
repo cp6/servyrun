@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('to_dir');
             $table->string('saved_as');
             $table->integer('size')->nullable();
+            $table->float('speed_mbps')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('sftp_connection_id')->references('id')->on('sftp_connections')->onDelete('cascade');

@@ -14,7 +14,7 @@ class DownloadedFile extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['sftp_connection_id', 'filename', 'from_dir', 'to_dir', 'saved_as', 'size'];
+    protected $fillable = ['sftp_connection_id', 'filename', 'from_dir', 'to_dir', 'saved_as', 'size', 'speed_mbps'];
 
     protected static function boot(): void
     {

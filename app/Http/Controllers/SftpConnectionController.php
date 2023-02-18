@@ -345,6 +345,8 @@ class SftpConnectionController extends Controller
 
             $save_to_dir = User::where('id', \Auth::id())->select('download_directory')->first()->download_directory;
 
+            $start_timer = time();
+
             $file_content = SftpConnection::downloadFile($sftp, $request->filepath);
 
             try {
@@ -353,16 +355,21 @@ class SftpConnectionController extends Controller
                 return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => "Error downloading {$request->filepath} message: {$exception->getMessage()}"]);
             }
 
+            $end_timer = time() - $start_timer;
+
             if ($download_result) {
 
                 try {
+                    $file_size = Storage::disk('private')->size("downloads/{$save_to_dir}/{$save_as_filename}");
+
                     $downloaded_file = new DownloadedFile();
                     $downloaded_file->sftp_connection_id = $sftpConnection->id;
                     $downloaded_file->filename = basename($request->filepath);
                     $downloaded_file->from_dir = dirname($request->filepath);
                     $downloaded_file->to_dir = $save_to_dir;
                     $downloaded_file->saved_as = $save_as_filename;
-                    $downloaded_file->size = Storage::disk('private')->size("downloads/{$save_to_dir}/{$save_as_filename}");
+                    $downloaded_file->size = $file_size;
+                    $downloaded_file->speed_mbps = ($file_size / $end_timer / 1000 / 1000);
                     $downloaded_file->save();
                 } catch (\Exception $exception) {
                     return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => "Error downloading {$request->filepath} message: {$exception->getMessage()}"]);
