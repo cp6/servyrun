@@ -29,7 +29,7 @@ export default function Dashboard({
         >
             <Head title="Dashboard"/>
 
-            {RecentActions.length > 0 ?
+            {serversCount > 0 ?
                 <>
                         <div className="mt-4 py-4 px-2 mx-auto max-w-7xl">
                         <div className='grid grid-cols-3 sm:grid-cols-8 gap-3'>
