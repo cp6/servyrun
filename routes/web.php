@@ -9,6 +9,7 @@ use App\Http\Controllers\DatabaseConnectionController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\DatabaseTableColumnController;
 use App\Http\Controllers\DatabaseTableController;
+use App\Http\Controllers\DownloadedFileController;
 use App\Http\Controllers\IpAddressController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\MySQLDumpController;
@@ -209,6 +210,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/sftp/{sftpConnection}/edit', [SftpConnectionController::class, 'edit'])->name('sftp.edit');
     Route::patch('/sftp/{sftpConnection}', [SftpConnectionController::class, 'update'])->name('sftp.update');
     Route::delete('/sftp/{sftpConnection}', [SftpConnectionController::class, 'destroy'])->name('sftp.destroy');
+
+    //Downloaded file to server
+    Route::get('/downloaded', [DownloadedFileController::class, 'index'])->name('downloaded.index');
+    Route::get('/downloaded/{downloadedFile}', [DownloadedFileController::class, 'show'])->name('downloaded.show');
+    Route::get('/downloaded/{downloadedFile}/upload', [DownloadedFileController::class, 'upload'])->name('downloaded.upload');
+    Route::delete('/downloaded/{downloadedFile}', [DownloadedFileController::class, 'destroy'])->name('downloaded.destroy');
 
 });
 
