@@ -9,7 +9,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import ReactDOM from "react-dom/client";
 import Output from "@/Components/Output";
 import ResponseAlert from "@/Components/Alert";
-import {HiBookOpen, HiPencil, HiServer, HiTrash} from "react-icons/hi";
+import {HiBookOpen, HiDocumentDownload, HiPencil, HiServer, HiTrash} from "react-icons/hi";
 import BackButton from "@/Components/BackButton";
 
 export default function Show({auth, resource, ip, alert_type, alert_message}) {
@@ -110,6 +110,8 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                                           onClick={event => window.location.href = route('sftp.read', resource.id)} title={'Read a file'}/>
                                 <HiServer className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
                                           onClick={event => window.location.href = route('server.show', resource.server.id)} title={'Go to server'}/>
+                                <HiDocumentDownload className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                          onClick={event => window.location.href = route('sftp.create-download-to-server', resource.id)} title={'Download a file to this host server'}/>
                             </small>
                         </div>
                         <form onSubmit={submit}>
