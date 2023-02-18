@@ -35,7 +35,7 @@ export default function CreateDownload({auth, resource, alert_type, alert_messag
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.show', resource.id)}>Back to SFTP connection</BackButton>
-                    <TealButton><HiFolderOpen className="mr-2 h-5 w-5"/>Downloaded files</TealButton>
+                    <TealButton href={route('downloaded.index')}><HiFolderOpen className="mr-2 h-5 w-5"/>Downloaded files</TealButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
