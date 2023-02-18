@@ -198,6 +198,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/sftp/', [SftpConnectionController::class, 'store'])->name('sftp.store');
     Route::get('/sftp/{sftpConnection}', [SftpConnectionController::class, 'show'])->name('sftp.show');
     Route::get('/sftp/{sftpConnection}/authenticated', [SftpConnectionController::class, 'authenticated'])->name('sftp.authenticated');
+    Route::get('/sftp/{sftpConnection}/download-to-server', [SftpConnectionController::class, 'createDownloadToServer'])->name('sftp-connection.create-download-to-server');//Form to create download file to server
+    Route::post('/sftp/{sftpConnection}/download-to-server', [SftpConnectionController::class, 'downloadToServer'])->name('sftp.download-to-server');//Download the file to server
     Route::get('/sftp/{sftpConnection}/read', [SftpConnectionController::class, 'read'])->name('sftp.read');
     Route::post('/sftp/{sftpConnection}/read', [SftpConnectionController::class, 'readFile'])->name('sftp.read.file');//Get file for reading
     Route::post('/sftp/{sftpConnection}/run', [SftpConnectionController::class, 'run'])->name('sftp.run');//Run SFTP command

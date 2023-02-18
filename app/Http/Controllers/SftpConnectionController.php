@@ -307,4 +307,38 @@ class SftpConnectionController extends Controller
         return $sftp->put($request->save_as, $request->contents, SFTP::SOURCE_STRING);
     }
 
+    public function createDownloadToServer(SftpConnection $sftpConnection): \Inertia\Response
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $data = SftpConnection::where('id', $sftpConnection->id)->with(['server', 'key', 'server.ip_ssh'])->firstOrFail();
+        $ip = $data->server->ip_ssh->ip;
+
+        return Inertia::render('Sftp/CreateDownload', [
+            'resource' => $data,
+            'ip' => $ip,
+            'hasAlert' => \Session::exists('alert_type'),
+            'alert_type' => \Session::get('alert_type'),
+            'alert_message' => \Session::get('alert_message')
+        ]);
+    }
+
+    public function downloadToServer(Request $request, SftpConnection $sftpConnection)
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $file = $request->file;
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
+        }
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+
+        return null;
+    }
+
 }
