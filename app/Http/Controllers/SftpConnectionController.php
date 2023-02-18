@@ -207,8 +207,6 @@ class SftpConnectionController extends Controller
 
         $save_as = basename($file);
 
-        $sftp = SftpConnection::do($sftpConnection);
-
         if ($sftp->file_exists($file)) {
 
             $file_size = $sftp->filesize($file);
@@ -245,8 +243,6 @@ class SftpConnectionController extends Controller
 
             return response()->json(['success' => false, 'contents' => 'Could not connect', 'size' => null, 'file' => null, 'extension' => null])->header('Content-Type', 'application/json');
         }
-
-        $sftp = SftpConnection::do($sftpConnection);
 
         if ($sftp->file_exists($file)) {
 
