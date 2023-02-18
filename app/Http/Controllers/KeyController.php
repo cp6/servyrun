@@ -95,7 +95,7 @@ class KeyController extends Controller
         try {
             $key->delete();
 
-            Storage::disk('public')->delete("keys/$key->saved_as");
+            Storage::disk('private')->delete("keys/$key->saved_as");
 
         } catch (\Exception $exception){
             return redirect(route('key.show', $key))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
