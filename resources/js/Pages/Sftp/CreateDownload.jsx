@@ -6,10 +6,11 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ResponseAlert from "@/Components/Alert";
-import {HiServer} from "react-icons/hi";
+import {HiFolderOpen, HiServer} from "react-icons/hi";
 import BackButton from "@/Components/BackButton";
+import TealButton from "@/Components/TealButton";
 
-export default function Show({auth, resource, alert_type, alert_message}) {
+export default function CreateDownload({auth, resource, alert_type, alert_message}) {
 
     const {data, setData, post, processing, reset, errors} = useForm({
         filepath: '',
@@ -33,7 +34,8 @@ export default function Show({auth, resource, alert_type, alert_message}) {
             <Head title={"Download file to server"}/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <BackButton href={route('sftp.index', resource.id)}>Back to SFTP connection</BackButton>
+                    <BackButton href={route('sftp.show', resource.id)}>Back to SFTP connection</BackButton>
+                    <TealButton><HiFolderOpen className="mr-2 h-5 w-5"/>Downloaded files</TealButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
