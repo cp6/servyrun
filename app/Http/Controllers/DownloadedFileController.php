@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActionLog;
 use App\Models\DownloadedFile;
 use App\Models\SftpConnection;
 use Illuminate\Http\Request;
@@ -80,9 +81,11 @@ class DownloadedFileController extends Controller
         $upload_speed_mbps = ($downloadedFile->size / $end_timer / 1000 / 1000);
 
         if ($upload_file) {
+            ActionLog::make(1, 'upload', 'sftp', "Uploaded {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as} (" . number_format($upload_speed_mbps, 2) . "Mbps {$end_timer}s)", $sftpConnection->server->id);
             return redirect(route('downloaded.show', $downloadedFile))->with(['alert_type' => 'success', 'alert_message' => "Uploaded {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as} (" . number_format($upload_speed_mbps, 2) . "Mbps {$end_timer}s)"]);
         }
 
+        ActionLog::make(5, 'upload', 'sftp', "Failed uploading {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as}", $sftpConnection->server->id);
         return redirect(route('downloaded.show', $downloadedFile))->with(['alert_type' => 'failure', 'alert_message' => "Upload failed for {$downloadedFile->saved_as} to {$sftpConnection->server->hostname}"]);
     }
 
