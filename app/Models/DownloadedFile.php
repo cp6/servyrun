@@ -32,6 +32,10 @@ class DownloadedFile extends Model
         static::created(function (DownloadedFile $downloadedFile) {
             ActionLog::make(1, 'downloaded', 'sftp download', "Downloaded file {$downloadedFile->from_dir}/{$downloadedFile->filename} to server as {$downloadedFile->saved_as}");
         });
+
+        static::deleting(function (DownloadedFile $downloadedFile) {
+            ActionLog::make(1, 'deleted', 'sftp download', "Deleted file {$downloadedFile->saved_as}");
+        });
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\HasOne
