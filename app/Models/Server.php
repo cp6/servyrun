@@ -15,7 +15,7 @@ class Server extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['location_id', 'type_id', 'operating_system', 'hostname', 'title', 'cpu', 'cpu_cores', 'cpu_freq', 'disk_gb', 'disk_tb', 'ram_mb', 'ram_gb', 'swap_mb', 'bandwidth_gb', 'ping_port', 'price', 'price_usd', 'currency', 'payment_term', 'next_due_date'];
+    protected $fillable = ['location_id', 'type_id', 'operating_system', 'hostname', 'title', 'cpu', 'cpu_cores', 'cpu_freq', 'disk_gb', 'disk_tb', 'ram_mb', 'ram_gb', 'swap_mb', 'bandwidth_gb', 'port_speed', 'ping_port', 'price', 'price_usd', 'currency', 'payment_term', 'next_due_date'];
 
     protected static function boot(): void
     {

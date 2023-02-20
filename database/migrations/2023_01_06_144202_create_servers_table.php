@@ -25,6 +25,7 @@ return new class extends Migration
             $table->float('ram_gb')->default(null)->nullable();
             $table->integer('swap_mb')->default(null)->nullable();
             $table->integer('bandwidth_gb')->default(null)->nullable();
+            $table->string('port_speed',24)->default(null)->nullable();
             $table->integer('ping_port')->default(80);
             $table->float('price')->default(null)->nullable();//Not used currently
             $table->float('price_usd')->default(null)->nullable();//Not used currently
