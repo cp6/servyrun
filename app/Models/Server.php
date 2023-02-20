@@ -155,5 +155,36 @@ class Server extends Model
 
     }
 
+    public static function getServerUsage(Server $server): \Illuminate\Http\JsonResponse
+    {
+        $connection = Connection::where('server_id', $server->id)->with('server', 'key')->firstOrFail();
+
+        $ssh = Connection::do($connection, 10);
+
+        if (is_null($ssh)){
+            return response()->json(['success' => false, 'message' => 'SSH could not connect'],400)->header('Content-Type', 'application/json');
+        }
+
+        $cpu_used_percent = Connection::getCpuUsedPercent($ssh);
+        $ram_used_percent = Connection::getRamUsedPercent($ssh);
+        $disk_used_percent = Connection::getDiskUsedPercent($ssh);
+        $disk_used = Connection::getDiskUsed($ssh);
+        $disk_avail = Connection::getDiskAvailable($ssh);
+        //$port_speed = Connection::getPortSpeed($ssh);//Does not work for VPS
+
+        return response()->json(
+            [
+                'success' => true,
+                'cpu_used_percent' => (float)number_format($cpu_used_percent,3),
+                'ram_used_percent' => (float)number_format($ram_used_percent,3),
+                'disk_used_percent' => $disk_used_percent,
+                'disk_used' => $disk_used,
+                'disk_used_gb' => (float)number_format($disk_used / 1024 / 1024,3),
+                'disk_available' => $disk_avail,
+                'disk_available_gb' => (float)number_format($disk_avail / 1024 / 1024,3),
+            ]
+        )->header('Content-Type', 'application/json');
+
+    }
 
 }

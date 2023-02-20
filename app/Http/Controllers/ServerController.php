@@ -224,6 +224,13 @@ class ServerController extends Controller
         return redirect(route('server.show', $server))->with(['alert_type' => 'success', 'alert_message' => 'Server updated successfully']);
     }
 
+    public function getUsage(Server $server): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $server);
+
+        return Server::getServerUsage($server);
+    }
+
     protected function getIpForDomain(string $domain_name, string $type = 'A'): \Illuminate\Http\JsonResponse
     {//Gets IP from A record for a domain
         switch ($type) {
