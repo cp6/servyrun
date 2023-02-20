@@ -86,7 +86,7 @@ class Server extends Model
 
     public function usage(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(ServerUsage::class, 'server_id', 'id')->orderBy('id', 'desc')->first();
+        return $this->hasOne(ServerUsage::class, 'server_id', 'id')->orderBy('id', 'desc');
     }
 
     public static function getCpuOsDetails(Server $server): bool
@@ -175,13 +175,13 @@ class Server extends Model
         return response()->json(
             [
                 'success' => true,
-                'cpu_used_percent' => (float)number_format($cpu_used_percent,3),
-                'ram_used_percent' => (float)number_format($ram_used_percent,3),
+                'cpu_used_percent' => (float)number_format($cpu_used_percent,4),
+                'ram_used_percent' => (float)number_format($ram_used_percent,4),
                 'disk_used_percent' => $disk_used_percent,
                 'disk_used' => $disk_used,
-                'disk_used_gb' => (float)number_format($disk_used / 1024 / 1024,3),
+                'disk_used_gb' => (float)number_format($disk_used / 1024 / 1024,4),
                 'disk_available' => $disk_avail,
-                'disk_available_gb' => (float)number_format($disk_avail / 1024 / 1024,3),
+                'disk_available_gb' => (float)number_format($disk_avail / 1024 / 1024,4),
             ]
         )->header('Content-Type', 'application/json');
 
