@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Math\PrimeField\Integer;
 use phpseclib3\Net\SSH2;
 
 class Connection extends Model
@@ -132,6 +133,42 @@ class Connection extends Model
         }
 
         return $ssh;
+    }
+
+    public static function getCpuUsedPercent(SSH2 $connection): string
+    {
+        $command = "cat /proc/stat |grep cpu |tail -1|awk '{print ($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10)}'|awk '{print 100-$1}'";
+        return $connection->exec($command);
+    }
+
+    public static function getRamUsedPercent(SSH2 $connection): string
+    {
+        $command = "free | grep Mem | awk '{print $3/$2 * 100.0}'";
+        return $connection->exec($command);
+    }
+
+    public static function getDiskUsedPercent(SSH2 $connection): string
+    {
+        $command = "df / --output=pcent | tail -n 1";
+        return $connection->exec($command);
+    }
+
+    public static function getDiskUsed(SSH2 $connection): ?int
+    {
+        $command = "df / --output=used | tail -n 1";
+        return $connection->exec($command);
+    }
+
+    public static function getDiskAvailable(SSH2 $connection): ?int
+    {
+        $command = "df / --output=avail | tail -n 1";
+        return $connection->exec($command);
+    }
+
+    public static function getPortSpeed(SSH2 $connection): string
+    {
+        $command = "lshw -C Network -json";
+        return $connection->exec($command);
     }
 
 }
