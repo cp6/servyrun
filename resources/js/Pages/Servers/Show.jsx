@@ -117,13 +117,17 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                                 <ServerCardDetails resource={resource}></ServerCardDetails>
                             </div>
                             <div className={'md:col-span-1 col-span-2'}>
-                                <ServerCardSpecs resource={resource}></ServerCardSpecs>
-                                <p className="mb-2 text-gray-600 dark:text-gray-400">{resource.cpu ?? null}</p>
+                                <p className="mb-2 text-gray-700 dark:text-gray-300">{resource.cpu ?? null}</p>
                                 <ServerCardConnection connection={resource.conn}></ServerCardConnection>
                             </div>
                         </div>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
+                            <div className={'col-span-1'}>
                             <ServerCardUsage serverId={resource.id} resource={resource.usage}></ServerCardUsage>
+                            </div>
+                            <div className={'col-span-1'}>
+                                <ServerCardSpecs resource={resource}></ServerCardSpecs>
+                            </div>
                         </div>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'col-span-1'}>
