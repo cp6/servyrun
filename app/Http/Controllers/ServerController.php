@@ -8,9 +8,9 @@ use App\Models\IpAddress;
 use App\Models\IpAddressesAssigned;
 use App\Models\Location;
 use App\Models\Server;
+use App\Models\ServerUsage;
 use App\Models\Type;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ServerController extends Controller
@@ -46,7 +46,7 @@ class ServerController extends Controller
         $this->authorize('view', $server);
 
         return Inertia::render('Servers/Show', [
-            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn', 'sftp_conn'])->firstOrFail(),
+            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn', 'sftp_conn', 'usage'])->firstOrFail(),
             'servers' => Server::has('conn')->whereNot('id', $server->id)->select(['id', 'hostname', 'title'])->get(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
@@ -207,8 +207,8 @@ class ServerController extends Controller
 
         try {
             $server->delete();
-        } catch (\Exception $exception){
-            return redirect(route('server.show', $server))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('server.show', $server))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]);
         }
 
         return redirect(route('server.index'))->with(['alert_type' => 'success', 'alert_message' => 'Server deleted successfully']);
@@ -228,7 +228,29 @@ class ServerController extends Controller
     {
         $this->authorize('view', $server);
 
-        return Server::getServerUsage($server);
+        $latest_usage = Server::getServerUsage($server)->getData();
+
+        if ($latest_usage->success === true) {
+
+            try {
+
+                $server_usage = new ServerUsage();
+                $server_usage->server_id = $server->id;
+                $server_usage->cpu_usage = $latest_usage->cpu_used_percent;
+                $server_usage->ram_used_percent = $latest_usage->ram_used_percent;
+                $server_usage->disk_used_percent = $latest_usage->disk_used_percent;
+                $server_usage->disk_used = $latest_usage->disk_used;
+                $server_usage->disk_available = $latest_usage->disk_available;
+                $server_usage->save();
+
+            } catch (\Exception $exception) {
+
+            }
+
+        }
+
+        return response()->json($latest_usage)->header('Content-Type', 'application/json');
+
     }
 
     protected function getIpForDomain(string $domain_name, string $type = 'A'): \Illuminate\Http\JsonResponse

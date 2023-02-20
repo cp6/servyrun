@@ -16,6 +16,7 @@ import ServerStatusButton from "@/Components/ServerStatusButton";
 import BackButton from "@/Components/BackButton";
 import MonoButton from "@/Components/MonoButton";
 import axios from "axios";
+import ServerCardUsage from "@/Components/ServerCardUsage";
 
 export default function Show({auth, resource, servers, alert_type, alert_message}) {
 
@@ -120,6 +121,9 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                                 <p className="mb-2 text-gray-600 dark:text-gray-400">{resource.cpu ?? null}</p>
                                 <ServerCardConnection connection={resource.conn}></ServerCardConnection>
                             </div>
+                        </div>
+                        <div className={'grid md:grid-cols-2 grid-cols-1'}>
+                            <ServerCardUsage serverId={resource.id} resource={resource.usage}></ServerCardUsage>
                         </div>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'col-span-1'}>
