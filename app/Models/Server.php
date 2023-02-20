@@ -79,6 +79,16 @@ class Server extends Model
         return $this->hasMany(Ping::class, 'server_id', 'id');
     }
 
+    public function usages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ServerUsage::class, 'server_id', 'id');
+    }
+
+    public function usage(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(ServerUsage::class, 'server_id', 'id')->orderBy('created_at', 'desc')->first();
+    }
+
     public static function getCpuOsDetails(Server $server): bool
     {
         $connection = Connection::where('server_id', $server->id)->with('server', 'key')->firstOrFail();
