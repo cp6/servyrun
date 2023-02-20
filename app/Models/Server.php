@@ -86,7 +86,7 @@ class Server extends Model
 
     public function usage(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(ServerUsage::class, 'server_id', 'id')->orderBy('created_at', 'desc')->first();
+        return $this->hasOne(ServerUsage::class, 'server_id', 'id')->orderBy('id', 'desc')->first();
     }
 
     public static function getCpuOsDetails(Server $server): bool
