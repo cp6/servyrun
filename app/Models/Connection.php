@@ -135,22 +135,22 @@ class Connection extends Model
         return $ssh;
     }
 
-    public static function getCpuUsedPercent(SSH2 $connection): string
+    public static function getCpuUsedPercent(SSH2 $connection): float
     {
         $command = "cat /proc/stat |grep cpu |tail -1|awk '{print ($5*100)/($2+$3+$4+$5+$6+$7+$8+$9+$10)}'|awk '{print 100-$1}'";
         return $connection->exec($command);
     }
 
-    public static function getRamUsedPercent(SSH2 $connection): string
+    public static function getRamUsedPercent(SSH2 $connection): float
     {
         $command = "free | grep Mem | awk '{print $3/$2 * 100.0}'";
         return $connection->exec($command);
     }
 
-    public static function getDiskUsedPercent(SSH2 $connection): string
+    public static function getDiskUsedPercent(SSH2 $connection): int
     {
         $command = "df / --output=pcent | tail -n 1";
-        return $connection->exec($command);
+        return trim(str_replace("%", "", $connection->exec($command)));
     }
 
     public static function getDiskUsed(SSH2 $connection): ?int
@@ -165,10 +165,11 @@ class Connection extends Model
         return $connection->exec($command);
     }
 
-    public static function getPortSpeed(SSH2 $connection): string
+    public static function getPortSpeed(SSH2 $connection)
     {
         $command = "lshw -C Network -json";
-        return $connection->exec($command);
+        $output = str_replace(["WARNING: you should run this program as super-user.\n", "\n", '\/', "WARNING: output may be incomplete or inaccurate, you should run this program as super-user."], "", $connection->exec($command));
+        return json_decode($output);
     }
 
 }
