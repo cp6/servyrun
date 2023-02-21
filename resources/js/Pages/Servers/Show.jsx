@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/inertia-react';
-import {Button, Modal, Dropdown} from "flowbite-react";
+import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
 import {
@@ -14,17 +14,15 @@ import UpdatedAtText from "@/Components/UpdatedAtText";
 import ServerCardDetails from "@/Components/ServerCardDetails";
 import ServerStatusButton from "@/Components/ServerStatusButton";
 import BackButton from "@/Components/BackButton";
-import MonoButton from "@/Components/MonoButton";
-import axios from "axios";
 import ServerCardUsage from "@/Components/ServerCardUsage";
+import ServerCardPingAnother from "@/Components/ServerCardPingAnother";
+import {HiArrowDownCircle} from "react-icons/all";
 
 export default function Show({auth, resource, servers, alert_type, alert_message}) {
 
     const [showModal, setShowModal] = useState(false);
 
     const [hasAlert, setHasAlert] = React.useState(true);
-
-    const [dropDownEnabled, setDropDownEnabled] = React.useState(false);
 
     const deleteItem = () => {
         const requestOptions = {
@@ -40,16 +38,6 @@ export default function Show({auth, resource, servers, alert_type, alert_message
             }
         });
 
-    };
-
-    const doPingFromTo = event => {
-        setDropDownEnabled(false);
-        axios.get(route('run.ping-from-to', [resource.id, event.target.id])).then(response => {
-            window.location.href = route('ping-from-to', [resource.id, event.target.id]);
-        }).catch(err => {
-            console.log('Error running ping');
-        });
-        setDropDownEnabled(true);
     };
 
     return (
@@ -81,6 +69,18 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                                 <HiTrash
                                     className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
                                     onClick={() => setShowModal(true)} title={'Delete server'}/>
+                                {
+                                    (() => {
+                                        if ((typeof (resource.conn) != "undefined" && resource.conn !== null) && (typeof (resource.cpu_freq) === "undefined" || resource.cpu_freq === null)) {
+                                            return (
+                                                <HiArrowDownCircle
+                                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                                    onClick={event => window.location.href = route('server.get-information', resource.id)}
+                                                    title={'Fetch server specs'}></HiArrowDownCircle>
+                                            )
+                                        }
+                                    })()
+                                }
                                 <HiPencil
                                     className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
                                     onClick={event => window.location.href = route('server.edit', resource.id)}
@@ -123,13 +123,21 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                         </div>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'col-span-1'}>
-                            <ServerCardUsage serverId={resource.id} resource={resource.usage}></ServerCardUsage>
-                            </div>
-                            <div className={'col-span-1'}>
                                 <ServerCardSpecs resource={resource}></ServerCardSpecs>
                             </div>
                         </div>
-                        <div className={'grid md:grid-cols-2 grid-cols-1'}>
+                        <ServerCardUsage serverId={resource.id} usage={null} uptime={null}></ServerCardUsage>
+                        {
+                            (() => {
+                                if ((typeof (resource.conn) != "undefined" && resource.conn !== null)) {
+                                    return (
+                                        <ServerCardPingAnother serverId={resource.id}
+                                                               servers={servers}></ServerCardPingAnother>
+                                    )
+                                }
+                            })()
+                        }
+                        <div className={'grid md:grid-cols-2 grid-cols-1 mt-4'}>
                             <div className={'col-span-1'}>
                                 <CreatedAtText created_at={resource.created_at}
                                                string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
@@ -138,39 +146,6 @@ export default function Show({auth, resource, servers, alert_type, alert_message
                                 <UpdatedAtText updated_at={resource.updated_at}
                                                string_format={'hh:mm:ssa do LLL yyyy'}></UpdatedAtText>
                             </div>
-                        </div>
-                        <div className="flex items-center space-x-4 mt-2">
-                            {
-                                (() => {
-                                    if ((typeof (resource.conn) != "undefined" && resource.conn !== null) && (typeof (resource.cpu_freq) === "undefined" || resource.cpu_freq === null)) {
-                                        return (
-                                            <MonoButton href={route('server.get-information', resource.id)}>Fetch server
-                                                specs</MonoButton>
-                                        )
-                                    }
-                                })()
-                            }
-                            {
-                                (() => {
-                                    if ((typeof (resource.conn) != "undefined" && resource.conn !== null)) {
-                                        return (
-                                            <Dropdown
-                                                label="Ping another server"
-                                                dismissOnClick={false}
-                                                disabled={dropDownEnabled}
-                                                className={'dark:bg-gray-500'}
-                                                size={'sm'}
-                                            >
-
-                                                {servers.map(server =>
-                                                    <Dropdown.Item key={server.id} className={(dropDownEnabled) ? 'hidden' : null}>
-                                                        <a onClick={doPingFromTo} id={server.id}>{server.hostname} ({server.title})</a>
-                                                    </Dropdown.Item>)}
-                                            </Dropdown>
-                                        )
-                                    }
-                                })()
-                            }
                         </div>
                     </div>
                 </section>

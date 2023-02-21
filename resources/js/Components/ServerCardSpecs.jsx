@@ -4,7 +4,7 @@ export default function ServerCardSpecs({resource}) {
     return (
         <dl className="flex items-center space-x-6 mt-2">
             <div>
-                <dt className="mb-2 font-light leading-none text-gray-900 dark:text-gray-300">Cores</dt>
+                <dt className="mb-2 font-light leading-none text-gray-900 dark:text-gray-300">CPU</dt>
                 <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{resource.cpu_cores ?? '-'}</dd>
             </div>
             <div>

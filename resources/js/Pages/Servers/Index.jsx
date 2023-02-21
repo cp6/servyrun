@@ -22,29 +22,36 @@ export default function Index({auth, servers, alert_type, alert_message}) {
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
-                    {servers.map(servers =>
-                        <section key={servers.id}
+                    {servers.map(server =>
+                        <section key={server.id}
                                  className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
-                                 onClick={event => window.location.href = route('server.show', servers.id)}>
+                                 onClick={event => window.location.href = route('server.show', server.id)}>
                             <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
                                 <div className="flex items-center justify-between mb-3">
-                                    <div>            {servers.operating_system !== null ?
+                                    <div>            {server.operating_system !== null ?
                                         <span
-                                            className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{servers.operating_system}</span>
+                                            className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{server.operating_system}</span>
                                         : null
                                     }
                                         <span
-                                            className="bg-indigo-200 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{servers.type.name}</span>
+                                            className="bg-indigo-200 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{server.type.name}</span>
+                                        {
+                                            (() => {
+                                                if (server.conn === null) {
+                                                    return (<span className="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">No connection</span>)
+                                                }
+                                            })()
+                                        }
                                     </div>
                                     <small className="text-end">
-                                        <ServerStatusDot resource={servers}></ServerStatusDot>
+                                        <ServerStatusDot resource={server}></ServerStatusDot>
                                     </small>
                                 </div>
                                 <div className="flex flex-col items-center pb-3">
                                     <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                                        {servers.hostname}
+                                        {server.hostname}
                                     </h5>
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">{servers.title}</span>
+                                    <span className="text-sm text-gray-500 dark:text-gray-400">{server.title}</span>
                                 </div>
                             </div>
                         </section>

@@ -14,7 +14,7 @@ export default function ServerCardConnection({connection = null}) {
                                 } else {
                                     return (
                                         <p className="mb-2 font-semibold leading-none text-yellow-500 dark:text-yellow-400 inline">No
-                                            connection set</p>);
+                                            connection set, create a connection to fetch more information.</p>);
                                 }
                             })()
                         }
