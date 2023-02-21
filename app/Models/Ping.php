@@ -111,9 +111,9 @@ class Ping extends Model
 
         if ($connection->conn->type === 1) {//Stored password
             $ssh = Connection::makeConnectionPassword($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, Crypt::decryptString($connection->conn->password), 20);
-        } elseif ($connection->conn->type === 3) { //Key with stored password
+        } elseif ($connection->conn->type === 2) { //Key with stored password
             $ssh = Connection::makeConnectionKey($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, Crypt::decryptString($connection->conn->key->password), 20);
-        } elseif ($connection->conn->type === 5) { //Key NO stored password
+        } elseif ($connection->conn->type === 3) { //Key NO stored password
             $ssh = Connection::makeConnectionKey($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, null, 20);
         } else {        //Cannot run because connection not of valid type
             ActionLog::make(5, 'run','ping', 'Failed running ping from to because conn type invalid for ' . $server_from->id);
