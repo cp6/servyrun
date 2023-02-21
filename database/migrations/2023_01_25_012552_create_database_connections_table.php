@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->integer('port')->default(3306);
             $table->string('username');
-            $table->string('password')->default(null)->nullable();
+            $table->string('password', 400)->default(null)->nullable();
             $table->tinyInteger('type')->default(1);//1  = MySQL
             $table->string('version')->default(null)->nullable();
             $table->string('privileges')->default(null)->nullable();

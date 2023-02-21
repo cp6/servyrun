@@ -13,7 +13,7 @@ return new class extends Migration
             $table->char('server_id', 8);
             $table->char('user_id', 6);
             $table->char('key_id', 8)->default(null)->nullable();
-            $table->string('password')->default(null)->nullable();
+            $table->string('password', 400)->default(null)->nullable();
             $table->string('username')->default('root');
             $table->integer('port')->default(22);
             $table->timestamps();

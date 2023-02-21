@@ -14,7 +14,7 @@ return new class extends Migration
             $table->char('user_id', 6);
             $table->char('key_id', 8)->default(null)->nullable();
             $table->string('username', 64);
-            $table->string('password')->default(null)->nullable();
+            $table->string('password', 400)->default(null)->nullable();
             $table->integer('port')->default(22);
             $table->dateTime('last_used')->default(null)->nullable();
             $table->timestamps();

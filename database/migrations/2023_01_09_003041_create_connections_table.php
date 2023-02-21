@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('username', 64);
             $table->integer('ssh_port')->default(22);
             $table->char('key_id', 8)->default(null)->nullable();
-            $table->string('password')->default(null)->nullable();
+            $table->string('password', 400)->default(null)->nullable();
             $table->boolean('submit_password')->default(null)->nullable();
             $table->boolean('sudo')->default(null)->nullable();
             $table->dateTime('last_used')->default(null)->nullable();
