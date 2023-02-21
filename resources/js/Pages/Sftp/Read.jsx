@@ -67,7 +67,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
             setFilePath(the_response.file);
             setFileExt(the_response.extension);
 
-            if (the_response.size > 800000) {//Over 800kb do not allow editing
+            if (the_response.size > 800000) {//Over 800kb do NOT allow editing
                 setEditable(false);
             } else {
                 setEditable(true);

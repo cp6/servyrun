@@ -88,7 +88,7 @@ export default function Create({auth, title, alert_type, alert_message, servers}
                                     autoComplete="address"
                                     value={data.address}
                                     handleChange={(e) => setData('address', e.target.value)}
-                                    maxLength={64}
+                                    maxLength={125}
                                     required
                                 />
                                 <InputError message={errors.address} className="mt-2"/>
@@ -126,6 +126,7 @@ export default function Create({auth, title, alert_type, alert_message, servers}
                                     autoComplete="username"
                                     value={data.username}
                                     handleChange={(e) => setData('username', e.target.value)}
+                                    maxLength={64}
                                     required
                                 />
                                 <InputError message={errors.username} className="mt-2"/>
@@ -138,7 +139,7 @@ export default function Create({auth, title, alert_type, alert_message, servers}
                                     autoComplete="password"
                                     value={data.password}
                                     handleChange={(e) => setData('password', e.target.value)}
-                                    maxLength={125}
+                                    maxLength={255}
                                 />
                                 <InputError message={errors.password} className="mt-2"/>
                             </div>
