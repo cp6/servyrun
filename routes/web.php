@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/servers/{server}', [ServerController::class, 'show'])->name('server.show');
     Route::get('/servers/{server}/get-information', [ServerController::class, 'getInformation'])->name('server.get-information');
     Route::get('/servers/{server}/usage', [ServerController::class, 'getUsage'])->name('server.usage');
+    Route::get('/servers/{server}/uptime', [ServerController::class, 'getUptime'])->name('server.uptime');
     Route::get('/servers/{server}/edit', [ServerController::class, 'edit'])->name('server.edit');
     Route::patch('/servers/{server}', [ServerController::class, 'update'])->name('server.update');
     Route::delete('/servers/{server}', [ServerController::class, 'destroy'])->name('server.destroy');

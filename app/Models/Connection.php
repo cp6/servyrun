@@ -172,4 +172,28 @@ class Connection extends Model
         return json_decode($output);
     }
 
+    public static function formattedUptime(SSH2 $connection): array
+    {
+        $command = "uptime";
+        $output = $connection->exec($command);
+        //00:40:10 up 16 days, 21:49, 0 users, load average: 0.02, 0.02, 0.00
+
+        $uptime_string = trim(strtok($output, ','));
+
+        $users_count_raw = strstr($output, 'user', true);
+        $users_count = trim(substr($users_count_raw, strpos($users_count_raw, ", ") + 9));
+
+        $load = trim(substr($output, strpos($output, " load average:") + 14));
+        $load_array = explode(",", str_replace(" ", "", $load));
+
+        return [
+            'uptime' => $uptime_string,
+            'users' => (int)$users_count,
+            'last_minute' => (float)$load_array[0],
+            'last_5_minutes' => (float)$load_array[1],
+            'last_15_minutes' => (float)$load_array[2]
+        ];
+
+    }
+
 }

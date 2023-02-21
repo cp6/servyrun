@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Connection;
 use App\Models\DatabaseConnection;
 use App\Models\IpAddress;
-use App\Models\IpAddressesAssigned;
 use App\Models\Location;
 use App\Models\Server;
 use App\Models\ServerUsage;
@@ -18,7 +17,7 @@ class ServerController extends Controller
     public function index(): \Inertia\Response
     {
         return Inertia::render('Servers/Index', [
-            'servers' => Server::with(['type',])->get(),
+            'servers' => Server::with(['type', 'conn'])->get(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
             'alert_message' => \Session::get('alert_message')
@@ -46,7 +45,7 @@ class ServerController extends Controller
         $this->authorize('view', $server);
 
         return Inertia::render('Servers/Show', [
-            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn', 'sftp_conn', 'usage'])->firstOrFail(),
+            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn', 'sftp_conn'])->firstOrFail(),
             'servers' => Server::has('conn')->whereNot('id', $server->id)->select(['id', 'hostname', 'title'])->get(),
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
@@ -250,6 +249,24 @@ class ServerController extends Controller
         }
 
         return response()->json($latest_usage)->header('Content-Type', 'application/json');
+
+    }
+
+    public function getUptime(Server $server)
+    {
+        $this->authorize('view', $server);
+
+        $connection = Connection::where('server_id', $server->id)->with('server', 'key')->firstOrFail();
+
+        $ssh = Connection::do($connection, 10);
+
+        if (is_null($ssh)) {
+            return response()->json(['success' => false, 'message' => 'SSH could not connect'], 400)->header('Content-Type', 'application/json');
+        }
+
+        $uptime_array = Connection::formattedUptime($ssh);
+
+        return response()->json($uptime_array)->header('Content-Type', 'application/json');
 
     }
 
