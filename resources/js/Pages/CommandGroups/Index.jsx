@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, usePage} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/inertia-react';
 import React from "react";
 import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";

@@ -3,10 +3,9 @@ import {Head} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiHashtag, HiPencil, HiPlay, HiTrash} from "react-icons/hi";
+import {HiPencil, HiPlay, HiTrash} from "react-icons/hi";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
-import DatabaseStatusButton from "@/Components/DatabaseStatusButton";
 import CreatedAtText from "@/Components/CreatedAtText";
 import UpdatedAtText from "@/Components/UpdatedAtText";
 

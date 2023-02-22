@@ -19,7 +19,7 @@ class SftpConnection extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['username', 'password', 'port', 'last_used'];
+    protected $fillable = ['username', 'password', 'port', 'last_used', 'status'];
 
     protected static function boot(): void
     {

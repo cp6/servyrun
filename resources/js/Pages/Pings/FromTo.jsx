@@ -11,7 +11,7 @@ import TealButton from "@/Components/TealButton";
 import axios from "axios";
 import {HiPlay} from "react-icons/hi";
 
-export default function Index({auth, pings, minPing, maxPing, avgPing, alert_type, alert_message}) {
+export default function FromTo({auth, pings, minPing, maxPing, avgPing, alert_type, alert_message}) {
     const user = usePage().props.auth.user;
 
     const [hasAlert, setHasAlert] = React.useState(true);
