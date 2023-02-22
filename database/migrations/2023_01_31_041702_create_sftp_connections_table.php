@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('password', 400)->default(null)->nullable();
             $table->integer('port')->default(22);
             $table->dateTime('last_used')->default(null)->nullable();
+            $table->tinyInteger('status')->default(null)->nullable();
             $table->timestamps();
             $table->unique(['user_id', 'server_id', 'username']);
             $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade')->onUpdate('cascade');

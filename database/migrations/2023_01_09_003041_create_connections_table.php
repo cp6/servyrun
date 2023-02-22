@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('submit_password')->default(null)->nullable();
             $table->boolean('sudo')->default(null)->nullable();
             $table->dateTime('last_used')->default(null)->nullable();
+            $table->tinyInteger('status')->default(null)->nullable();
             $table->timestamps();
             $table->unique(['user_id', 'server_id', 'username', 'type']);
             $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade')->onUpdate('cascade');
