@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use phpseclib3\Crypt\PublicKeyLoader;
-use phpseclib3\Math\PrimeField\Integer;
 use phpseclib3\Net\SSH2;
 
 class Connection extends Model
