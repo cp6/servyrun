@@ -31,7 +31,7 @@ export default function Dashboard({
 
             {serversCount > 0 ?
                 <>
-                        <div className="mt-4 py-4 px-2 mx-auto max-w-7xl">
+                        <div className="mt-6 px-2 mx-auto max-w-7xl">
                         <div className='grid grid-cols-3 sm:grid-cols-8 gap-3'>
                             <StatCard text='Servers' value={serversCount} route={route('server.index')}></StatCard>
                             <StatCard text='Connections' value={ConnectionCount}
@@ -44,9 +44,9 @@ export default function Dashboard({
                             <StatCard text='Outputs' value={OutputCount} route={route('outputs.index')}></StatCard>
                         </div>
                     </div>
-                    <div className="py-12">
+                    <div className="mt-4">
                             <div className="py-4 px-2 mx-auto max-w-7xl">
-                            <div className="bg-white dark:bg-gray-700 overflow-hidden shadow-lg sm:rounded-lg">
+                            <div className="bg-white dark:bg-gray-700 overflow-hidden rounded-lg">
                                 <div className="p-6 text-gray-900 font-bold dark:text-gray-300">Recent actions</div>
                                 <Table className='px-4'>
                                     <Table.Head className='bg-gray-200 dark:bg-gray-600 rounded-0'>
