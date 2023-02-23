@@ -25,7 +25,7 @@ class DatabaseTableColumn extends Model
         });
 
         static::created(function (DatabaseTableColumn $databaseTableColumn) {
-            ActionLog::make(1, 'create', 'database column', 'Created database column '.$databaseTableColumn->id);
+            ActionLog::make(1, 'create', 'database column', 'Created database column ' . $databaseTableColumn->name . ' (' . $databaseTableColumn->type . ')');
         });
 
     }

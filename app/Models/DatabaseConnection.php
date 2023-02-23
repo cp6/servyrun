@@ -70,7 +70,7 @@ class DatabaseConnection extends Model
             return false;
         }
         if (\Auth::user()->log_connections) {
-            ActionLog::make(1, 'connected', 'database', "Made database connection {$databaseConnection->username}@{$databaseConnection->host}");
+            ActionLog::make(1, 'connected', 'database', "Made database connection to {$databaseConnection->username}@{$databaseConnection->host}");
         }
         return true;
     }
@@ -80,7 +80,7 @@ class DatabaseConnection extends Model
         try {
             $this->db_con = new PDO("mysql:host=$databaseConnection->host;dbname=$database;charset=utf8mb4", $databaseConnection->username, Crypt::decryptString($databaseConnection->password));
             if (\Auth::user()->log_connections) {
-                ActionLog::make(1, 'connected', 'database', "Made database connection {$databaseConnection->username}@{$databaseConnection->host} {$database}");
+                ActionLog::make(1, 'connected', 'database', "Made database connection to {$databaseConnection->username}@{$databaseConnection->host} {$database}");
             }
             return $this->db_con;
         } catch (\Exception $e) {
