@@ -22,7 +22,7 @@ export default function Output({id, title, the_command, created_at, the_output, 
                 <h5 className="mb-1 text-sm text-gray-700 dark:text-gray-200">The output
                     {
                         (seconds != null) ?
-                            <span className="text-gray-600 dark:text-gray-300">({seconds}s)</span> : null
+                            <span className="text-gray-600 dark:text-gray-300"> ({seconds}s)</span> : null
                     }
                 </h5>
             </div>
