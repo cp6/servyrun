@@ -193,6 +193,167 @@ class SftpConnectionController extends Controller
 
     }
 
+    public function directoryContentsAsArray(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $directory = $request->directory ?? '';
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            return response()->json(['message' => 'ERROR: SFTP connection could not be made! Check the logs for more information.'], 400);
+        }
+
+        return response()->json([
+            'directory' => $directory,
+            'contents' => $sftp->nlist($directory)
+        ], 200)->header('Content-Type', 'application/json');
+
+    }
+
+    public function directoryContentsDetailedAsArray(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $directory = $request->directory ?? '';
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            return response()->json(['message' => 'ERROR: SFTP connection could not be made! Check the logs for more information.'], 400);
+        }
+
+        $contents = $sftp->nlist($directory);
+
+        $result = array();
+
+        foreach ($contents as $content) {
+            $is_file = $sftp->filetype($content) === 'file';
+            $fileatime = $sftp->fileatime($content);
+            $filemtime = $sftp->filemtime($content);
+
+            $result[] = array(
+                'name' => $content,
+                'type' => $sftp->filetype($content),
+                'is_file' => $is_file,
+                'ext' => ($is_file) ? substr($content, strrpos($content, '.') + 1) : null,
+                'size' => ($is_file) ? $sftp->filesize($content) : null,
+                'size_kb' => ($is_file) ? $sftp->filesize($content) / 1000 : null,
+                'size_mb' => ($is_file) ? (float)number_format($sftp->filesize($content) / 1000 / 1000, 3) : null,
+                'last_accessed' => $fileatime,
+                'last_accessed_formatted' => gmdate("Y-m-d H:i:s", $fileatime),
+                'last_modified' => $filemtime,
+                'last_modified_formatted' => gmdate("Y-m-d H:i:s", $filemtime),
+                'readable' => $sftp->is_readable($content),
+                'writable' => $sftp->is_writable($content),
+            );
+
+        }
+
+        return response()->json([
+            'directory' => $directory,
+            'contents' => $result
+        ], 200)->header('Content-Type', 'application/json');
+
+    }
+
+    public function directoryFilesDetailedAsArray(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $directory = $request->directory ?? '';
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            return response()->json(['message' => 'ERROR: SFTP connection could not be made! Check the logs for more information.'], 400);
+        }
+
+        $contents = $sftp->nlist($directory);
+
+        $result = array();
+
+        foreach ($contents as $content) {
+            $is_file = $sftp->filetype($content) === 'file';
+
+            if ($is_file) {
+
+                $fileatime = $sftp->fileatime($content);
+                $filemtime = $sftp->filemtime($content);
+
+                $result[] = array(
+                    'name' => $content,
+                    'type' => $sftp->filetype($content),
+                    'ext' => substr($content, strrpos($content, '.') + 1),
+                    'size' => $sftp->filesize($content),
+                    'size_kb' => $sftp->filesize($content) / 1000,
+                    'size_mb' => (float)number_format($sftp->filesize($content) / 1000 / 1000, 3),
+                    'last_accessed' => $fileatime,
+                    'last_accessed_formatted' => gmdate("Y-m-d H:i:s", $fileatime),
+                    'last_modified' => $filemtime,
+                    'last_modified_formatted' => gmdate("Y-m-d H:i:s", $filemtime),
+                    'readable' => $sftp->is_readable($content),
+                    'writable' => $sftp->is_writable($content),
+                );
+            }
+
+        }
+
+        return response()->json([
+            'directory' => $directory,
+            'contents' => $result
+        ], 200)->header('Content-Type', 'application/json');
+
+    }
+
+    public function fileDetailedAsArray(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $sftpConnection);
+
+        if (!isset($request->filepath) || is_null($request->filepath)) {
+            return response()->json(['message' => 'ERROR: filepath was not set'], 400)->header('Content-Type', 'application/json');
+        }
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+            return response()->json(['message' => 'ERROR: SFTP connection could not be made! Check the logs for more information.'], 400)->header('Content-Type', 'application/json');
+        }
+
+        $filepath = $request->filepath;
+
+        if ($sftp->file_exists($filepath)) {
+
+            $is_file = $sftp->filetype($filepath) === 'file';
+
+            if ($is_file) {
+
+                $fileatime = $sftp->fileatime($filepath);
+                $filemtime = $sftp->filemtime($filepath);
+
+                $result = array(
+                    'file' => basename($filepath),
+                    'type' => $sftp->filetype($filepath),
+                    'ext' => substr($filepath, strrpos($filepath, '.') + 1),
+                    'size' => $sftp->filesize($filepath),
+                    'size_kb' => $sftp->filesize($filepath) / 1000,
+                    'size_mb' => (float)number_format($sftp->filesize($filepath) / 1000 / 1000, 3),
+                    'last_accessed' => $fileatime,
+                    'last_accessed_formatted' => gmdate("Y-m-d H:i:s", $fileatime),
+                    'last_modified' => $filemtime,
+                    'last_modified_formatted' => gmdate("Y-m-d H:i:s", $filemtime),
+                    'readable' => $sftp->is_readable($filepath),
+                    'writable' => $sftp->is_writable($filepath),
+                );
+
+                return response()->json($result, 200)->header('Content-Type', 'application/json');
+
+            }
+        }
+        return response()->json(['message' => 'ERROR: file was not found.'], 400)->header('Content-Type', 'application/json');
+    }
+
     public function downloadFile(Request $request, SftpConnection $sftpConnection)
     {
         $this->authorize('view', $sftpConnection);
@@ -256,6 +417,55 @@ class SftpConnectionController extends Controller
         }
 
         return response()->json(['success' => false, 'contents' => 'File "' . $file . '" could not be found', 'size' => null, 'file' => null, 'extension' => null])->header('Content-Type', 'application/json');
+    }
+
+    public function generateReadRawResponse(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $sftpConnection);
+
+        if (!isset($request->file) || is_null($request->file)) {
+            return response()->json(['success' => false, 'request' => null, 'message' => 'File not set'])->header('Content-Type', 'application/json');
+        }
+
+        return response()->json(['success' => true, 'request' => urlencode($request->file)])->header('Content-Type', 'application/json');
+
+    }
+
+    public function outputFileRaw(SftpConnection $sftpConnection, string $filepath): string
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+
+            $output = "<html lang='en'><head><title>Could not connect: " . $sftpConnection->id . "</title></head><body>";
+            $output .= 'Could not connect to SFTP';
+            $output .= "</body></html>";
+            return $output;
+        }
+
+        if ($sftp->file_exists(urldecode($filepath))) {
+
+            if ($sftp->filesize(urldecode($filepath)) > 200000) {
+                $output = "<html lang='en'><head><title>" . urldecode($filepath) . "</title></head><body>";
+                $output .= "<pre>This file is above 2MB in size, outputting this into the browser is not a good idea.</pre>";
+                $output .= "</body></html>";
+                return $output;
+            }
+
+            $download = SftpConnection::downloadFile($sftp, urldecode($filepath));
+
+            $output = "<html lang='en'><head><title>{$sftpConnection->id}: " . urldecode($filepath) . "</title></head><body>";
+            $output .= "<pre>" . $download . "</pre>";
+            $output .= "</body></html>";
+            return $output;
+        }
+
+        $output = "<html lang='en'><head><title>File not found: " . urldecode($filepath) . "</title></head><body>";
+        $output .= 'The file "' . urldecode($filepath) . '" could not be found';
+        $output .= "</body></html>";
+        return $output;
     }
 
     public function uploadFile(Request $request, SftpConnection $sftpConnection)

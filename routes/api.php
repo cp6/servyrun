@@ -7,6 +7,7 @@ use App\Http\Controllers\DatabaseTableColumnController;
 use App\Http\Controllers\DatabaseTableController;
 use App\Http\Controllers\PingController;
 use App\Http\Controllers\ServerController;
+use App\Http\Controllers\SftpConnectionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -87,6 +88,10 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::get('/sftp', [ApiController::class, 'sftpIndex'])->middleware(['throttle:30,1'])->name('api.sftp.index');
     Route::get('/sftp/help', [ApiController::class, 'sftpHelp'])->middleware(['throttle:30,1'])->name('api.sftp.help');
     Route::get('/sftp/{sftpConnection}', [ApiController::class, 'sftpShow'])->middleware(['throttle:30,1'])->name('api.sftp.show');
+    Route::get('/sftp/{sftpConnection}/directory', [SftpConnectionController::class, 'directoryContentsAsArray'])->middleware(['throttle:30,1'])->name('api.sftp.directory.contents');//Folders & files in a directory
+    Route::get('/sftp/{sftpConnection}/directory-contents', [SftpConnectionController::class, 'directoryContentsDetailedAsArray'])->middleware(['throttle:30,1'])->name('api.sftp.directory.contents.details');//Details for folders & files in a directory
+    Route::get('/sftp/{sftpConnection}/directory-files', [SftpConnectionController::class, 'directoryFilesDetailedAsArray'])->middleware(['throttle:30,1'])->name('api.sftp.directory.files.details');//Details for files in a directory
+    Route::get('/sftp/{sftpConnection}/file', [SftpConnectionController::class, 'fileDetailedAsArray'])->middleware(['throttle:30,1'])->name('api.sftp.file.details');//Details about a file
     Route::patch('/sftp/{sftpConnection}', [ApiController::class, 'sftpUpdate'])->middleware(['throttle:20,1'])->name('api.sftp.update');
     Route::post('/sftp', [ApiController::class, 'sftpStore'])->middleware(['throttle:20,1'])->name('api.sftp.store');
     Route::delete('/sftp/{sftpConnection}', [ApiController::class, 'sftpDestroy'])->middleware(['throttle:20,1'])->name('api.sftp.destroy');
