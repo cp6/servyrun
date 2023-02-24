@@ -145,6 +145,7 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                                         autoComplete="the_command1"
                                         handleChange={(e) => setData('the_command1', e.target.value)}
                                         maxLength={64}
+                                        required={true}
                                     />
                                     <InputError message={errors.the_command1} className="mt-2"/>
                                 </div>
@@ -174,6 +175,7 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                                                 autoComplete="file"
                                                 handleChange={(e) => setData('file', e.target.value)}
                                                 maxLength={255}
+                                                required={true}
                                             />
                                             <InputError message={errors.file} className="mt-2"/>
                                         </div>
@@ -199,6 +201,7 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                                                 autoComplete="file"
                                                 handleChange={(e) => setData('save_as', e.target.value)}
                                                 maxLength={255}
+                                                required={true}
                                             />
                                             <InputError message={errors.save_as} className="mt-2"/>
                                         </div>
