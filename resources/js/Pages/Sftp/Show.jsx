@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -24,7 +24,25 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
 
     const [hasAlert, setHasAlert] = React.useState(true);
 
+    const [runTime, setRunTime] = useState(0);
+    const [running, setRunning] = useState(false);
+
+    useEffect(() => {
+        let interval;
+        if (running) {
+            interval = setInterval(() => {
+                setRunTime((prevTime) => prevTime + 10);
+            }, 10);
+        } else if (!running) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [running]);
+
+
     async function postData() {
+        setRunTime(0);
+        setRunning(true);
 
         const response = await fetch(route('sftp.run', resource.id), {
             method: 'POST',
@@ -37,6 +55,8 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                 'the_command1': data.the_command1
             })
         });
+
+        setRunning(false);
 
         return response.json();
     }
@@ -208,6 +228,11 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                 </section>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg mt-4">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>SFTP Command output</h1>
+                    <div className="pt-2 px-4 mx-auto max-w-7xl">
+                        {
+                            (running) ? <p className={'text-gray-600 dark:text-gray-300 mb-2'}><code className={'text-red-500 bg-gray-300 dark:bg-black p-1 rounded-md my-2'}>{data.the_command1 ?? null}</code> {(runTime / 1000) % 60}s</p> : null
+                        }
+                    </div>
                     <div className="py-4 px-4 mx-auto max-w-7xl" id="command_output_div">
                         <span className="text-gray-400 dark:text-gray-500">Nothing run yet</span>
                     </div>
