@@ -79,6 +79,27 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
 
     };
 
+    const submitForRaw = (e) => {
+        e.preventDefault();
+        fetch(route('sftp.read.file.raw.post', resource.id), {
+            method: 'POST',
+            body: JSON.stringify({
+                'file': data.file
+            }),
+            headers: {
+                'X-CSRF-TOKEN': document.getElementsByName('csrf-token')[0].getAttribute('content'),
+                'Content-Type': 'application/json',
+                'Accept': '*/*'
+            },
+        }).then((response) => response.json())
+            .then((data) => {
+                window.location.replace(route('sftp.read.file.raw', [resource.id, data.request]));
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    };
+
     useEffect(() => {
         Prism.highlightAll();
     }, []);
@@ -114,12 +135,12 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>Read a file</h1>
                     <div className="py-4 px-4 mx-auto max-w-7xl">
-                        <form onSubmit={submit}>
-                            <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
-                                <div className="col-span-4">
+                        <div className="grid gap-2 grid-cols-4 sm:gap-4">
+                            <div className="md:col-span-2 col-span-4">
+                                <form onSubmit={submit}>
                                     <InputLabel forInput="file" value="Full file path"/>
                                     <TextInput
-                                        name="the_command1"
+                                        name="the_file"
                                         value={data.file}
                                         className="mt-1 block w-full"
                                         autoComplete="file"
@@ -127,14 +148,33 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                                         maxLength={64}
                                     />
                                     <InputError message={errors.file} className="mt-2"/>
-                                </div>
+                                    <PrimaryButton
+                                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-900 hover:bg-purple-800"
+                                        processing={processing}>
+                                        Read
+                                    </PrimaryButton>
+                                </form>
                             </div>
-                            <PrimaryButton
-                                className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-900 hover:bg-purple-800"
-                                processing={processing}>
-                                Read
-                            </PrimaryButton>
-                        </form>
+                            <div className="md:col-span-2 col-span-4">
+                                <form onSubmit={submitForRaw}>
+                                    <InputLabel forInput="file" value="Full file path"/>
+                                    <TextInput
+                                        name="the_file"
+                                        value={data.file}
+                                        className="mt-1 block w-full"
+                                        autoComplete="file"
+                                        handleChange={(e) => setData('file', e.target.value)}
+                                        maxLength={64}
+                                    />
+                                    <InputError message={errors.file} className="mt-2"/>
+                                    <PrimaryButton
+                                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-900 hover:bg-purple-800"
+                                        processing={processing}>
+                                        Read as raw
+                                    </PrimaryButton>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </section>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg mt-2 py-2">
@@ -145,7 +185,8 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                         <p className='text-md text-gray-600 dark:text-gray-400 pl-4 pt-2'>{fileSize}MB</p> : null}
                     <div className="py-6 pl-2 mx-auto max-w-7xl lg:pb-8 h-96 overflow-scroll" id="command_output_div">
                         <div className="Code line-numbers">
-                         <pre contentEditable={editable} onChange={handleCodeChange} onInput={handleCodeChange}><code id={'codeTag'} className={`language-${fileExt}`}>{codeContent}</code></pre>
+                            <pre contentEditable={editable} onChange={handleCodeChange} onInput={handleCodeChange}><code
+                                id={'codeTag'} className={`language-${fileExt}`}>{codeContent}</code></pre>
                         </div>
                     </div>
                     <UpdateButton onClick={sendContents} className={'ml-2'}>Update file</UpdateButton>
