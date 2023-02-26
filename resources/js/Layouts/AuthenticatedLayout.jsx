@@ -74,14 +74,14 @@ export default function Authenticated({auth, header, children}) {
                                 <NavLink href={route('server.index')} active={route().current('server.*')}>
                                     Servers
                                 </NavLink>
-                                <NavLink href={route('ip.index')} active={route().current('ip.*')}>
-                                    IPs
-                                </NavLink>
                                 <NavLink href={route('connection.index')} active={route().current('connection.*')}>
                                     Connections
                                 </NavLink>
                                 <NavLink href={route('key.index')} active={route().current('key.*')}>
                                     Keys
+                                </NavLink>
+                                <NavLink href={route('sftp.index')} active={route().current('sftp.*')}>
+                                    SFTP
                                 </NavLink>
                                 <NavLink href={route('command.index')} active={route().current('command.*')}>
                                     Commands
@@ -92,8 +92,8 @@ export default function Authenticated({auth, header, children}) {
                                 <NavLink href={route('db.index')} active={route().current('db.*')}>
                                     DB
                                 </NavLink>
-                                <NavLink href={route('sftp.index')} active={route().current('sftp.*')}>
-                                    SFTP
+                                <NavLink href={route('ip.index')} active={route().current('ip.*')}>
+                                    IPs
                                 </NavLink>
                                 <NavLink href={route('log.index')} active={route().current('log.*')}>
                                     Logs
@@ -191,6 +191,9 @@ export default function Authenticated({auth, header, children}) {
                         <ResponsiveNavLink href={route('key.index')} active={route().current('key.*')}>
                             Keys
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('sftp.index')} active={route().current('sftp.*')}>
+                            SFTP
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('command.index')} active={route().current('command.*')}>
                             Commands
                         </ResponsiveNavLink>
@@ -200,8 +203,8 @@ export default function Authenticated({auth, header, children}) {
                         <ResponsiveNavLink href={route('db.index')} active={route().current('db.*')}>
                             DB
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('sftp.index')} active={route().current('sftp.*')}>
-                            SFTP
+                        <ResponsiveNavLink href={route('ip.index')} active={route().current('ip.*')}>
+                            IPs
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('log.index')} active={route().current('log.*')}>
                             Logs
@@ -224,10 +227,10 @@ export default function Authenticated({auth, header, children}) {
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">
+                            <div className="font-medium text-base text-gray-800 dark:text-indigo-400">
                                 {auth.user.name}
                             </div>
-                            <div className="font-medium text-sm text-gray-500">{auth.user.email}</div>
+                            <div className="font-medium text-sm text-gray-500 dark:text-indigo-400">{auth.user.email}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
