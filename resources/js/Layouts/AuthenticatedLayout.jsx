@@ -9,26 +9,22 @@ export default function Authenticated({auth, header, children}) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     function processThemeChange(themeToggleDarkIcon, themeToggleLightIcon) {
+
+        if (localStorage.getItem('color-theme') && localStorage.getItem('color-theme') === 'light') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+        } else if (localStorage.getItem('color-theme') && localStorage.getItem('color-theme') === 'dark') {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+        } else if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+        }
         themeToggleDarkIcon.classList.toggle('hidden');
         themeToggleLightIcon.classList.toggle('hidden');
-
-        if (localStorage.getItem('color-theme')) {
-            if (localStorage.getItem('color-theme') === 'light') {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            }
-        } else {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            }
-        }
     }
 
     function switchTheme() {
@@ -230,7 +226,8 @@ export default function Authenticated({auth, header, children}) {
                             <div className="font-medium text-base text-gray-800 dark:text-indigo-400">
                                 {auth.user.name}
                             </div>
-                            <div className="font-medium text-sm text-gray-500 dark:text-indigo-400">{auth.user.email}</div>
+                            <div
+                                className="font-medium text-sm text-gray-500 dark:text-indigo-400">{auth.user.email}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
