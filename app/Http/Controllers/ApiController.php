@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\ActionLog;
 use App\Models\Command;
+use App\Models\CommandGroup;
+use App\Models\CommandGroupAssigned;
 use App\Models\CommandOutput;
 use App\Models\Connection;
 use App\Models\IpAddress;
 use App\Models\Key;
 use App\Models\Location;
 use App\Models\Ping;
+use App\Models\PingGroup;
+use App\Models\PingGroupAssigned;
 use App\Models\Server;
 use App\Models\SftpConnection;
 use App\Models\Type;
@@ -279,6 +283,109 @@ class ApiController extends Controller
     public function commandsDestroy(Command $command): \Illuminate\Http\JsonResponse
     {
         $result = $command->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function commandGroupsIndex(): \Illuminate\Http\JsonResponse
+    {
+        $commands = CommandGroup::Paginate(20);
+        return response()->json($commands)->header('Content-Type', 'application/json');
+    }
+
+    public function commandGroupsShow(CommandGroup $commandGroup): \Illuminate\Http\JsonResponse
+    {
+        $data = $commandGroup->where('id', $commandGroup->id)->with(['assigned', 'the_command'])->first();
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function commandGroupsUpdate(CommandGroup $commandGroup, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $commandGroup->update($request->all());
+        return response()->json($commandGroup->Paginate(20))->header('Content-Type', 'application/json');
+    }
+
+    public function commandGroupsStore(CommandGroup $commandGroup, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $commandGroup->create($request->all());
+        return response()->json($commandGroup->Paginate(20))->header('Content-Type', 'application/json');
+    }
+
+    public function commandGroupsDestroy(CommandGroup $commandGroup): \Illuminate\Http\JsonResponse
+    {
+        $result = $commandGroup->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function commandGroupAdd(CommandGroup $commandGroup, Connection $connection): \Illuminate\Http\JsonResponse
+    {
+        $the_connection = Connection::where('id', $connection->id)->with(['server'])->firstOrFail();
+
+        $command_group_assigned = new CommandGroupAssigned();
+        $command_group_assigned->group_id = $commandGroup->id;
+        $command_group_assigned->server_id = $the_connection->server->id;
+        $command_group_assigned->connection_id = $connection->id;
+        $command_group_assigned->save();
+
+        return response()->json($command_group_assigned)->header('Content-Type', 'application/json');
+    }
+
+    public function commandGroupRemove(CommandGroup $commandGroup, Connection $connection): \Illuminate\Http\JsonResponse
+    {
+        $command_group_assigned = CommandGroupAssigned::where('group_id', $commandGroup->id)
+            ->where('connection_id', $connection->id)->firstOrFail();
+
+        $result = $command_group_assigned->delete();
+
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function pingGroupsIndex(): \Illuminate\Http\JsonResponse
+    {
+        $pings = PingGroup::Paginate(20);
+        return response()->json($pings)->header('Content-Type', 'application/json');
+    }
+
+    public function pingGroupsShow(PingGroup $pingGroup): \Illuminate\Http\JsonResponse
+    {
+        $data = $pingGroup->where('id', $pingGroup->id)->with(['assigned'])->first();
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function pingGroupsUpdate(PingGroup $pingGroup, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $pingGroup->update($request->all());
+        return response()->json($pingGroup->Paginate(20))->header('Content-Type', 'application/json');
+    }
+
+    public function pingGroupsStore(PingGroup $pingGroup, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $pingGroup->create($request->all());
+        return response()->json($pingGroup->Paginate(20))->header('Content-Type', 'application/json');
+    }
+
+    public function pingGroupsDestroy(PingGroup $pingGroup): \Illuminate\Http\JsonResponse
+    {
+        $result = $pingGroup->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function pingGroupAdd(PingGroup $pingGroup, Server $server): \Illuminate\Http\JsonResponse
+    {
+        $ping_group_assigned = new PingGroupAssigned();
+        $ping_group_assigned->group_id = $pingGroup->id;
+        $ping_group_assigned->server_id = $server->id;
+        $ping_group_assigned->save();
+
+        return response()->json($ping_group_assigned)->header('Content-Type', 'application/json');
+    }
+
+    public function pingGroupRemove(PingGroup $pingGroup, Server $server): \Illuminate\Http\JsonResponse
+    {
+        $ping_group_assigned = PingGroupAssigned::where('group_id', $pingGroup->id)
+            ->where('server_id', $server->id)->firstOrFail();
+
+        $result = $ping_group_assigned->delete();
+
         return response()->json(['result' => $result])->header('Content-Type', 'application/json');
     }
 

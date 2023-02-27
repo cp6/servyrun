@@ -69,6 +69,7 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::delete('/keys/{key}', [ApiController::class, 'keysDestroy'])->middleware(['throttle:30,1'])->name('api.keys.destroy');
 
     Route::get('/pings', [ApiController::class, 'pingsIndex'])->middleware(['throttle:30,1'])->name('api.pings.index');
+    Route::get('/pings/{ping}', [ApiController::class, 'pingsShow'])->middleware(['throttle:30,1'])->name('api.pings.show');
 
     Route::get('/servers', [ApiController::class, 'serversIndex'])->middleware(['throttle:30,1'])->name('api.server.index');
     Route::get('/servers/help', [ApiController::class, 'serversHelp'])->middleware(['throttle:30,1'])->name('api.server.help');
@@ -108,6 +109,28 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::patch('/commands/{command}', [ApiController::class, 'commandsUpdate'])->middleware(['throttle:20,1'])->name('api.commands.update');
     Route::post('/commands', [ApiController::class, 'commandsStore'])->middleware(['throttle:20,1'])->name('api.commands.store');
     Route::delete('/commands/{command}', [ApiController::class, 'commandsDestroy'])->middleware(['throttle:20,1'])->name('api.commands.destroy');
+
+    Route::get('/command-groups', [ApiController::class, 'commandGroupsIndex'])->middleware(['throttle:30,1'])->name('api.command-group.index');
+    Route::get('/command-groups/{commandGroup}', [ApiController::class, 'commandGroupsShow'])->middleware(['throttle:30,1'])->name('api.command-group.show');
+    Route::patch('/command-groups/{commandGroup}', [ApiController::class, 'commandGroupsUpdate'])->middleware(['throttle:20,1'])->name('api.command-group.update');
+    Route::post('/command-groups', [ApiController::class, 'commandGroupsStore'])->middleware(['throttle:20,1'])->name('api.command-group.store');
+    Route::delete('/command-groups/{commandGroup}', [ApiController::class, 'commandGroupsDestroy'])->middleware(['throttle:20,1'])->name('api.command-group.destroy');
+
+    //Add to a command group
+    Route::post('/command-groups/{commandGroup}/add/{connection}', [ApiController::class, 'commandGroupAdd'])->middleware(['throttle:20,1'])->name('api.command-group.add');
+    //Remove from a command group
+    Route::delete('/command-groups/{commandGroup}/remove/{connection}', [ApiController::class, 'commandGroupRemove'])->middleware(['throttle:20,1'])->name('api.command-group.remove');
+
+    Route::get('/ping-groups', [ApiController::class, 'pingGroupsIndex'])->middleware(['throttle:30,1'])->name('api.ping-group.index');
+    Route::get('/ping-groups/{pingGroup}', [ApiController::class, 'pingGroupsShow'])->middleware(['throttle:30,1'])->name('api.ping-group.show');
+    Route::patch('/ping-groups/{pingGroup}', [ApiController::class, 'pingGroupsUpdate'])->middleware(['throttle:20,1'])->name('api.ping-group.update');
+    Route::post('/ping-groups', [ApiController::class, 'pingGroupsStore'])->middleware(['throttle:20,1'])->name('api.ping-group.store');
+    Route::delete('/ping-groups/{pingGroup}', [ApiController::class, 'pingGroupsDestroy'])->middleware(['throttle:20,1'])->name('api.ping-group.destroy');
+
+    //Add to a ping group
+    Route::post('/ping-groups/{pingGroup}/add/{server}', [ApiController::class, 'pingGroupAdd'])->middleware(['throttle:20,1'])->name('api.command-group.add');
+    //Remove from a ping group
+    Route::delete('/ping-groups/{pingGroup}/remove/{server}', [ApiController::class, 'pingGroupRemove'])->middleware(['throttle:20,1'])->name('api.command-group.remove');
 
     Route::get('/db/connection', [ApiController::class, 'dbConnectionIndex'])->middleware(['throttle:30,1'])->name('api.db.connection.index');
     Route::get('/db/connection/help', [ApiController::class, 'dbConnectionHelp'])->middleware(['throttle:30,1'])->name('api.db.connection.help');
