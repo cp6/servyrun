@@ -31,11 +31,11 @@ class IpAddress extends Model
         });
 
         static::created(function (IpAddress $ipAddress) {
-            ActionLog::make(1, 'create', 'ip', 'Created ip address '.$ipAddress->id);
+            ActionLog::make(1, 'create', 'ip', 'Created ip address ' . $ipAddress->id);
         });
 
         static::updated(function (IpAddress $ipAddress) {
-            ActionLog::make(1, 'update', 'ip', 'Updated ip address '.$ipAddress->id);
+            ActionLog::make(1, 'update', 'ip', 'Updated ip address ' . $ipAddress->id);
         });
 
         static::deleted(function (IpAddress $ipAddress) {
@@ -65,7 +65,8 @@ class IpAddress extends Model
                         'timezone_gmt' => $data['timezone_gmt'],
                         'country' => $data['country'],
                         'city' => $data['city'],
-                        'continent' => $data['continent']
+                        'continent' => $data['continent'],
+                        'is_ipv4 ' => (filter_var($ipAddress->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) ? 0 : 1
                     ]
                 );
 
