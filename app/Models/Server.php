@@ -59,6 +59,11 @@ class Server extends Model
         return $this->hasOne(Connection::class, 'server_id', 'id');
     }
 
+    public function conns(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {//All connections
+        return $this->hasMany(Connection::class, 'server_id', 'id');
+    }
+
     public function sftp_conn(): \Illuminate\Database\Eloquent\Relations\HasOne
     {//SFTP Connection
         return $this->hasOne(SftpConnection::class, 'server_id', 'id');
