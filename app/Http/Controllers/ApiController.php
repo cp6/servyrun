@@ -116,6 +116,12 @@ class ApiController extends Controller
         return response()->json($data)->header('Content-Type', 'application/json');
     }
 
+    public function pingsDestroy(Ping $ping): \Illuminate\Http\JsonResponse
+    {
+        $result = $ping->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
     public function serversIndex(): \Illuminate\Http\JsonResponse
     {
         $servers = Server::Paginate(20);
@@ -231,6 +237,13 @@ class ApiController extends Controller
     {
         $data = $ipAddress->where('id', $ipAddress->id)->with(['server'])->first();
         return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function ipsGeo(IpAddress $ipAddress): \Illuminate\Http\JsonResponse
+    {
+        IpAddress::fetchUpdateIpDetails($ipAddress);
+
+        return response()->json($ipAddress)->header('Content-Type', 'application/json');
     }
 
     public function ipsUpdate(IpAddress $ipAddress, Request $request): \Illuminate\Http\JsonResponse
