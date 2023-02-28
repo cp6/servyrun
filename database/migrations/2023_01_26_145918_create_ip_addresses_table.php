@@ -13,7 +13,7 @@ return new class extends Migration
             $table->char('user_id', 6);
             $table->char('server_id', 8)->default(null)->nullable();
             $table->string('ip');
-            $table->boolean('is_ipv4');
+            $table->boolean('is_ipv4')->default(null)->nullable();
             $table->boolean('is_main')->default(null)->nullable();
             $table->boolean('is_ssh')->default(null)->nullable();
             $table->string('asn')->default(null)->nullable();
