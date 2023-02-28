@@ -158,7 +158,11 @@ class SftpConnectionController extends Controller
     {
         $this->authorize('view', $sftpConnection);
 
-        $sftp = SftpConnection::do($sftpConnection);
+        $sftp = SftpConnection::do($sftpConnection,3);
+
+        if (is_null($sftp)) {
+            return response()->json(['result' => false], 200)->header('Content-Type', 'application/json');
+        }
 
         return response()->json(['result' => $sftp->isAuthenticated()], 200)->header('Content-Type', 'application/json');
     }
