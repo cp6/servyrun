@@ -4,27 +4,11 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\DatabaseTableColumnController;
-use App\Http\Controllers\DatabaseTableController;
 use App\Http\Controllers\PingController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\SftpConnectionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::get('/types', function () {
     return \App\Models\Type::all()->toJson();
@@ -46,7 +30,7 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
 
     Route::get('dns/{domainName}/{type}', [ServerController::class, 'getIpForDomain'])->name('domain-for-ip');
 
-    Route::get('connections/{connection}/run', [ConnectionController::class, 'run'])->name('connection.run');
+    Route::get('connections/{connection}/run', [ConnectionController::class, 'run'])->name('api.connection.run');
 
     Route::get('/user', [ApiController::class, 'userIndex'])->name('api.user.index');
 
@@ -75,10 +59,10 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::get('/servers', [ApiController::class, 'serversIndex'])->name('api.server.index');
     Route::get('/servers/help', [ApiController::class, 'serversHelp'])->name('api.server.help');
     Route::get('/servers/{server}', [ApiController::class, 'serversShow'])->name('api.server.show');
-    Route::get('/servers/{server}/ip', [ServerController::class, 'ip'])->name('server.ip');//IP for the server
-    Route::get('/servers/{server}/pings', [ApiController::class, 'serversPings'])->name('server.pings');
-    Route::get('/servers/{server}/commands', [ApiController::class, 'serversCommands'])->name('server.commands');
-    Route::get('/servers/{server}/connections', [ApiController::class, 'serversConnections'])->name('server.connections');
+    Route::get('/servers/{server}/ip', [ServerController::class, 'ip'])->name('api.server.ip');//IP for the server
+    Route::get('/servers/{server}/pings', [ApiController::class, 'serversPings'])->name('api.server.pings');
+    Route::get('/servers/{server}/commands', [ApiController::class, 'serversCommands'])->name('api.server.commands');
+    Route::get('/servers/{server}/connections', [ApiController::class, 'serversConnections'])->name('api.server.connections');
     Route::patch('/servers/{server}', [ApiController::class, 'serversUpdate'])->name('api.server.update');
     Route::post('/servers', [ApiController::class, 'serversStore'])->name('api.server.store');
     Route::delete('/servers/{server}', [ApiController::class, 'serversDestroy'])->name('api.server.destroy');
@@ -133,9 +117,9 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::delete('/ping-groups/{pingGroup}', [ApiController::class, 'pingGroupsDestroy'])->name('api.ping-group.destroy');
 
     //Add to a ping group
-    Route::post('/ping-groups/{pingGroup}/add/{server}', [ApiController::class, 'pingGroupAdd'])->name('api.command-group.add');
+    Route::post('/ping-groups/{pingGroup}/add/{server}', [ApiController::class, 'pingGroupAdd'])->name('api.ping-group.add');
     //Remove from a ping group
-    Route::delete('/ping-groups/{pingGroup}/remove/{server}', [ApiController::class, 'pingGroupRemove'])->name('api.command-group.remove');
+    Route::delete('/ping-groups/{pingGroup}/remove/{server}', [ApiController::class, 'pingGroupRemove'])->name('api.ping-group.remove');
 
     Route::get('/db/connection', [ApiController::class, 'dbConnectionIndex'])->name('api.db.connection.index');
     Route::get('/db/connection/help', [ApiController::class, 'dbConnectionHelp'])->name('api.db.connection.help');
@@ -151,5 +135,17 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::post('/db', [ApiController::class, 'dbStore'])->name('api.db.store');
     Route::delete('/db/{database}', [ApiController::class, 'dbDestroy'])->name('api.db.destroy');
 
+    Route::get('/mysqldumps', [ApiController::class, 'mysqlDumpsIndex'])->name('api.mysqldumps.index');
+    Route::get('/mysqldumps/help', [ApiController::class, 'mysqlDumpsHelp'])->name('api.mysqldumps.help');
+    Route::get('/mysqldumps/{mySQLDump}', [ApiController::class, 'mysqlDumpsShow'])->name('api.mysqldumps.show');
+    Route::get('/mysqldumps/{mySQLDump}/run', [ApiController::class, 'mysqlDumpsRun'])->name('api.mysqldumps.run');
+    Route::patch('/mysqldumps/{mySQLDump}', [ApiController::class, 'mysqlDumpsUpdate'])->name('api.mysqldumps.update');
+    Route::post('/mysqldumps', [ApiController::class, 'mysqlDumpsStore'])->name('api.mysqldumps.store');
+    Route::delete('/mysqldumps/{mySQLDump}', [ApiController::class, 'mysqlDumpsDestroy'])->name('api.mysqldumps.destroy');
+
+    Route::get('/downloaded', [ApiController::class, 'downloadedIndex'])->name('api.downloaded.index');
+    Route::get('/downloaded/{downloadedFile}', [ApiController::class, 'downloadedShow'])->name('api.downloaded.show');
+    Route::post('/downloaded/{downloadedFile}/{sftpConnection}', [ApiController::class, 'downloadedUploadToSftp'])->name('api.downloaded.upload');
+    Route::delete('/downloaded/{downloadedFile}', [ApiController::class, 'downloadedDestroy'])->name('api.downloaded.destroy');
 
 });

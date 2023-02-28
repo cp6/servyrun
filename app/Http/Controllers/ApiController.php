@@ -8,9 +8,11 @@ use App\Models\CommandGroup;
 use App\Models\CommandGroupAssigned;
 use App\Models\CommandOutput;
 use App\Models\Connection;
+use App\Models\DownloadedFile;
 use App\Models\IpAddress;
 use App\Models\Key;
 use App\Models\Location;
+use App\Models\MySQLDump;
 use App\Models\Ping;
 use App\Models\PingGroup;
 use App\Models\PingGroupAssigned;
@@ -18,6 +20,8 @@ use App\Models\Server;
 use App\Models\SftpConnection;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
 {
@@ -418,6 +422,100 @@ class ApiController extends Controller
         $result = $ping_group_assigned->delete();
 
         return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function mysqlDumpsIndex(): \Illuminate\Http\JsonResponse
+    {
+        $sftp = MySQLDump::Paginate(20);
+        return response()->json($sftp)->header('Content-Type', 'application/json');
+    }
+
+    public function mysqlDumpsShow(MySQLDump $mySQLDump): \Illuminate\Http\JsonResponse
+    {
+        $data = $mySQLDump->where('id', $mySQLDump->id)->with(['conn', 'server', 'database_conn', 'database'])->first();
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function mysqlDumpsUpdate(MySQLDump $mySQLDump, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $mySQLDump->update($request->all());
+        return response()->json($mySQLDump->Paginate(20))->header('Content-Type', 'application/json');
+    }
+
+    public function mysqlDumpsHelp(MySQLDump $mySQLDump): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($mySQLDump->getFillable())->header('Content-Type', 'application/json');
+    }
+
+    public function mysqlDumpsStore(MySQLDump $mySQLDump, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $mySQLDump->create($request->all());
+        return response()->json($mySQLDump->Paginate(20))->header('Content-Type', 'application/json');
+    }
+
+    public function mysqlDumpsDestroy(MySQLDump $mySQLDump): \Illuminate\Http\JsonResponse
+    {
+        $result = $mySQLDump->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function downloadedIndex(): \Illuminate\Http\JsonResponse
+    {
+        $sftp = DownloadedFile::Paginate(20);
+        return response()->json($sftp)->header('Content-Type', 'application/json');
+    }
+
+    public function downloadedShow(DownloadedFile $downloadedFile): \Illuminate\Http\JsonResponse
+    {
+        $data = $downloadedFile->where('id', $downloadedFile->id)->with(['conn'])->first();
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function downloadedDestroy(DownloadedFile $downloadedFile): \Illuminate\Http\JsonResponse
+    {
+        $result = $downloadedFile->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function downloadedUploadToSftp(Request $request, DownloadedFile $downloadedFile, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        if (isset($request->save_as)) {
+            $save_as = $request->save_as;
+        } else {
+            $save_as = '';
+        }
+
+        $user_dl_dir = Auth::user()->download_directory;
+
+        if (!Storage::disk('private')->exists("downloads/{$user_dl_dir}/$downloadedFile->saved_as")) {
+            $result = 'fail';
+            $message = 'File not found';
+            return response()->json(['result' => $result, 'message' => $message],400)->header('Content-Type', 'application/json');
+        }
+
+        $file = Storage::disk('private')->get("downloads/{$user_dl_dir}/$downloadedFile->saved_as");
+
+        $sftp_conn = SftpConnection::where('id', $sftpConnection->id)->with(['server'])->firstOrFail();
+
+        $sftp = SftpConnection::do($sftp_conn);
+
+        if (is_null($sftp)) {
+            $result = 'fail';
+            $message = 'Could not connect';
+            return response()->json(['result' => $result, 'message' => $message],401)->header('Content-Type', 'application/json');
+        }
+
+        $upload_file = $sftp->put($save_as, $file);
+
+        if ($upload_file) {
+            $result = 'success';
+            $message = 'Uploaded file to ' . $save_as;
+        } else {
+            $result = 'fail';
+            $message = 'Failed uploading file as ' . $save_as;
+        }
+
+        return response()->json(['result' => $result, 'message' => $message])->header('Content-Type', 'application/json');
     }
 
 }

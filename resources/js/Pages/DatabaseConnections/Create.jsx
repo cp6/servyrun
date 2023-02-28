@@ -39,7 +39,7 @@ export default function Create({auth, title, alert_type, alert_message, servers}
         };
 
         if (event.target.value !== '') {
-            axios.get(route('server.ip', event.target.value),  config).then(response => {
+            axios.get(route('api.server.ip', event.target.value),  config).then(response => {
                 setData(data => ({ ...data, address: response.data.ip}));
                 setData(data => ({ ...data, server_id:  event.target.value}));
             }).catch(err => {
