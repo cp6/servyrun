@@ -297,6 +297,10 @@ comment
 
 `POST` `/ips/`
 
+#### Fetch & update GEO data for an IP address
+
+`POST` `/ips/{ipAddress}/geo`
+
 #### Destroy an Ip address
 
 `DELETE` `/ips/{ipAddress}`
@@ -309,13 +313,58 @@ comment
 
 comment
 
+### Ping API calls
+
+#### Get all pings
+
+`GET` `/pings/`
+
+#### Get a specific ping with its relations
+
+`GET` `/pings/{ping}`
+
+
+#### Destroy a ping
+
+`DELETE` `/pings/{ping}`
+
 ---
 
 <a name="pinggroups"></a>
 
 ## Ping groups
 
-comment
+### Ping groups API calls
+
+#### Get all ping groups
+
+`GET` `/ping-groups/`
+
+#### Get a ping group with relations (assigned & servers)
+
+`GET` `/ping-groups/{pingGroup}`
+
+
+#### Update a ping group
+
+`PATCH` `/ping-groups/{pingGroup}`
+
+#### Create a ping group
+
+`POST` `/ping-groups/`
+
+
+#### Destroy a ping group
+
+`DELETE` `/ping-groups/{pingGroup}`
+
+#### Add server to ping group
+
+`POST` `/ping-groups/{pingGroup}/add/{server}`
+
+#### Remove server from ping group
+
+`DELETE` `/ping-groups/{pingGroup}/remove/{server}`
 
 ---
 
@@ -323,7 +372,27 @@ comment
 
 ## Commands
 
-comment
+### Commands API calls
+
+#### Get all commands
+
+`GET` `/commands/`
+
+#### Get an command
+
+`GET` `/commands/{command}`
+
+#### Update a command
+
+`PATCH` `/commands/{command}`
+
+#### Create a command
+
+`POST` `/commands/`
+
+#### Destroy a command
+
+`DELETE` `/commands/{command}`
 
 ---
 
