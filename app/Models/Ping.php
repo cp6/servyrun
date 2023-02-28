@@ -120,6 +120,10 @@ class Ping extends Model
             return null;
         }
 
+        if (is_null($ssh)){
+            return null;
+        }
+
         $ssh_output = Connection::runCommand($ssh, $command);
 
         $ping_result_array = self::parseResult(self::pingOutputToArray($ssh_output));

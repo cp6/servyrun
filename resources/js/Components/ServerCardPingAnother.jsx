@@ -15,7 +15,11 @@ export default function ServerCardPingAnother({serverId, servers}) {
         setLabel("Pinging.....");
         axios.get(route('run.ping-from-to', [serverId, event.target.id])).then(response => {
             console.log('Ran ping');
-            setPingResult("AVG: " + response.data.avg + " MIN: " + response.data.min + " MAX: " + response.data.max);
+            if (Object.keys(response.data).length === 0){
+                setPingResult("");
+            } else {
+                setPingResult("AVG: " + response.data.avg + " MIN: " + response.data.min + " MAX: " + response.data.max);
+            }
             setDropDownDisabled(false);
             setLabel("Ping another server");
         }).catch(err => {
@@ -27,7 +31,7 @@ export default function ServerCardPingAnother({serverId, servers}) {
 
     return (
         <div className={'grid md:grid-cols-2 grid-cols-1 mt-2'}>
-            <div className={'md:col-span-1 md:col-span-2'}>
+            <div className={'col-span-2 md:col-span-1'}>
                 <Dropdown
                     label={label}
                     dismissOnClick={false}
@@ -41,7 +45,7 @@ export default function ServerCardPingAnother({serverId, servers}) {
                         </Dropdown.Item>)}
                 </Dropdown>
             </div>
-            <div className={'md:col-span-1 md:col-span-2'}>
+            <div className={'col-span-2 md:col-span-1'}>
                 <p className={'text-gray-600 dark:text-white'}>{pingResult}</p>
             </div>
         </div>
