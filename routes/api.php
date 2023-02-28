@@ -76,6 +76,8 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::get('/servers/help', [ApiController::class, 'serversHelp'])->name('api.server.help');
     Route::get('/servers/{server}', [ApiController::class, 'serversShow'])->name('api.server.show');
     Route::get('/servers/{server}/ip', [ServerController::class, 'ip'])->name('server.ip');//IP for the server
+    Route::get('/servers/{server}/pings', [ApiController::class, 'serversPings'])->name('server.pings');
+    Route::get('/servers/{server}/commands', [ApiController::class, 'serversCommands'])->name('server.commands');
     Route::patch('/servers/{server}', [ApiController::class, 'serversUpdate'])->name('api.server.update');
     Route::post('/servers', [ApiController::class, 'serversStore'])->name('api.server.store');
     Route::delete('/servers/{server}', [ApiController::class, 'serversDestroy'])->name('api.server.destroy');

@@ -79,6 +79,11 @@ class Server extends Model
         return $this->hasMany(Ping::class, 'server_id', 'id');
     }
 
+    public function command_outputs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CommandOutput::class, 'server_id', 'id');
+    }
+
     public function usages(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ServerUsage::class, 'server_id', 'id');
@@ -161,8 +166,8 @@ class Server extends Model
 
         $ssh = Connection::do($connection, 10);
 
-        if (is_null($ssh)){
-            return response()->json(['success' => false, 'message' => 'SSH could not connect'],400)->header('Content-Type', 'application/json');
+        if (is_null($ssh)) {
+            return response()->json(['success' => false, 'message' => 'SSH could not connect'], 400)->header('Content-Type', 'application/json');
         }
 
         $cpu_used_percent = Connection::getCpuUsedPercent($ssh);
@@ -175,13 +180,13 @@ class Server extends Model
         return response()->json(
             [
                 'success' => true,
-                'cpu_used_percent' => (float)number_format($cpu_used_percent,4),
-                'ram_used_percent' => (float)number_format($ram_used_percent,4),
+                'cpu_used_percent' => (float)number_format($cpu_used_percent, 4),
+                'ram_used_percent' => (float)number_format($ram_used_percent, 4),
                 'disk_used_percent' => $disk_used_percent,
                 'disk_used' => $disk_used,
-                'disk_used_gb' => (float)number_format($disk_used / 1024 / 1024,4),
+                'disk_used_gb' => (float)number_format($disk_used / 1024 / 1024, 4),
                 'disk_available' => $disk_avail,
-                'disk_available_gb' => (float)number_format($disk_avail / 1024 / 1024,4),
+                'disk_available_gb' => (float)number_format($disk_avail / 1024 / 1024, 4),
             ]
         )->header('Content-Type', 'application/json');
 

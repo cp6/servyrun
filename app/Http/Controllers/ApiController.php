@@ -134,6 +134,18 @@ class ApiController extends Controller
         return response()->json($data)->header('Content-Type', 'application/json');
     }
 
+    public function serversPings(Server $server): \Illuminate\Http\JsonResponse
+    {
+        $data = $server->where('id', $server->id)->with(['pings', 'pings.to_server', 'pings.from_server'])->paginate(20);
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function serversCommands(Server $server): \Illuminate\Http\JsonResponse
+    {
+        $data = $server->where('id', $server->id)->with(['command_outputs'])->paginate(20);
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
     public function serversUpdate(Server $server, Request $request): \Illuminate\Http\JsonResponse
     {
         $server->update($request->all());
