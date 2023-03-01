@@ -65,7 +65,7 @@ class DatabaseConnection extends Model
     public static function tryConnection(DatabaseConnection $databaseConnection): bool
     {
         try {
-            $db = new PDO("mysql:host=$databaseConnection->host;dbname=;charset=utf8mb4", $databaseConnection->username, Crypt::decryptString($databaseConnection->password));
+            $db = new PDO("mysql:host=$databaseConnection->host;dbname=;charset=utf8mb4", $databaseConnection->username, Crypt::decryptString($databaseConnection->password), [PDO::ATTR_TIMEOUT => 3]);
         } catch (\Exception $e) {
             return false;
         }
