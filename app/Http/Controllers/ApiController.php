@@ -134,7 +134,7 @@ class ApiController extends Controller
 
     public function serversShow(Server $server): \Illuminate\Http\JsonResponse
     {
-        $data = $server->where('id', $server->id)->with(['type', 'location', 'conn', 'ips'])->first();
+        $data = $server->where('id', $server->id)->with(['type:id,name', 'location:id,name', 'conn', 'ips'])->first();
         return response()->json($data)->header('Content-Type', 'application/json');
     }
 
