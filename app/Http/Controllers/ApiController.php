@@ -159,7 +159,8 @@ class ApiController extends Controller
     public function serversUpdate(Server $server, Request $request): \Illuminate\Http\JsonResponse
     {
         $server->update($request->all());
-        return response()->json($server->Paginate(20))->header('Content-Type', 'application/json');
+        $server_data = Server::where('id', $server->id)->with(['type:id,name', 'location:id,name', 'conn', 'ips'])->first();
+        return response()->json($server_data)->header('Content-Type', 'application/json');
     }
 
     public function serversStore(Server $server, Request $request): \Illuminate\Http\JsonResponse
@@ -194,7 +195,8 @@ class ApiController extends Controller
     public function connectionsUpdate(Connection $connection, Request $request): \Illuminate\Http\JsonResponse
     {
         $connection->update($request->all());
-        return response()->json($connection->Paginate(20))->header('Content-Type', 'application/json');
+        $connection_data = Connection::where('id', $connection->id)->with(['server', 'key'])->first();
+        return response()->json($connection_data)->header('Content-Type', 'application/json');
     }
 
     public function connectionsStore(Connection $connection, Request $request): \Illuminate\Http\JsonResponse
@@ -229,7 +231,8 @@ class ApiController extends Controller
     public function sftpUpdate(SftpConnection $sftpConnection, Request $request): \Illuminate\Http\JsonResponse
     {
         $sftpConnection->update($request->all());
-        return response()->json($sftpConnection->Paginate(20))->header('Content-Type', 'application/json');
+        $sftp_data = SftpConnection::where('id', $sftpConnection->id)->with(['server', 'key'])->first();
+        return response()->json($sftp_data)->header('Content-Type', 'application/json');
     }
 
     public function sftpStore(SftpConnection $sftpConnection, Request $request): \Illuminate\Http\JsonResponse
