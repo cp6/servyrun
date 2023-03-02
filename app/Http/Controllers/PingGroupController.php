@@ -94,6 +94,8 @@ class PingGroupController extends Controller
 
     public function edit(PingGroup $pingGroup): \Inertia\Response
     {
+        $this->authorize('view', $pingGroup);
+
         return Inertia::render('PingGroups/Edit', [
             'resource' => $pingGroup->with(['assigned'])->firstOrFail(),
             'connections' => Connection::has('server')->with('server')->get(),
@@ -105,6 +107,8 @@ class PingGroupController extends Controller
 
     public function update(Request $request, PingGroup $pingGroup)
     {
+        $this->authorize('update', $pingGroup);
+
         $request->validate([
             'title' => 'string|required|max:64',
             'connection1_id' => 'string|required|size:12',
@@ -157,6 +161,8 @@ class PingGroupController extends Controller
 
     public function show(PingGroup $pingGroup): \Inertia\Response
     {
+        $this->authorize('view', $pingGroup);
+
         return Inertia::render('PingGroups/Show', [
             'pingGroup' => $pingGroup,
             'pings' => Ping::where('ping_group', $pingGroup->id)->with(['group', 'to_server', 'from_server'])->orderBy('created_at', 'desc')->take(999)->get(),
@@ -168,6 +174,8 @@ class PingGroupController extends Controller
 
     public function run(PingGroup $pingGroup)
     {
+        $this->authorize('view', $pingGroup);
+
         $run_pg = PingGroup::runPings($pingGroup);
         if (is_null($run_pg)) {
             return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Issue running Ping group. Check action logs for more information.']);
