@@ -21,8 +21,10 @@ export default function Create({auth, types, locations, title, alert_type, alert
         cpu: '',
         cpu_cores: '',
         cpu_freq: '',
-        disk: '',
-        ram: '',
+        disk_gb: '',
+        disk_tb: '',
+        ram_mb: '',
+        ram_gb: '',
         swap: '',
         ping_port: '80'
     });
@@ -69,6 +71,26 @@ export default function Create({auth, types, locations, title, alert_type, alert
             });
         }
     };
+
+    const diskGbHandler = (e) => {
+        setData(data => ({ ...data, disk_tb:  parseInt(e.target.value) / 1024}));
+        setData(data => ({ ...data, disk_gb: e.target.value}));
+    }
+
+    const diskTbHandler = (e) => {
+        setData(data => ({ ...data, disk_gb:  parseInt(e.target.value) * 1024}));
+        setData(data => ({ ...data, disk_tb: e.target.value}));
+    }
+
+    const ramMbHandler = (e) => {
+        setData(data => ({ ...data, ram_gb:  parseInt(e.target.value) / 1024}));
+        setData(data => ({ ...data, ram_mb: e.target.value}));
+    }
+
+    const ramGbHandler = (e) => {
+        setData(data => ({ ...data, ram_mb:  parseInt(e.target.value) * 1024}));
+        setData(data => ({ ...data, ram_gb: e.target.value}));
+    }
 
     return (
         <AuthenticatedLayout
@@ -228,30 +250,55 @@ export default function Create({auth, types, locations, title, alert_type, alert
                                 />
                                 <InputError message={errors.cpu_freq} className="mt-2"/>
                             </div>
-                            <div className="sm:col-span-2 col-span-2">
-                                <InputLabel forInput="disk" value="Disk GB"/>
+                            <div className="sm:col-span-1 col-span-2">
+                                <InputLabel forInput="disk_gb" value="Disk GB"/>
                                 <TextInput
                                     type="number"
-                                    name="disk"
+                                    name="disk_gb"
                                     className="mt-1 block w-full"
-                                    autoComplete="disk"
-                                    value={data.disk}
-                                    handleChange={(e) => setData('disk', e.target.value)}
+                                    autoComplete="disk_gb"
+                                    value={data.disk_gb}
+                                    handleChange={diskGbHandler}
                                 />
-                                <InputError message={errors.disk} className="mt-2"/>
+                                <InputError message={errors.disk_gb} className="mt-2"/>
                             </div>
                             <div className="sm:col-span-1 col-span-2">
-                                <InputLabel forInput="ram" value="RAM MB"/>
+                                <InputLabel forInput="disk_tb" value="Disk TB"/>
+                                <TextInput
+                                    type="number"
+                                    name="disk_tb"
+                                    className="mt-1 block w-full"
+                                    autoComplete="disk_tb"
+                                    value={data.disk_tb}
+                                    handleChange={diskTbHandler}
+                                />
+                                <InputError message={errors.disk_tb} className="mt-2"/>
+                            </div>
+                            <div className="sm:col-span-1 col-span-2">
+                                <InputLabel forInput="ram_mb" value="RAM MB"/>
                                 <TextInput
                                     type="number"
                                     step="1"
-                                    name="ram"
+                                    name="ram_mb"
                                     className="mt-1 block w-full"
-                                    autoComplete="ram"
-                                    value={data.ram}
-                                    handleChange={(e) => setData('ram', e.target.value)}
+                                    autoComplete="ram_mb"
+                                    value={data.ram_mb}
+                                    handleChange={ramMbHandler}
                                 />
-                                <InputError message={errors.ram} className="mt-2"/>
+                                <InputError message={errors.ram_mb} className="mt-2"/>
+                            </div>
+                            <div className="sm:col-span-1 col-span-2">
+                                <InputLabel forInput="ram_gb" value="RAM GB"/>
+                                <TextInput
+                                    type="number"
+                                    step="1"
+                                    name="ram_gb"
+                                    className="mt-1 block w-full"
+                                    autoComplete="ram_gb"
+                                    value={data.ram_gb}
+                                    handleChange={ramGbHandler}
+                                />
+                                <InputError message={errors.ram_gb} className="mt-2"/>
                             </div>
                             <div className="sm:col-span-1 col-span-2">
                                 <InputLabel forInput="swap" value="SWAP MB"/>

@@ -103,10 +103,12 @@ class ServerController extends Controller
             'location' => 'integer|required',
             'os' => 'string|max:125|sometimes|nullable',
             'cpu' => 'string|sometimes|nullable',
-            'cpu_cores' => 'integer|sometimes|nullable',
+            'cpu_cores' => 'integer|sometimes|nullable|max:999',
             'cpu_freq' => 'numeric|sometimes|nullable',
-            'disk' => 'numeric|sometimes|nullable',
-            'ram' => 'numeric|sometimes|nullable',
+            'disk_gb' => 'numeric|sometimes|nullable',
+            'disk_tb' => 'numeric|sometimes|nullable|max:999',
+            'ram_mb' => 'numeric|sometimes|nullable',
+            'ram_gb' => 'numeric|sometimes|nullable|max:9999',
             'swap' => 'numeric|sometimes|nullable',
             'ping_port' => 'integer|required'
         ]);
@@ -122,7 +124,9 @@ class ServerController extends Controller
             $server->cpu_cores = $request->cpu_cores ?? null;
             $server->cpu_freq = $request->cpu_freq ?? null;
             $server->disk_gb = $request->disk_gb ?? null;
+            $server->disk_tb = $request->disk_tb ?? null;
             $server->ram_mb = $request->ram_mb ?? null;
+            $server->ram_gb = $request->ram_gb ?? null;
             $server->ping_port = $request->ping_port ?? 22;
             $server->save();
         } catch (\Exception $exception) {
