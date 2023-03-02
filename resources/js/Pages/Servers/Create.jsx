@@ -59,6 +59,7 @@ export default function Create({auth, types, locations, title, alert_type, alert
                     setData('ip', the_response.ip);
                 }
             });
+            alert('NOTE: If this hostname is behind Cloudflare this IP may be wrong')
         }
     };
 
@@ -69,6 +70,7 @@ export default function Create({auth, types, locations, title, alert_type, alert
                     setData('ip', the_response.ip);
                 }
             });
+            alert('NOTE: If this hostname is behind Cloudflare this IP may be wrong')
         }
     };
 
