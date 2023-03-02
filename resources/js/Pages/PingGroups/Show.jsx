@@ -69,7 +69,7 @@ export default function Show({auth, pingGroup, pings, hasAlert, alert_type, aler
                         {
                             pings.length === 0
                                 ?
-                                <h2 className={'text-md my-4 font-semibold leading-none text-gray-700 md:text-lg dark:text-gray-400'}>No
+                                <h2 className={'text-md pl-2 pb-2 my-4 font-semibold leading-none text-gray-700 md:text-lg dark:text-gray-400'}>No
                                     pings yet</h2>
                                 :
                                 <Grid
