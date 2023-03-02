@@ -57,6 +57,7 @@ The full features of Surcuri as of February 2023:
 12. [ Command groups ](#commandgroups)
 13. [ Logs ](#logs)
 14. [ MySQLdump ](#mysqldump)
+14. [ Downloaded ](#downloaded)
 
 <a name="apiinfo"></a>
 
@@ -67,6 +68,48 @@ Get your API token from your profile page: ```/profile```
 Your API token must be included in each request header as ```'Authorization: Bearer YOUR_API_TOKEN'```
 
 ```'Accept: application/json'``` and ```'Content-Type: application/json'``` are required for requests.
+
+**Pagination in use** for calls that could return a large amount of results e.g 'index' calls
+
+You can specify a page by using `page=X`
+You can change the amount returned in results with `per_page=50`
+
+```json
+{
+  "current_page": 2,
+  "data": [
+      //Good stuff in here
+  ],
+  "first_page_url": "https:\/\/url.com\/api\/servers?page=1",
+  "from": null,
+  "last_page": 1,
+  "last_page_url": "http:\/\/url.com\/api\/servers?page=1",
+  "links": [
+    {
+      "url": "http:\/\/url.com\/api\/servers?page=1",
+      "label": "&laquo; Previous",
+      "active": false
+    },
+    {
+      "url": "http:\/\/url.com\/api\/servers?page=1",
+      "label": "1",
+      "active": false
+    },
+    {
+      "url": null,
+      "label": "Next &raquo;",
+      "active": false
+    }
+  ],
+  "next_page_url": null,
+  "path": "https:\/\/url.com\/api\/servers",
+  "per_page": 20,
+  "prev_page_url": "https:\/\/url.com\/api\/servers?page=1",
+  "to": null,
+  "total": 1
+}
+```
+
 
 <a name="servers"></a>
 
@@ -81,6 +124,14 @@ Your API token must be included in each request header as ```'Authorization: Bea
 #### Get a server with IPs, location, type and connection
 
 `GET` `/servers/{Server}`
+
+#### Get a server with its pings
+
+`GET` `/servers/{Server}/pings`
+
+#### Get a server with its command outputs
+
+`GET` `/servers/{Server}/commands`
 
 #### Get servers SSH IP
 
@@ -323,7 +374,6 @@ comment
 
 `GET` `/pings/{ping}`
 
-
 #### Destroy a ping
 
 `DELETE` `/pings/{ping}`
@@ -344,7 +394,6 @@ comment
 
 `GET` `/ping-groups/{pingGroup}`
 
-
 #### Update a ping group
 
 `PATCH` `/ping-groups/{pingGroup}`
@@ -352,7 +401,6 @@ comment
 #### Create a ping group
 
 `POST` `/ping-groups/`
-
 
 #### Destroy a ping group
 
@@ -400,7 +448,35 @@ comment
 
 ## Command groups
 
-comment
+### Command groups API calls
+
+#### Get all command groups
+
+`GET` `/command-groups/`
+
+#### Get a command group with relations
+
+`GET` `/command-groups/{commandGroup}`
+
+#### Update a command group
+
+`PATCH` `/command-groups/{commandGroup}`
+
+#### Create a command group
+
+`POST` `/command-groups/`
+
+#### Destroy a command group
+
+`DELETE` `/command-groups/{commandGroup}`
+
+#### Add connection to command group
+
+`POST` `/command-groups/{commandGroup}/add/{connection}`
+
+#### Remove connection from command group
+
+`DELETE` `/command-groups/{commandGroup}/remove/{connection}`
 
 ---
 
@@ -408,15 +484,13 @@ comment
 
 ## Logs
 
-comment
-
 ### Action logs API calls
 
 #### Get all logs
 
 `GET` `/logs/`
 
-#### Get a log
+#### Get a single log with its relations
 
 `GET` `/logs/{actionLog}`
 
@@ -426,7 +500,67 @@ comment
 
 ## MySQLdump
 
-comment
+### SFTP connections API calls
+
+#### Get all MySQL dumps
+
+`GET` `/mysqldumps/`
+
+#### Get a MySQL dump with its relations
+
+`GET` `/mysqldumps/{mySQLDump}`
+
+#### Run a MySQL dump
+
+`GET` `/mysqldumps/{mySQLDump}/run`
+
+#### Get MySQL dump edit/create parameters
+
+`GET` `/mysqldumps/help`
+
+#### Update a MySQL dump
+
+`PATCH` `/mysqldumps/{mySQLDump}`
+
+#### Create a MySQL dump
+
+`POST` `/mysqldumps/`
+
+#### Destroy a MySQL dump
+
+`DELETE` `/mysqldumps/{mySQLDump}`
+
+---
+
+
+<a name="downloaded"></a>
+
+## Downloaded files
+
+### Downloaded files API calls
+
+#### Get all downloaded files
+
+`GET` `/downloaded/`
+
+#### Get a downloaded file information
+
+`GET` `/downloaded/{downloadedFile}`
+
+#### Upload a downloaded file to a SFTP connection
+
+`GET` `/downloaded/{downloadedFile}/{sftpConnection}`
+
+```json
+{
+  "save_as": "/animals/mouse.jpg"
+}
+
+```
+
+#### Destroy a downloaded file
+
+`DELETE` `/downloaded/{downloadedFile}`
 
 ---
 
