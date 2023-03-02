@@ -31,11 +31,11 @@ class PingGroup extends Model
         });
 
         static::created(function (PingGroup $pingGroup) {
-            ActionLog::make(1, 'create', 'ping group', 'Created ping group '.$pingGroup->id);
+            ActionLog::make(1, 'create', 'ping group', 'Created ping group ' . $pingGroup->id);
         });
 
         static::updated(function (PingGroup $pingGroup) {
-            ActionLog::make(1, 'update', 'ping group', 'Updated ping group '.$pingGroup->id);
+            ActionLog::make(1, 'update', 'ping group', 'Updated ping group ' . $pingGroup->id);
         });
 
         static::deleted(function (PingGroup $pingGroup) {
@@ -54,12 +54,17 @@ class PingGroup extends Model
 
         $amount = $pingGroup->amount;
 
+        if (count($data->assigned) <= 1) {
+            ActionLog::make(5, 'run', 'ping group', 'Failed running ping group there is 1 or less servers in this group');
+            return null;
+        }
+
         foreach ($data->assigned as $ip) {
             $current_server = $ip->server;
             $current_server_id = $current_server->id;
             $current_ip = $current_server->ip_ssh->ip;
 
-            if (!isset($current_server->conn->type)){
+            if (!isset($current_server->conn->type)) {
                 ActionLog::make(5, "run", "ping group", "Failed running ping group for {$current_server->id} because no conn type", $current_server->id);
                 continue;
             }
@@ -85,14 +90,14 @@ class PingGroup extends Model
                         $ssh = Connection::makeConnectionKey($current_ip, $current_server->conn->ssh_port, $current_server->conn->username, $current_server->conn->key->saved_as, null, 12);
                     } else {
                         //Cannot run because connection not of valid type
-                        ActionLog::make(5, 'create','ping group', 'Failed running ping group because conn type invalid for ' . $current_server->id);
+                        ActionLog::make(5, 'run', 'ping group', 'Failed running ping group because conn type invalid for ' . $current_server->id);
                         return null;
                     }
 
                     $ssh_output = Connection::runCommand($ssh, $command);
 
-                    if (empty($ssh_output)){
-                        ActionLog::make(5, 'create','ping group', 'Failed running ping group command output was empty');
+                    if (empty($ssh_output)) {
+                        ActionLog::make(5, 'run', 'ping group', 'Failed running ping group command output was empty');
                         return null;
                     }
 
