@@ -175,11 +175,6 @@ class DatabaseConnectionController extends Controller
                 return response()->json(['privileges' => null], 200)->header('Content-Type', 'application/json');
             }
 
-            dd($privileges);
-
-            $databaseConnection->version = $version;
-            $databaseConnection->type = $type;
-            $databaseConnection->save();
         }
 
         return response()->json(['privileges' => $databaseConnection->privileges], 200)->header('Content-Type', 'application/json');

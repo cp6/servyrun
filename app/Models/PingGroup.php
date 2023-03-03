@@ -76,7 +76,6 @@ class PingGroup extends Model
 
                 if ($current_ip !== $loop_ip) {
 
-                    //echo "PINGING {$loop_ip} FROM {$current_ip}";
                     $command = Ping::buildCommand($loop_ip, 3);//Ping loop IP address 3 times
 
                     if ($current_connection_type === 1) {
