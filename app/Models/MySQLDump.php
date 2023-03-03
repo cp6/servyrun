@@ -6,7 +6,6 @@ use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Str;
 
 class MySQLDump extends Model
 {
@@ -29,7 +28,7 @@ class MySQLDump extends Model
     protected static function booted(): void
     {
         static::creating(function (MySQLDump $mySQLDump) {
-            $mySQLDump->id = Str::random(8);
+            $mySQLDump->id = \Str::random(8);
             $mySQLDump->user_id = \Auth::id();
         });
 

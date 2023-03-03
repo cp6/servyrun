@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class CommandGroup extends Model
 {
@@ -28,7 +27,7 @@ class CommandGroup extends Model
     protected static function booted(): void
     {
         static::creating(function (CommandGroup $commandGroup) {
-            $commandGroup->id = Str::random(8);
+            $commandGroup->id = \Str::random(8);
             $commandGroup->user_id = \Auth::id();
         });
 
@@ -95,7 +94,6 @@ class CommandGroup extends Model
             );
 
             $command_output = new CommandOutput();
-            $command_output->id = Str::random(12);
             $command_output->server_id = $connection->server->id;
             $command_output->command_id = $commandGroup->the_command->id;
             $command_output->the_command = $command;

@@ -22,7 +22,7 @@ class CommandOutput extends Model
         static::addGlobalScope(new UserOwnedScope());
     }
 
-    public function removeUserOwnedScope()
+    public function removeUserOwnedScope(): CommandOutput
     {
         return $this->withoutGlobalScope('UserOwnedScope');
     }
@@ -30,6 +30,7 @@ class CommandOutput extends Model
     protected static function booted(): void
     {
         static::creating(function (CommandOutput $commandOutput) {
+            $commandOutput->id = \Str::random(12);
             $commandOutput->user_id = \Auth::id();
         });
 

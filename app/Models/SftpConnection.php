@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SFTP;
 
@@ -30,7 +29,7 @@ class SftpConnection extends Model
     protected static function booted(): void
     {
         static::creating(function (SftpConnection $sftpConnection) {
-            $sftpConnection->id = Str::random(8);
+            $sftpConnection->id = \Str::random(8);
             $sftpConnection->user_id = \Auth::id();
         });
 

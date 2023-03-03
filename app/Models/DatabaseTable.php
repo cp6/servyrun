@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class DatabaseTable extends Model
 {
@@ -26,7 +25,7 @@ class DatabaseTable extends Model
     protected static function booted(): void
     {
         static::creating(function (DatabaseTable $databaseTable) {
-            $databaseTable->id = Str::random(8);
+            $databaseTable->id = \Str::random(8);
             $databaseTable->user_id = \Auth::id();
         });
 

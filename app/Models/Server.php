@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Server extends Model
 {
@@ -27,7 +26,7 @@ class Server extends Model
     protected static function booted(): void
     {
         static::creating(function (Server $server) {
-            $server->id = Str::random(8);
+            $server->id = \Str::random(8);
             $server->user_id = \Auth::id();
         });
 

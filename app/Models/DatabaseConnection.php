@@ -6,7 +6,6 @@ use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Str;
 use PDO;
 
 class DatabaseConnection extends Model
@@ -30,7 +29,7 @@ class DatabaseConnection extends Model
     protected static function booted(): void
     {
         static::creating(function (DatabaseConnection $databaseConnection) {
-            $databaseConnection->id = Str::random(8);
+            $databaseConnection->id = \Str::random(8);
             $databaseConnection->user_id = \Auth::id();
         });
 

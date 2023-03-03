@@ -20,7 +20,7 @@ class ActionLog extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($actionLog) {
+        static::creating(function (ActionLog $actionLog) {
             $actionLog->user_id = \Auth::id();
         });
     }
