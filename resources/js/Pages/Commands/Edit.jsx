@@ -52,6 +52,7 @@ export default function Edit({auth, servers, resource}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('command.index')}>Back to commands</BackButton>
                 </div>
+                <div className="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6">
                 <form onSubmit={submit}>
                     <div className="grid gap-2 sm:grid-cols-2 sm:gap-4">
                         <div className='col-span-4'>
@@ -81,10 +82,11 @@ export default function Edit({auth, servers, resource}) {
                     </div>
                     <UpdateButton processing={processing}>Update command</UpdateButton>
                     <DangerButton onClick={() => setShowModal(true)} type="button"
-                                  className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800 mr-4">
+                                  className="inline-flex items-center px-5 py-2.5 ml-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
                         Delete command
                     </DangerButton>
                 </form>
+                </div>
             </div>
 
             <Modal show={showModal} size="md">

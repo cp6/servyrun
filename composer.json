@@ -1,19 +1,20 @@
 {
-    "name": "laravel/laravel",
+    "name": "corbpie/surcuri",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Sucuri allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files and view database details",
+    "keywords": ["ssh", "sftp", "servers", "databases", "ping", "files"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.5.0",
         "inertiajs/inertia-laravel": "^0.6.9",
-        "laravel/framework": "^9.52.0",
+        "laravel/framework": "^v10.0.3",
         "laravel/sanctum": "^2.15.1",
         "laravel/tinker": "^2.8.0",
         "laravel/ui": "^4.2.0",
-        "phpseclib/phpseclib": "~3.0",
+        "phpseclib/phpseclib": "^3.0.18",
         "tightenco/ziggy": "^1.5.0",
+        "illuminate/support": "^5.7.19",
         "ext-pdo": "*"
     },
     "require-dev": {
@@ -24,7 +25,7 @@
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^6.4",
         "phpunit/phpunit": "^9.6.3",
-        "spatie/laravel-ignition": "^1.6.4"
+        "spatie/laravel-ignition": "^2.0.0"
     },
     "autoload": {
         "psr-4": {
