@@ -5,6 +5,7 @@ import {Grid} from "gridjs-react";
 import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
+import BackButton from "@/Components/BackButton";
 
 export default function IndexCommand({auth, command, outputs}) {
 
@@ -16,6 +17,7 @@ export default function IndexCommand({auth, command, outputs}) {
             <Head title={'Command outputs for ' + command.title}/>
             <div className="py-6 px-2 mx-auto max-w-7xl lg:py-8">
                 <div className="flex flex-wrap gap-2 mb-4">
+                    <BackButton href={route('command.index')}>Back to commands</BackButton>
                 </div>
                 <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
                     <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
