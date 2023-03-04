@@ -51,6 +51,12 @@ export default function Dashboard({
                                 <Table className='px-4'>
                                     <Table.Head className='bg-gray-200 dark:bg-gray-600 rounded-0'>
                                         <Table.HeadCell>
+                                            Resource
+                                        </Table.HeadCell>
+                                        <Table.HeadCell>
+                                            Action
+                                        </Table.HeadCell>
+                                        <Table.HeadCell>
                                             Message
                                         </Table.HeadCell>
                                         <Table.HeadCell>
@@ -63,6 +69,14 @@ export default function Dashboard({
                                             RecentActions =>
                                                 <Table.Row key={RecentActions.id}
                                                            className="bg-white dark:border-gray-800 dark:bg-gray-700">
+                                                    <Table.Cell
+                                                        className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                        {RecentActions.resource_type}
+                                                    </Table.Cell>
+                                                    <Table.Cell
+                                                        className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                        {RecentActions.action}
+                                                    </Table.Cell>
                                                     <Table.Cell
                                                         className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                                         {RecentActions.message}
@@ -84,7 +98,6 @@ export default function Dashboard({
                     <YouAreNew></YouAreNew>
                 </div>
             }
-
         </AuthenticatedLayout>
     );
 }

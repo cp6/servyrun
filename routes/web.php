@@ -10,6 +10,7 @@ use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\DatabaseTableColumnController;
 use App\Http\Controllers\DatabaseTableController;
 use App\Http\Controllers\DownloadedFileController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IpAddressController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\MySQLDumpController;
@@ -18,39 +19,9 @@ use App\Http\Controllers\PingGroupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\SftpConnectionController;
-use App\Models\IpAddress;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    if (Auth::check()) {//Logged in
-        return Inertia::render('Dashboard', [
-            'serversCount' => \App\Models\Server::get()->count(),
-            'IpCount' => \App\Models\IpAddress::get()->count(),
-            'KeyCount' => \App\Models\Key::get()->count(),
-            'ConnectionCount' => \App\Models\Connection::get()->count(),
-            'DbCount' => \App\Models\Database::get()->count(),
-            'PingsCount' => \App\Models\Ping::get()->count(),
-            'CommandCount' => \App\Models\Command::get()->count(),
-            'OutputCount' => \App\Models\CommandOutput::get()->count(),
-            'RecentActions' => \App\Models\ActionLog::orderBy('created_at', 'desc')->take(10)->get()
-        ]);
-    }
-    return Inertia::render('Auth/Login');
-})->name('dashboard');
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
