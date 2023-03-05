@@ -11,6 +11,8 @@ import Output from "@/Components/Output";
 import ResponseAlert from "@/Components/Alert";
 import {HiBookOpen, HiDocumentDownload, HiPencil, HiServer, HiTrash} from "react-icons/hi";
 import BackButton from "@/Components/BackButton";
+import ProgressBar from "@/Components/ProgressBar";
+import axios from "axios";
 
 export default function Show({auth, resource, ip, alert_type, alert_message}) {
 
@@ -19,6 +21,9 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
         file: '',
         save_as: ''
     });
+
+    const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(null);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -38,7 +43,6 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
         }
         return () => clearInterval(interval);
     }, [running]);
-
 
     async function postData() {
         setRunTime(0);
@@ -80,7 +84,20 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
 
     };
 
+    useEffect(() => {
+        if (uploading) {
+            axios.get(route('sftp.upload.progress', resource.id)).then(response => {
+                console.log(response.data.progress);
+                setUploadProgress(response.data.progress);
+            }).catch(err => {
+                console.log('Error running');
+            });
+        }
+    }, [uploading]);
+
     const uploadFile = (e) => {
+        setUploading(true);
+
         e.preventDefault();
 
         post(route('sftp.upload', resource.id));
@@ -124,14 +141,22 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                                 <HiTrash
                                     className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
                                     onClick={() => setShowModal(true)} title={'Delete SFTP connection'}/>
-                                <HiPencil className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                          onClick={event => window.location.href = route('sftp.edit', resource.id)} title={'Edit SFTP connection'}/>
-                                <HiBookOpen className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                          onClick={event => window.location.href = route('sftp.read', resource.id)} title={'Read a file'}/>
-                                <HiServer className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                          onClick={event => window.location.href = route('server.show', resource.server.id)} title={'Go to server'}/>
-                                <HiDocumentDownload className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                          onClick={event => window.location.href = route('sftp.create-download-to-server', resource.id)} title={'Download a file to this host server'}/>
+                                <HiPencil
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('sftp.edit', resource.id)}
+                                    title={'Edit SFTP connection'}/>
+                                <HiBookOpen
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('sftp.read', resource.id)}
+                                    title={'Read a file'}/>
+                                <HiServer
+                                    className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('server.show', resource.server.id)}
+                                    title={'Go to server'}/>
+                                <HiDocumentDownload
+                                    className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('sftp.create-download-to-server', resource.id)}
+                                    title={'Download a file to this host server'}/>
                             </small>
                         </div>
                         <form onSubmit={submit}>
@@ -207,7 +232,8 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                                         </div>
                                         <div className="col-span-1">
                                             <p className={'text-lg text-gray-800 dark:text-white pb-2'}>&zwnj;</p>
-                                            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">File</label>
+                                            <label
+                                                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">File</label>
                                             <input
                                                 type="file"
                                                 className="w-full px-4 py-2"
@@ -227,13 +253,16 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                                 </form>
                             </div>
                         </div>
+                        <ProgressBar value={uploadProgress}></ProgressBar>
                     </div>
                 </section>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg mt-4">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>SFTP Command output</h1>
                     <div className="pt-2 px-4 mx-auto max-w-7xl">
                         {
-                            (running) ? <p className={'text-gray-600 dark:text-gray-300 mb-2'}><code className={'text-red-500 bg-gray-300 dark:bg-black p-1 rounded-md my-2'}>{data.the_command1 ?? null}</code> {(runTime / 1000) % 60}s</p> : null
+                            (running) ? <p className={'text-gray-600 dark:text-gray-300 mb-2'}><code
+                                className={'text-red-500 bg-gray-300 dark:bg-black p-1 rounded-md my-2'}>{data.the_command1 ?? null}</code> {(runTime / 1000) % 60}s
+                            </p> : null
                         }
                     </div>
                     <div className="py-4 px-4 mx-auto max-w-7xl" id="command_output_div">

@@ -11,6 +11,7 @@ use App\Models\SftpConnection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use phpseclib3\Net\SFTP;
@@ -158,7 +159,7 @@ class SftpConnectionController extends Controller
     {
         $this->authorize('view', $sftpConnection);
 
-        $sftp = SftpConnection::do($sftpConnection,3);
+        $sftp = SftpConnection::do($sftpConnection, 3);
 
         if (is_null($sftp)) {
             return response()->json(['result' => false], 200)->header('Content-Type', 'application/json');
@@ -482,6 +483,7 @@ class SftpConnectionController extends Controller
         ]);
 
         $file = $request->file('the_file');
+        $file_size = $file->getSize();
 
         $sftp = SftpConnection::do($sftpConnection);
 
@@ -489,7 +491,14 @@ class SftpConnectionController extends Controller
             return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
         }
 
-        $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_LOCAL_FILE);
+        $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_LOCAL_FILE, -1, -1, function ($sent) use ($file_size) {
+            $progress = round(($sent / $file_size) * 100);
+            Storage::disk('private')->put("uploadProgress.json", json_encode(['progress' => $progress]));
+            Log::debug(round(($sent / $file_size) * 100));
+            //echo json_encode(['progress' => round(($sent / $file_size) * 100)]);
+            //ob_flush();
+            //flush();
+        });
 
         if ($upload_file) {
             ActionLog::make(1, 'upload', 'sftp', 'Uploaded file as: ' . $request->save_as, $sftpConnection->server_id);
@@ -501,6 +510,12 @@ class SftpConnectionController extends Controller
 
         return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'File not uploaded as "' . $request->save_as . '"']);
 
+    }
+
+    public static function uploadFileProgress(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $file = json_decode(Storage::disk('private')->get("uploadProgress.json"));
+        return response()->json($file)->header('Content-Type', 'application/json');
     }
 
     public function overwriteFile(Request $request, SftpConnection $sftpConnection)
