@@ -494,10 +494,7 @@ class SftpConnectionController extends Controller
         $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_LOCAL_FILE, -1, -1, function ($sent) use ($file_size) {
             $progress = round(($sent / $file_size) * 100);
             Storage::disk('private')->put("uploadProgress.json", json_encode(['progress' => $progress]));
-            Log::debug(round(($sent / $file_size) * 100));
-            //echo json_encode(['progress' => round(($sent / $file_size) * 100)]);
-            //ob_flush();
-            //flush();
+            Log::debug($progress);
         });
 
         if ($upload_file) {
