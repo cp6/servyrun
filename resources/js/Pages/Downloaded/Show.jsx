@@ -71,7 +71,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                             <div className={'md:col-span-1 col-span-2'}>
                                 <p className="mt-4 mb-4 text-lg font-bold leading-none text-gray-600 md:text-lg dark:text-gray-400">Downloaded
                                     from <span
-                                        className={'text-gray-700 dark:text-gray-300'}>{resource.from_dir}/{resource.filename}</span>
+                                        className={'text-gray-700 dark:text-gray-300'}>{resource.conn.server.hostname} {resource.from_dir}/{resource.filename}</span>
                                 </p>
                             </div>
                         </div>
