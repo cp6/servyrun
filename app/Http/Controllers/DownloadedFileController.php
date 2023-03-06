@@ -77,8 +77,6 @@ class DownloadedFileController extends Controller
 
         $start_timer = time();
 
-        //$upload_file = $sftp->put($request->save_as, $file, true, -1, 1);
-
         $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_STRING, -1, -1, function ($sent) use ($file_size) {
             $progress = round(($sent / $file_size) * 100);
             Storage::disk('private')->put("progress/".\Auth::id()."/upload.json", json_encode(['progress' => $progress]));

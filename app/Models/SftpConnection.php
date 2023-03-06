@@ -138,15 +138,8 @@ class SftpConnection extends Model
             if ($write_progress){
                 $progress = round(($got / $file_size) * 100);
                 Storage::disk('private')->put("progress/".\Auth::id()."/download.json", json_encode(['progress' => $progress]));
-                Log::debug($progress);
             }
         });
     }
-
-    public static function uploadFile($sftpConnection, string $file)
-    {
-        //return $sftpConnection->get($file);
-    }
-
 
 }
