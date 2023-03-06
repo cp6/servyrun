@@ -46,7 +46,7 @@ export default function Dashboard({
                     </div>
                     <div className="mt-4">
                             <div className="py-4 px-2 mx-auto max-w-7xl">
-                            <div className="bg-white dark:bg-gray-700 overflow-hidden rounded-lg">
+                            <div className="bg-white dark:bg-gray-700 overflow-hidden rounded-lg shadow-md">
                                 <div className="p-6 text-gray-900 font-bold dark:text-gray-300">Recent actions</div>
                                 <Table className='px-4'>
                                     <Table.Head className='bg-gray-200 dark:bg-gray-600 rounded-0'>
