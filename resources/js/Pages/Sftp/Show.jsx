@@ -84,23 +84,39 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
 
     };
 
+    async function getUploadProgressValue(resource) {
+        const result = await axios.get(route('sftp.upload.progress', resource.id));
+        return await result.data;
+    }
+
     useEffect(() => {
-        if (uploading) {
-            axios.get(route('sftp.upload.progress', resource.id)).then(response => {
-                console.log(response.data.progress);
-                setUploadProgress(response.data.progress);
-            }).catch(err => {
-                console.log('Error running');
-            });
-        }
-    }, [uploading]);
+            let interval;
+            const config = {'Cache-Control': 'no-cache'};
+            if (uploading) {
+                interval = setInterval(() => {
+                    getUploadProgressValue(resource).then((the_response) => {
+                        setUploadProgress(the_response.progress);
+                    })
+                }, 500);
+            } else if (!uploading) {
+                setUploadProgress(null);
+                clearInterval(interval);
+            }
+            return () => clearInterval(interval);
+        }, [uploading]
+    );
 
     const uploadFile = (e) => {
-        setUploading(true);
-
         e.preventDefault();
 
-        post(route('sftp.upload', resource.id));
+        post(route('sftp.upload', resource.id), {
+            onStart: (startEvent) => {
+                setUploading(true);
+            },
+            onFinish: (finishEvent) => {
+                setUploading(false);
+            }
+        });
     };
 
     const deleteItem = () => {
