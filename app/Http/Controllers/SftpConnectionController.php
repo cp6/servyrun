@@ -491,6 +491,8 @@ class SftpConnectionController extends Controller
             return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
         }
 
+        Storage::disk('private')->put("uploadProgress.json", json_encode(['progress' => 0]));
+
         $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_LOCAL_FILE, -1, -1, function ($sent) use ($file_size) {
             $progress = round(($sent / $file_size) * 100);
             Storage::disk('private')->put("uploadProgress.json", json_encode(['progress' => $progress]));
@@ -509,7 +511,7 @@ class SftpConnectionController extends Controller
 
     }
 
-    public static function uploadFileProgress(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    public static function uploadFileProgress(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
     {
         $file = json_decode(Storage::disk('private')->get("uploadProgress.json"));
         return response()->json($file)->header('Content-Type', 'application/json');
