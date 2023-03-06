@@ -595,6 +595,7 @@ class SftpConnectionController extends Controller
 
                 try {
                     $file_size = Storage::disk('private')->size("downloads/{$save_to_dir}/{$save_as_filename}");
+                    $download_speed_mbps = number_format(($file_size / $end_timer / 1000 / 1000),2);
 
                     $downloaded_file = new DownloadedFile();
                     $downloaded_file->sftp_connection_id = $sftpConnection->id;
@@ -606,16 +607,19 @@ class SftpConnectionController extends Controller
                     $downloaded_file->speed_mbps = ($file_size / $end_timer / 1000 / 1000);
                     $downloaded_file->save();
                 } catch (\Exception $exception) {
+                    ActionLog::make(6, 'download to server', 'sftp download', "Error downloading {$request->filepath} message: {$exception->getMessage()}", $sftpConnection->server_id);
                     return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => "Error downloading {$request->filepath} message: {$exception->getMessage()}"]);
                 }
 
-                return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert_type' => 'success', 'alert_message' => "Downloaded {$request->filepath} as {$save_as_filename} id: {$downloaded_file->id}"]);
+                return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert_type' => 'success', 'alert_message' => "Downloaded {$request->filepath} as {$save_as_filename} ({$download_speed_mbps} Mbps)"]);
             }
 
+            ActionLog::make(6, 'download to server', 'sftp download', "Error downloading {$request->filepath} as {$save_as_filename}", $sftpConnection->server_id);
             return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => "Error downloading {$request->filepath} as {$save_as_filename}"]);
 
         }
 
+        ActionLog::make(6, 'download to server', 'sftp download', "File {$request->filepath} was not found", $sftpConnection->server_id);
         return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => "File {$request->filepath} was not found"]);
 
     }
