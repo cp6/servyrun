@@ -174,6 +174,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/sftp/{sftpConnection}/authenticated', [SftpConnectionController::class, 'authenticated'])->name('sftp.authenticated');
     Route::get('/sftp/{sftpConnection}/download-to-server', [SftpConnectionController::class, 'createDownloadToServer'])->name('sftp.create-download-to-server');//Form to create download file to server
     Route::post('/sftp/{sftpConnection}/download-to-server', [SftpConnectionController::class, 'downloadToServer'])->name('sftp.download-to-server');//Download the file to server
+    Route::get('/sftp/{sftpConnection}/download-to-server/progress', [SftpConnectionController::class, 'downloadToServerFileProgress'])->name('sftp.download-to-server.progress');//Downloaded to server progress
     Route::get('/sftp/{sftpConnection}/read', [SftpConnectionController::class, 'read'])->name('sftp.read');
     Route::post('/sftp/{sftpConnection}/read', [SftpConnectionController::class, 'readFile'])->name('sftp.read.file');//Get file for reading
     Route::get('/sftp/{sftpConnection}/raw/{filepath}', [SftpConnectionController::class, 'outputFileRaw'])->name('sftp.read.file.raw');//Get file for raw reading in browser
@@ -193,6 +194,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/downloaded/{downloadedFile}/download', [DownloadedFileController::class, 'download'])->name('downloaded.download');
     Route::get('/downloaded/{downloadedFile}/upload', [DownloadedFileController::class, 'uploadForm'])->name('downloaded.upload.form');
     Route::post('/downloaded/{downloadedFile}/upload', [DownloadedFileController::class, 'upload'])->name('downloaded.upload');
+    Route::get('/downloaded/{downloadedFile}/upload/progress', [DownloadedFileController::class, 'uploadProgress'])->name('downloaded.upload.progress');//Upload from downloaded progress
     Route::delete('/downloaded/{downloadedFile}', [DownloadedFileController::class, 'destroy'])->name('downloaded.destroy');
 
 });
@@ -200,7 +202,5 @@ Route::middleware('auth')->group(function () {
 Route::get('/outputs/{commandOutput}', [CommandOutputController::class, 'show'])->name('outputs.show');
 
 require __DIR__ . '/auth.php';
-
-//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

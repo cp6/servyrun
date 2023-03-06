@@ -511,7 +511,7 @@ class SftpConnectionController extends Controller
 
     }
 
-    public static function uploadFileProgress(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    public static function uploadFileProgress(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
     {
         $file = json_decode(Storage::disk('private')->get("progress/".\Auth::id()."/upload.json"));
         return response()->json($file)->header('Content-Type', 'application/json');
@@ -573,9 +573,11 @@ class SftpConnectionController extends Controller
 
             $save_to_dir = User::where('id', \Auth::id())->select('download_directory')->first()->download_directory;
 
+            Storage::disk('private')->put("progress/".\Auth::id()."/download.json", json_encode(['progress' => 0]));
+
             $start_timer = time();
 
-            $file_content = SftpConnection::downloadFile($sftp, $request->filepath);
+            $file_content = SftpConnection::downloadFile($sftp, $request->filepath, true);
 
             try {
                 $download_result = Storage::disk('private')->put("downloads/{$save_to_dir}/{$save_as_filename}", $file_content);
@@ -612,6 +614,12 @@ class SftpConnectionController extends Controller
 
         return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert_type' => 'failure', 'alert_message' => "File {$request->filepath} was not found"]);
 
+    }
+
+    public static function downloadToServerFileProgress(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
+    {
+        $file = json_decode(Storage::disk('private')->get("progress/".\Auth::id()."/download.json"));
+        return response()->json($file)->header('Content-Type', 'application/json');
     }
 
 }

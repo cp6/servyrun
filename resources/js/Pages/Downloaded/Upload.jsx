@@ -4,10 +4,12 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import {Select} from "flowbite-react";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import ResponseAlert from "@/Components/Alert";
 import BackButton from "@/Components/BackButton";
+import axios from "axios";
+import ProgressBar from "@/Components/ProgressBar";
 
 export default function Upload({auth, resource, connections, alert_type, alert_message}) {
 
@@ -16,13 +18,45 @@ export default function Upload({auth, resource, connections, alert_type, alert_m
         save_as: resource.saved_as
     });
 
+    const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(null);
+
     const [hasAlert, setHasAlert] = React.useState(true);
+
+    async function getUploadProgressValue(resource) {
+        const result = await axios.get(route('downloaded.upload.progress', resource.id));
+        return await result.data;
+    }
+
+    useEffect(() => {
+            let interval;
+            const config = {'Cache-Control': 'no-cache'};
+            if (uploading) {
+                interval = setInterval(() => {
+                    getUploadProgressValue(resource).then((the_response) => {
+                        setUploadProgress(the_response.progress);
+                    })
+                }, 500);
+            } else if (!uploading) {
+                setUploadProgress(null);
+                clearInterval(interval);
+            }
+            return () => clearInterval(interval);
+        }, [uploading]
+    );
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('downloaded.upload', resource.id));
-        navigate(route('downloaded.show', resource.id));
+        post(route('downloaded.upload', resource.id), {
+            onStart: (startEvent) => {
+                setUploading(true);
+            },
+            onFinish: (finishEvent) => {
+                setUploading(false);
+            }
+        });
+        //navigate(route('downloaded.show', resource.id));
     };
 
     return (
@@ -77,6 +111,7 @@ export default function Upload({auth, resource, connections, alert_type, alert_m
                            Upload
                         </PrimaryButton>
                     </form>
+                    <ProgressBar value={uploadProgress}></ProgressBar>
                 </div>
             </div>
         </AuthenticatedLayout>

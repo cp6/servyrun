@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use phpseclib3\Net\SFTP;
 
 class DownloadedFileController extends Controller
 {
@@ -64,6 +65,7 @@ class DownloadedFileController extends Controller
         }
 
         $file = Storage::disk('private')->get("downloads/{$user_dl_dir}/$downloadedFile->saved_as");
+        $file_size = Storage::disk('private')->size("downloads/{$user_dl_dir}/$downloadedFile->saved_as");
 
         $sftpConnection = SftpConnection::where('id', $request->connection_id)->with(['server'])->firstOrFail();
 
@@ -75,7 +77,12 @@ class DownloadedFileController extends Controller
 
         $start_timer = time();
 
-        $upload_file = $sftp->put($request->save_as, $file);
+        //$upload_file = $sftp->put($request->save_as, $file, true, -1, 1);
+
+        $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_STRING, -1, -1, function ($sent) use ($file_size) {
+            $progress = round(($sent / $file_size) * 100);
+            Storage::disk('private')->put("progress/".\Auth::id()."/upload.json", json_encode(['progress' => $progress]));
+        });
 
         $end_timer = time() - $start_timer;
         $upload_speed_mbps = ($downloadedFile->size / $end_timer / 1000 / 1000);
@@ -87,6 +94,12 @@ class DownloadedFileController extends Controller
 
         ActionLog::make(5, 'upload', 'sftp', "Failed uploading {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as}", $sftpConnection->server->id);
         return redirect(route('downloaded.show', $downloadedFile))->with(['alert_type' => 'failure', 'alert_message' => "Upload failed for {$downloadedFile->saved_as} to {$sftpConnection->server->hostname}"]);
+    }
+
+    public function uploadProgress(DownloadedFile $downloadedFile): \Illuminate\Http\JsonResponse
+    {
+        $file = json_decode(Storage::disk('private')->get("progress/".\Auth::id()."/upload.json"));
+        return response()->json($file)->header('Content-Type', 'application/json');
     }
 
     public function destroy(DownloadedFile $downloadedFile)

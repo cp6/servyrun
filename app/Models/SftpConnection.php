@@ -6,6 +6,7 @@ use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SFTP;
@@ -130,9 +131,16 @@ class SftpConnection extends Model
         return $sftpConnection->exec($command);
     }
 
-    public static function downloadFile($sftpConnection, string $file)
+    public static function downloadFile($sftpConnection, string $file, bool $write_progress = false)
     {
-        return $sftpConnection->get($file);
+        $file_size = $sftpConnection->filesize($file);
+        return $sftpConnection->get($file, false, 0, -1, function($got) use ($file_size, $write_progress) {
+            if ($write_progress){
+                $progress = round(($got / $file_size) * 100);
+                Storage::disk('private')->put("progress/".\Auth::id()."/download.json", json_encode(['progress' => $progress]));
+                Log::debug($progress);
+            }
+        });
     }
 
     public static function uploadFile($sftpConnection, string $file)

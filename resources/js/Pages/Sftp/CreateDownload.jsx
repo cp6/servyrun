@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/inertia-react';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -9,6 +9,8 @@ import ResponseAlert from "@/Components/Alert";
 import {HiFolderOpen, HiServer} from "react-icons/hi";
 import BackButton from "@/Components/BackButton";
 import TealButton from "@/Components/TealButton";
+import ProgressBar from "@/Components/ProgressBar";
+import axios from "axios";
 
 export default function CreateDownload({auth, resource, alert_type, alert_message}) {
 
@@ -17,25 +19,58 @@ export default function CreateDownload({auth, resource, alert_type, alert_messag
         save_as: ''
     });
 
+    const [downloading, setDownloading] = useState(false);
+    const [downloadProgress, setDownloadProgress] = useState(null);
+
     const [hasAlert, setHasAlert] = React.useState(true);
 
+    async function getDownloadProgressValue(resource) {
+        const result = await axios.get(route('sftp.download-to-server.progress', resource.id));
+        return await result.data;
+    }
+
+    useEffect(() => {
+            let interval;
+            const config = {'Cache-Control': 'no-cache'};
+            if (downloading) {
+                interval = setInterval(() => {
+                    getDownloadProgressValue(resource).then((the_response) => {
+                        setDownloadProgress(the_response.progress);
+                    })
+                }, 500);
+            } else if (!downloading) {
+                setDownloadProgress(null);
+                clearInterval(interval);
+            }
+            return () => clearInterval(interval);
+        }, [downloading]
+    );
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('sftp.download-to-server', resource.id));
+        post(route('sftp.download-to-server', resource.id), {
+            onStart: (startEvent) => {
+                setDownloading(true);
+            },
+            onFinish: (finishEvent) => {
+                setDownloading(false);
+            }
+        });
     };
 
     return (
         <AuthenticatedLayout
             auth={auth}
             header={<h2
-                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Download file to server</h2>}
+                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Download file to
+                server</h2>}
         >
             <Head title={"Download file to server"}/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.show', resource.id)}>Back to SFTP connection</BackButton>
-                    <TealButton href={route('downloaded.index')}><HiFolderOpen className="mr-2 h-5 w-5"/>Downloaded files</TealButton>
+                    <TealButton href={route('downloaded.index')}><HiFolderOpen className="mr-2 h-5 w-5"/>Downloaded
+                        files</TealButton>
                 </div>
                 <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
                                alert_message={alert_message}></ResponseAlert>
@@ -85,6 +120,7 @@ export default function CreateDownload({auth, resource, alert_type, alert_messag
                                 Download
                             </PrimaryButton>
                         </form>
+                        <ProgressBar value={downloadProgress}></ProgressBar>
                     </div>
                 </section>
             </div>
