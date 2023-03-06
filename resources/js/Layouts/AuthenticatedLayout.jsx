@@ -78,6 +78,9 @@ export default function Authenticated({auth, header, children}) {
                                 <NavLink href={route('ip.index')} active={route().current('ip.*')}>
                                     IPs
                                 </NavLink>
+                                <NavLink href={route('downloaded.index')} active={route().current('downloaded.*')}>
+                                    Files
+                                </NavLink>
                                 <NavLink href={route('log.index')} active={route().current('log.*')}>
                                     Logs
                                 </NavLink>
@@ -191,6 +194,9 @@ export default function Authenticated({auth, header, children}) {
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('ip.index')} active={route().current('ip.*')}>
                             IPs
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('downloaded.index')} active={route().current('downloaded.*')}>
+                            Files
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('log.index')} active={route().current('log.*')}>
                             Logs
