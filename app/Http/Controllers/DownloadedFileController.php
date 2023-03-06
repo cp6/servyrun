@@ -86,7 +86,7 @@ class DownloadedFileController extends Controller
         $upload_speed_mbps = ($downloadedFile->size / $end_timer / 1000 / 1000);
 
         if ($upload_file) {
-            ActionLog::make(1, 'upload', 'sftp', "Uploaded {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as} (" . number_format($upload_speed_mbps, 2) . "Mbps {$end_timer}s)", $sftpConnection->server->id);
+            ActionLog::make(1, 'upload', 'sftp', "Uploaded {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as} (" . number_format($upload_speed_mbps, 2) . " Mbps {$end_timer}s)", $sftpConnection->server->id);
             return redirect(route('downloaded.show', $downloadedFile))->with(['alert_type' => 'success', 'alert_message' => "Uploaded {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as} (" . number_format($upload_speed_mbps, 2) . "Mbps {$end_timer}s)"]);
         }
 
