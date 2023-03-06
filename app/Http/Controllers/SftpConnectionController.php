@@ -493,15 +493,20 @@ class SftpConnectionController extends Controller
 
         Storage::disk('private')->put("progress/".\Auth::id()."/upload.json", json_encode(['progress' => 0]));
 
+        $start_timer = time();
+
         $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_LOCAL_FILE, -1, -1, function ($sent) use ($file_size) {
             $progress = round(($sent / $file_size) * 100);
             Storage::disk('private')->put("progress/".\Auth::id()."/upload.json", json_encode(['progress' => $progress]));
         });
 
-        if ($upload_file) {
-            ActionLog::make(1, 'upload', 'sftp', 'Uploaded file as: ' . $request->save_as, $sftpConnection->server_id);
+        $end_timer = time() - $start_timer;
+        $upload_speed_mbps = number_format(($file_size / $end_timer / 1000 / 1000),2);
 
-            return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'success', 'alert_message' => $file->getClientOriginalName() . '" uploaded as ' . $request->save_as]);
+        if ($upload_file) {
+            ActionLog::make(1, 'upload', 'sftp', "Uploaded {$file->getClientOriginalName()} as {$request->save_as} ({$upload_speed_mbps} Mbps)", $sftpConnection->server_id);
+
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert_type' => 'success', 'alert_message' => "Uploaded {$file->getClientOriginalName()} as {$request->save_as} ({$upload_speed_mbps} Mbps)"]);
         }
 
         ActionLog::make(6, 'upload', 'sftp', 'Uploaded file failed', $sftpConnection->server_id);
