@@ -44,7 +44,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function showRegistrationForm(): \Inertia\Response
+    public function showRegistrationForm()
     {
         if (User::all()->count() >= env('MAX_ACCOUNTS', 1)) {
             return abort('403', 'Not accepting more registrations',['message' => 'Not accepting more registrations']);
@@ -64,7 +64,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:32'],//Username
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);

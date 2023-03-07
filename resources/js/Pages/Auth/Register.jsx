@@ -46,6 +46,7 @@ export default function Register() {
                         autoComplete="name"
                         isFocused={true}
                         handleChange={onHandleChange}
+                        maxLength={32}
                         required
                     />
 
