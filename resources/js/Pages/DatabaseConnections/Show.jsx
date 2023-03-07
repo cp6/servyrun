@@ -80,7 +80,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                             </small>
                         </div>
                         <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.host}</h2>
-                        <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.title}</p>
+                        <p className="mb-4 text-xl font-bold leading-none text-gray-600 md:text-xl dark:text-gray-300">{resource.title}</p>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'col-span-1'}>
                                 <CreatedAtText created_at={resource.created_at}
