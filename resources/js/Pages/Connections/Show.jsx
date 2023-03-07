@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import {Button, Modal, Select} from "flowbite-react";
 import React, {useEffect, useState} from "react";
 import InputLabel from "@/Components/InputLabel";
@@ -12,7 +12,13 @@ import ResponseAlert from "@/Components/Alert";
 import BackButton from "@/Components/BackButton";
 import {HiPencil, HiQuestionMarkCircle, HiServer, HiTrash} from "react-icons/hi";
 
-export default function Show({auth, resource, ip, method, commands, alert_type, alert_message}) {
+export default function Show({auth}) {
+
+    const alert = usePage().props.alert;
+    const resource = usePage().props.resource;
+    const method = usePage().props.method;
+    const ip = usePage().props.ip;
+    const commands = usePage().props.commands;
 
     const [isEmailChecked, setIsEmailChecked] = useState(false);
 
@@ -46,7 +52,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
 
     const [showModal, setShowModal] = useState(false);
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
 
     async function postData() {
         setRunTime(0);
@@ -123,8 +129,7 @@ export default function Show({auth, resource, ip, method, commands, alert_type, 
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('connection.index')}>Back to connections</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between mb-4">

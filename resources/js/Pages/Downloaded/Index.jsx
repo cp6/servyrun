@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import ResponseAlert from "@/Components/Alert";
 import {Grid} from "gridjs-react";
@@ -7,19 +7,22 @@ import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
 import {html} from "gridjs";
 
-export default function Index({auth, downloads, hasAlert, alert_type, alert_message}) {
+export default function Index({auth}) {
+
+    const downloads = usePage().props.downloads;
+    const alert = usePage().props.resource;
+
     return (
         <AuthenticatedLayout
             auth={auth}
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Downloaded</h2>}>
             <Head title={'Downloaded'}/>
-                <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
-                    <div className="flex flex-wrap gap-2 mb-4">
-                    </div>
-                    <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                                   alert_message={alert_message}></ResponseAlert>
-                    <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
+            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+                <div className="flex flex-wrap gap-2 mb-4">
+                </div>
+                <ResponseAlert details={alert}></ResponseAlert>
+                <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                     <Grid
                         data={downloads}
                         columns={[
@@ -32,13 +35,13 @@ export default function Index({auth, downloads, hasAlert, alert_type, alert_mess
                                 id: "size",
                                 name: "Size MB",
                                 sort: true,
-                                formatter: (cell) => (cell !== null) ?  new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format((cell / 1000 / 1000)) : null
+                                formatter: (cell) => (cell !== null) ? new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format((cell / 1000 / 1000)) : null
                             },
                             {
                                 id: "speed_mbps",
                                 name: "DL speed Mbps",
                                 sort: true,
-                                formatter: (cell) => (cell !== null) ?  new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(cell) : null
+                                formatter: (cell) => (cell !== null) ? new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(cell) : null
                             },
                             {
                                 id: "filename",
@@ -61,8 +64,8 @@ export default function Index({auth, downloads, hasAlert, alert_type, alert_mess
                         className={gridJsTableStyling}
                         pagination={GridJsPagination}
                     />
-            </section>
-                </div>
+                </section>
+            </div>
         </AuthenticatedLayout>
     );
 }

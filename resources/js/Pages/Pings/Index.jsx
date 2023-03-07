@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
@@ -9,9 +9,10 @@ import {format} from "date-fns";
 import IndigoButton from "@/Components/IndigoButton";
 import ResponseAlert from "@/Components/Alert";
 
-export default function Index({auth, pings, alert_type, alert_message}) {
+export default function Index({auth}) {
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
+    const pings = usePage().props.pings;
 
     return (
         <AuthenticatedLayout
@@ -24,8 +25,7 @@ export default function Index({auth, pings, alert_type, alert_message}) {
                     <IndigoButton href={route('ping-group.index')}><HiUserGroup className="mr-2 h-5 w-5"/>Ping
                         groups</IndigoButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                     {
                         pings.length === 0

@@ -16,9 +16,7 @@ class MySQLDumpController extends Controller
     {
         return Inertia::render('MySQLDumps/Index', [
             'dumps' => MySQLDump::with(['server', 'database', 'database_conn', 'conn'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -28,9 +26,7 @@ class MySQLDumpController extends Controller
             'servers' => Server::get(),
             'databases' => Database::get(),
             'databaseConnections' => DatabaseConnection::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -69,10 +65,10 @@ class MySQLDumpController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('mysqldump.create'))->with(['alert_type' => 'failure', 'alert_message' => 'MySQL dump could not be created error ' . $exception->getCode()]);
+            return redirect(route('mysqldump.create'))->with(['alert' => ['type' => 'failure', 'message' => 'MySQL dump could not be created error ' . $exception->getCode()]]);
         }
 
-        return redirect(route('mysqldump.show', $mysql_dump))->with(['alert_type' => 'success', 'alert_message' => 'Create MySQLdump successfully']);
+        return redirect(route('mysqldump.show', $mysql_dump))->with(['alert' => ['type' => 'success', 'message' => 'Create MySQLdump successfully']]);
     }
 
     public function show(MySQLDump $mySQLDump): \Inertia\Response
@@ -81,9 +77,7 @@ class MySQLDumpController extends Controller
 
         return Inertia::render('MySQLDumps/Show', [
             'resource' => MySQLDump::where('id', $mySQLDump->id)->with(['server', 'conn', 'database', 'database_conn'])->first(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -93,9 +87,7 @@ class MySQLDumpController extends Controller
 
         return Inertia::render('MySQLDumps/Edit', [
             'resource' => MySQLDump::where('id', $mySQLDump->id)->with(['server', 'conn', 'database', 'database_conn'])->first(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -125,10 +117,10 @@ class MySQLDumpController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('mysqldump.edit', $mySQLDump))->with(['alert_type' => 'failure', 'alert_message' => 'MySQL dump could not be updated error ' . $exception->getMessage()]);
+            return redirect(route('mysqldump.edit', $mySQLDump))->with(['alert' => ['type' => 'failure', 'message' => 'MySQL dump could not be updated error ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('mysqldump.show', $mySQLDump))->with(['alert_type' => 'success', 'alert_message' => 'MySQL dump was updated successfully']);
+        return redirect(route('mysqldump.show', $mySQLDump))->with(['alert' => ['type' => 'success', 'message' => 'MySQL dump was updated successfully']]);
 
     }
 
@@ -138,11 +130,11 @@ class MySQLDumpController extends Controller
 
         try {
             $mySQLDump->delete();
-        } catch (\Exception $exception){
-            return redirect(route('mysqldump.show', $mySQLDump))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('mysqldump.show', $mySQLDump))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('mysqldump.index'))->with(['alert_type' => 'success', 'alert_message' => 'MySQL dump deleted successfully']);
+        return redirect(route('mysqldump.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'MySQL dump deleted successfully']]);
     }
 
     public function run(MySQLDump $mySQLDump): \Illuminate\Http\JsonResponse

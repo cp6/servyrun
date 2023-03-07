@@ -18,9 +18,7 @@ class ServerController extends Controller
     {
         return Inertia::render('Servers/Index', [
             'servers' => Server::with(['type', 'conn'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -34,22 +32,18 @@ class ServerController extends Controller
             'title' => fake()->colorName() . '-' . fake()->numberBetween(1, 999),
             'types' => Type::all(),
             'locations' => Location::all(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
-    public function show(Server $server)
+    public function show(Server $server): \Inertia\Response
     {
         $this->authorize('view', $server);
 
         return Inertia::render('Servers/Show', [
             'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn', 'sftp_conn'])->firstOrFail(),
             'servers' => Server::has('conn')->whereNot('id', $server->id)->select(['id', 'hostname', 'title'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -92,7 +86,7 @@ class ServerController extends Controller
     public function store(Request $request)
     {
         if (Server::get()->count() >= env('MAX_SERVERS_PER_ACCOUNT', 20)) {
-            return abort('403', 'Server limit has been hit', ['message' => 'Server limit has been hit']);
+            return abort('403', 'Server limit has been hit');
         }
 
         $request->validate([
@@ -131,7 +125,7 @@ class ServerController extends Controller
             $server->save();
         } catch (\Exception $exception) {
 
-            return redirect(route('server.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Server could not be created error ' . $exception->getCode()]);
+            return redirect(route('server.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Server could not be created error ' . $exception->getCode()]]);
         }
 
         try {
@@ -146,12 +140,12 @@ class ServerController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('server.create'))->with(['alert_type' => 'failure', 'alert_message' => 'IP could not be created error ' . $exception->getCode()]);
+            return redirect(route('server.create'))->with(['alert' => ['type' => 'failure', 'message' => 'IP could not be created error ' . $exception->getCode()]]);
         }
 
         IpAddress::fetchUpdateIpDetails($ip_address);//Get IP ASN and GEO data etc
 
-        return redirect(route('server.show', $server))->with(['alert_type' => 'success', 'alert_message' => "Server {$server->title} created successfully"]);
+        return redirect(route('server.show', $server))->with(['alert' => ['type' => 'success', 'message' => "Server {$server->title} created successfully"]]);
     }
 
     public function update(Request $request, Server $server)
@@ -198,10 +192,10 @@ class ServerController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('server.show', $server))->with(['alert_type' => 'failure', 'alert_message' => 'Server update error: ' . $exception->getMessage()]);
+            return redirect(route('server.show', $server))->with(['alert' => ['type' => 'failure', 'message' => 'Server update error: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('server.show', $server))->with(['alert_type' => 'success', 'alert_message' => 'Server updated successfully']);
+        return redirect(route('server.show', $server))->with(['alert' => ['type' => 'success', 'message' => 'Server updated successfully']]);
     }
 
     public function destroy(Server $server)
@@ -211,10 +205,10 @@ class ServerController extends Controller
         try {
             $server->delete();
         } catch (\Exception $exception) {
-            return redirect(route('server.show', $server))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]);
+            return redirect(route('server.show', $server))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('server.index'))->with(['alert_type' => 'success', 'alert_message' => 'Server deleted successfully']);
+        return redirect(route('server.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'Server deleted successfully']]);
     }
 
     public function getInformation(Server $server)
@@ -224,7 +218,7 @@ class ServerController extends Controller
         Server::getCpuOsDetails($server);
         Server::getRamDiskDetails($server);
 
-        return redirect(route('server.show', $server))->with(['alert_type' => 'success', 'alert_message' => 'Server updated successfully']);
+        return redirect(route('server.show', $server))->with(['alert' => ['type' => 'success', 'alert_message' => 'Server updated successfully']]);
     }
 
     public function getUsage(Server $server): \Illuminate\Http\JsonResponse

@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useEffect, useState} from "react";
 import InputLabel from "@/Components/InputLabel";
@@ -14,7 +14,11 @@ import BackButton from "@/Components/BackButton";
 import ProgressBar from "@/Components/ProgressBar";
 import axios from "axios";
 
-export default function Show({auth, resource, ip, alert_type, alert_message}) {
+export default function Show({auth}) {
+
+    const resource = usePage().props.resource;
+    const ip = usePage().props.ip;
+    const alert = usePage().props.alert;
 
     const {data, setData, post, processing, processing2, reset, errors} = useForm({
         the_command1: '',
@@ -26,8 +30,6 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
     const [uploadProgress, setUploadProgress] = useState(null);
 
     const [showModal, setShowModal] = useState(false);
-
-    const [hasAlert, setHasAlert] = React.useState(true);
 
     const [runTime, setRunTime] = useState(0);
     const [running, setRunning] = useState(false);
@@ -147,8 +149,7 @@ export default function Show({auth, resource, ip, alert_type, alert_message}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.index')}>Back to SFTP connections</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <div className="py-6 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between mb-4">

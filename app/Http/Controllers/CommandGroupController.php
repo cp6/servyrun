@@ -16,9 +16,7 @@ class CommandGroupController extends Controller
     {
         return Inertia::render('CommandGroups/Index', [
             'groups' => CommandGroup::with(['the_command'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -26,9 +24,7 @@ class CommandGroupController extends Controller
     {
         return Inertia::render('CommandGroups/Create', [
             'commands' => Command::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -49,10 +45,9 @@ class CommandGroupController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('command-group.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Command group could not be created error ' . $exception->getCode()]);
+            return redirect(route('command-group.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Command group could not be created error ' . $exception->getCode()]]);
         }
-
-        return redirect(route('command-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command group create successfully']);
+        return redirect(route('command-group.index'))->with(['alert' => ['type' => 'success', 'message' => 'Command group create successfully']]);
     }
 
     public function show(CommandGroup $commandGroup): \Inertia\Response
@@ -61,9 +56,7 @@ class CommandGroupController extends Controller
 
         return Inertia::render('CommandGroups/Show', [
             'resource' => CommandGroup::where('id', $commandGroup->id)->with('the_command', 'assigned.server')->firstOrFail(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -75,9 +68,7 @@ class CommandGroupController extends Controller
             'resource' => CommandGroup::where('id', $commandGroup->id)->with('the_command', 'assigned.server')->firstOrFail(),
             'connections' => Connection::with('server')->get(),
             'commands' => Command::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -135,7 +126,7 @@ class CommandGroupController extends Controller
 
             } catch (\Exception $exception) {
 
-                return redirect(route('command-group.edit', $commandGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Command group assigned error ' . $exception->getCode()]);
+                return redirect(route('command-group.edit', $commandGroup))->with(['alert' => ['type' => 'failure', 'message' => 'Command group assigned error ' . $exception->getCode()]]);
             }
 
         }
@@ -150,10 +141,10 @@ class CommandGroupController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('command-group.edit', $commandGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Command group could not be edited error ' . $exception->getCode()]);
+            return redirect(route('command-group.edit', $commandGroup))->with(['alert' => ['type' => 'failure', 'message' => 'Command group could not be edited error ' . $exception->getCode()]]);
         }
 
-        return redirect(route('command-group.show', $commandGroup))->with(['alert_type' => 'success', 'alert_message' => 'Command group updated successfully']);
+        return redirect(route('command-group.show', $commandGroup))->with(['alert' => ['type' => 'success', 'message' => 'Command group updated successfully']]);
     }
 
     public function destroy(CommandGroup $commandGroup)
@@ -162,11 +153,11 @@ class CommandGroupController extends Controller
 
         try {
             $commandGroup->delete();
-        } catch (\Exception $exception){
-            return redirect(route('command-group.show', $commandGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('command-group.show', $commandGroup))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('command-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command group deleted successfully']);
+        return redirect(route('command-group.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'Command group deleted successfully']]);
     }
 
     public function run(CommandGroup $commandGroup): \Illuminate\Http\JsonResponse

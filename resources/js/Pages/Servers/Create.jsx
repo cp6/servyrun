@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -9,7 +9,9 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import ResponseAlert from "@/Components/Alert";
 import BackButton from "@/Components/BackButton";
 
-export default function Create({auth, types, locations, title, alert_type, alert_message}) {
+export default function Create({auth, types, locations, title}) {
+
+    const alert = usePage().props.alert;
 
     const {data, setData, post, processing, reset, errors} = useForm({
         title: title,
@@ -28,8 +30,6 @@ export default function Create({auth, types, locations, title, alert_type, alert
         swap: '',
         ping_port: '80'
     });
-
-    const [hasAlert, setHasAlert] = React.useState(true);
 
     const submit = (e) => {
         e.preventDefault();
@@ -105,8 +105,7 @@ export default function Create({auth, types, locations, title, alert_type, alert
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('server.index')}>Back to servers</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6">
                     <form onSubmit={submit}>
                         <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-6 sm:gap-4">

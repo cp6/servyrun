@@ -13,9 +13,7 @@ class PingController extends Controller
     {
         return Inertia::render('Pings/Index', [
             'pings' => Ping::with(['to_server', 'from_server'])->orderBy('created_at', 'desc')->take(999)->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -34,9 +32,7 @@ class PingController extends Controller
             'minPing' => Ping::where('from_server_id', $server1->id)->where('server_id', $server2->id)->orderBy('min')->pluck('min')->first(),
             'maxPing' => Ping::where('from_server_id', $server1->id)->where('server_id', $server2->id)->orderBy('max', 'desc')->pluck('max')->first(),
             'avgPing' => Ping::where('from_server_id', $server1->id)->where('server_id', $server2->id)->avg('avg'),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 

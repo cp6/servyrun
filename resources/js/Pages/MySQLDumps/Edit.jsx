@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -9,7 +9,10 @@ import ResponseAlert from "@/Components/Alert";
 import BackButton from "@/Components/BackButton";
 import UpdateButton from "@/Components/UpdateButton";
 
-export default function Edit({auth, resource, alert_type, alert_message}) {
+export default function Edit({auth}) {
+
+    const alert = usePage().props.alert;
+    const resource = usePage().props.resource;
 
     const {data, setData, patch, processing, reset, errors} = useForm({
         save_to: resource.save_to,
@@ -20,7 +23,7 @@ export default function Edit({auth, resource, alert_type, alert_message}) {
         these_tables: resource.these_tables
     });
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
 
     const submit = (e) => {
         e.preventDefault();
@@ -40,8 +43,7 @@ export default function Edit({auth, resource, alert_type, alert_message}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('mysqldump.show', resource.id)}>Back to MySQL dump</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6">
                     <h1 className={'text-lg text-gray-800 dark:text-white mb-2'}><span className={'text-gray-600 dark:text-gray-300'}>Database:</span> {resource.database.name} ({resource.database_conn.host})
                         <span className={'text-gray-600 dark:text-gray-300'}> DB

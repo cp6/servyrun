@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import ResponseAlert from "@/Components/Alert";
 import {Grid} from "gridjs-react";
@@ -8,20 +8,23 @@ import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
 import AddButton from "@/Components/AddButton";
 
-export default function Index({auth, ips, hasAlert, alert_type, alert_message}) {
+export default function Index({auth}) {
+
+    const alert = usePage().props.alert;
+    const ips = usePage().props.ips;
+
     return (
         <AuthenticatedLayout
             auth={auth}
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">IP addresses</h2>}>
             <Head title={'IP addresses'}/>
-                <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
-                    <div className="flex flex-wrap gap-2 mb-4">
-                        <AddButton href={route('ip.create')}>Add IP</AddButton>
-                    </div>
-                    <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                                   alert_message={alert_message}></ResponseAlert>
-                    <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
+            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+                <div className="flex flex-wrap gap-2 mb-4">
+                    <AddButton href={route('ip.create')}>Add IP</AddButton>
+                </div>
+                <ResponseAlert details={alert}></ResponseAlert>
+                <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                     <Grid
                         data={ips}
                         columns={[
@@ -62,8 +65,8 @@ export default function Index({auth, ips, hasAlert, alert_type, alert_message}) 
                         className={gridJsTableStyling}
                         pagination={GridJsPagination}
                     />
-            </section>
-                </div>
+                </section>
+            </div>
         </AuthenticatedLayout>
     );
 }

@@ -12,9 +12,7 @@ class CommandController extends Controller
     {
         return Inertia::render('Commands/Index', [
             'commands' => Command::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -25,9 +23,7 @@ class CommandController extends Controller
         }
 
         return Inertia::render('Commands/Create', [
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -51,19 +47,17 @@ class CommandController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('command.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Command could not be created error ' . $exception->getCode()]);
+            return redirect(route('command.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Command could not be created error ' . $exception->getCode()]]);
         }
 
-        return redirect(route('command.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command create successfully']);
+        return redirect(route('command.index'))->with(['alert' => ['type' => 'success', 'message' => 'Command create successfully']]);
     }
 
     public function edit(Command $command): \Inertia\Response
     {
         return Inertia::render('Commands/Edit', [
             'resource' => Command::where('id', $command->id)->firstOrFail(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -80,7 +74,7 @@ class CommandController extends Controller
             'command' => $request->command
         ]);
 
-        return redirect(route('command.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command updated successfully']);
+        return redirect(route('command.index'))->with(['alert' => ['type' => 'success', 'message' => 'Command updated successfully']]);
     }
 
     public function destroy(Command $command)
@@ -89,11 +83,11 @@ class CommandController extends Controller
 
         try {
             $command->delete();
-        } catch (\Exception $exception){
-            return redirect(route('command.index'))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('command.index'))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('command.index'))->with(['alert_type' => 'success', 'alert_message' => 'Command deleted successfully']);
+        return redirect(route('command.index'))->with(['alert' => ['type' => 'success', 'message' => 'Command deleted successfully']]);
     }
 
     public function show(Command $command)

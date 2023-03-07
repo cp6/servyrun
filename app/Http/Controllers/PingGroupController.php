@@ -18,9 +18,7 @@ class PingGroupController extends Controller
     {
         return Inertia::render('PingGroups/Index', [
             'groups' => PingGroup::with(['assigned', 'assigned.server'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -28,9 +26,7 @@ class PingGroupController extends Controller
     {
         return Inertia::render('PingGroups/Create', [
             'connections' => Connection::has('server')->with('server')->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -69,7 +65,7 @@ class PingGroupController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('ping-group.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Ping group could not be created error ' . $exception->getCode()]);
+            return redirect(route('ping-group.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Ping group could not be created error ' . $exception->getCode()]]);
         }
 
         foreach ($connections_array as $connection_id) {
@@ -84,12 +80,12 @@ class PingGroupController extends Controller
                 $ping_group_assigned->save();
             } catch (\Exception $exception) {
 
-                return redirect(route('ping-group.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Ping group could not be created error ' . $exception->getCode()]);
+                return redirect(route('ping-group.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Ping group could not be created error ' . $exception->getCode()]]);
             }
 
         }
 
-        return redirect(route('ping-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Ping group created successfully']);
+        return redirect(route('ping-group.index'))->with(['alert' => ['type' => 'success', 'message' => 'Ping group created successfully']]);
     }
 
     public function edit(PingGroup $pingGroup): \Inertia\Response
@@ -99,9 +95,7 @@ class PingGroupController extends Controller
         return Inertia::render('PingGroups/Edit', [
             'resource' => $pingGroup->with(['assigned'])->firstOrFail(),
             'connections' => Connection::has('server')->with('server')->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -156,7 +150,7 @@ class PingGroupController extends Controller
 
         }
 
-        return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'success', 'alert_message' => 'Ping group updated successfully']);
+        return redirect(route('ping-group.show', $pingGroup))->with(['alert' => ['type' => 'success', 'message' => 'Ping group updated successfully']]);
     }
 
     public function show(PingGroup $pingGroup): \Inertia\Response
@@ -166,9 +160,7 @@ class PingGroupController extends Controller
         return Inertia::render('PingGroups/Show', [
             'pingGroup' => $pingGroup,
             'pings' => Ping::where('ping_group', $pingGroup->id)->with(['group', 'to_server', 'from_server'])->orderBy('created_at', 'desc')->take(999)->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -178,9 +170,9 @@ class PingGroupController extends Controller
 
         $run_pg = PingGroup::runPings($pingGroup);
         if (is_null($run_pg)) {
-            return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Issue running Ping group. Check action logs for more information.']);
+            return redirect(route('ping-group.show', $pingGroup))->with(['alert' => ['type' => 'failure', 'message' => 'Issue running Ping group. Check action logs for more information.']]);
         }
-        return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'info', 'alert_message' => 'Ping group ran']);
+        return redirect(route('ping-group.show', $pingGroup))->with(['alert' => ['type' => 'info', 'message' => 'Ping group ran']]);
     }
 
     public function destroy(PingGroup $pingGroup)
@@ -189,10 +181,10 @@ class PingGroupController extends Controller
 
         try {
             $pingGroup->delete();
-        } catch (\Exception $exception){
-            return redirect(route('ping-group.show', $pingGroup))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('ping-group.show', $pingGroup))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('ping-group.index'))->with(['alert_type' => 'success', 'alert_message' => 'Ping group deleted successfully']);
+        return redirect(route('ping-group.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'Ping group deleted successfully']]);
     }
 }

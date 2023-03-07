@@ -1,13 +1,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import ResponseAlert from "@/Components/Alert";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
 import AddButton from "@/Components/AddButton";
 
-export default function Index({auth, keys, alert_type, alert_message}) {
+export default function Index({auth}) {
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
+    const keys = usePage().props.keys;
 
     return (
         <AuthenticatedLayout
@@ -19,8 +20,7 @@ export default function Index({auth, keys, alert_type, alert_message}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <AddButton href={route('key.create')}>Add key</AddButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
                     {
                         keys.length === 0

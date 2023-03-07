@@ -73,9 +73,7 @@ class DatabaseTableColumnController extends Controller
             'database' => $database->where('id', $database->id)->with(['conn'])->firstOrFail(),
             'table' => $databaseTable,
             'columns' => $table_columns,
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
 
     }
@@ -129,7 +127,7 @@ class DatabaseTableColumnController extends Controller
 
         $databaseTableColumn->delete();
 
-        return redirect(route('db.show.table', $table_id))->with(['alert_type' => 'success', 'alert_message' => 'Deleted successfully']);
+        return redirect(route('db.show.table', $table_id))->with(['alert' => ['type' => 'success', 'message' => 'Deleted successfully']]);
     }
 
     public function downloadColumn(Database $database, DatabaseTable $databaseTable, DatabaseTableColumn $databaseTableColumn): \Symfony\Component\HttpFoundation\StreamedResponse

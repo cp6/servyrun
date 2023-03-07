@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
@@ -7,7 +7,10 @@ import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
 import BackButton from "@/Components/BackButton";
 
-export default function IndexCommand({auth, command, outputs}) {
+export default function IndexCommand({auth}) {
+
+    const command = usePage().props.command;
+    const outputs = usePage().props.outputs;
 
     return (
         <AuthenticatedLayout

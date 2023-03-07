@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
@@ -8,11 +8,12 @@ import CreatedAtText from "@/Components/CreatedAtText";
 import UpdatedAtText from "@/Components/UpdatedAtText";
 import BackButton from "@/Components/BackButton";
 
-export default function Show({auth, resource, alert_type, alert_message}) {
+export default function Show({auth}) {
+
+    const alert = usePage().props.alert;
+    const resource = usePage().props.resource;
 
     const [showModal, setShowModal] = useState(false);
-
-    const [hasAlert, setHasAlert] = React.useState(true);
 
     const deleteItem = () => {
         const requestOptions = {
@@ -40,8 +41,7 @@ export default function Show({auth, resource, alert_type, alert_message}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('ip.index',)}>Back to IPs</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between">

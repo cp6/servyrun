@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -8,7 +8,10 @@ import React from "react";
 import BackButton from "@/Components/BackButton";
 import UpdateButton from "@/Components/UpdateButton";
 
-export default function Edit({auth, connections, resource}) {
+export default function Edit({auth}) {
+
+    const connections = usePage().props.connections;
+    const resource = usePage().props.resource;
 
     const {data, setData, patch, processing, errors} = useForm({
         connection1_id: (typeof resource.assigned[0] !== 'undefined') ? resource.assigned[0].connection_id : null,

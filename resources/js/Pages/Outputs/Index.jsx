@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
@@ -9,7 +9,9 @@ import {HiUserGroup} from "react-icons/hi";
 import IndigoButton from "@/Components/IndigoButton";
 import BackButton from "@/Components/BackButton";
 
-export default function Index({auth, outputs}) {
+export default function Index({auth}) {
+
+    const outputs = usePage().props.outputs;
 
     return (
         <AuthenticatedLayout

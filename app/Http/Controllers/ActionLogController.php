@@ -12,9 +12,7 @@ class ActionLogController extends Controller
     {
         return Inertia::render('ActionLogs/Index', [
             'logs' => ActionLog::with(['server'])->orderBy('created_at', 'desc')->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -32,9 +30,9 @@ class ActionLogController extends Controller
 
         try {
             $logs = ActionLog::where('user_id', \Auth::id())->delete();
-            return redirect(route('log.index'))->with(['alert_type' => 'success', 'alert_message' => "Deleted $logs logs"]);
+            return redirect(route('log.index'))->with(['alert' => ['type' => 'success', 'message' => "Deleted $logs logs"]]);
         } catch (\Exception $exception) {
-            return redirect(route('log.index'))->with(['alert_type' => 'failure', 'alert_message' => "Failed to delete all logs: {$exception->getMessage()}"]);
+            return redirect(route('log.index'))->with(['alert' => ['type' => 'failure', 'message' => "Failed to delete all logs: {$exception->getMessage()}"]]);
         }
 
     }

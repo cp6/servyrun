@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import React, {useEffect} from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -20,13 +20,16 @@ import UpdateButton from "@/Components/UpdateButton";
 import BackButton from "@/Components/BackButton";
 
 
-export default function Read({auth, resource, ip, alert_type, alert_message}) {
+export default function Read({auth}) {
+
+    const resource = usePage().props.resource;
+    const ip = usePage().props.ip;
+    const alert = usePage().props.alert;
 
     const {data, setData, post, processing, reset, errors} = useForm({
         file: ''
     });
 
-    const [hasAlert, setHasAlert] = React.useState(true);
 
     const [codeContent, setCodeContent] = React.useState(null);
 
@@ -130,8 +133,7 @@ export default function Read({auth, resource, ip, alert_type, alert_message}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.show', resource.id)}>Back to SFTP connection</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <h1 className='text-2xl font-bold text-gray-800 dark:text-white pl-4 pt-2'>Read a file</h1>
                     <div className="py-4 px-4 mx-auto max-w-7xl">

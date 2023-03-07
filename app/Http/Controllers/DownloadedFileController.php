@@ -17,9 +17,7 @@ class DownloadedFileController extends Controller
     {
         return Inertia::render('Downloaded/Index', [
             'downloads' => DownloadedFile::with(['conn'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -27,9 +25,7 @@ class DownloadedFileController extends Controller
     {
         return Inertia::render('Downloaded/Show', [
             'resource' => DownloadedFile::where('id', $downloadedFile->id)->with(['conn', 'conn.server'])->first(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -45,9 +41,7 @@ class DownloadedFileController extends Controller
         return Inertia::render('Downloaded/Upload', [
             'resource' => DownloadedFile::where('id', $downloadedFile->id)->with(['conn', 'conn.server'])->first(),
             'connections' => SftpConnection::with(['server'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -61,7 +55,7 @@ class DownloadedFileController extends Controller
         $user_dl_dir = Auth::user()->download_directory;
 
         if (!Storage::disk('private')->exists("downloads/{$user_dl_dir}/$downloadedFile->saved_as")) {
-            return redirect(route('downloaded.show', $downloadedFile))->with(['alert_type' => 'failure', 'alert_message' => "File {$downloadedFile->saved_as} does not exist"]);
+            return redirect(route('downloaded.show', $downloadedFile))->with(['alert' => ['type' => 'failure', 'message' => "File {$downloadedFile->saved_as} does not exist"]]);
         }
 
         $file = Storage::disk('private')->get("downloads/{$user_dl_dir}/$downloadedFile->saved_as");
@@ -72,14 +66,14 @@ class DownloadedFileController extends Controller
         $sftp = SftpConnection::do($sftpConnection);
 
         if (is_null($sftp)) {
-            return redirect(route('downloaded.show', $downloadedFile))->with(['alert_type' => 'failure', 'alert_message' => 'Could not connect']);
+            return redirect(route('downloaded.show', $downloadedFile))->with(['alert' => ['type' => 'failure', 'message' => 'Could not connect']]);
         }
 
         $start_timer = time();
 
         $upload_file = $sftp->put($request->save_as, $file, SFTP::SOURCE_STRING, -1, -1, function ($sent) use ($file_size) {
             $progress = round(($sent / $file_size) * 100);
-            Storage::disk('private')->put("progress/".\Auth::id()."/upload.json", json_encode(['progress' => $progress]));
+            Storage::disk('private')->put("progress/" . \Auth::id() . "/upload.json", json_encode(['progress' => $progress]));
         });
 
         $end_timer = time() - $start_timer;
@@ -87,16 +81,16 @@ class DownloadedFileController extends Controller
 
         if ($upload_file) {
             ActionLog::make(1, 'upload', 'sftp', "Uploaded {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as} (" . number_format($upload_speed_mbps, 2) . " Mbps {$end_timer}s)", $sftpConnection->server->id);
-            return redirect(route('downloaded.show', $downloadedFile))->with(['alert_type' => 'success', 'alert_message' => "Uploaded {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as} (" . number_format($upload_speed_mbps, 2) . "Mbps {$end_timer}s)"]);
+            return redirect(route('downloaded.show', $downloadedFile))->with(['alert' => ['type' => 'success', 'message' => "Uploaded {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as} (" . number_format($upload_speed_mbps, 2) . "Mbps {$end_timer}s)"]]);
         }
 
         ActionLog::make(5, 'upload', 'sftp', "Failed uploading {$downloadedFile->saved_as} to {$sftpConnection->server->hostname} as {$request->save_as}", $sftpConnection->server->id);
-        return redirect(route('downloaded.show', $downloadedFile))->with(['alert_type' => 'failure', 'alert_message' => "Upload failed for {$downloadedFile->saved_as} to {$sftpConnection->server->hostname}"]);
+        return redirect(route('downloaded.show', $downloadedFile))->with(['alert' => ['type' => 'failure', 'message' => "Upload failed for {$downloadedFile->saved_as} to {$sftpConnection->server->hostname}"]]);
     }
 
     public function uploadProgress(DownloadedFile $downloadedFile): \Illuminate\Http\JsonResponse
     {
-        $file = json_decode(Storage::disk('private')->get("progress/".\Auth::id()."/upload.json"));
+        $file = json_decode(Storage::disk('private')->get("progress/" . \Auth::id() . "/upload.json"));
         return response()->json($file)->header('Content-Type', 'application/json');
     }
 
@@ -108,14 +102,14 @@ class DownloadedFileController extends Controller
             $downloadedFile->delete();
 
         } catch (\Exception $exception) {
-            return redirect(route('downloaded.show', $downloadedFile))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting ' . $file_name . ' : ' . $exception->getMessage()]);
+            return redirect(route('downloaded.show', $downloadedFile))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting ' . $file_name . ' : ' . $exception->getMessage()]]);
         }
 
         $user_dl_dir = Auth::user()->download_directory;
 
         Storage::disk('private')->delete("downloads/{$user_dl_dir}/$downloadedFile->saved_as");
 
-        return redirect(route('downloaded.index'))->with(['alert_type' => 'success', 'alert_message' => $file_name . ' was deleted successfully']);
+        return redirect(route('downloaded.index'))->with(['alert' => ['type' => 'success', 'alert_message' => $file_name . ' was deleted successfully']]);
     }
 
 }

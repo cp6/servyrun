@@ -7,14 +7,18 @@ import {HiRefresh, HiCalculator, HiTrash} from "react-icons/hi";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
 
-export default function Show({auth, resource, tables, alert_type, alert_message}) {
+export default function Show({auth}) {
+
+    const alert = usePage().props.alert;
+    const resource = usePage().props.resource;
+    const tables = usePage().props.tables;
     const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
 
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
 
     const deleteItem = () => {
         const requestOptions = {
@@ -74,12 +78,13 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('db.show', resource.id)}>Back to Database</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between">
-                            <div><h2 className="mt-1 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name} ({resource.conn.host})</h2></div>
+                            <div><h2
+                                className="mt-1 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.name} ({resource.conn.host})</h2>
+                            </div>
                             <small className="text-end">
                                 <HiTrash
                                     className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
@@ -104,19 +109,20 @@ export default function Show({auth, resource, tables, alert_type, alert_message}
                                         {
                                             (table.row_count !== null) ?
                                                 <span
-                                                    className="ml-1 bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(table.row_count)} rows</span>
+                                                    className="ml-1 bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(table.row_count)} rows</span>
                                                 : null
                                         }
                                         {
                                             (table.size_mb !== null) ?
                                                 <span
-                                                    className="ml-1 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(table.size_mb)} MB</span>
+                                                    className="ml-1 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(table.size_mb)} MB</span>
                                                 : null
                                         }
                                     </li>)}
                             </ul>
                             :
-                            <p className={'text-md my-1 font-semibold text-gray-600 md:text-lg dark:text-gray-300'}>There are no tables. Perhaps your connection is not correct</p>
+                            <p className={'text-md my-1 font-semibold text-gray-600 md:text-lg dark:text-gray-300'}>There
+                                are no tables. Perhaps your connection is not correct</p>
                         }
                     </div>
                 </section>

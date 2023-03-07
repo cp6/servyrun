@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -13,11 +13,15 @@ import TealButton from "@/Components/TealButton";
 import {HiRefresh} from "react-icons/hi";
 import axios from "axios";
 
-export default function Edit({auth, servers, resource, alert_type, alert_message}) {
+export default function Edit({auth}) {
+
+    const alert = usePage().props.alert;
+    const servers = usePage().props.servers;
+    const resource = usePage().props.resource;
 
     const [showModal, setShowModal] = useState(false);
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
 
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
@@ -83,8 +87,7 @@ export default function Edit({auth, servers, resource, alert_type, alert_message
                         GEO IP</TealButton>
                     <DeleteButton onClick={() => setShowModal(true)}>Delete IP</DeleteButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                     <form onSubmit={submit}>
                         <div className="grid gap-2 sm:grid-cols-2 sm:gap-4">

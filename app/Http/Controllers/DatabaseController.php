@@ -17,9 +17,7 @@ class DatabaseController extends Controller
     {
         return Inertia::render('Databases/Index', [
             'databases' => Database::with(['conn'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -27,9 +25,7 @@ class DatabaseController extends Controller
     {
         return Inertia::render('Databases/Create', [
             'connections' => DatabaseConnection::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -48,10 +44,10 @@ class DatabaseController extends Controller
             $database->save();
         } catch (\Exception $exception) {
 
-            return redirect(route('db.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Database could not be created error ' . $exception->getMessage()]);
+            return redirect(route('db.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Database could not be created error ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('db.show', $database))->with(['alert_type' => 'success', 'alert_message' => 'Database created successfully']);
+        return redirect(route('db.show', $database))->with(['alert' => ['type' => 'success', 'message' => 'Database created successfully']]);
     }
 
     public function show(Database $database): \Inertia\Response
@@ -60,9 +56,7 @@ class DatabaseController extends Controller
 
         return Inertia::render('Databases/Show', [
             'resource' => $database->where('id', $database->id)->with(['conn'])->firstOrFail(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -84,11 +78,11 @@ class DatabaseController extends Controller
 
         try {
             $database->delete();
-        } catch (\Exception $exception){
-            return redirect(route('db.show', $database))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('db.show', $database))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('db.index'))->with(['alert_type' => 'success', 'alert_message' => 'Database deleted successfully']);
+        return redirect(route('db.index'))->with(['alert' => ['type' => 'success', 'message' => 'Database deleted successfully']]);
     }
 
     public function getTables(Database $database): \Illuminate\Http\JsonResponse
@@ -137,9 +131,7 @@ class DatabaseController extends Controller
         return Inertia::render('DatabaseTables/Show', [
             'resource' => $database->where('id', $database->id)->with(['conn'])->firstOrFail(),
             'tables' => $tables,
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 

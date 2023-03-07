@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -10,7 +10,10 @@ import ResponseAlert from "@/Components/Alert";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
 
-export default function Create({auth, connections, alert_type, alert_message}) {
+export default function Create({auth}) {
+
+    const alert = usePage().props.alert;
+    const connections = usePage().props.connections;
 
     const [database, setDatabase] = React.useState('');
 
@@ -20,7 +23,7 @@ export default function Create({auth, connections, alert_type, alert_message}) {
         name_select: database
     });
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
 
     const [dbNames, setDbNames] = React.useState([]);
 
@@ -62,8 +65,7 @@ export default function Create({auth, connections, alert_type, alert_message}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('db.index')}>Back to databases</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6">
 
                     {connections.length === 0 ?

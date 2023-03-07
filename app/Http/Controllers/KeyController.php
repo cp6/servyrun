@@ -15,25 +15,21 @@ class KeyController extends Controller
     {
         return Inertia::render('Keys/Index', [
             'keys' => Key::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
     public function create(): \Inertia\Response
     {
         return Inertia::render('Keys/Create', [
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
     public function store(Request $request)
     {
         if ($request->file('key_file') === null) {
-            return redirect(route('key.create'))->with(['alert_type' => 'failure', 'alert_message' => 'No key file uploaded']);
+            return redirect(route('key.create'))->with(['alert' => ['type' => 'failure', 'message' => 'No key file uploaded']]);
         }
 
         $request->validate([
@@ -43,7 +39,7 @@ class KeyController extends Controller
         $file = $request->file('key_file');
 
         if ($file->getSize() > 20000) {
-            return redirect(route('key.create'))->with(['alert_type' => 'failure', 'alert_message' => 'File too large must be under 20KB']);
+            return redirect(route('key.create'))->with(['alert' => ['type' => 'failure', 'message' => 'File too large must be under 20KB']]);
         }
 
         $file_id_long = Str::random(32);
@@ -63,10 +59,10 @@ class KeyController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('key.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Key could not be created error ' . $exception->getCode()]);
+            return redirect(route('key.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Key could not be created error ' . $exception->getCode()]]);
         }
 
-        return redirect(route('key.index'))->with(['alert_type' => 'success', 'alert_message' => 'Key uploaded and created']);
+        return redirect(route('key.index'))->with(['alert' => ['type' => 'success', 'message' => 'Key uploaded and created']]);
     }
 
     public function show(Key $key): \Inertia\Response
@@ -75,9 +71,7 @@ class KeyController extends Controller
 
         return Inertia::render('Keys/Show', [
             'resource' => Key::where('id', $key->id)->with(['conn', 'conn.server'])->firstOrFail(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -97,11 +91,11 @@ class KeyController extends Controller
 
             Storage::disk('private')->delete("keys/$key->saved_as");
 
-        } catch (\Exception $exception){
-            return redirect(route('key.show', $key))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('key.show', $key))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('key.index'))->with(['alert_type' => 'success', 'alert_message' => 'Key deleted successfully']);
+        return redirect(route('key.index'))->with(['alert' => ['type' => 'success', 'message' => 'Key deleted successfully']]);
     }
 
 

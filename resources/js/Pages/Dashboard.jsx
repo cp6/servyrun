@@ -6,20 +6,18 @@ import React from "react";
 import {format} from "date-fns";
 import YouAreNew from "@/Components/YouAreNew";
 
-export default function Dashboard({
-                                      auth,
-                                      serversCount,
-                                      IpCount,
-                                      ConnectionCount,
-                                      KeyCount,
-                                      DbCount,
-                                      PingsCount,
-                                      CommandCount,
-                                      OutputCount,
-                                      RecentActions
-                                  }) {
+export default function Dashboard({auth}) {
 
     const user = usePage().props.auth.user;
+    const serversCount = usePage().props.serversCount;
+    const IpCount = usePage().props.IpCount;
+    const ConnectionCount = usePage().props.ConnectionCount;
+    const KeyCount = usePage().props.KeyCount;
+    const DbCount = usePage().props.DbCount;
+    const PingsCount = usePage().props.PingsCount;
+    const CommandCount = usePage().props.CommandCount;
+    const OutputCount = usePage().props.OutputCount;
+    const RecentActions = usePage().props.RecentActions;
 
     return (
         <AuthenticatedLayout
@@ -31,7 +29,7 @@ export default function Dashboard({
 
             {serversCount > 0 ?
                 <>
-                        <div className="mt-6 px-2 mx-auto max-w-7xl">
+                    <div className="mt-6 px-2 mx-auto max-w-7xl">
                         <div className='grid grid-cols-3 sm:grid-cols-8 gap-3'>
                             <StatCard text='Servers' value={serversCount} route={route('server.index')}></StatCard>
                             <StatCard text='Connections' value={ConnectionCount}
@@ -45,7 +43,7 @@ export default function Dashboard({
                         </div>
                     </div>
                     <div className="mt-4">
-                            <div className="py-4 px-2 mx-auto max-w-7xl">
+                        <div className="py-4 px-2 mx-auto max-w-7xl">
                             <div className="bg-white dark:bg-gray-700 overflow-hidden rounded-lg shadow-md">
                                 <div className="p-6 text-gray-900 font-bold dark:text-gray-300">Recent actions</div>
                                 <Table className='px-4'>

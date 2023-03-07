@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import React, {useEffect, useState} from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -12,7 +12,10 @@ import TealButton from "@/Components/TealButton";
 import ProgressBar from "@/Components/ProgressBar";
 import axios from "axios";
 
-export default function CreateDownload({auth, resource, alert_type, alert_message}) {
+export default function CreateDownload({auth}) {
+
+    const resource = usePage().props.resource;
+    const alert = usePage().props.alert;
 
     const {data, setData, post, processing, reset, errors} = useForm({
         filepath: '',
@@ -22,7 +25,7 @@ export default function CreateDownload({auth, resource, alert_type, alert_messag
     const [downloading, setDownloading] = useState(false);
     const [downloadProgress, setDownloadProgress] = useState(null);
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
 
     async function getDownloadProgressValue(resource) {
         const result = await axios.get(route('sftp.download-to-server.progress', resource.id));
@@ -72,8 +75,7 @@ export default function CreateDownload({auth, resource, alert_type, alert_messag
                     <TealButton href={route('downloaded.index')}><HiFolderOpen className="mr-2 h-5 w-5"/>Downloaded
                         files</TealButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <div className="py-6 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between mb-4">

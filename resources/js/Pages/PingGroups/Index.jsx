@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
@@ -7,9 +7,11 @@ import ResourceEmptyText from "@/Components/ResourceEmptyText";
 import AddButton from "@/Components/AddButton";
 import BackButton from "@/Components/BackButton";
 
-export default function Index({auth, mustVerifyEmail, groups, alert_type, alert_message}) {
+export default function Index({auth}) {
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
+    const groups = usePage().props.groups;
+
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -21,8 +23,7 @@ export default function Index({auth, mustVerifyEmail, groups, alert_type, alert_
                     <BackButton href={route('ping.index')}>All pings</BackButton>
                     <AddButton href={route('ping-group.create')}>Create ping group</AddButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
 
                     {(groups.length > 0)?

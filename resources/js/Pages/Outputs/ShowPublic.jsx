@@ -1,10 +1,13 @@
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import {Card} from "flowbite-react";
 import Output from "@/Components/Output";
 import GuestLayout from '@/Layouts/GuestLayout';
 
-export default function ShowPublic({resource}) {
+export default function ShowPublic() {
+
+    const resource = usePage().props.resource;
+
     return (
         <GuestLayout children={''} wide={true}>
             <Head title={"Command " + resource.id}/>

@@ -15,7 +15,6 @@ class DatabaseTableController extends Controller
         abort(404);
     }
 
-
     public function create()
     {
         abort(404);
@@ -50,11 +49,11 @@ class DatabaseTableController extends Controller
 
         try {
             $databaseTable->delete();
-        } catch (\Exception $exception){
-            return redirect(route('db.show', $databaseTable))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('db.show', $databaseTable))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('db.index'))->with(['alert_type' => 'success', 'alert_message' => 'Table deleted successfully']);
+        return redirect(route('db.index'))->with(['alert' => ['type' => 'success', 'message' => 'Table deleted successfully']]);
     }
 
     public function getColumns(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse

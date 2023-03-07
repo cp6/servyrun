@@ -10,7 +10,11 @@ import ResponseAlert from "@/Components/Alert";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
 
-export default function Create({auth, servers, connections, keys, alert_type, alert_message}) {
+export default function Create({auth}) {
+
+    const servers = usePage().props.servers;
+    const connections = usePage().props.connections;
+    const keys = usePage().props.keys;
 
     const {data, setData, post, processing, reset, errors} = useForm({
         server_id: '',
@@ -22,8 +26,7 @@ export default function Create({auth, servers, connections, keys, alert_type, al
     });
 
     const user = usePage().props.auth.user;
-
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
 
     const [inputsDisabled, setInputsDisabled] = React.useState(false);
 
@@ -70,8 +73,7 @@ export default function Create({auth, servers, connections, keys, alert_type, al
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.index')}>Back to SFTP connections</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                     <form onSubmit={submit}>
                         <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">

@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -9,9 +9,15 @@ import BackButton from "@/Components/BackButton";
 import ResponseAlert from "@/Components/Alert";
 import UpdateButton from "@/Components/UpdateButton";
 
-export default function Edit({auth, connections, resource, commands, alert_type, alert_message}) {
+export default function Edit({auth}) {
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
+    const commands = usePage().props.commands;
+    const resource = usePage().props.resource;
+    const connections = usePage().props.connections;
+
+
+
 
     const {data, setData, patch, processing, errors} = useForm({
         connection1_id: (typeof resource.assigned[0] !== 'undefined') ? resource.assigned[0].connection_id : null,
@@ -49,8 +55,7 @@ export default function Edit({auth, connections, resource, commands, alert_type,
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('command-group.show', resource.id)}>Back to command group</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                 <form onSubmit={submit}>
                     <div className="grid gap-2 grid-cols-1 sm:grid-cols-6">

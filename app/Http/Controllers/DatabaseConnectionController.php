@@ -15,9 +15,7 @@ class DatabaseConnectionController extends Controller
     {
         return Inertia::render('DatabaseConnections/Index', [
             'connections' => DatabaseConnection::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -26,9 +24,7 @@ class DatabaseConnectionController extends Controller
         return Inertia::render('DatabaseConnections/Create', [
             'servers' => Server::get(),
             'title' => fake()->colorName() . '-' . fake()->numberBetween(1, 999),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -55,10 +51,10 @@ class DatabaseConnectionController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('db.connection.create'))->with(['alert_type' => 'failure', 'alert_message' => 'DB connection could not be created error ' . $exception->getMessage()]);
+            return redirect(route('db.connection.create'))->with(['alert' => ['type' => 'failure', 'message' => 'DB connection could not be created error ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('db.connection.show', $db_connection))->with(['alert_type' => 'success', 'alert_message' => 'DB connection created successfully']);
+        return redirect(route('db.connection.show', $db_connection))->with(['alert' => ['type' => 'success', 'message' => 'DB connection created successfully']]);
 
     }
 
@@ -68,9 +64,7 @@ class DatabaseConnectionController extends Controller
 
         return Inertia::render('DatabaseConnections/Show', [
             'resource' => $databaseConnection,
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -80,9 +74,7 @@ class DatabaseConnectionController extends Controller
 
         return Inertia::render('DatabaseConnections/Edit', [
             'resource' => $databaseConnection,
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -171,7 +163,7 @@ class DatabaseConnectionController extends Controller
 
             $privileges = $databaseConnection->getPrivileges($connection_type, $databaseConnection->username);
 
-            if (!$privileges){
+            if (!$privileges) {
                 return response()->json(['privileges' => null], 200)->header('Content-Type', 'application/json');
             }
 
@@ -204,10 +196,10 @@ class DatabaseConnectionController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('db.connection.create'))->with(['alert_type' => 'failure', 'alert_message' => 'DB connection could not be updated error ' . $exception->getMessage()]);
+            return redirect(route('db.connection.create'))->with(['alert' => ['type' => 'failure', 'message' => 'DB connection could not be updated error ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('db.connection.show', $databaseConnection))->with(['alert_type' => 'success', 'alert_message' => 'DB connection updated successfully']);
+        return redirect(route('db.connection.show', $databaseConnection))->with(['alert' => ['type' => 'success', 'alert_message' => 'DB connection updated successfully']]);
     }
 
     public function destroy(DatabaseConnection $databaseConnection)
@@ -216,11 +208,11 @@ class DatabaseConnectionController extends Controller
 
         try {
             $databaseConnection->delete();
-        } catch (\Exception $exception){
-            return redirect(route('db.connection.show', $databaseConnection))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('db.connection.show', $databaseConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('db.connection.index'))->with(['alert_type' => 'success', 'alert_message' => 'Database connection deleted successfully']);
+        return redirect(route('db.connection.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'Database connection deleted successfully']]);
     }
 
 }

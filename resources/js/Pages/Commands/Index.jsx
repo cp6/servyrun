@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import ResponseAlert from "@/Components/Alert";
 import {Grid} from "gridjs-react";
@@ -10,9 +10,10 @@ import {format} from "date-fns";
 import AddButton from "@/Components/AddButton";
 import {HiListBullet} from "react-icons/all";
 
-export default function Index({auth, commands, alert_type, alert_message}) {
+export default function Index({auth}) {
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
+    const commands = usePage().props.commands;
 
     return (
         <AuthenticatedLayout
@@ -24,8 +25,7 @@ export default function Index({auth, commands, alert_type, alert_message}) {
                     <div className="flex flex-wrap gap-2 mb-4">
                         <AddButton href={route('command.create')}>Add command</AddButton>
                     </div>
-                    <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                                   alert_message={alert_message}></ResponseAlert>
+                    <ResponseAlert details={alert}></ResponseAlert>
                     <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                         <div className="flex items-center justify-between mb-2 px-3">
                             <div></div>

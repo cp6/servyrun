@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -9,8 +9,10 @@ import DangerButton from "@/Components/DangerButton";
 import UpdateButton from "@/Components/UpdateButton";
 import BackButton from "@/Components/BackButton";
 
-export default function Edit({auth, servers, resource}) {
+export default function Edit({auth}) {
 
+    const servers = usePage().props.servers;
+    const resource = usePage().props.resource;
 
     const [showModal, setShowModal] = useState(false);
 

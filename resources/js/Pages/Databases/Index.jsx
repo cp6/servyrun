@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import {HiDownload, HiLockOpen} from "react-icons/hi";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
@@ -8,9 +8,10 @@ import AddButton from "@/Components/AddButton";
 import TealButton from "@/Components/TealButton";
 import IndigoButton from "@/Components/IndigoButton";
 
-export default function Index({auth, databases, alert_type, alert_message}) {
+export default function Index({auth}) {
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
+    const databases = usePage().props.databases;
 
     return (
         <AuthenticatedLayout
@@ -26,8 +27,7 @@ export default function Index({auth, databases, alert_type, alert_message}) {
                     <IndigoButton href={route('mysqldump.index')}><HiDownload
                         className="mr-2 h-5 w-5"/> MySQLdump</IndigoButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
                     {databases.length > 0 ?
                         databases.map(db =>

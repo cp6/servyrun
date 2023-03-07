@@ -14,9 +14,7 @@ class IpAddressController extends Controller
     {
         return Inertia::render('IPs/Index', [
             'ips' => IpAddress::with(['server'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -24,9 +22,7 @@ class IpAddressController extends Controller
     {
         return Inertia::render('IPs/Create', [
             'servers' => Server::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -49,12 +45,12 @@ class IpAddressController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('ip.create'))->with(['alert_type' => 'failure', 'alert_message' => 'IP could not be created error ' . $exception->getCode()]);
+            return redirect(route('ip.create'))->with(['alert' => ['type' => 'failure', 'message' => 'IP could not be created error ' . $exception->getCode()]]);
         }
 
         IpAddress::fetchUpdateIpDetails($ip_address);//Get IP ASN and GEO data etc
 
-        return redirect(route('ip.show', $ip_address))->with(['alert_type' => 'success', 'alert_message' => 'IP address created successfully']);
+        return redirect(route('ip.show', $ip_address))->with(['alert' => ['type' => 'success', 'message' => 'IP address created successfully']]);
     }
 
     public function edit(IpAddress $ipAddress): \Inertia\Response
@@ -62,9 +58,7 @@ class IpAddressController extends Controller
         return Inertia::render('IPs/Edit', [
             'resource' => IpAddress::where('id', $ipAddress->id)->with(['server'])->firstOrFail(),
             'servers' => Server::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -96,7 +90,7 @@ class IpAddressController extends Controller
             'continent' => $request->continent ?? null
         ]);
 
-        return redirect(route('ip.show', $ipAddress))->with(['alert_type' => 'success', 'alert_message' => 'IP address updated successfully']);
+        return redirect(route('ip.show', $ipAddress))->with(['alert' => ['type' => 'success', 'message' => 'IP address updated successfully']]);
     }
 
     public function show(IpAddress $ipAddress): \Inertia\Response
@@ -105,9 +99,7 @@ class IpAddressController extends Controller
 
         return Inertia::render('IPs/Show', [
             'resource' => IpAddress::where('id', $ipAddress->id)->with(['server'])->firstOrFail(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -117,11 +109,11 @@ class IpAddressController extends Controller
 
         try {
             $ipAddress->delete();
-        } catch (\Exception $exception){
-            return redirect(route('ip.show', $ipAddress))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: '.$exception->getMessage()]);
+        } catch (\Exception $exception) {
+            return redirect(route('ip.show', $ipAddress))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('ip.index'))->with(['alert_type' => 'success', 'alert_message' => 'IP address deleted successfully']);
+        return redirect(route('ip.index'))->with(['alert' => ['type' => 'success', 'message' => 'IP address deleted successfully']]);
     }
 
     public function geoIpUpdate(IpAddress $ipAddress): \Illuminate\Http\JsonResponse

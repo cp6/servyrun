@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React, {useState} from "react";
 import {Grid} from 'gridjs-react';
 import {format} from "date-fns";
@@ -10,11 +10,14 @@ import {Button, Modal} from "flowbite-react";
 import {HiTrash} from "react-icons/hi";
 import ResponseAlert from "@/Components/Alert";
 
-export default function Index({auth, logs, alert_type, alert_message}) {
+export default function Index({auth}) {
+
+    const alert = usePage().props.alert;
+    const logs = usePage().props.logs;
 
     const [showModal, setShowModal] = useState(false);
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
     const deleteItem = () => {
 
         const requestOptions = {
@@ -39,8 +42,7 @@ export default function Index({auth, logs, alert_type, alert_message}) {
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'Action logs'}</h2>}>
             <Head title={'Action logs'}/>
             <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                     <div className="flex items-center justify-between mb-4">
                         <div></div>

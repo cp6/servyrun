@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -9,9 +9,10 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import BackButton from "@/Components/BackButton";
 import ResponseAlert from "@/Components/Alert";
 
-export default function Create({auth, connections, alert_type, alert_message}) {
+export default function Create({auth}) {
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
+    const connections = usePage().props.connections;
 
     const {data, setData, post, processing, reset, errors} = useForm({
         connection1_id: null,
@@ -43,8 +44,7 @@ export default function Create({auth, connections, alert_type, alert_message}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('ping-group.index')}>Back to ping groups</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                     <form onSubmit={submit}>
                         <div className="grid gap-2 grid-cols-1 sm:grid-cols-6">

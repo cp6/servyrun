@@ -1,12 +1,15 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import {Grid} from "gridjs-react";
 import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
 
-export default function IndexServer({auth, server, outputs}) {
+export default function IndexServer({auth}) {
+
+    const outputs = usePage().props.outputs;
+    const server = usePage().props.server;
 
     return (
         <AuthenticatedLayout

@@ -1,11 +1,13 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/inertia-react';
+import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import {Card} from "flowbite-react";
 import Output from "@/Components/Output";
 import {HiServer} from "react-icons/hi";
 
-export default function Show({auth, resource}) {
+export default function Show({auth}) {
+
+    const resource = usePage().props.resource;
 
     return (
         <AuthenticatedLayout

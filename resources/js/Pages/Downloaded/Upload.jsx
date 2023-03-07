@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -11,7 +11,11 @@ import BackButton from "@/Components/BackButton";
 import axios from "axios";
 import ProgressBar from "@/Components/ProgressBar";
 
-export default function Upload({auth, resource, connections, alert_type, alert_message}) {
+export default function Upload({auth}) {
+
+    const alert = usePage().props.alert;
+    const resource = usePage().props.resource;
+    const connections = usePage().props.connections;
 
     const {data, setData, post, processing, reset, errors} = useForm({
         connection_id: '',
@@ -21,7 +25,7 @@ export default function Upload({auth, resource, connections, alert_type, alert_m
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(null);
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
 
     async function getUploadProgressValue(resource) {
         const result = await axios.get(route('downloaded.upload.progress', resource.id));
@@ -69,8 +73,7 @@ export default function Upload({auth, resource, connections, alert_type, alert_m
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('downloaded.index')}>Back to downloaded files</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6">
                     <form onSubmit={submit}>
                         <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-6 sm:gap-4">

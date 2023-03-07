@@ -19,9 +19,7 @@ class ConnectionController extends Controller
     {
         return Inertia::render('Connections/Index', [
             'connections' => Connection::with(['server'])->get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -30,9 +28,7 @@ class ConnectionController extends Controller
         return Inertia::render('Connections/Create', [
             'servers' => Server::get(),
             'keys' => Key::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
     }
 
@@ -68,10 +64,10 @@ class ConnectionController extends Controller
             $connection->save();
         } catch (\Exception $exception) {
 
-            return redirect(route('connection.create'))->with(['alert_type' => 'failure', 'alert_message' => 'Connection could not be created error ' . $exception->getMessage()]);
+            return redirect(route('connection.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Connection could not be created error ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('connection.show', $connection))->with(['alert_type' => 'success', 'alert_message' => 'Connection created successfully']);
+        return redirect(route('connection.show', $connection))->with(['alert' => ['type' => 'success', 'message' => 'Connection created successfully']]);
     }
 
     public function show(Connection $connection): \Inertia\Response
@@ -97,9 +93,7 @@ class ConnectionController extends Controller
             'method' => $method,
             'commands' => Command::get(),
             'keys' => Key::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
 
     }
@@ -145,9 +139,7 @@ class ConnectionController extends Controller
             'commands' => Command::get(),
             'servers' => Server::get(),
             'keys' => Key::get(),
-            'hasAlert' => \Session::exists('alert_type'),
-            'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'alert' => \Session::get('alert')
         ]);
 
     }
@@ -170,7 +162,7 @@ class ConnectionController extends Controller
             'password' => ($request->password) ? Crypt::encryptString($request->password) : null
         ]);
 
-        return redirect(route('connection.show', $connection))->with(['alert_type' => 'success', 'alert_message' => 'Connection updated successfully']);
+        return redirect(route('connection.show', $connection))->with(['alert' => ['type' => 'success', 'message' => 'Connection updated successfully']]);
     }
 
     public function run(Request $request, Connection $connection)
@@ -229,7 +221,7 @@ class ConnectionController extends Controller
 
         if ($request['email']) {//Send output email
 
-           Mail::to(\Auth::user()->email)->send(new \App\Mail\CommandOutput($command_output));
+            Mail::to(\Auth::user()->email)->send(new \App\Mail\CommandOutput($command_output));
 
         }
 
@@ -246,10 +238,10 @@ class ConnectionController extends Controller
         try {
             $connection->delete();
         } catch (\Exception $exception) {
-            return redirect(route('connection.show', $connection))->with(['alert_type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]);
+            return redirect(route('connection.show', $connection))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('connection.index'))->with(['alert_type' => 'success', 'alert_message' => 'Connection deleted successfully']);
+        return redirect(route('connection.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'Connection deleted successfully']]);
     }
 
     public function serverId(Connection $connection): \Illuminate\Http\JsonResponse

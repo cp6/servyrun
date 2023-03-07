@@ -5,13 +5,19 @@ import ResponseAlert from "@/Components/Alert";
 import {HiDownload, HiRefresh, HiTrash} from "react-icons/hi";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
-import {Dropdown} from "flowbite-react";
-export default function Show({auth, resource, database, table, columns, alert_type, alert_message}) {
+export default function Show({auth}) {
+
+    const alert = usePage().props.alert;
+    const resource = usePage().props.resource;
+    const database = usePage().props.database;
+    const table = usePage().props.table;
+    const columns = usePage().props.columns;
+
     const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
 
     const refreshColumns = () => {
 
@@ -37,8 +43,7 @@ export default function Show({auth, resource, database, table, columns, alert_ty
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('db.show.tables', database.id)}>Back to database tables</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between">

@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -10,7 +10,10 @@ import ResponseAlert from "@/Components/Alert";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
 
-export default function Create({auth, servers, alert_type, alert_message}) {
+export default function Create({auth}) {
+
+    const alert = usePage().props.alert;
+    const servers = usePage().props.servers;
 
     const {data, setData, post, processing, reset, errors} = useForm({
         connection_id: '',
@@ -26,7 +29,7 @@ export default function Create({auth, servers, alert_type, alert_message}) {
         these_tables: ''
     });
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+
 
     const [connections, setConnections] = React.useState([]);
 
@@ -101,8 +104,7 @@ export default function Create({auth, servers, alert_type, alert_message}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('mysqldump.index')}>Back to MySQL dumps</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6">
                     <form onSubmit={submit}>
                         <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-6 sm:gap-4">

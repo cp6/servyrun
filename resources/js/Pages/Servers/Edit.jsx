@@ -9,9 +9,14 @@ import UpdateButton from "@/Components/UpdateButton";
 import ResponseAlert from "@/Components/Alert";
 import BackButton from "@/Components/BackButton";
 
-export default function Edit({auth, types, locations, resource, alert_type, alert_message}) {
+export default function Edit({auth}) {
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
+    const resource = usePage().props.resource;
+    const types = usePage().props.types;
+    const locations = usePage().props.locations;
+
+
 
     const {data, setData, patch, processing, errors} = useForm({
         title: resource.title,
@@ -49,8 +54,7 @@ export default function Edit({auth, types, locations, resource, alert_type, aler
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('server.show', resource.id)}>Back to server</BackButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6">
                     <form onSubmit={submit}>
                         <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-6 sm:gap-4">

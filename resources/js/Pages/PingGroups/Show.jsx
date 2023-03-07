@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import React, {useState} from "react";
 import {Button, Modal} from "flowbite-react";
 import {Grid} from "gridjs-react";
@@ -9,7 +9,11 @@ import {format} from "date-fns";
 import {HiPencil, HiPlay, HiTrash} from "react-icons/hi";
 import BackButton from "@/Components/BackButton";
 
-export default function Show({auth, pingGroup, pings, hasAlert, alert_type, alert_message}) {
+export default function Show({auth}) {
+
+    const alert = usePage().props.alert;
+    const pingGroup = usePage().props.pingGroup;
+    const pings = usePage().props.pings;
 
     const [showModal, setShowModal] = useState(false);
 
@@ -47,8 +51,7 @@ export default function Show({auth, pingGroup, pings, hasAlert, alert_type, aler
                     <div className="flex flex-wrap gap-2 mb-2">
                         <BackButton href={route('ping.index')}>All pings</BackButton>
                     </div>
-                    <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                                   alert_message={alert_message}></ResponseAlert>
+                    <ResponseAlert details={alert}></ResponseAlert>
                     <div className="px-1 mx-auto max-w-7xl">
                         <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                             <div className="flex items-center justify-between mb-2 px-2">

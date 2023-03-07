@@ -11,10 +11,15 @@ import TealButton from "@/Components/TealButton";
 import axios from "axios";
 import {HiPlay} from "react-icons/hi";
 
-export default function FromTo({auth, pings, minPing, maxPing, avgPing, alert_type, alert_message}) {
-    const user = usePage().props.auth.user;
+export default function FromTo({auth}) {
 
-    const [hasAlert, setHasAlert] = React.useState(true);
+    const alert = usePage().props.alert;
+    const pings = usePage().props.pings;
+    const minPing = usePage().props.minPing;
+    const maxPing = usePage().props.maxPing;
+    const avgPing = usePage().props.avgPing;
+
+    const user = usePage().props.auth.user;
 
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
@@ -46,8 +51,7 @@ export default function FromTo({auth, pings, minPing, maxPing, avgPing, alert_ty
                     <TealButton onClick={runPing} disabled={buttonsDisabled}><HiPlay className="mr-2 h-5 w-5"/>Run this
                         ping</TealButton>
                 </div>
-                <ResponseAlert has_an_alert={hasAlert} alert_type={alert_type}
-                               alert_message={alert_message}></ResponseAlert>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <div className={'grid grid-cols-2 pb-2'}>
                     <div className={'col md:col-span-1 col-span-2'}>
                         <h2 className={'font-medium text-gray-900 dark:text-gray-300'}>From: <b><a
