@@ -23,8 +23,6 @@ export default function Create({auth}) {
         name_select: database
     });
 
-
-
     const [dbNames, setDbNames] = React.useState([]);
 
     const [dbNamesStatus, setDbNamesStatus] = React.useState(1);

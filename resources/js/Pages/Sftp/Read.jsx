@@ -23,13 +23,11 @@ import BackButton from "@/Components/BackButton";
 export default function Read({auth}) {
 
     const resource = usePage().props.resource;
-    const ip = usePage().props.ip;
     const alert = usePage().props.alert;
 
     const {data, setData, post, processing, reset, errors} = useForm({
         file: ''
     });
-
 
     const [codeContent, setCodeContent] = React.useState(null);
 

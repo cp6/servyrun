@@ -12,7 +12,6 @@ import ResponseAlert from "@/Components/Alert";
 export default function Edit({auth}) {
 
     const servers = usePage().props.servers;
-    const connections = usePage().props.connections;
     const keys = usePage().props.keys;
     const resource = usePage().props.resource;
     const ip = usePage().props.ip;

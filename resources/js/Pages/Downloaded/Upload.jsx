@@ -25,8 +25,6 @@ export default function Upload({auth}) {
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(null);
 
-
-
     async function getUploadProgressValue(resource) {
         const result = await axios.get(route('downloaded.upload.progress', resource.id));
         return await result.data;

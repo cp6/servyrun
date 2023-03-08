@@ -25,8 +25,6 @@ export default function CreateDownload({auth}) {
     const [downloading, setDownloading] = useState(false);
     const [downloadProgress, setDownloadProgress] = useState(null);
 
-
-
     async function getDownloadProgressValue(resource) {
         const result = await axios.get(route('sftp.download-to-server.progress', resource.id));
         return await result.data;
