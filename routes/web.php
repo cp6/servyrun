@@ -202,5 +202,3 @@ Route::middleware('auth')->group(function () {
 Route::get('/outputs/{commandOutput}', [CommandOutputController::class, 'show'])->name('outputs.show');
 
 require __DIR__ . '/auth.php';
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
