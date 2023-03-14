@@ -17,7 +17,7 @@
 
 Sucuri is a self-hosted web application built with a backend of PHP Laravel and React + Tailwind CSS for the frontend.
 Surcuri allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files, view
-database tables and column structures.
+database tables and column structures and run MySQLdump.
 
 Surcuri was developed to be a multi-user platform, stores passwords encrypted and has an extensive API.
 
