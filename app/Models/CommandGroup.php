@@ -60,9 +60,9 @@ class CommandGroup extends Model
 
         $command = $worker->the_command->command;
 
-        $output_array = array();
+        $output_array = [];
 
-        foreach ($worker->assigned as $connection){
+        foreach ($worker->assigned as $connection) {
 
             $time_start = microtime(true);
 
@@ -73,7 +73,7 @@ class CommandGroup extends Model
             } elseif ($connection->conn->type === 3) {
                 $ssh = Connection::makeConnectionKey($connection->server->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, null, $commandGroup->timeout);
             } else {//Cannot run because connection not of valid type
-                ActionLog::make(5, 'run','command group', 'Failed running command group because conn type invalid for ' . $commandGroup->id);
+                ActionLog::make(5, 'run', 'command group', 'Failed running command group because conn type invalid for ' . $commandGroup->id);
                 return response()->json(array('message' => 'Failed running command group because conn type invalid for ' . $commandGroup->id))->header('Content-Type', 'application/json');
             }
 
@@ -81,7 +81,7 @@ class CommandGroup extends Model
 
             $time_end = microtime(true);
 
-            $output_array[] = array(
+            $output_array[] = [
                 'command_group' => $commandGroup->id,
                 'connection_id' => $connection->conn->id,
                 'server_id' => $connection->server->id,
@@ -91,7 +91,7 @@ class CommandGroup extends Model
                 'command' => $commandGroup->the_command->command,
                 'seconds_taken' => number_format($time_end - $time_start, 3),
                 'output' => $ssh_output
-            );
+            ];
 
             $command_output = new CommandOutput();
             $command_output->server_id = $connection->server->id;
@@ -104,11 +104,11 @@ class CommandGroup extends Model
 
             if ($commandGroup->email_output) {//Send output email
 
-                $data = array(
+                $data = [
                     'hostname' => $connection->server->hostname,
                     'command' => $command,
                     'output' => $ssh_output
-                );
+                ];
 
                 Mail::send('mail.output', $data, function ($message) {
                     $message->to(\Auth::user()->email, \Auth::user()->name)

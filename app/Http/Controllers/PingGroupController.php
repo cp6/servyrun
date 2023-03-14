@@ -44,7 +44,7 @@ class PingGroupController extends Controller
             'connection8_id' => 'string|nullable|size:12'
         ]);
 
-        $connections_array = array();
+        $connections_array = [];
         $connections_array[] = $request->connection1_id;//Required
         $connections_array[] = $request->connection2_id;//Required
         $connections_array[] = $request->connection3_id ?? null;
@@ -115,7 +115,7 @@ class PingGroupController extends Controller
             'connection8_id' => 'string|nullable|size:12'
         ]);
 
-        $connections_array = array();
+        $connections_array = [];
         $connections_array[] = $request->connection1_id;//Required
         $connections_array[] = $request->connection2_id;//Required
         $connections_array[] = $request->connection3_id ?? null;

@@ -220,14 +220,14 @@ class SftpConnectionController extends Controller
 
         $contents = $sftp->nlist($directory);
 
-        $result = array();
+        $result = [];
 
         foreach ($contents as $content) {
             $is_file = $sftp->filetype($content) === 'file';
             $fileatime = $sftp->fileatime($content);
             $filemtime = $sftp->filemtime($content);
 
-            $result[] = array(
+            $result[] = [
                 'name' => $content,
                 'type' => $sftp->filetype($content),
                 'is_file' => $is_file,
@@ -241,7 +241,7 @@ class SftpConnectionController extends Controller
                 'last_modified_formatted' => gmdate("Y-m-d H:i:s", $filemtime),
                 'readable' => $sftp->is_readable($content),
                 'writable' => $sftp->is_writable($content),
-            );
+            ];
 
         }
 
@@ -266,7 +266,7 @@ class SftpConnectionController extends Controller
 
         $contents = $sftp->nlist($directory);
 
-        $result = array();
+        $result = [];
 
         foreach ($contents as $content) {
             $is_file = $sftp->filetype($content) === 'file';
@@ -276,7 +276,7 @@ class SftpConnectionController extends Controller
                 $fileatime = $sftp->fileatime($content);
                 $filemtime = $sftp->filemtime($content);
 
-                $result[] = array(
+                $result[] = [
                     'name' => $content,
                     'type' => $sftp->filetype($content),
                     'ext' => substr($content, strrpos($content, '.') + 1),
@@ -289,7 +289,7 @@ class SftpConnectionController extends Controller
                     'last_modified_formatted' => gmdate("Y-m-d H:i:s", $filemtime),
                     'readable' => $sftp->is_readable($content),
                     'writable' => $sftp->is_writable($content),
-                );
+                ];
             }
 
         }
@@ -326,7 +326,7 @@ class SftpConnectionController extends Controller
                 $fileatime = $sftp->fileatime($filepath);
                 $filemtime = $sftp->filemtime($filepath);
 
-                $result = array(
+                $result = [
                     'file' => basename($filepath),
                     'type' => $sftp->filetype($filepath),
                     'ext' => substr($filepath, strrpos($filepath, '.') + 1),
@@ -339,7 +339,7 @@ class SftpConnectionController extends Controller
                     'last_modified_formatted' => gmdate("Y-m-d H:i:s", $filemtime),
                     'readable' => $sftp->is_readable($filepath),
                     'writable' => $sftp->is_writable($filepath),
-                );
+                ];
 
                 return response()->json($result, 200)->header('Content-Type', 'application/json');
 

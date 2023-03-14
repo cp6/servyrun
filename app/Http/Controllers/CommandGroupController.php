@@ -94,7 +94,7 @@ class CommandGroupController extends Controller
             'connection12_id' => 'string|nullable|size:12',
         ]);
 
-        $connections_array = array();
+        $connections_array = [];
         $connections_array[] = $request->connection1_id;//Required
         $connections_array[] = $request->connection2_id ?? null;
         $connections_array[] = $request->connection3_id ?? null;

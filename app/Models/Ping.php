@@ -62,15 +62,15 @@ class Ping extends Model
                 $fp = fSockOpen($data->ip_ssh->ip, $port, $errno, $errstr, $timeout);
                 $is_up = $fp !== false;
 
-                $array = array('is_up' => $is_up, 'ip' => $data->ip_ssh->ip, 'message' => null);
+                $array = ['is_up' => $is_up, 'ip' => $data->ip_ssh->ip, 'message' => null];
 
             } catch (\Exception $exception) {
 
-                $array = array('is_up' => false, 'ip' => $data->ip_ssh->ip, 'message' => $exception->getMessage());
+                $array =['is_up' => false, 'ip' => $data->ip_ssh->ip, 'message' => $exception->getMessage()];
             }
 
         } else {
-            $array = array('is_up' => false, 'ip' => null, 'message' => 'Could not find an IP to check');
+            $array = ['is_up' => false, 'ip' => null, 'message' => 'Could not find an IP to check'];
         }
 
         $ping = new Ping();
@@ -94,11 +94,11 @@ class Ping extends Model
 
     public static function parseResult(array $result): array
     {
-        return array(
+        return [
             'min' => $result[0] ?? null,
             'max' => $result[2] ?? null,
             'avg' => $result[1] ?? null
-        );
+        ];
     }
 
     public static function fromServerToServer(Server $server_from, Server $server_to): ?Ping
