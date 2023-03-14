@@ -18,7 +18,7 @@ class CommandController extends Controller
 
     public function create(): \Inertia\Response
     {
-        if (Command::get()->count() >= env('MAX_COMMANDS_PER_ACCOUNT', 30)) {
+        if (Command::get()->count() >= config('custom.maxCommandsPerAccount')) {
             return abort('403', 'Command limit has been hit', ['message' => 'Command limit has been hit']);
         }
 
@@ -29,7 +29,7 @@ class CommandController extends Controller
 
     public function store(Request $request)
     {
-        if (Command::get()->count() >= env('MAX_COMMANDS_PER_ACCOUNT', 30)) {
+        if (Command::get()->count() >= config('custom.maxCommandsPerAccount')) {
             return abort('403', 'Command limit has been hit', ['message' => 'Command limit has been hit']);
         }
 

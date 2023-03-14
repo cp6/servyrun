@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        if (User::all()->count() >= env('MAX_ACCOUNTS', 1)) {
+        if (User::all()->count() >= config('custom.maxAccounts')) {
             return abort('403', 'Not accepting more registrations',['message' => 'Not accepting more registrations']);
         }
         return Inertia::render('Auth/Register', [
