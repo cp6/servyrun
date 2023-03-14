@@ -24,7 +24,7 @@ class ServerController extends Controller
 
     public function create(): \Inertia\Response
     {
-        if (Server::get()->count() >= env('MAX_SERVERS_PER_ACCOUNT', 20)) {
+        if (Server::get()->count() >= config('custom.maxServersPerAccount')) {
             return abort('403', 'Server limit has been hit', ['message' => 'Server limit has been hit']);
         }
 
@@ -85,7 +85,7 @@ class ServerController extends Controller
 
     public function store(Request $request)
     {
-        if (Server::get()->count() >= env('MAX_SERVERS_PER_ACCOUNT', 20)) {
+        if (Server::get()->count() >= config('custom.maxServersPerAccount')) {
             return abort('403', 'Server limit has been hit');
         }
 
