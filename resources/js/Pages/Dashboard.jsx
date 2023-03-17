@@ -9,14 +9,7 @@ import YouAreNew from "@/Components/YouAreNew";
 export default function Dashboard({auth}) {
 
     const user = usePage().props.auth.user;
-    const serversCount = usePage().props.serversCount;
-    const IpCount = usePage().props.IpCount;
-    const ConnectionCount = usePage().props.ConnectionCount;
-    const KeyCount = usePage().props.KeyCount;
-    const DbCount = usePage().props.DbCount;
-    const PingsCount = usePage().props.PingsCount;
-    const CommandCount = usePage().props.CommandCount;
-    const OutputCount = usePage().props.OutputCount;
+    const counts = usePage().props.counts;
     const RecentActions = usePage().props.RecentActions;
 
     return (
@@ -31,15 +24,14 @@ export default function Dashboard({auth}) {
                 <>
                     <div className="mt-6 px-2 mx-auto max-w-7xl">
                         <div className='grid grid-cols-3 sm:grid-cols-8 gap-3'>
-                            <StatCard text='Servers' value={serversCount} route={route('server.index')}></StatCard>
-                            <StatCard text='Connections' value={ConnectionCount}
-                                      route={route('connection.index')}></StatCard>
-                            <StatCard text='Keys' value={KeyCount} route={route('key.index')}></StatCard>
-                            <StatCard text='IPs' value={IpCount} route={route('ip.index')}></StatCard>
-                            <StatCard text='DBs' value={DbCount} route={route('db.index')}></StatCard>
-                            <StatCard text='Pings' value={PingsCount} route={route('ping.index')}></StatCard>
-                            <StatCard text='Commands' value={CommandCount} route={route('command.index')}></StatCard>
-                            <StatCard text='Outputs' value={OutputCount} route={route('outputs.index')}></StatCard>
+                            <StatCard text='Servers' value={counts.servers} route={route('server.index')}></StatCard>
+                            <StatCard text='Connections' value={counts.connections} route={route('connection.index')}></StatCard>
+                            <StatCard text='Keys' value={counts.keys} route={route('key.index')}></StatCard>
+                            <StatCard text='IPs' value={counts.ips} route={route('ip.index')}></StatCard>
+                            <StatCard text='DBs' value={counts.dbs} route={route('db.index')}></StatCard>
+                            <StatCard text='Pings' value={counts.pings} route={route('ping.index')}></StatCard>
+                            <StatCard text='Commands' value={counts.commands} route={route('command.index')}></StatCard>
+                            <StatCard text='Outputs' value={counts.outputs} route={route('outputs.index')}></StatCard>
                         </div>
                     </div>
                     <div className="mt-4">
