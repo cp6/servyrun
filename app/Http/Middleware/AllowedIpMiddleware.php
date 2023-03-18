@@ -13,7 +13,7 @@ class AllowedIpMiddleware
         $account_ip = User::where('email', $request->email)->select('login_ip_only')->first();
 
         if (!is_null($account_ip->login_ip_only) && $request->ip() !== $account_ip->login_ip_only) {
-            return abort(401);
+            abort(401);
         }
 
         return $next($request);

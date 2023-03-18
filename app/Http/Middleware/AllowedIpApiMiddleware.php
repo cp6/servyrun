@@ -14,7 +14,7 @@ class AllowedIpApiMiddleware
         $account_ip = User::where('id', Auth::guard('api')->user()->id)->select('api_ip_only')->first();
 
         if (!is_null($account_ip->api_ip_only) && $request->ip() !== $account_ip->api_ip_only) {
-            return abort(401);
+            abort(401);
         }
 
         return $next($request);

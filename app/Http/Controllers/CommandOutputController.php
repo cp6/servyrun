@@ -44,7 +44,7 @@ class CommandOutputController extends Controller
         }
 
         if (!\Auth::user()) {
-            return abort(404);
+            abort(404);
         }
 
         $this->authorize('view', $commandOutput);
