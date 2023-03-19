@@ -30,6 +30,12 @@ class ProfileTest extends TestCase
             ->patch('/profile', [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
+                'check_uptime_server_index' => 1,
+                'check_uptime_connection_index' => 1,
+                'check_uptime_sftp_connection_index' => 1,
+                'check_uptime_db_connection_index' => 1,
+                'log_connections' => 1,
+                'allow_api_access' => 1
             ]);
 
         $response
@@ -52,6 +58,12 @@ class ProfileTest extends TestCase
             ->patch('/profile', [
                 'name' => 'Test User',
                 'email' => $user->email,
+                'check_uptime_server_index' => 1,
+                'check_uptime_connection_index' => 1,
+                'check_uptime_sftp_connection_index' => 1,
+                'check_uptime_db_connection_index' => 1,
+                'log_connections' => 1,
+                'allow_api_access' => 1
             ]);
 
         $response

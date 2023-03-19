@@ -16,6 +16,15 @@ class User extends Authenticatable
 
     protected $keyType = 'string';
 
+    protected static function booted(): void
+    {
+        static::creating(function (User $user) {
+            $user->id = \Str::random(6);
+            $user->api_token = \Str::random(64);
+            $user->download_directory = \Str::random(8);
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *
