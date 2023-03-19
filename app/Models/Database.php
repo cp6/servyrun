@@ -12,8 +12,6 @@ class Database extends Model
 
     public $incrementing = false;
 
-    protected $primaryKey = 'id';
-
     protected $keyType = 'string';
 
     protected $table = 'databases';
@@ -34,7 +32,7 @@ class Database extends Model
         });
 
         static::created(function (Database $database) {
-            ActionLog::make(1, 'create', 'database', 'Created database '.$database->id);
+            ActionLog::make(1, 'create', 'database', 'Created database ' . $database->id);
         });
     }
 

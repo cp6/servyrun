@@ -57,7 +57,7 @@ class IpAddress extends Model
             try {
                 $data = json_decode($fetch->body(), true, 512, JSON_THROW_ON_ERROR);
 
-                $ipAddress->update(
+                return $ipAddress->update(
                     [
                         'asn' => $data['asn'],
                         'org' => $data['org'],
@@ -69,8 +69,6 @@ class IpAddress extends Model
                         'is_ipv4 ' => (filter_var($ipAddress->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) ? 0 : 1
                     ]
                 );
-
-                return true;
 
             } catch (\Exception $exception) {
 
