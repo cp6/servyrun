@@ -126,12 +126,12 @@ class SftpConnection extends Model
         return $ssh;
     }
 
-    public static function runSftpCommand($sftpConnection, string $command)
+    public static function runSftpCommand(SFTP $sftpConnection, string $command): bool|string
     {
         return $sftpConnection->exec($command);
     }
 
-    public static function downloadFile($sftpConnection, string $file, bool $write_progress = false)
+    public static function downloadFile(SFTP $sftpConnection, string $file, bool $write_progress = false): bool|string
     {
         $file_size = $sftpConnection->filesize($file);
         return $sftpConnection->get($file, false, 0, -1, function($got) use ($file_size, $write_progress) {

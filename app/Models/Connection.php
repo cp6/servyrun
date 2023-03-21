@@ -57,7 +57,7 @@ class Connection extends Model
         return $this->hasOne(Key::class, 'id', 'key_id');
     }
 
-    public static function runCommand($connection, string $command)
+    public static function runCommand(SSH2 $connection, string $command): bool|string
     {
         return $connection->exec($command);
     }
