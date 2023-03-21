@@ -39,7 +39,7 @@ class CommandGroup extends Model
             ActionLog::make(1, 'update', 'command group', 'Updated command group ' . $commandGroup->id);
         });
 
-        static::deleted(function (CommandGroup $commandGroup) {
+        static::deleted(function () {
             ActionLog::make(1, 'delete', 'command group', 'Deleted command group');
         });
     }

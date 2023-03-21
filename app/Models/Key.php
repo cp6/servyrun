@@ -43,7 +43,7 @@ class Key extends Model
             ActionLog::make(1, 'delete', 'key', 'Attempted to delete key, result:' . ($delete) ? 'success' : 'failed');
         });
 
-        static::deleted(function (Key $key) {
+        static::deleted(function () {
             ActionLog::make(1, 'delete', 'key', 'Deleted key');
         });
     }

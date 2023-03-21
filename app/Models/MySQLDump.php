@@ -40,7 +40,7 @@ class MySQLDump extends Model
             ActionLog::make(1, 'update', 'MySQLdump', 'Updated MySQLdump ' . $mySQLDump->id);
         });
 
-        static::deleted(function (MySQLDump $mySQLDump) {
+        static::deleted(function () {
             ActionLog::make(1, 'deleted', 'MySQLdump', 'Deleted MySQLdump');
         });
 

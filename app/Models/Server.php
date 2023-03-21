@@ -38,7 +38,7 @@ class Server extends Model
             ActionLog::make(1, 'update', 'server', 'Updated server ' . $server->title, $server->id);
         });
 
-        static::deleted(function (Server $server) {
+        static::deleted(function () {
             ActionLog::make(1, 'delete', 'server', 'Deleted server');
         });
     }

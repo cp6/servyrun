@@ -28,7 +28,7 @@ class ServerUsage extends Model
             ActionLog::make(1, 'create', 'server usage', 'Added server usage ', $serverUsage->id);
         });
 
-        static::deleted(function (ServerUsage $serverUsage) {
+        static::deleted(function () {
             ActionLog::make(1, 'delete', 'server usage', 'Deleted server usage');
         });
     }

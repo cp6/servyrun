@@ -38,7 +38,7 @@ class IpAddress extends Model
             ActionLog::make(1, 'update', 'ip', 'Updated ip address ' . $ipAddress->id);
         });
 
-        static::deleted(function (IpAddress $ipAddress) {
+        static::deleted(function () {
             ActionLog::make(1, 'deleted', 'ip', 'Deleted ip address');
         });
     }

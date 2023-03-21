@@ -41,7 +41,7 @@ class DatabaseConnection extends Model
             ActionLog::make(1, 'delete', 'database connection', 'Updated database connection ' . $databaseConnection->id);
         });
 
-        static::deleted(function (DatabaseConnection $databaseConnection) {
+        static::deleted(function () {
             ActionLog::make(1, 'delete', 'database connection', 'Deleted database connection');
         });
     }

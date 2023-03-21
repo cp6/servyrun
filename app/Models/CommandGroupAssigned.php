@@ -34,7 +34,7 @@ class CommandGroupAssigned extends Model
             ActionLog::make(1, 'update', 'command group assigned', 'Updated command group assigned'.$commandGroupAssigned->id);
         });
 
-        static::deleted(function (CommandGroupAssigned $commandGroupAssigned) {
+        static::deleted(function () {
             ActionLog::make(1, 'delete', 'command group assigned', 'Deleted command group assigned');
         });
     }

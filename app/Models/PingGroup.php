@@ -38,7 +38,7 @@ class PingGroup extends Model
             ActionLog::make(1, 'update', 'ping group', 'Updated ping group ' . $pingGroup->id);
         });
 
-        static::deleted(function (PingGroup $pingGroup) {
+        static::deleted(function () {
             ActionLog::make(1, 'delete', 'ping group', 'Deleted ping group');
         });
     }
