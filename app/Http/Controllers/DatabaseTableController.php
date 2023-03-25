@@ -10,39 +10,6 @@ use Illuminate\Http\Request;
 
 class DatabaseTableController extends Controller
 {
-    public function index()
-    {
-        abort(404);
-    }
-
-    public function create()
-    {
-        abort(404);
-    }
-
-    public function store(Request $request)
-    {
-        abort(404);
-    }
-
-    public function show(DatabaseTable $databaseTable)
-    {
-        $this->authorize('view', $databaseTable);
-        abort(404);
-    }
-
-    public function edit(DatabaseTable $databaseTable)
-    {
-        $this->authorize('view', $databaseTable);
-        abort(404);
-    }
-
-    public function update(Request $request, DatabaseTable $databaseTable)
-    {
-        $this->authorize('update', $databaseTable);
-        abort(404);
-    }
-
     public function destroy(DatabaseTable $databaseTable)
     {
         $this->authorize('delete', $databaseTable);
@@ -60,7 +27,7 @@ class DatabaseTableController extends Controller
     {
         $connection = $databaseTable->with(['database.conn'])->firstOrFail();
 
-        $db = new Database();
+        $db = new DatabaseConnection();
 
         $connect = $db->dbConnect($connection->database->conn->host, $connection->database->name, $connection->database->conn->username, $connection->database->conn->password);
 
@@ -68,7 +35,7 @@ class DatabaseTableController extends Controller
             return response()->json(['message' => 'Could not connect', 'columns' => null], 400)->header('Content-Type', 'application/json');
         }
 
-        return response()->json(['columns' => $db->returnColumns()], 200)->header('Content-Type', 'application/json');
+        return response()->json(['columns' => $db->returnColumns($databaseTable->name)], 200)->header('Content-Type', 'application/json');
 
     }
 
@@ -76,7 +43,7 @@ class DatabaseTableController extends Controller
     {
         $connection = $databaseTable->where('id', $databaseTable->id)->with(['database.conn'])->firstOrFail();
 
-        $db = new Database();
+        $db = new DatabaseConnection();
 
         $db->dbConnect($connection->database->conn->host, $connection->database->name, $connection->database->conn->username, $connection->database->conn->password);
 
@@ -87,7 +54,7 @@ class DatabaseTableController extends Controller
     {
         $connection = $databaseTable->where('id', $databaseTable->id)->with(['database.conn'])->firstOrFail();
 
-        $db = new Database();
+        $db = new DatabaseConnection();
 
         $db->dbConnect($connection->database->conn->host, $connection->database->name, $connection->database->conn->username, $connection->database->conn->password);
 
