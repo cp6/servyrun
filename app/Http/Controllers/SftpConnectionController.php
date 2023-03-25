@@ -125,10 +125,9 @@ class SftpConnectionController extends Controller
 
     }
 
-    public function update(Request $request, SftpConnection $sftpConnection)
+    public function update(Request $request, SftpConnection $sftpConnection): void
     {
         $this->authorize('update', $sftpConnection);
-
     }
 
     public function destroy(SftpConnection $sftpConnection)
@@ -360,9 +359,9 @@ class SftpConnectionController extends Controller
             return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Could not connect']]);
         }
 
-        $save_as = basename($file);
-
         if ($sftp->file_exists($file)) {
+
+            $save_as = basename($file);
 
             $file_size = $sftp->filesize($file);
 
