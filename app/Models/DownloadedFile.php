@@ -33,8 +33,8 @@ class DownloadedFile extends Model
             ActionLog::make(1, 'downloaded', 'sftp download', "Downloaded file {$downloadedFile->from_dir}/{$downloadedFile->filename} to server as {$downloadedFile->saved_as}");
         });
 
-        static::deleting(function (DownloadedFile $downloadedFile) {
-            ActionLog::make(1, 'deleted', 'sftp download', "Deleted file {$downloadedFile->saved_as}");
+        static::deleting(function () {
+            ActionLog::make(1, 'deleted', 'sftp download', "Deleted file");
         });
     }
 
