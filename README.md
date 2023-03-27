@@ -37,6 +37,11 @@ The full features of Surcuri as of February 2023:
 - View files through SFTP.
 - Edit (smaller) files.
 
+## TODO
+
+- Chart for pings between 2 servers
+- Chart for 'server usage' i.e RAM and CPU
+
 ## External services used
 
 * https://ipwhois.io/documentation for IP address GEO data
@@ -76,40 +81,39 @@ You can change the amount returned in results with `per_page=50`
 
 ```json
 {
-  "current_page": 2,
-  "data": [
-      //Good stuff in here
-  ],
-  "first_page_url": "https:\/\/url.com\/api\/servers?page=1",
-  "from": null,
-  "last_page": 1,
-  "last_page_url": "http:\/\/url.com\/api\/servers?page=1",
-  "links": [
-    {
-      "url": "http:\/\/url.com\/api\/servers?page=1",
-      "label": "&laquo; Previous",
-      "active": false
-    },
-    {
-      "url": "http:\/\/url.com\/api\/servers?page=1",
-      "label": "1",
-      "active": false
-    },
-    {
-      "url": null,
-      "label": "Next &raquo;",
-      "active": false
-    }
-  ],
-  "next_page_url": null,
-  "path": "https:\/\/url.com\/api\/servers",
-  "per_page": 20,
-  "prev_page_url": "https:\/\/url.com\/api\/servers?page=1",
-  "to": null,
-  "total": 1
+    "current_page": 2,
+    "data": [
+        //Good stuff in here
+    ],
+    "first_page_url": "https:\/\/url.com\/api\/servers?page=1",
+    "from": null,
+    "last_page": 1,
+    "last_page_url": "http:\/\/url.com\/api\/servers?page=1",
+    "links": [
+        {
+            "url": "http:\/\/url.com\/api\/servers?page=1",
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http:\/\/url.com\/api\/servers?page=1",
+            "label": "1",
+            "active": false
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "https:\/\/url.com\/api\/servers",
+    "per_page": 20,
+    "prev_page_url": "https:\/\/url.com\/api\/servers?page=1",
+    "to": null,
+    "total": 1
 }
 ```
-
 
 <a name="servers"></a>
 
@@ -553,7 +557,7 @@ comment
 
 ```json
 {
-  "save_as": "/animals/mouse.jpg"
+    "save_as": "/animals/mouse.jpg"
 }
 
 ```
