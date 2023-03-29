@@ -20,7 +20,7 @@ export default function Show({auth}) {
     const ip = usePage().props.ip;
     const alert = usePage().props.alert;
 
-    const {data, setData, post, processing, processing2, reset, errors} = useForm({
+    const {data, setData, post, processing, reset, errors} = useForm({
         the_command1: '',
         file: '',
         save_as: ''

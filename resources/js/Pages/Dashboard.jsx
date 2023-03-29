@@ -19,13 +19,13 @@ export default function Dashboard({auth}) {
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Hello {user.name}</h2>}
         >
             <Head title="Dashboard"/>
-
-            {serversCount > 0 ?
+            {counts.servers > 0 ?
                 <>
                     <div className="mt-6 px-2 mx-auto max-w-7xl">
                         <div className='grid grid-cols-3 sm:grid-cols-8 gap-3'>
                             <StatCard text='Servers' value={counts.servers} route={route('server.index')}></StatCard>
-                            <StatCard text='Connections' value={counts.connections} route={route('connection.index')}></StatCard>
+                            <StatCard text='Connections' value={counts.connections}
+                                      route={route('connection.index')}></StatCard>
                             <StatCard text='Keys' value={counts.keys} route={route('key.index')}></StatCard>
                             <StatCard text='IPs' value={counts.ips} route={route('ip.index')}></StatCard>
                             <StatCard text='DBs' value={counts.dbs} route={route('db.index')}></StatCard>
