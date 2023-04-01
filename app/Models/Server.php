@@ -160,7 +160,7 @@ class Server extends Model
 
         $swap_array = explode(" ", preg_replace('/\s+/', ' ', $swap));
 
-        $swap_mb = $ram_array[1];
+        $swap_mb = $swap_array[1];
 
         $disk = Connection::runCommand($ssh, "df -BG");
         $disk_array = explode(" ", preg_replace('/\s+/', ' ', $disk));
