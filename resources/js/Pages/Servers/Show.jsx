@@ -130,7 +130,7 @@ export default function Show({auth}) {
                         <ServerCardUsage serverId={resource.id} usage={null} uptime={null}></ServerCardUsage>
                         {
                             (() => {
-                                if ((typeof (resource.conn) != "undefined" && resource.conn !== null)) {
+                                if (typeof (resource.conn) != "undefined" && resource.conn !== null && servers.length > 0) {
                                     return (
                                         <ServerCardPingAnother serverId={resource.id}
                                                                servers={servers}></ServerCardPingAnother>
