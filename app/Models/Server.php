@@ -109,8 +109,18 @@ class Server extends Model
 
         if (isset($cpu_freq_array[0]) && str_contains($cpu_freq_array[0], "CPU MHz:")) {
             $freq = (float)str_replace("CPU MHz:", "", $cpu_freq_array[0]);
+        } elseif (isset($cpu_freq_array[0]) && str_contains($cpu_freq_array[0], "CPU max MHz:")) {
+            $freq = (float)str_replace("CPU max MHz:", "", $cpu_freq_array[0]);
         } else {
-            $freq = null;
+
+            $cpu_freq = Connection::runCommand($ssh, "cat /proc/cpuinfo | grep Hz");
+            $cpu_freq_array = explode("\n", $cpu_freq);
+
+            if (isset($cpu_freq_array[0]) && str_contains($cpu_freq_array[0], "cpu MHz\t\t: ")){
+                $freq = (float)str_replace("cpu MHz\t\t: ", "", $cpu_freq_array[0]);
+            } else {
+                $freq = null;
+            }
         }
 
         $cpu_count = (int)Connection::runCommand($ssh, "grep -c ^processor /proc/cpuinfo");
