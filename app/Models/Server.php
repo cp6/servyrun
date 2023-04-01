@@ -172,11 +172,18 @@ class Server extends Model
             }
         }
 
+        if ($disk_gb > 1000){
+            $disk_tb = $disk_gb / 1000;
+        } else{
+            $disk_tb = null;
+        }
+
         return $server->update([
             'ram_mb' => $ram_mb,
             'ram_gb' => $ram_gb,
             'swap_mb' => $swap_mb,
-            'disk_gb' => $disk_gb
+            'disk_gb' => $disk_gb,
+            'disk_tb' => $disk_tb
         ]);
 
     }
