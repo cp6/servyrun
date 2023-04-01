@@ -41,7 +41,7 @@ class ServerController extends Controller
         $this->authorize('view', $server);
 
         return Inertia::render('Servers/Show', [
-            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn', 'sftp_conn'])->firstOrFail(),
+            'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn.outputsLast3', 'sftp_conn'])->firstOrFail(),
             'servers' => Server::has('conn')->whereNot('id', $server->id)->select(['id', 'hostname', 'title'])->get(),
             'alert' => \Session::get('alert')
         ]);
@@ -250,7 +250,7 @@ class ServerController extends Controller
 
     }
 
-    public function getUptime(Server $server)
+    public function getUptime(Server $server): \Illuminate\Http\JsonResponse
     {
         $this->authorize('view', $server);
 

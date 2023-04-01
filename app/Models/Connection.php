@@ -57,6 +57,16 @@ class Connection extends Model
         return $this->hasOne(Key::class, 'id', 'key_id');
     }
 
+    public function outputs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CommandOutput::class, 'connection_id', 'id')->orderBy('created_at');
+    }
+
+    public function outputsLast3(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CommandOutput::class, 'connection_id', 'id')->orderBy('created_at', 'desc')->take(3);
+    }
+
     public static function runCommand(SSH2 $connection, string $command): bool|string
     {
         return $connection->exec($command);

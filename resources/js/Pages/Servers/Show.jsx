@@ -17,6 +17,7 @@ import BackButton from "@/Components/BackButton";
 import ServerCardUsage from "@/Components/ServerCardUsage";
 import ServerCardPingAnother from "@/Components/ServerCardPingAnother";
 import {HiArrowDownCircle} from "react-icons/all";
+import ServerLast3Commands from "@/Components/ServerLast3Commands";
 
 export default function Show({auth}) {
 
@@ -125,6 +126,21 @@ export default function Show({auth}) {
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'col-span-1'}>
                                 <ServerCardSpecs resource={resource}></ServerCardSpecs>
+                            </div>
+                            <div className={'col-span-1'}>
+                                {
+                                    (() => {
+                                        if (resource.conn.outputs_last3 !== null && resource.conn.outputs_last3.length > 0) {
+                                            return (
+                                                <>
+                                                    <p className="mb-2 text-gray-800 dark:text-gray-200">Last 3 commands
+                                                        ran</p>
+                                                    <ServerLast3Commands commands={resource.conn.outputs_last3}/>
+                                                </>
+                                            )
+                                        }
+                                    })()
+                                }
                             </div>
                         </div>
                         <ServerCardUsage serverId={resource.id} usage={null} uptime={null}></ServerCardUsage>

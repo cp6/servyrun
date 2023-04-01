@@ -46,7 +46,7 @@ export default function ServerCardPingAnother({serverId, servers}) {
                 </Dropdown>
             </div>
             <div className={'col-span-2 md:col-span-1'}>
-                <p className={'text-gray-600 dark:text-white'}>{pingResult}</p>
+                <code className={'text-red-500 dark:text-red-400'}>{pingResult}</code>
             </div>
         </div>
     );
