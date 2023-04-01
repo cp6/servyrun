@@ -212,6 +212,7 @@ class ConnectionController extends Controller
         $command_output = new CommandOutput();
         $command_output->id = Str::random(12);
         $command_output->server_id = $con->server->id;
+        $command_output->connection_id = $con->id;
         $command_output->command_id = $command_id;
         $command_output->the_command = $command;
         $command_output->output = $output;
