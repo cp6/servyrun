@@ -77,7 +77,7 @@ class SftpConnectionController extends Controller
             return redirect(route('sftp.create'))->with(['alert' => ['type' => 'failure', 'message' => 'SFTP connection could not be created error ' . $exception->getCode()]]);
         }
 
-        return redirect(route('sftp.show', $sftp_conn))->with(['alert' => ['type' => 'success', 'alert_message' => 'SFTP connection created successfully']]);
+        return redirect(route('sftp.show', $sftp_conn))->with(['alert' => ['type' => 'success', 'message' => 'SFTP connection created successfully']]);
     }
 
     public function show(SftpConnection $sftpConnection): \Inertia\Response
@@ -137,10 +137,10 @@ class SftpConnectionController extends Controller
         try {
             $sftpConnection->delete();
         } catch (\Exception $exception) {
-            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]]);
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('mysqldump.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'SFTP connection deleted successfully']]);
+        return redirect(route('mysqldump.index'))->with(['alert' => ['type' => 'success', 'message' => 'SFTP connection deleted successfully']]);
     }
 
     public function authenticated(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
@@ -356,7 +356,7 @@ class SftpConnectionController extends Controller
         $sftp = SftpConnection::do($sftpConnection);
 
         if (is_null($sftp)) {
-            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Could not connect']]);
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => 'Could not connect']]);
         }
 
         if ($sftp->file_exists($file)) {
@@ -382,7 +382,7 @@ class SftpConnectionController extends Controller
 
         }
 
-        return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'File "' . $file . '" not found']]);
+        return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => 'File "' . $file . '" not found']]);
     }
 
     public function readFile(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
@@ -476,7 +476,7 @@ class SftpConnectionController extends Controller
         $sftp = SftpConnection::do($sftpConnection);
 
         if (is_null($sftp)) {
-            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Could not connect']]);
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => 'Could not connect']]);
         }
 
         Storage::disk('private')->put("progress/" . \Auth::id() . "/upload.json", json_encode(['progress' => 0]));
@@ -494,12 +494,12 @@ class SftpConnectionController extends Controller
         if ($upload_file) {
             ActionLog::make(1, 'upload', 'sftp', "Uploaded {$file->getClientOriginalName()} as {$request->save_as} ({$upload_speed_mbps} Mbps)", $sftpConnection->server_id);
 
-            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'success', 'alert_message' => "Uploaded {$file->getClientOriginalName()} as {$request->save_as} ({$upload_speed_mbps} Mbps)"]]);
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'success', 'message' => "Uploaded {$file->getClientOriginalName()} as {$request->save_as} ({$upload_speed_mbps} Mbps)"]]);
         }
 
         ActionLog::make(6, 'upload', 'sftp', 'Uploaded file failed', $sftpConnection->server_id);
 
-        return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'File not uploaded as "' . $request->save_as . '"']]);
+        return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => 'File not uploaded as "' . $request->save_as . '"']]);
 
     }
 
@@ -516,11 +516,11 @@ class SftpConnectionController extends Controller
         $sftp = SftpConnection::do($sftpConnection);
 
         if (is_null($sftp)) {
-            return redirect(route('sftp.read', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Could not connect']]);
+            return redirect(route('sftp.read', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => 'Could not connect']]);
         }
 
         if (is_null($request->contents)) {
-            return redirect(route('sftp.read', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Contents cannot be empty']]);
+            return redirect(route('sftp.read', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => 'Contents cannot be empty']]);
         }
 
         return $sftp->put($request->save_as, $request->contents, SFTP::SOURCE_STRING);
@@ -536,7 +536,7 @@ class SftpConnectionController extends Controller
             'resource' => $data,
             'hasAlert' => \Session::exists('alert_type'),
             'alert_type' => \Session::get('alert_type'),
-            'alert_message' => \Session::get('alert_message')
+            'message' => \Session::get('message')
         ]);
     }
 
@@ -552,7 +552,7 @@ class SftpConnectionController extends Controller
         $sftp = SftpConnection::do($sftpConnection);
 
         if (is_null($sftp)) {
-            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Could not connect']]);
+            return redirect(route('sftp.show', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => 'Could not connect']]);
         }
 
         if ($sftp->file_exists($request->filepath)) {
@@ -574,7 +574,7 @@ class SftpConnectionController extends Controller
             try {
                 $download_result = Storage::disk('private')->put("downloads/{$save_to_dir}/{$save_as_filename}", $file_content);
             } catch (\Exception $exception) {
-                return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => "Error downloading {$request->filepath} message: {$exception->getMessage()}"]]);
+                return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => "Error downloading {$request->filepath} message: {$exception->getMessage()}"]]);
             }
 
             $end_timer = time() - $start_timer;
@@ -596,19 +596,19 @@ class SftpConnectionController extends Controller
                     $downloaded_file->save();
                 } catch (\Exception $exception) {
                     ActionLog::make(6, 'download to server', 'sftp download', "Error downloading {$request->filepath} message: {$exception->getMessage()}", $sftpConnection->server_id);
-                    return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => "Error downloading {$request->filepath} message: {$exception->getMessage()}"]]);
+                    return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => "Error downloading {$request->filepath} message: {$exception->getMessage()}"]]);
                 }
 
-                return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'success', 'alert_message' => "Downloaded {$request->filepath} as {$save_as_filename} ({$download_speed_mbps} Mbps)"]]);
+                return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'success', 'message' => "Downloaded {$request->filepath} as {$save_as_filename} ({$download_speed_mbps} Mbps)"]]);
             }
 
             ActionLog::make(6, 'download to server', 'sftp download', "Error downloading {$request->filepath} as {$save_as_filename}", $sftpConnection->server_id);
-            return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => "Error downloading {$request->filepath} as {$save_as_filename}"]]);
+            return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => "Error downloading {$request->filepath} as {$save_as_filename}"]]);
 
         }
 
         ActionLog::make(6, 'download to server', 'sftp download', "File {$request->filepath} was not found", $sftpConnection->server_id);
-        return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => "File {$request->filepath} was not found"]]);
+        return redirect(route('sftp.create-download-to-server', $sftpConnection))->with(['alert' => ['type' => 'failure', 'message' => "File {$request->filepath} was not found"]]);
 
     }
 

@@ -154,10 +154,10 @@ class CommandGroupController extends Controller
         try {
             $commandGroup->delete();
         } catch (\Exception $exception) {
-            return redirect(route('command-group.show', $commandGroup))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]]);
+            return redirect(route('command-group.show', $commandGroup))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('command-group.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'Command group deleted successfully']]);
+        return redirect(route('command-group.index'))->with(['alert' => ['type' => 'success', 'message' => 'Command group deleted successfully']]);
     }
 
     public function run(CommandGroup $commandGroup): \Illuminate\Http\JsonResponse

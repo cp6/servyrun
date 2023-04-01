@@ -241,7 +241,7 @@ class ConnectionController extends Controller
             return redirect(route('connection.show', $connection))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('connection.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'Connection deleted successfully']]);
+        return redirect(route('connection.index'))->with(['alert' => ['type' => 'success', 'message' => 'Connection deleted successfully']]);
     }
 
     public function serverId(Connection $connection): \Illuminate\Http\JsonResponse

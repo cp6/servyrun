@@ -199,7 +199,7 @@ class DatabaseConnectionController extends Controller
             return redirect(route('db.connection.create'))->with(['alert' => ['type' => 'failure', 'message' => 'DB connection could not be updated error ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('db.connection.show', $databaseConnection))->with(['alert' => ['type' => 'success', 'alert_message' => 'DB connection updated successfully']]);
+        return redirect(route('db.connection.show', $databaseConnection))->with(['alert' => ['type' => 'success', 'message' => 'DB connection updated successfully']]);
     }
 
     public function destroy(DatabaseConnection $databaseConnection)
@@ -209,10 +209,10 @@ class DatabaseConnectionController extends Controller
         try {
             $databaseConnection->delete();
         } catch (\Exception $exception) {
-            return redirect(route('db.connection.show', $databaseConnection))->with(['alert' => ['type' => 'failure', 'alert_message' => 'Error deleting: ' . $exception->getMessage()]]);
+            return redirect(route('db.connection.show', $databaseConnection))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('db.connection.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'Database connection deleted successfully']]);
+        return redirect(route('db.connection.index'))->with(['alert' => ['type' => 'success', 'message' => 'Database connection deleted successfully']]);
     }
 
 }

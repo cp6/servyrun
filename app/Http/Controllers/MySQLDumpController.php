@@ -134,7 +134,7 @@ class MySQLDumpController extends Controller
             return redirect(route('mysqldump.show', $mySQLDump))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('mysqldump.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'MySQL dump deleted successfully']]);
+        return redirect(route('mysqldump.index'))->with(['alert' => ['type' => 'success', 'message' => 'MySQL dump deleted successfully']]);
     }
 
     public function run(MySQLDump $mySQLDump): \Illuminate\Http\JsonResponse

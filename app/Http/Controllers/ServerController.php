@@ -208,7 +208,7 @@ class ServerController extends Controller
             return redirect(route('server.show', $server))->with(['alert' => ['type' => 'failure', 'message' => 'Error deleting: ' . $exception->getMessage()]]);
         }
 
-        return redirect(route('server.index'))->with(['alert' => ['type' => 'success', 'alert_message' => 'Server deleted successfully']]);
+        return redirect(route('server.index'))->with(['alert' => ['type' => 'success', 'message' => 'Server deleted successfully']]);
     }
 
     public function getInformation(Server $server)
@@ -218,7 +218,7 @@ class ServerController extends Controller
         Server::getCpuOsDetails($server);
         Server::getRamDiskDetails($server);
 
-        return redirect(route('server.show', $server))->with(['alert' => ['type' => 'success', 'alert_message' => 'Server updated successfully']]);
+        return redirect(route('server.show', $server))->with(['alert' => ['type' => 'success', 'message' => 'Server updated successfully']]);
     }
 
     public function getUsage(Server $server): \Illuminate\Http\JsonResponse

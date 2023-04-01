@@ -109,7 +109,7 @@ class DownloadedFileController extends Controller
 
         Storage::disk('private')->delete("downloads/{$user_dl_dir}/$downloadedFile->saved_as");
 
-        return redirect(route('downloaded.index'))->with(['alert' => ['type' => 'success', 'alert_message' => $file_name . ' was deleted successfully']]);
+        return redirect(route('downloaded.index'))->with(['alert' => ['type' => 'success', 'message' => $file_name . ' was deleted successfully']]);
     }
 
 }
