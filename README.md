@@ -41,6 +41,7 @@ The full features of Surcuri as of February 2023:
 
 - Chart for pings between 2 servers
 - Chart for 'server usage' i.e RAM and CPU
+- Docker image for easy deployment
 
 ## External services used
 
