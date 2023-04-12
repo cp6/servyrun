@@ -13,6 +13,8 @@ class ServerSeeder extends Seeder
             [
                 "id" => 'X5PAoDIL',
                 "user_id" => 'aY7km3',
+                "location_id" => 10,
+                "type_id" => 1,
                 "hostname" => 'hidden.com',
                 "title" => 'cannotSeeMe'
             ]

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,8 +11,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(TypeSeeder::class);
         $this->call(LocationSeeder::class);
-        $this->call(ServerSeeder::class);
-        $this->call(IpAddressSeeder::class);
-        $this->call(ConnectionSeeder::class);
+        //$this->call(ServerSeeder::class);
+        //$this->call(IpAddressSeeder::class);
+        //$this->call(ConnectionSeeder::class);
     }
 }
