@@ -14,31 +14,31 @@ class TypeSeeder extends Seeder
     {
         $items = [
             [
-                "id" => Str::random(6),
+                "id" => 1,
                 "name" => "KVM",
             ],
             [
-                "id" => Str::random(6),
+                "id" => 2,
                 "name" => "OVZ",
             ],
             [
-                "id" => Str::random(6),
+                "id" => 3,
                 "name" => "NAT",
             ],
             [
-                "id" => Str::random(6),
+                "id" => 4,
                 "name" => "DEDI",
             ],
             [
-                "id" => Str::random(6),
+                "id" => 5,
                 "name" => "XEN",
             ],
             [
-                "id" => Str::random(6),
+                "id" => 6,
                 "name" => "LXC",
             ],
             [
-                "id" => Str::random(6),
+                "id" => 7,
                 "name" => "OTHER",
             ]
         ];

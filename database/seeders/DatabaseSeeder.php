@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TypeSeeder::class);
         $this->call(LocationSeeder::class);
         $this->call(ServerSeeder::class);
-        $this->call(ConnectionSeeder::class);
         $this->call(IpAddressSeeder::class);
+        $this->call(ConnectionSeeder::class);
     }
 }
