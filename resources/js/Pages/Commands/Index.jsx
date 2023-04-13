@@ -43,7 +43,7 @@ export default function Index({auth}) {
                     {
                         commands.length === 0
                             ?
-                            <h2 className={'text-md my-4 font-semibold leading-none text-gray-700 md:text-lg dark:text-gray-400'}>No
+                            <h2 className={'text-md p-2 font-semibold leading-none text-yellow-500 md:text-lg dark:text-yellow-400'}>No
                                 commands currently</h2>
                             :
                             <Grid

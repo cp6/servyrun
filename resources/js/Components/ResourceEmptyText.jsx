@@ -2,6 +2,6 @@ import React from "react";
 
 export default function ResourceEmptyText({resource, className}) {
     return (
-        <h2 className={'text-md my-1 font-semibold text-gray-600 md:text-lg dark:text-gray-300 ' + className}>No {resource} currently</h2>
+        <h2 className={'text-md p-2 font-semibold leading-none text-yellow-500 md:text-lg dark:text-yellow-400 ' + className}>No {resource} currently</h2>
     );
 }
