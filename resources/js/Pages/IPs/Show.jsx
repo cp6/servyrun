@@ -59,7 +59,7 @@ export default function Show({auth}) {
                         </div>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'md:col-span-1 col-span-2'}>
-                                <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.ip} <HiClipboardCopy className="mr-4 mb-1 h-5 w-5 inline hover:cursor-grab dark:text-gray-300" onClick={() => {
+                                <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.ip} <HiClipboardCopy className="mr-4 mb-1 h-5 w-5 inline hover:cursor-grab text-gray-500 dark:text-gray-300" onClick={() => {
                                     navigator.clipboard.writeText(resource.ip)
                                 }} title={'Copy IP'}/></h2>
                                 <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.server.hostname} ({resource.server.title})</p>
