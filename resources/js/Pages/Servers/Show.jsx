@@ -130,7 +130,7 @@ export default function Show({auth}) {
                             <div className={'col-span-1'}>
                                 {
                                     (() => {
-                                        if (resource.conn.outputs_last3 !== null && resource.conn.outputs_last3.length > 0) {
+                                        if (resource.conn !== null && resource.conn.outputs_last3 !== null && resource.conn.outputs_last3.length > 0) {
                                             return (
                                                 <>
                                                     <p className="mb-2 text-gray-800 dark:text-gray-200">Last 3 commands
