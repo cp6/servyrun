@@ -1,4 +1,5 @@
 import '../css/app.css';
+import '../js/switcher';
 
 import {createRoot} from 'react-dom/client';
 import {createInertiaApp} from '@inertiajs/inertia-react';
@@ -18,5 +19,3 @@ createInertiaApp({
 });
 
 InertiaProgress.init({color: '#4B5563'});
-
-import '../js/switcher';
