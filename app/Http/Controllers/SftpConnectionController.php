@@ -489,7 +489,11 @@ class SftpConnectionController extends Controller
         });
 
         $end_timer = time() - $start_timer;
-        $upload_speed_mbps = number_format(($file_size / $end_timer / 1000 / 1000), 2);
+        if ($file_size > 0 && $end_timer > 0){
+            $upload_speed_mbps = number_format(($file_size / $end_timer / 1000 / 1000), 2);
+        } else {
+            $upload_speed_mbps = null;
+        }
 
         if ($upload_file) {
             ActionLog::make(1, 'upload', 'sftp', "Uploaded {$file->getClientOriginalName()} as {$request->save_as} ({$upload_speed_mbps} Mbps)", $sftpConnection->server_id);
