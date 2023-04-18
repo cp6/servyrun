@@ -64,7 +64,7 @@ export default function Index({auth}) {
                                         id: "id",
                                         name: "Hostname",
                                         sort: false,
-                                        data: (row) => (row.server) ? row.server.hostname : null,
+                                        data: (row) => (row.server) ? html(`<a class="" href='${route('server.show', row.server.id)}'>${row.server.hostname}</a>`) : null,
                                     },
                                     {
                                         id: "action",
@@ -84,7 +84,7 @@ export default function Index({auth}) {
                                     {
                                         id: "id",
                                         name: "View",
-                                        data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('log.show', row.id)}'>View</a>`),
+                                        data: (row) => html(`<a class="text-blue-700 dark:text-blue-400" href='${route('log.show', row.id)}'>View</a>`),
                                     },
                                     {
                                         id: "created_at",
