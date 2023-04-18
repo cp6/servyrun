@@ -19,7 +19,7 @@ export default function Index() {
             <Head title="Servers"/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <AddButton href={route('server.create')}>Add server</AddButton>
+                    <AddButton href={route('server.create')}>Add a server</AddButton>
                 </div>
                 <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">

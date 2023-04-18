@@ -8,7 +8,7 @@ export default function YouAreNew({}) {
                 <p className="text-sm text-gray-700 dark:text-gray-200 my-2">It seems yous installation was a success!</p>
                 <p className="text-sm text-gray-700 dark:text-gray-200 my-2">If you come across any errors or issues please submit them to the Github.</p>
                 <div className="flex flex-wrap gap-2 my-4">
-                    <AddButton href={route('server.create')}>Add server</AddButton>
+                    <AddButton href={route('server.create')}>Add a server</AddButton>
                 </div>
             </div>
     );
