@@ -1,5 +1,5 @@
 #!/bin/sh
-
+apk add --no-cache linux-headers
 # Run setup only if .env file doesn't exist.
 if [ ! -e .env.production ]
 then
