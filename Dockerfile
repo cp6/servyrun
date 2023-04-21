@@ -1,5 +1,5 @@
 FROM php:8.2-fpm-alpine
-
+RUN apk add --no-cache linux-headers
 RUN docker-php-ext-install pdo pdo_mysql sockets
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN install-php-extensions sockets \
