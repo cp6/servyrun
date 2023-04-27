@@ -38,17 +38,18 @@ The full features of Surcuri as of February 2023:
 - Edit (smaller) files.
 
 ## Docker install
-`
+
+```
 docker run \
--p 8000:8000\
--e APP_URL=https://... \
--e DB_HOST=... \
--e DB_DATABASE=... \
--e DB_USERNAME=... \
--e DB_PASSWORD=... \
-ghcr.io/cp6/surcuri:latest
+  -p 8000:8000\
+  -e APP_URL=https://... \
+  -e DB_HOST=... \
+  -e DB_DATABASE=... \
+  -e DB_USERNAME=... \
+  -e DB_PASSWORD=... \
+  ghcr.io/cp6/surcuri:latest
 docker exec ... php artisan migrate:fresh --seed --force  # Set up database one time
-`
+```
 
 ## TODO
 
