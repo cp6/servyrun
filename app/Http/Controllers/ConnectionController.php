@@ -45,12 +45,10 @@ class ConnectionController extends Controller
 
         if (is_null($request->key_id)) {
             $connection_type = 1;//Password
+        } else if (!is_null($request->password)) {
+            $connection_type = 2;//Key with password
         } else {
-            if (!is_null($request->password)) {
-                $connection_type = 2;//Key with password
-            } else {
-                $connection_type = 3;//key NO password
-            }
+            $connection_type = 3;//key NO password
         }
 
         try {
