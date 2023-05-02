@@ -44,11 +44,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(): \Inertia\Response
     {
-        if (User::all()->count() >= config('custom.maxAccounts')) {
-            abort('403', 'Not accepting more registrations',['message' => 'Not accepting more registrations']);
+        if (User::all()->count() >= config('custom.maxAccounts')) {//max accounts limit hit
+            abort('403', 'Not accepting more registrations', ['message' => 'Not accepting more registrations']);
         }
+
         return Inertia::render('Auth/Register', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
