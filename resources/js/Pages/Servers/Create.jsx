@@ -155,7 +155,6 @@ export default function Create({auth, types, locations, title}) {
                                         name="server_type"
                                         required={true}
                                         value={data.server_type}
-                                        handleChange={(e) => setData('server_type', e.target.value)}
                                 >
                                     <option value=''>Choose</option>
                                     {types.map(types => <option key={types.id} value={types.id}>{types.name}</option>)}
@@ -169,7 +168,6 @@ export default function Create({auth, types, locations, title}) {
                                         name="location"
                                         required={true}
                                         value={data.location}
-                                        handleChange={(e) => setData('location', e.target.value)}
                                 >
                                     <option value=''>Choose</option>
                                     {locations.map(locations => <option key={locations.id}
