@@ -26,13 +26,14 @@ export default function Index({auth}) {
                         groups</IndigoButton>
                 </div>
                 <ResponseAlert details={alert}></ResponseAlert>
-                <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
-                    {
-                        pings.length === 0
-                            ?
-                            <h2 className={'text-md p-2 font-semibold leading-none text-yellow-500 md:text-lg dark:text-yellow-400'}>No
-                                pings yet</h2>
-                            :
+                {
+                    pings.length === 0
+                        ?
+                        <h2 className={'text-md p-2 font-semibold leading-none text-yellow-500 md:text-lg dark:text-yellow-400'}>No
+                            pings yet</h2>
+                        :
+                        <section
+                            className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                             <Grid
                                 data={pings}
                                 columns={[
@@ -52,7 +53,7 @@ export default function Index({auth}) {
                                         id: "was_up",
                                         name: "Up",
                                         sort: true,
-                                        formatter: (cell) => (cell === 1) ? html('<span class="text-green-500">Y</span>') :  html('<span class="text-red-500">N</span>')
+                                        formatter: (cell) => (cell === 1) ? html('<span class="text-green-500">Y</span>') : html('<span class="text-red-500">N</span>')
                                     },
                                     {
                                         id: "avg",
@@ -80,8 +81,8 @@ export default function Index({auth}) {
                                 className={gridJsTableStyling}
                                 pagination={GridJsPagination}
                             />
-                    }
-                </section>
+                        </section>
+                }
             </div>
         </AuthenticatedLayout>
     );

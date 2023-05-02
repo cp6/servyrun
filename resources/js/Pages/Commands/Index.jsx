@@ -21,31 +21,32 @@ export default function Index({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Commands</h2>}>
             <Head title={'Commands'}/>
-                <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
-                    <div className="flex flex-wrap gap-2 mb-4">
-                        <AddButton href={route('command.create')}>Add command</AddButton>
-                    </div>
-                    <ResponseAlert details={alert}></ResponseAlert>
-                    <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
-                        <div className="flex items-center justify-between mb-2 px-3">
-                            <div></div>
-                            <small className="text-end">
-                                <HiListBullet
-                                    className="mr-2 md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                    onClick={event => window.location.href = route('outputs.index')}
-                                    title={'Command outputs'}/>
-                                <HiUserGroup
-                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                    onClick={event => window.location.href = route('command-group.index')}
-                                    title={'Command groups'}/>
-                            </small>
-                        </div>
-                    {
-                        commands.length === 0
-                            ?
-                            <h2 className={'text-md p-2 font-semibold leading-none text-yellow-500 md:text-lg dark:text-yellow-400'}>No
-                                commands currently</h2>
-                            :
+            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+                <div className="flex flex-wrap gap-2 mb-4">
+                    <AddButton href={route('command.create')}>Add command</AddButton>
+                </div>
+                <ResponseAlert details={alert}></ResponseAlert>
+                {
+                    commands.length === 0
+                        ?
+                        <h2 className={'text-md p-2 font-semibold leading-none text-yellow-500 md:text-lg dark:text-yellow-400'}>No
+                            commands currently</h2>
+                        :
+                        <section
+                            className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
+                            <div className="flex items-center justify-between mb-2 px-3">
+                                <div></div>
+                                <small className="text-end">
+                                    <HiListBullet
+                                        className="mr-2 md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                        onClick={event => window.location.href = route('outputs.index')}
+                                        title={'Command outputs'}/>
+                                    <HiUserGroup
+                                        className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                        onClick={event => window.location.href = route('command-group.index')}
+                                        title={'Command groups'}/>
+                                </small>
+                            </div>
                             <Grid
                                 data={commands}
                                 columns={[
@@ -80,9 +81,9 @@ export default function Index({auth}) {
                                 className={gridJsTableStyling}
                                 pagination={GridJsPagination}
                             />
-                    }
-            </section>
-                </div>
+                        </section>
+                }
+            </div>
         </AuthenticatedLayout>
     );
 }
