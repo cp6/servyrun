@@ -28,7 +28,7 @@ class Ping extends Model
         });
 
         static::created(function (Ping $ping) {
-            ActionLog::make(1, 'create', 'ping', 'Ran ping from: ' . $ping->from_server->hostname . ' to: ' . $ping->to_server->hostname, $ping->from_server_id);
+            ActionLog::make(1, 'create', 'ping', 'from: ' . $ping->from_server->hostname . ' to: ' . $ping->to_server->hostname, $ping->from_server_id);
         });
 
     }
