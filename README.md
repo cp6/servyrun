@@ -37,8 +37,6 @@ The full features of Surcuri as of February 2023:
 - View files through SFTP.
 - Edit (smaller) files.
 
-## Docker install
-
 
 ## TODO
 

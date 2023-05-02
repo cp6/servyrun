@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use phpseclib3\Net\SSH2;
 
 class ConnectionController extends Controller
 {
@@ -102,6 +103,8 @@ class ConnectionController extends Controller
     {
         $this->authorize('view', $connection);
 
+        define('NET_SSH2_LOGGING', SSH2::LOG_SIMPLE);//Simple logs else use: LOG_COMPLEX
+
         $con = Connection::where('id', $connection->id)->with(['server', 'server.ips'])->firstOrFail();
 
         if ($connection->type === 1) {
@@ -121,9 +124,7 @@ class ConnectionController extends Controller
             return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'output' => 'ERROR: Connection could not be made! Check the logs for more information.'], 400)->header('Content-Type', 'application/json');
         }
 
-        dump($ssh);
-
-        exit;
+        return $ssh->getLog();
     }
 
     public function edit(Connection $connection): \Inertia\Response
