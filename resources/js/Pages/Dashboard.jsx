@@ -37,48 +37,57 @@ export default function Dashboard({auth}) {
                     <div className="mt-4">
                         <div className="py-4 px-2 mx-auto max-w-7xl">
                             <div className="bg-white dark:bg-gray-700 overflow-hidden rounded-lg shadow-md">
-                                <div className="p-6 text-gray-900 font-bold dark:text-gray-300">Recent actions</div>
-                                <Table className='px-4'>
-                                    <Table.Head className='bg-gray-200 dark:bg-gray-600 rounded-0'>
-                                        <Table.HeadCell>
-                                            Resource
-                                        </Table.HeadCell>
-                                        <Table.HeadCell>
-                                            Action
-                                        </Table.HeadCell>
-                                        <Table.HeadCell>
-                                            Message
-                                        </Table.HeadCell>
-                                        <Table.HeadCell>
-                                            When
-                                        </Table.HeadCell>
-                                    </Table.Head>
-                                    <Table.Body className="divide-y">
-
-                                        {RecentActions.map(
-                                            RecentActions =>
-                                                <Table.Row key={RecentActions.id}
-                                                           className="bg-white dark:border-gray-800 dark:bg-gray-700">
-                                                    <Table.Cell
-                                                        className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                        {RecentActions.resource_type}
-                                                    </Table.Cell>
-                                                    <Table.Cell
-                                                        className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                        {RecentActions.action}
-                                                    </Table.Cell>
-                                                    <Table.Cell
-                                                        className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                                        {RecentActions.message}
-                                                    </Table.Cell>
-                                                    <Table.Cell>
-                                                        {format(new Date(RecentActions.created_at), "hh:mm:ssa do LLL yyyy")}
-                                                    </Table.Cell>
-                                                </Table.Row>
-                                        )}
-
-                                    </Table.Body>
-                                </Table>
+                                <h2 className="px-4 pt-4 font-semibold text-lg text-gray-800 dark:text-white">Recent
+                                    actions</h2>
+                                {RecentActions.length > 0 ?
+                                    <div>
+                                        <p className="pl-4 pb-4 text-sm text-blue-500"><a href={route('log.index')}>View
+                                            all</a></p>
+                                        <Table className='px-4'>
+                                            <Table.Head className='bg-gray-200 dark:bg-gray-900 rounded-0'>
+                                                <Table.HeadCell className={'text-gray-900 dark:text-gray-100'}>
+                                                    When
+                                                </Table.HeadCell>
+                                                <Table.HeadCell className={'text-gray-900 dark:text-gray-100'}>
+                                                    Resource
+                                                </Table.HeadCell>
+                                                <Table.HeadCell className={'text-gray-900 dark:text-gray-100'}>
+                                                    Action
+                                                </Table.HeadCell>
+                                                <Table.HeadCell
+                                                    className={'text-gray-900 dark:text-gray-100 overflow-x-scroll w-40'}>
+                                                    Message
+                                                </Table.HeadCell>
+                                            </Table.Head>
+                                            <Table.Body className="divide-y">
+                                                {RecentActions.map(
+                                                    RecentActions =>
+                                                        <Table.Row key={RecentActions.id}
+                                                                   className="bg-white dark:border-gray-800 dark:bg-gray-700">
+                                                            <Table.Cell
+                                                                className={'whitespace-nowrap font-medium text-gray-700 dark:text-gray-200'}>
+                                                                {format(new Date(RecentActions.created_at), "hh:mm:ssa do LLL yyyy")}
+                                                            </Table.Cell>
+                                                            <Table.Cell
+                                                                className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                                {RecentActions.resource_type}
+                                                            </Table.Cell>
+                                                            <Table.Cell
+                                                                className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                                                {RecentActions.action}
+                                                            </Table.Cell>
+                                                            <Table.Cell
+                                                                className="whitespace-nowrap font-medium text-gray-900 dark:text-white overflow-x-scroll w-40">
+                                                                {RecentActions.message}
+                                                            </Table.Cell>
+                                                        </Table.Row>
+                                                )}
+                                            </Table.Body>
+                                        </Table>
+                                    </div>
+                                    :
+                                    <p className="pl-4 pb-4 text-sm text-blue-500">No logs yet</p>
+                                }
                             </div>
                         </div>
                     </div>
