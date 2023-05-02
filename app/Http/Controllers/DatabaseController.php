@@ -60,7 +60,7 @@ class DatabaseController extends Controller
         ]);
     }
 
-    public function edit(Database $database)
+    public function edit(Database $database): void
     {
         abort(404);
     }

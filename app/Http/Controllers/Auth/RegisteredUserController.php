@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create()
+    public function create(): \Inertia\Response
     {
         if (User::all()->count() >= config('custom.maxAccounts')) {
             abort('403', 'Not accepting more registrations',['message' => 'Not accepting more registrations']);
