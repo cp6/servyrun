@@ -157,11 +157,11 @@ export default function Show({auth}) {
                                 <div className="sm:col-span-4 col-span-4">
                                     <InputLabel forInput="the_command1" value="Command"/>
                                     <TextInput
+                                        handleChange={(e) => setData('the_command1', e.target.value)}
                                         name="the_command1"
                                         value={data.the_command1}
                                         className="mt-1 block w-full"
                                         autoComplete="the_command1"
-                                        handleChange={(e) => setData('the_command1', e.target.value)}
                                         maxLength={64}
                                     />
                                     <InputError message={errors.the_command1} className="mt-2"/>
@@ -173,7 +173,6 @@ export default function Show({auth}) {
                                     <Select onChange={(e) => setData('command_id', e.target.value)}
                                             name="command_id"
                                             value={data.command_id}
-                                            handleChange={(e) => setData('command_id', e.target.value)}
                                     >
                                         <option value=''>Choose</option>
                                         {commands.map(commands => <option key={commands.id}
