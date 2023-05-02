@@ -482,11 +482,7 @@ class ApiController extends Controller
 
     public function downloadedUploadToSftp(Request $request, DownloadedFile $downloadedFile, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
     {
-        if (isset($request->save_as)) {
-            $save_as = $request->save_as;
-        } else {
-            $save_as = '';
-        }
+        $save_as = $request->save_as ?? '';
 
         $user_dl_dir = Auth::user()->download_directory;
 
