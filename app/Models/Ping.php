@@ -13,6 +13,8 @@ class Ping extends Model
 
     protected $fillable = ['from_server_id', 'ping_group', 'was_up', 'avg', 'min', 'max'];
 
+    protected $with = ['to_server', 'from_server'];
+
     protected static function boot(): void
     {
         parent::boot();
@@ -26,7 +28,7 @@ class Ping extends Model
         });
 
         static::created(function (Ping $ping) {
-            ActionLog::make(1, 'create', 'ping', 'Ran ping from:'.$ping->from_server_id.' to:'.$ping->server_id);
+            ActionLog::make(1, 'create', 'ping', 'Ran ping from: ' . $ping->from_server->hostname . ' to: ' . $ping->to_server->hostname, $ping->from_server_id);
         });
 
     }
@@ -66,7 +68,7 @@ class Ping extends Model
 
             } catch (\Exception $exception) {
 
-                $array =['is_up' => false, 'ip' => $data->ip_ssh->ip, 'message' => $exception->getMessage()];
+                $array = ['is_up' => false, 'ip' => $data->ip_ssh->ip, 'message' => $exception->getMessage()];
             }
 
         } else {
@@ -116,11 +118,11 @@ class Ping extends Model
         } elseif ($connection->conn->type === 3) { //Key NO stored password
             $ssh = Connection::makeConnectionKey($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, null, 20);
         } else {        //Cannot run because connection not of valid type
-            ActionLog::make(5, 'run','ping', 'Failed running ping from to because conn type invalid for ' . $server_from->id);
+            ActionLog::make(5, 'run', 'ping', 'Failed running ping from to because conn type invalid for ' . $server_from->id);
             return null;
         }
 
-        if (is_null($ssh)){
+        if (is_null($ssh)) {
             return null;
         }
 
