@@ -15,8 +15,8 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
         name: user.name,
         email: user.email,
         api_token: user.api_token,
-        login_ip_only: user.login_ip_only,
-        api_ip_only: user.api_ip_only,
+        login_ip_only: user.login_ip_only || '',
+        api_ip_only: user.api_ip_only || '',
         check_uptime_server_index: user.check_uptime_server_index,
         check_uptime_connection_index: user.check_uptime_connection_index,
         check_uptime_sftp_connection_index: user.check_uptime_sftp_connection_index,
@@ -83,7 +83,7 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         <TextInput
                             id="api_ip_only"
                             className="mt-1 block w-full"
-                            value={data.login_ip_only}
+                            value={data.api_ip_only}
                             handleChange={(e) => setData('api_ip_only', e.target.value)}
                             autoComplete="api_ip_only"
                         />
@@ -97,7 +97,6 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         <Select name="allow_api_access"
                                 value={data.allow_api_access}
                                 onChange={(e) => setData('allow_api_access', e.target.value)}
-                                handleChange={(e) => setData('allow_api_access', e.target.value)}
                         >
                             <option value={0}>No</option>
                             <option value={1}>Yes</option>
@@ -114,7 +113,6 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         <Select name="log_connections"
                                 value={data.log_connections}
                                 onChange={(e) => setData('log_connections', e.target.value)}
-                                handleChange={(e) => setData('log_connections', e.target.value)}
                         >
                             <option value={0}>No</option>
                             <option value={1}>Yes</option>
@@ -129,7 +127,6 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         <Select name="check_uptime_server_index"
                                 value={data.check_uptime_server_index}
                                 onChange={(e) => setData('check_uptime_server_index', e.target.value)}
-                                handleChange={(e) => setData('check_uptime_server_index', e.target.value)}
                         >
                             <option value={0}>No</option>
                             <option value={1}>Yes</option>
@@ -146,7 +143,6 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         <Select name="check_uptime_connection_index"
                                 value={data.check_uptime_connection_index}
                                 onChange={(e) => setData('check_uptime_connection_index', e.target.value)}
-                                handleChange={(e) => setData('check_uptime_connection_index', e.target.value)}
                         >
                             <option value={0}>No</option>
                             <option value={1}>Yes</option>
@@ -163,7 +159,6 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         <Select name="check_uptime_sftp_connection_index"
                                 value={data.check_uptime_sftp_connection_index}
                                 onChange={(e) => setData('check_uptime_sftp_connection_index', e.target.value)}
-                                handleChange={(e) => setData('check_uptime_sftp_connection_index', e.target.value)}
                         >
                             <option value={0}>No</option>
                             <option value={1}>Yes</option>
@@ -180,7 +175,6 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         <Select name="check_uptime_db_connection_index"
                                 value={data.check_uptime_db_connection_index}
                                 onChange={(e) => setData('check_uptime_db_connection_index', e.target.value)}
-                                handleChange={(e) => setData('check_uptime_db_connection_index', e.target.value)}
                         >
                             <option value={0}>No</option>
                             <option value={1}>Yes</option>
