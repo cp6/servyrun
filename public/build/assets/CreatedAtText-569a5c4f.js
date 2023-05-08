@@ -1,0 +1,1 @@
+import{j as m,a as s}from"./app-3b14edf2.js";import{f as d}from"./index-a84c5b70.js";function i({created_at:t,string_format:e="hh:mma do LLL yyyy",pre_text:a="Created:"}){let r=d(new Date(t),e);return m("p",{className:"my-4 text-md leading-none text-gray-900 dark:text-white",children:[s("span",{className:"font-light",children:a})," ",r]})}export{i as C};
