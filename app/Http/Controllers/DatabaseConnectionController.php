@@ -8,6 +8,7 @@ use App\Models\Server;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
+use PDO;
 
 class DatabaseConnectionController extends Controller
 {
@@ -38,6 +39,12 @@ class DatabaseConnectionController extends Controller
             'username' => 'string|required',
             'password' => 'string|nullable'
         ]);
+
+        try {
+            $db = new PDO("mysql:host=$request->address;port=$request->port;dbname=;charset=utf8mb4", $request->username, $request->password, [PDO::ATTR_TIMEOUT => 3]);
+        } catch (\Exception $exception) {
+            return redirect(route('db.connection.create'))->with(['alert' => ['type' => 'failure', 'message' => 'DB connection could not be created error ' . $exception->getMessage()]]);
+        }
 
         try {
             $db_connection = new DatabaseConnection();

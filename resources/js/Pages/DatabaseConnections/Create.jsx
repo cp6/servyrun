@@ -25,8 +25,6 @@ export default function Create({auth}) {
         password: ''
     });
 
-
-
     const user = usePage().props.auth.user;
 
     const submit = (e) => {
