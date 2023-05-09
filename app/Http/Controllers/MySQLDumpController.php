@@ -42,7 +42,7 @@ class MySQLDumpController extends Controller
             'save_to' => 'string|sometimes|nullable|max:64',
             'save_as' => 'string|sometimes|nullable|max:64',
             'compress' => 'integer|required',
-            'option' => 'string|required',
+            'option' => 'string|nullable',
             'custom_flags' => 'string|nullable|sometimes|max:64'
         ]);
 
