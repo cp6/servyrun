@@ -1,4 +1,4 @@
-export const numberFormat = (value, digits = 2, locales = 'en-IN')=> {
+export const numberFormat = (value, digits = 3, locales = 'en-IN')=> {
 
     if (value === null) {
         return null;//Do not try to format null
