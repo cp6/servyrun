@@ -1,4 +1,5 @@
 import React from "react";
+import {numberFormat} from "@/helpers";
 
 export default function ServerCardSpecs({resource}) {
     return (
@@ -9,7 +10,7 @@ export default function ServerCardSpecs({resource}) {
             </div>
             <div>
                 <dt className="mb-2 font-light leading-none text-gray-900 dark:text-gray-300">Ghz</dt>
-                <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{resource.cpu_freq ?? '-'}</dd>
+                <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{numberFormat(resource.cpu_freq,3) ?? '-'}</dd>
             </div>
             <div>
                 {
@@ -18,14 +19,14 @@ export default function ServerCardSpecs({resource}) {
                             return (
                                 <>
                                     <dt className="mb-2 font-light leading-none text-gray-900 dark:text-gray-300">Disk TB</dt>
-                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.disk_tb)}</dd>
+                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{numberFormat(resource.disk_tb,3)}</dd>
                                 </>
                             )
                         } else {
                             return (
                                 <>
                                     <dt className="mb-2 font-light leading-none text-gray-900 dark:text-gray-300">Disk GB</dt>
-                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{(resource.disk_gb === null) ? '-' : new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.disk_gb)}</dd>
+                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{(resource.disk_gb === null) ? '-' : numberFormat(resource.disk_gb,3)}</dd>
                                 </>
                             )
                         }
@@ -39,14 +40,14 @@ export default function ServerCardSpecs({resource}) {
                             return (
                                 <>
                                     <dt className="mb-2 font-light leading-none text-gray-900 dark:text-gray-300">RAM GB</dt>
-                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.ram_gb)}</dd>
+                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{numberFormat(resource.ram_gb,3)}</dd>
                                 </>
                             )
                         } else {
                             return (
                                 <>
                                     <dt className="mb-2 font-light leading-none text-gray-900 dark:text-gray-300">RAM MB</dt>
-                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{(resource.ram_mb === null) ? '-' : new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(resource.ram_mb)}</dd>
+                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white">{(resource.ram_mb === null) ? '-' : numberFormat(resource.ram_mb,3)}</dd>
                                 </>
                             )
                         }
