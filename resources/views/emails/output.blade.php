@@ -3,9 +3,9 @@
 
 ### server: {{$contents['server']['hostname']}}
 
-### command: {{$contents['the_command']}}
+### command: `{{$contents['the_command']}}`
 
-### seconds: {{$contents['seconds_taken']}}
+### seconds: `{{$contents['seconds_taken']}}`
 
 ### output:
 
