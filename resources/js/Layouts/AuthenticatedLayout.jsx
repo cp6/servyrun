@@ -202,7 +202,7 @@ export default function Authenticated({auth, header, children}) {
                             Logs
                         </ResponsiveNavLink>
                         <button id="theme-toggle-mobile" onClick={switchTheme} type="button"
-                                className="text-gray-500 dark:text-gray-400 rounded-md text-sm p-2.5 themeToggle">
+                                className="text-gray-500 dark:text-gray-400 rounded-md text-sm p-2.5 ml-2 themeToggle">
                             <svg id="theme-toggle-dark-icon" className={(isDarkTheme) ? "w-5 h-5 hidden" : "w-5 h-5 text-gray-600 hover:text-gray-900"}
                                  fill="currentColor"
                                  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
