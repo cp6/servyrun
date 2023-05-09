@@ -20,7 +20,6 @@ export default function Show({auth}) {
                 <div className="grid gap-2 grid-cols-1 sm:gap-4">
                     <Card className={'dark:bg-gray-700'}>
                         <div className="flex items-center justify-between">
-                            <div></div>
                             <small className="text-end">
                                 <HiServer className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
                                           onClick={event => window.location.href = route('server.show', resource.server.id)} title={'Go to server'}/>

@@ -9,7 +9,7 @@ export default function ShowPublic() {
     const resource = usePage().props.resource;
 
     return (
-        <GuestLayout children={''} wide={true}>
+        <GuestLayout wide={true}>
             <Head title={"Command " + resource.id}/>
             <div className="py-6 px-2 mx-auto max-w-7xl lg:py-8">
                 <div className="grid gap-2 grid-cols-1 sm:gap-4">
