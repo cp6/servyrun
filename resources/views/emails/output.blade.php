@@ -1,5 +1,5 @@
 <x-mail::message>
-# {{ config('app.name') }} command output
+# Your command output
 
 ### server: {{$contents['server']['hostname']}}
 
@@ -9,6 +9,6 @@
 
 ### output:
 
-    {{$contents['output']}}
+`{{$contents['output']}}`
 
 </x-mail::message>
