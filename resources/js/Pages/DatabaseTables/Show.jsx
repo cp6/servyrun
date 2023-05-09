@@ -6,6 +6,7 @@ import ResponseAlert from "@/Components/Alert";
 import {HiRefresh, HiCalculator, HiTrash} from "react-icons/hi";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
+import {numberFormat} from "@/helpers";
 
 export default function Show({auth}) {
 
@@ -109,13 +110,13 @@ export default function Show({auth}) {
                                         {
                                             (table.row_count !== null) ?
                                                 <span
-                                                    className="ml-1 bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(table.row_count)} rows</span>
+                                                    className="ml-1 bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{numberFormat(table.row_count)} rows</span>
                                                 : null
                                         }
                                         {
                                             (table.size_mb !== null) ?
                                                 <span
-                                                    className="ml-1 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(table.size_mb)} MB</span>
+                                                    className="ml-1 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{numberFormat(table.size_mb)} MB</span>
                                                 : null
                                         }
                                     </li>)}

@@ -1,6 +1,7 @@
 import React from "react";
 import {HiRefresh} from "react-icons/hi";
 import axios from "axios";
+import {numberFormat} from "@/helpers";
 
 export default function ServerCardUsage({serverId, usage, uptime}) {
 
@@ -21,10 +22,10 @@ export default function ServerCardUsage({serverId, usage, uptime}) {
     const refreshUsage = () => {
         setHideButton1(true);
         axios.get(route('server.usage', serverId)).then(response => {
-            setCpu(new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 2}).format(response.data.cpu_used_percent));
-            setRam(new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(response.data.ram_used_percent));
+            setCpu(numberFormat(response.data.cpu_used_percent,3));
+            setRam(numberFormat(response.data.ram_used_percent,3));
             setDisk(response.data.disk_used_percent);
-            setDiskAvailable(new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(response.data.disk_available_gb) + ' GB');
+            setDiskAvailable(numberFormat(response.data.disk_available_gb,3) + ' GB');
             console.log('Updated usage');
             setHideButton1(false);
         }).catch(err => {
@@ -51,7 +52,7 @@ export default function ServerCardUsage({serverId, usage, uptime}) {
 
     return (
         <div className={'grid md:grid-cols-2 grid-cols-1'}>
-            <div className={'md:col-span-1 md:col-span-2'}>
+            <div className={'md:col-span-2'}>
                 <dl className="flex items-center space-x-6 mt-4">
                     <div>
                         <dt className={(hideButton1) ? "mb-2 font-light leading-none text-white/50 dark:text-gray-900" : "mb-2 font-light leading-none text-gray-900 dark:text-gray-300 hover:dark:text-gray-200"}>

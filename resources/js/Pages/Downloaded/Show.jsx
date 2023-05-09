@@ -6,6 +6,7 @@ import ResponseAlert from "@/Components/Alert";
 import {HiDownload, HiTrash, HiUpload} from "react-icons/hi";
 import CreatedAtText from "@/Components/CreatedAtText";
 import BackButton from "@/Components/BackButton";
+import {numberFormat} from "@/helpers";
 
 export default function Show({auth}) {
 
@@ -46,9 +47,9 @@ export default function Show({auth}) {
                         <div className="flex items-center justify-between">
                             <div>
                                     <span
-                                        className="bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">Size {new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(resource.size / 1000 / 1000)} MB</span>
+                                        className="bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">Size {numberFormat(resource.size / 1000 / 1000)} MB</span>
                                 <span
-                                    className="ml-1 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">DL speed {new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(resource.speed_mbps)} Mbps</span>
+                                    className="ml-1 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">DL speed {numberFormat(resource.speed_mbps)} Mbps</span>
                             </div>
                             <small className="text-sm text-gray-700">
                                 <HiTrash

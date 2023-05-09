@@ -10,6 +10,7 @@ import BackButton from "@/Components/BackButton";
 import TealButton from "@/Components/TealButton";
 import axios from "axios";
 import {HiPlay} from "react-icons/hi";
+import {numberFormat} from "@/helpers";
 
 export default function FromTo({auth}) {
 
@@ -60,11 +61,11 @@ export default function FromTo({auth}) {
                         </h2>
                     </div>
                     <div className={'col md:col-span-1 col-span-2 md:text-end'}>
-                        <h2 className={'font-medium text-gray-900 dark:text-gray-300'}>Average: <b>{new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 6}).format(avgPing)}</b> Lowest: <b>{minPing}</b> Highest: <b>{maxPing}</b>
+                        <h2 className={'font-medium text-gray-900 dark:text-gray-300'}>Average: <b>{numberFormat(avgPing)}</b> Lowest: <b>{minPing}</b> Highest: <b>{maxPing}</b>
                         </h2>
                     </div>
                 </div>
-                <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
+                <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 rounded-lg">
                     {
                         pings.length === 0
                             ?

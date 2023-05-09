@@ -18,6 +18,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers';
 import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import UpdateButton from "@/Components/UpdateButton";
 import BackButton from "@/Components/BackButton";
+import {numberFormat} from "@/helpers";
 
 
 export default function Read({auth}) {
@@ -74,7 +75,7 @@ export default function Read({auth}) {
                 setEditable(true);
             }
 
-            setFileSize(new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 2}).format(the_response.size / 1000 / 1000));
+            setFileSize(numberFormat(the_response.size / 1000 / 1000));
 
         });
 

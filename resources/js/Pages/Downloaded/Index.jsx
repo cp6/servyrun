@@ -7,6 +7,7 @@ import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
 import {html} from "gridjs";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
+import {numberFormat} from "@/helpers";
 
 export default function Index({auth}) {
 
@@ -26,7 +27,7 @@ export default function Index({auth}) {
                 {
                     (downloads.length > 0) ?
                         <section
-                            className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
+                            className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 rounded-lg">
                             <Grid
                                 data={downloads}
                                 columns={[
@@ -39,13 +40,13 @@ export default function Index({auth}) {
                                         id: "size",
                                         name: "Size MB",
                                         sort: true,
-                                        formatter: (cell) => (cell !== null) ? new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format((cell / 1000 / 1000)) : null
+                                        formatter: (cell) => (cell !== null) ? numberFormat((cell / 1000 / 1000)) : null
                                     },
                                     {
                                         id: "speed_mbps",
                                         name: "DL speed Mbps",
                                         sort: true,
-                                        formatter: (cell) => (cell !== null) ? new Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format(cell) : null
+                                        formatter: (cell) => (cell !== null) ? numberFormat(cell) : null
                                     },
                                     {
                                         id: "filename",
