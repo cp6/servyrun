@@ -19,6 +19,8 @@ class MySQLDump extends Model
 
     protected $fillable = ['connection_id', 'server_id', 'database_id', 'db_connection_id', 'these_tables', 'save_to', 'save_as', 'compress', 'option', 'flags', 'last_ran'];
 
+    protected $with = ['server'];
+
     protected static function boot(): void
     {
         parent::boot();
@@ -112,6 +114,8 @@ class MySQLDump extends Model
         $connection = Connection::do($conn, 30);
 
         $command = self::createCommand($mySQLDump);
+
+        \Log::debug($command);
 
         $run = Connection::runCommand($connection, $command);
 
