@@ -74,6 +74,8 @@ class MySQLDump extends Model
 
         $password = Crypt::decryptString($db->conn->password);
 
+        $host = "-h {$mySQLDump->server->hostname} ";
+
         if (!is_null($mySQLDump->save_to)) {
             $save_to = "-T{$mySQLDump->save_to}";
         } else {
@@ -104,7 +106,7 @@ class MySQLDump extends Model
             $compress = '>';
         }
 
-        return "mysqldump -u {$db->conn->username} -p{$password} {$save_to} {$db_tables} {$option} {$mySQLDump->flags} {$compress} {$mySQLDump->save_as}";
+        return "mysqldump -u {$db->conn->username} -p{$password} $host {$save_to} {$db_tables} {$option} {$mySQLDump->flags} {$compress} {$mySQLDump->save_as}";
     }
 
     public static function runCommand(MySQLDump $mySQLDump): ?string
