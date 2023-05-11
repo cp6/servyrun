@@ -26,10 +26,9 @@ export default function Index({auth}) {
                         dumps.map(dump =>
                             <section key={dump.id}
                                      className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
-                                     onClick={event => window.location.href = route('mysqldump.show', servers.id)}>
+                                     onClick={event => window.location.href = route('mysqldump.show', dump.id)}>
                                 <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
                                     <div className="flex items-center justify-between mb-3">
-                                        <div></div>
                                         <small className="text-end"></small>
                                     </div>
                                     <div className="flex flex-col items-center pb-3">
