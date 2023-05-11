@@ -19,7 +19,7 @@ class MySQLDump extends Model
 
     protected $fillable = ['connection_id', 'server_id', 'database_id', 'db_connection_id', 'these_tables', 'save_to', 'save_as', 'compress', 'option', 'flags', 'last_ran'];
 
-    protected $with = ['server'];
+    protected $with = ['server', 'database_conn', 'database'];
 
     protected static function boot(): void
     {
@@ -50,7 +50,7 @@ class MySQLDump extends Model
 
     public function server(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(Server::class, 'id', 'server_id');
+        return $this->hasOne(Server::class, 'id', 'server_id')->with(['ip_ssh', 'conn']);
     }
 
     public function database(): \Illuminate\Database\Eloquent\Relations\HasOne
@@ -74,7 +74,11 @@ class MySQLDump extends Model
 
         $password = Crypt::decryptString($db->conn->password);
 
-        $host = "-h {$mySQLDump->server->hostname} ";
+        if ($mySQLDump->database_conn->host !== $mySQLDump->server->ip_ssh->ip) {
+            $host = "-h {$mySQLDump->server->hostname} ";//Database is NOT local
+        } else {
+            $host = "";
+        }
 
         if (!is_null($mySQLDump->save_to)) {
             $save_to = "-T{$mySQLDump->save_to}";
@@ -115,13 +119,15 @@ class MySQLDump extends Model
 
         $connection = Connection::do($conn, 30);
 
-        $command = self::createCommand($mySQLDump);
+        if (is_null($connection)) {
+            return null;
+        }
 
-        \Log::debug($command);
+        $command = self::createCommand($mySQLDump);
 
         $run = Connection::runCommand($connection, $command);
 
-        ActionLog::make(1, 'run', 'mysqldump', 'Ran MySQLdump '.$mySQLDump->id, $mySQLDump->server_id, null, $mySQLDump->connection_id);
+        ActionLog::make(1, 'run', 'mysqldump', 'Ran MySQLdump ' . $mySQLDump->id, $mySQLDump->server_id, null, $mySQLDump->connection_id);
 
         $mySQLDump->last_ran = date('Y-m-d H:i:s');
         $mySQLDump->save();
