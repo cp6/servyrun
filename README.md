@@ -207,6 +207,17 @@ comment
 
 `POST` `/connections/`
 
+An example body to create a password connection for a server:
+
+```json
+{
+    "server_id": "ABCD1234",
+    "type" : 1,
+    "username": "root",
+    "password": "thePasswordGoesHere"
+}
+```
+
 #### Destroy a connection
 
 `DELETE` `/connections/{connection}`
@@ -353,6 +364,15 @@ comment
 #### Create an Ip address
 
 `POST` `/ips/`
+
+An example body to create an IP for a server:
+
+```json
+{
+    "server_id": "ABCD1234",
+    "ip": "127.0.0.1"
+}
+```
 
 #### Fetch & update GEO data for an IP address
 
