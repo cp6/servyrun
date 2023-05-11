@@ -63,10 +63,9 @@ export default function CreateDownload({auth}) {
         <AuthenticatedLayout
             auth={auth}
             header={<h2
-                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Download file to
-                server</h2>}
+                className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Download file to surcuri</h2>}
         >
-            <Head title={"Download file to server"}/>
+            <Head title={"Download file to surcuri"}/>
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.show', resource.id)}>Back to SFTP connection</BackButton>
@@ -78,7 +77,7 @@ export default function CreateDownload({auth}) {
                     <div className="py-6 px-4 mx-auto max-w-7xl">
                         <div className="flex items-center justify-between mb-4">
                             <h1 className='text-2xl font-bold text-gray-800 dark:text-white'>Download file from SFTP to
-                                this server</h1>
+                                this surcuri host</h1>
                             <small className="text-end">
                                 <HiServer
                                     className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
