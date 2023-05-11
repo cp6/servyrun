@@ -1,0 +1,1 @@
+import{j as d,a as r}from"./app-a8d4275f.js";import{f as m}from"./index-9b0dda6f.js";function o({updated_at:t,string_format:a="hh:mma do LLL yyyy"}){let e=m(new Date(t),a);return d("p",{className:"my-4 text-md leading-none text-gray-900 dark:text-white",children:[r("span",{className:"font-light",children:"Updated:"})," ",e]})}export{o as U};

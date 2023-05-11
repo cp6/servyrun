@@ -1,1 +1,0 @@
-import{j as o}from"./app-7082a047.js";function r({resource:e,className:t}){return o("h2",{className:"text-md p-2 font-semibold leading-none text-yellow-500 md:text-lg dark:text-yellow-400 "+t,children:["No ",e," currently"]})}export{r as R};

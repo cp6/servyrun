@@ -1,1 +1,0 @@
-import{a as m}from"./app-7082a047.js";function l({forInput:e,value:t,className:r,children:a}){return m("label",{htmlFor:e,className:"block mb-2 text-sm font-medium text-gray-900 dark:text-white "+r,children:t||a})}export{l as I};
