@@ -16,14 +16,12 @@ export default function Edit({auth}) {
     const types = usePage().props.types;
     const locations = usePage().props.locations;
 
-
-
     const {data, setData, patch, processing, errors} = useForm({
         title: resource.title,
         hostname: resource.hostname,
         server_type: resource.type_id,
         location: resource.location_id,
-        ip: resource.ip_ssh.ip,
+        ip: (resource.ip_ssh !== null) ? resource.ip_ssh.ip : '',
         os: resource.operating_system,
         cpu: resource.cpu,
         cpu_cores: resource.cpu_cores,
@@ -115,7 +113,7 @@ export default function Edit({auth}) {
                                     name="ip"
                                     className="mt-1 block w-full"
                                     autoComplete="ip"
-                                    value={resource.ip_ssh.ip || ''}
+                                    value={data.ip}
                                     handleChange={(e) => setData('ip', e.target.value)}
                                     required
                                 />

@@ -190,6 +190,36 @@ class ServerController extends Controller
                 'payment_term' => $request->term ?? null
             ]);
 
+            if ($request->has('ip')) {
+                //Update or create the IP
+                $ip = IpAddress::where('server_id', $server->id)->where('is_main', 1)->where('user_id', \Auth::id())->first();
+
+                if (!is_null($ip)) {
+
+                    $ip->update(['ip' => $request->ip, 'is_ipv4' => (filter_var($request->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) ? 0 : 1]);
+
+                } else {
+
+                    try {
+
+                        $ip = new IpAddress();
+                        $ip->server_id = $server->id;
+                        $ip->ip = $request->ip;
+                        $ip->is_ipv4 = (filter_var($request->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) ? 0 : 1;
+                        $ip->is_main = 1;
+                        $ip->is_ssh = 1;
+                        $ip->save();
+
+                    } catch (\Exception $exception) {
+                        return redirect(route('server.show', $server))->with(['alert' => ['type' => 'failure', 'message' => 'Creating IP error: ' . $exception->getMessage()]]);
+                    }
+
+                    IpAddress::fetchUpdateIpDetails($ip);//Get IP ASN and GEO data etc
+
+                }
+
+            }
+
         } catch (\Exception $exception) {
 
             return redirect(route('server.show', $server))->with(['alert' => ['type' => 'failure', 'message' => 'Server update error: ' . $exception->getMessage()]]);
