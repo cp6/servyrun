@@ -51,18 +51,41 @@ export default function Show({auth}) {
                                 <HiTrash
                                     className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
                                     onClick={() => setShowModal(true)} title={'Delete IP address'}/>
-                                <HiPencil className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                            onClick={event => window.location.href = route('ip.edit', resource.id)} title={'Edit IP address'}/>
-                                <HiServer className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                          onClick={event => window.location.href = route('server.show', resource.server.id)} title={'Go to server'}/>
+                                <HiPencil
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('ip.edit', resource.id)}
+                                    title={'Edit IP address'}/>
+                                {
+                                    (() => {
+                                        if (resource.server !== null) {
+                                            return (
+                                                <HiServer
+                                                    className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                                    onClick={event => window.location.href = route('server.show', resource.server.id)}
+                                                    title={'Go to server'}/>
+                                            )
+                                        }
+                                    })()
+                                }
                             </small>
                         </div>
                         <div className={'grid md:grid-cols-2 grid-cols-1'}>
                             <div className={'md:col-span-1 col-span-2'}>
-                                <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.ip} <HiClipboardCopy className="mr-4 mb-1 h-5 w-5 inline hover:cursor-grab text-gray-500 dark:text-gray-300" onClick={() => {
-                                    navigator.clipboard.writeText(resource.ip)
-                                }} title={'Copy IP'}/></h2>
-                                <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.server.hostname} ({resource.server.title})</p>
+                                <h2 className="mt-4 mb-2 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.ip}
+                                    <HiClipboardCopy
+                                        className="mr-4 mb-1 h-5 w-5 inline hover:cursor-grab text-gray-500 dark:text-gray-300"
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(resource.ip)
+                                        }} title={'Copy IP'}/></h2>
+                                {
+                                    (() => {
+                                        if (resource.server !== null) {
+                                            return (
+                                                <p className="mb-4 text-xl font-bold leading-none text-gray-800 md:text-2xl dark:text-gray-300">{resource.server.hostname} ({resource.server.title})</p>
+                                            )
+                                        }
+                                    })()
+                                }
                                 <p className="mb-4 text-lg font-bold leading-none text-gray-700 md:text-xl dark:text-gray-300">{resource.asn} {resource.org}</p>
                             </div>
                             <div className={'md:col-span-1 col-span-2 md:mt-4'}>
