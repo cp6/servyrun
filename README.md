@@ -151,6 +151,16 @@ You can change the amount returned in results with `per_page=50`
 
 `PATCH` `/servers/{Server}`
 
+An example body to update a server:
+
+```json
+{
+    "title": "Lets change the title",
+    "ping_port": 123,
+    "hostname": "hostname.com"
+}
+```
+
 #### Create a server
 
 `POST` `/servers/`
