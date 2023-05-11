@@ -21,8 +21,6 @@ export default function Edit({auth}) {
 
     const [showModal, setShowModal] = useState(false);
 
-
-
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
     const {data, setData, patch, processing, errors} = useForm({
@@ -34,7 +32,7 @@ export default function Edit({auth}) {
         country: resource.country,
         city: resource.city,
         continent: resource.continent,
-        server_id: (resource.server_id) ? resource.server_id : null,
+        server_id: (resource.server_id) ? resource.server_id : '',
     });
 
     const submit = (e) => {
@@ -98,8 +96,7 @@ export default function Edit({auth}) {
                                 <Select onChange={(e) => setData('server_id', e.target.value)}
                                         name="server_id"
                                         required={true}
-                                        value={(resource.server_id) ? resource.server_id : null}
-                                        handleChange={(e) => setData('server_id', e.target.value)}
+                                        value={data.server_id}
 
                                 >
                                     <option value=''>Choose</option>
@@ -128,7 +125,6 @@ export default function Edit({auth}) {
                                     autoComplete="asn"
                                     value={data.asn || ''}
                                     handleChange={(e) => setData('asn', e.target.value)}
-                                    required
                                 />
                                 <InputError message={errors.asn} className="mt-2"/>
                             </div>
@@ -140,7 +136,6 @@ export default function Edit({auth}) {
                                     autoComplete="org"
                                     value={resource.org || ''}
                                     handleChange={(e) => setData('org', e.target.value)}
-                                    required
                                 />
                                 <InputError message={errors.org} className="mt-2"/>
                             </div>
