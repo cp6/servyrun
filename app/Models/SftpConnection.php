@@ -19,7 +19,7 @@ class SftpConnection extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['username', 'password', 'port', 'last_used', 'status'];
+    protected $fillable = ['server_id', 'user_id', 'key_id', 'username', 'password', 'port', 'last_used'];
 
     protected static function boot(): void
     {
@@ -32,6 +32,7 @@ class SftpConnection extends Model
         static::creating(function (SftpConnection $sftpConnection) {
             $sftpConnection->id = \Str::random(8);
             $sftpConnection->user_id = \Auth::id();
+
         });
 
         static::created(function (SftpConnection $sftpConnection) {
