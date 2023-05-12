@@ -205,7 +205,7 @@ class ApiController extends Controller
     public function serversStore(Server $server, Request $request): \Illuminate\Http\JsonResponse
     {
         $created = $server->create($request->all());
-        return response()->json($created->get())->header('Content-Type', 'application/json');
+        return response()->json($created->first())->header('Content-Type', 'application/json');
     }
 
     public function serversDestroy(Server $server): \Illuminate\Http\JsonResponse
@@ -298,7 +298,7 @@ class ApiController extends Controller
     {
         $con = $connection->create($request->all());
         $con->update(['password' => Crypt::encryptString($connection->password)]);//Encrypt the plain text password
-        return response()->json($con->get())->header('Content-Type', 'application/json');
+        return response()->json($con->first())->header('Content-Type', 'application/json');
     }
 
     public function connectionsDestroy(Connection $connection): \Illuminate\Http\JsonResponse
@@ -333,8 +333,9 @@ class ApiController extends Controller
 
     public function sftpStore(SftpConnection $sftpConnection, Request $request): \Illuminate\Http\JsonResponse
     {
-        $sftpConnection->create($request->all());
-        return response()->json($sftpConnection->Paginate(20))->header('Content-Type', 'application/json');
+        $sftp = $sftpConnection->create($request->all());
+        $sftp->update(['password' => Crypt::encryptString($sftp->password)]);//Encrypt the plain text password
+        return response()->json($sftpConnection->first())->header('Content-Type', 'application/json');
     }
 
     public function sftpDestroy(SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
@@ -376,7 +377,7 @@ class ApiController extends Controller
     public function ipsStore(IpAddress $ipAddress, Request $request): \Illuminate\Http\JsonResponse
     {
         $ipAddress->create($request->all());
-        return response()->json($ipAddress->Paginate(20))->header('Content-Type', 'application/json');
+        return response()->json($ipAddress->first())->header('Content-Type', 'application/json');
     }
 
     public function ipsDestroy(IpAddress $ipAddress): \Illuminate\Http\JsonResponse
@@ -411,7 +412,7 @@ class ApiController extends Controller
     public function commandsStore(Command $command, Request $request): \Illuminate\Http\JsonResponse
     {
         $command->create($request->all());
-        return response()->json($command->Paginate(20))->header('Content-Type', 'application/json');
+        return response()->json($command->first())->header('Content-Type', 'application/json');
     }
 
     public function commandsDestroy(Command $command): \Illuminate\Http\JsonResponse
@@ -441,7 +442,7 @@ class ApiController extends Controller
     public function commandGroupsStore(CommandGroup $commandGroup, Request $request): \Illuminate\Http\JsonResponse
     {
         $commandGroup->create($request->all());
-        return response()->json($commandGroup->Paginate(20))->header('Content-Type', 'application/json');
+        return response()->json($commandGroup->first())->header('Content-Type', 'application/json');
     }
 
     public function commandGroupsDestroy(CommandGroup $commandGroup): \Illuminate\Http\JsonResponse
@@ -494,7 +495,7 @@ class ApiController extends Controller
     public function pingGroupsStore(PingGroup $pingGroup, Request $request): \Illuminate\Http\JsonResponse
     {
         $pingGroup->create($request->all());
-        return response()->json($pingGroup->Paginate(20))->header('Content-Type', 'application/json');
+        return response()->json($pingGroup->first())->header('Content-Type', 'application/json');
     }
 
     public function pingGroupsDestroy(PingGroup $pingGroup): \Illuminate\Http\JsonResponse
@@ -549,7 +550,7 @@ class ApiController extends Controller
     public function mysqlDumpsStore(MySQLDump $mySQLDump, Request $request): \Illuminate\Http\JsonResponse
     {
         $mySQLDump->create($request->all());
-        return response()->json($mySQLDump->Paginate(20))->header('Content-Type', 'application/json');
+        return response()->json($mySQLDump->first())->header('Content-Type', 'application/json');
     }
 
     public function mysqlDumpsDestroy(MySQLDump $mySQLDump): \Illuminate\Http\JsonResponse
