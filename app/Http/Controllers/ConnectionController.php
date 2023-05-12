@@ -43,22 +43,13 @@ class ConnectionController extends Controller
             'ssh_port' => 'integer|sometimes|nullable'
         ]);
 
-        if (is_null($request->key_id)) {
-            $connection_type = 1;//Password
-        } else if (!is_null($request->password)) {
-            $connection_type = 2;//Key with password
-        } else {
-            $connection_type = 3;//key NO password
-        }
-
         try {
             $connection = new Connection();
             $connection->server_id = $request->server_id ?? null;
-            $connection->type = $connection_type;
             $connection->username = $request->username ?? 'root';
             $connection->ssh_port = $request->ssh_port ?? 22;
             $connection->key_id = $request->key_id ?? null;
-            $connection->password = ($request->password) ? Crypt::encryptString($request->password) : null;
+            $connection->password = (!is_null($request->password)) ? Crypt::encryptString($request->password) : null;
             $connection->last_used = date('Y-m-d H:i:s');
             $connection->save();
         } catch (\Exception $exception) {
