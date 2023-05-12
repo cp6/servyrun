@@ -28,6 +28,7 @@ class IpAddress extends Model
         static::creating(function (IpAddress $ipAddress) {
             $ipAddress->id = \Str::random(8);
             $ipAddress->user_id = \Auth::id();
+            $ipAddress->is_ipv4 = (filter_var($ipAddress->is_ipv4, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) ? 0 : 1;
         });
 
         static::created(function (IpAddress $ipAddress) {
