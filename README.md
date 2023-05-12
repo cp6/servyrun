@@ -474,6 +474,15 @@ comment
 
 `POST` `/commands/`
 
+An example body to create a command:
+
+```json
+{
+    "title": "Get storage info",
+    "command": "df -h"
+}
+```
+
 #### Destroy a command
 
 `DELETE` `/commands/{command}`
