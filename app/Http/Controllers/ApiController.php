@@ -21,7 +21,9 @@ use App\Models\SftpConnection;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -102,6 +104,42 @@ class ApiController extends Controller
         return response()->json($keys)->header('Content-Type', 'application/json');
     }
 
+    public function keysStore(Key $key, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'file' => 'required|max:1048',
+        ]);
+
+        $file = $request->file('file');
+
+        $file_id_long = Str::random(32);
+
+        $save_as = $file_id_long . '.' . $file->getClientOriginalExtension();
+
+        $path = $file->storeAs("keys", $save_as, 'private');
+
+        $key_create = new Key();
+        $key_create->file_id = $file_id_long;
+        $key_create->original_name = $file->getClientOriginalName();
+        $key_create->saved_as = $save_as;
+        $key_create->save();
+
+        return response()->json($key_create->get())->header('Content-Type', 'application/json');
+    }
+
+    public function keysUpdate(Key $key, Request $request): \Illuminate\Http\JsonResponse
+    {
+        if ($request->has('password')) {
+            if (is_null($request->password)){
+                $key->update(['password' => null]);
+            } else {
+                $key->update(['password' => Crypt::encryptString($request->password)]);
+            }
+        }
+        return response()->json($key)->header('Content-Type', 'application/json');
+    }
+
+
     public function keysDestroy(Key $key): \Illuminate\Http\JsonResponse
     {
         $result = $key->delete();
@@ -165,8 +203,8 @@ class ApiController extends Controller
 
     public function serversStore(Server $server, Request $request): \Illuminate\Http\JsonResponse
     {
-        $server->create($request->all());
-        return response()->json($server)->header('Content-Type', 'application/json');
+        $created = $server->create($request->all());
+        return response()->json($created->get())->header('Content-Type', 'application/json');
     }
 
     public function serversDestroy(Server $server): \Illuminate\Http\JsonResponse
@@ -201,8 +239,9 @@ class ApiController extends Controller
 
     public function connectionsStore(Connection $connection, Request $request): \Illuminate\Http\JsonResponse
     {
-        $connection->create($request->all());
-        return response()->json($connection->Paginate(20))->header('Content-Type', 'application/json');
+        $con = $connection->create($request->all());
+        $con->update(['password' => Crypt::encryptString($connection->password)]);//Encrypt the plain text password
+        return response()->json($con->get())->header('Content-Type', 'application/json');
     }
 
     public function connectionsDestroy(Connection $connection): \Illuminate\Http\JsonResponse
@@ -489,7 +528,7 @@ class ApiController extends Controller
         if (!Storage::disk('private')->exists("downloads/{$user_dl_dir}/$downloadedFile->saved_as")) {
             $result = 'fail';
             $message = 'File not found';
-            return response()->json(['result' => $result, 'message' => $message],400)->header('Content-Type', 'application/json');
+            return response()->json(['result' => $result, 'message' => $message], 400)->header('Content-Type', 'application/json');
         }
 
         $file = Storage::disk('private')->get("downloads/{$user_dl_dir}/$downloadedFile->saved_as");
@@ -501,7 +540,7 @@ class ApiController extends Controller
         if (is_null($sftp)) {
             $result = 'fail';
             $message = 'Could not connect';
-            return response()->json(['result' => $result, 'message' => $message],401)->header('Content-Type', 'application/json');
+            return response()->json(['result' => $result, 'message' => $message], 401)->header('Content-Type', 'application/json');
         }
 
         $upload_file = $sftp->put($save_as, $file);
