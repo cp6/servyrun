@@ -222,7 +222,17 @@ An example body to create a password connection for a server:
 ```json
 {
     "server_id": "ABCD1234",
-    "type" : 1,
+    "username": "root",
+    "password": "thePasswordGoesHere"
+}
+```
+
+An example body to create a key password connection for a server:
+
+```json
+{
+    "server_id": "ABCD1234",
+    "key_id": "qwerty12",
     "username": "root",
     "password": "thePasswordGoesHere"
 }
@@ -250,6 +260,34 @@ comment
 #### Get a key with its connection
 
 `GET` `/keys/{key}`
+
+
+#### Upload and create  a key
+
+`POST` `/keys`
+
+An example for uploading a key file:
+
+```shell
+curl 
+--location 'https://domain.com/api/keys' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer JN7tXwInJVwix3a8FlGLDdILHlSqRcC2oSIdDmPsdFWqD6oLcGgFz74FISSaWENA' \
+--form 'file=@"/C:/thekey.private.ppk"'
+```
+
+#### Update a keys password
+
+`PATCH` `/keys/{key}`
+
+You can only pass the parameter password! Leave as empty quotes for no password.
+
+```json
+{
+    "password": "thekeyspasswordgoeshere"
+}
+```
+
 
 #### Destroy a key
 
@@ -379,8 +417,10 @@ An example body to create an IP for a server:
 
 ```json
 {
-    "server_id": "ABCD1234",
-    "ip": "127.0.0.1"
+    "server_id" : "VtkBfSnG",
+    "ip": "127.0.0.1",
+    "is_main" : 1,
+    "is_ssh" : 1
 }
 ```
 
