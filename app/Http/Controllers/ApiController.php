@@ -22,6 +22,7 @@ use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -130,7 +131,7 @@ class ApiController extends Controller
     public function keysUpdate(Key $key, Request $request): \Illuminate\Http\JsonResponse
     {
         if ($request->has('password')) {
-            if (is_null($request->password)){
+            if (is_null($request->password)) {
                 $key->update(['password' => null]);
             } else {
                 $key->update(['password' => Crypt::encryptString($request->password)]);
@@ -228,6 +229,62 @@ class ApiController extends Controller
     {
         $data = $connection->where('id', $connection->id)->with(['server', 'key'])->first();
         return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function connectionsRun(Connection $connection, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $time_start = microtime(true);
+
+        if (!$request->has('command')) {
+            return response()->json(['message' => 'ERROR: No command sent! Check the logs for more information.', 'command' => null, 'output' => 'ERROR: No command sent.'], 400)->header('Content-Type', 'application/json');
+        }
+
+        $command = $request->command;
+
+        $timeout = $request->timeout ?? 10;
+
+        $con = Connection::where('id', $connection->id)->with(['server', 'server.ips'])->firstOrFail();
+
+
+        if ($connection->type === 1) {
+            //Password
+            $ssh = Connection::makeConnectionPassword($con->server->ip_ssh->ip, $con->ssh_port, $con->username, Crypt::decryptString($connection->password), $timeout);
+        } else if ($connection->type === 2) {
+            //Key with password
+            $ssh = Connection::makeConnectionKey($con->server->ip_ssh->ip, $con->ssh_port, $con->username, $con->key->saved_as, Crypt::decryptString($con->key->password), $timeout);
+        } elseif ($connection->type === 3) {
+            //Key NO password
+            $ssh = Connection::makeConnectionKey($con->server->ip_ssh->ip, $con->ssh_port, $con->username, $con->key->saved_as, null, $timeout);
+        } else {
+            return response()->json(['message' => 'ERROR: Connection type was not valid', 'command' => $command, 'output' => 'ERROR: Connection type was not valid'], 400)->header('Content-Type', 'application/json');
+        }
+
+        if (is_null($ssh) || !$ssh->isAuthenticated()) {
+            return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'command' => $command, 'output' => 'ERROR: Connection could not be made! Check the logs for more information.'], 400)->header('Content-Type', 'application/json');
+        }
+
+        $output = Connection::runCommand($ssh, $command);
+
+        $time_end = microtime(true);
+
+        $command_output = new CommandOutput();
+        $command_output->id = Str::random(12);
+        $command_output->server_id = $con->server->id;
+        $command_output->connection_id = $con->id;
+        $command_output->command_id = null;
+        $command_output->the_command = $command;
+        $command_output->output = $output;
+        $command_output->seconds_taken = number_format($time_end - $time_start, 3);
+        $command_output->send_email = ($request['email']) ? 1 : 0;
+        $command_output->save();
+
+        if ($request->email) {//Send output email
+            Mail::to(\Auth::user()->email)->send(new \App\Mail\CommandOutput($command_output));
+        }
+
+        $connection->update(['last_used' => Date('Y-m-d H:i:s')]);
+
+        return response()->json($command_output)->header('Content-Type', 'application/json');
     }
 
     public function connectionsUpdate(Connection $connection, Request $request): \Illuminate\Http\JsonResponse

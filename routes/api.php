@@ -30,7 +30,7 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
 
     Route::get('dns/{domainName}/{type}', [ServerController::class, 'getIpForDomain'])->name('domain-for-ip');
 
-    Route::get('connections/{connection}/run', [ConnectionController::class, 'run'])->name('api.connection.run');
+    //Route::get('connections/{connection}/run', [ConnectionController::class, 'run'])->name('api.connection.run');
 
     Route::get('/user', [ApiController::class, 'userIndex'])->name('api.user.index');
 
@@ -72,6 +72,7 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::get('/connections', [ApiController::class, 'connectionsIndex'])->name('api.connection.index');
     Route::get('/connections/help', [ApiController::class, 'connectionsHelp'])->name('api.connection.help');
     Route::get('/connections/{connection}', [ApiController::class, 'connectionsShow'])->name('api.connection.show');
+    Route::post('/connections/{connection}/run', [ApiController::class, 'connectionsRun'])->name('api.connection.run');
     Route::patch('/connections/{connection}', [ApiController::class, 'connectionsUpdate'])->name('api.connection.update');
     Route::post('/connections', [ApiController::class, 'connectionsStore'])->name('api.connection.store');
     Route::delete('/connections/{connection}', [ApiController::class, 'connectionsDestroy'])->name('api.connection.destroy');

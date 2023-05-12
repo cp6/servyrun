@@ -243,6 +243,27 @@ An example body to create a key password connection for a server:
 `DELETE` `/connections/{connection}`
 
 
+#### Run a command with a connection
+
+`POST` `/connections/{connection}/run`
+
+An example body to run a command:
+
+```json
+{
+    "command": "df -h"
+}
+```
+
+An example body to run a command and get email notification:
+
+```json
+{
+    "command": "df -h",
+    "email" : true
+}
+```
+
 ---
 
 <a name="keys"></a>
