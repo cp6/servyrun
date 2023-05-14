@@ -340,9 +340,40 @@ comment
 
 `PATCH` `/sftp/{sftpConnection}`
 
+```json
+{
+    "username": "jim",
+    "password": "thisgetsencryptedanyway",
+    "port": 44
+}
+```
+
 #### Create a SFTP connection
 
 `POST` `/sftp/`
+
+SFTP must have a server to be attached to!
+
+```json
+{
+    "server_id": "HwCV0NMW",
+    "username": "user",
+    "password": "thisgetsencryptedanyway",
+    "port": 22
+}
+```
+
+SFTP with a key connection
+
+```json
+{
+    "server_id": "HwCV0NMW",
+    "key_id": "abcd1234",
+    "username": "user",
+    "port": 22
+}
+```
+
 
 #### Destroy a SFTP connection
 
@@ -374,9 +405,26 @@ comment
 
 `PATCH` `/db/connections/{databaseConnection}`
 
+```json
+{
+    "title": "changed title"
+}
+```
+
 #### Create a database connection
 
 `POST` `/db/connections/`
+
+
+```json
+{
+    "host": "127.0.0.1",
+    "title": "a title",
+    "username": "user",
+    "password": "getsencrypted",
+    "port": 3306
+}
+```
 
 #### Destroy a database connection
 
