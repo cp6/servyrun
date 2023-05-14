@@ -1,15 +1,10 @@
 <p style="text-align: center;">
-<img src="https://cdn.write.corbpie.com/wp-content/uploads/2023/02/SurcuriBanner-300x75.png" width="400" height="100" alt="Surcuri banner"/>
-</p>
-
-<p style="text-align: center;">
 
 [![Generic badge](https://img.shields.io/badge/version-1.0.0-green.svg)](https://shields.io/)
-[![Generic badge](https://img.shields.io/badge/Laravel-10.0-critical.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Laravel-10.8-critical.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/PHP-8.2-blueviolet.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/React-18.2-9cf.svg)](https://shields.io/)
-[![Generic badge](https://img.shields.io/badge/Tailwind-3.2-informational.svg)](https://shields.io/)
-<img src="https://cdn.write.corbpie.com/wp-content/uploads/2023/02/AustraliaFlag.png" width="48" height="20"  alt="Australian flag" title="Australian flag"/>
+[![Generic badge](https://img.shields.io/badge/Tailwind-3.3-informational.svg)](https://shields.io/)
 
 </p>
 
