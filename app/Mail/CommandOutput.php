@@ -23,7 +23,7 @@ class CommandOutput extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Surcuri command output',
+            subject: 'Servyrun command output',
         );
     }
 

@@ -112,7 +112,7 @@ class CommandGroup extends Model
 
                 Mail::send('mail.output', $data, function ($message) {
                     $message->to(\Auth::user()->email, \Auth::user()->name)
-                        ->subject('Surcuri command output');
+                        ->subject('Servyrun command output');
                     $message->from(\Auth::user()->email, \Auth::user()->name);
                 });
             }

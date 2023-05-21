@@ -8,15 +8,15 @@
 
 </p>
 
-# About Surcuri
+# About Servyrun
 
-Sucuri is a self-hosted web application built with a backend of PHP Laravel and React + Tailwind CSS for the frontend.
-Surcuri allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files, view
+Servyrun is a self-hosted web application built with a backend of PHP Laravel and React + Tailwind CSS for the frontend.
+Servyrun allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files, view
 database tables and column structures and run MySQLdump.
 
-Surcuri was developed to be a multi-user platform, stores passwords encrypted and has an extensive API.
+Servyrun was developed to be a multi-user platform, stores passwords encrypted and has an extensive API.
 
-The full features of Surcuri as of February 2023:
+The full features of Servyrun as of February 2023:
 
 - Store Server information
 - Store SSH keys
@@ -715,4 +715,4 @@ An example body to create a command:
 
 # License
 
-Surcuri is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Servyrun is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
