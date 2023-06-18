@@ -110,7 +110,7 @@ class MySQLDump extends Model
             $compress = '>';
         }
 
-        return "mysqldump -u {$db->conn->username} -p{$password} $host {$save_to} {$db_tables} {$option} {$mySQLDump->flags} {$compress} {$mySQLDump->save_as}";
+        return "mysqldump -h{$host} -u{$db->conn->username} -p{$password} {$save_to} {$db_tables} {$option} {$mySQLDump->flags} {$compress} {$mySQLDump->save_as}";
     }
 
     public static function runCommand(MySQLDump $mySQLDump): ?string
