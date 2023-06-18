@@ -4,7 +4,7 @@
 if [ ! -e .env.production ]
 then
 cat > .env.production << EOF
-APP_NAME=Surcuri
+APP_NAME=Servyrun
 APP_DEBUG=false
 APP_KEY=
 
