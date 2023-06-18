@@ -105,7 +105,7 @@ class MySQLDump extends Model
         }
 
         if ($mySQLDump->compress === 1) {
-            $compress = '| gzip >';
+            $compress = '| gzip -8 -c >';
         } else {
             $compress = '>';
         }
