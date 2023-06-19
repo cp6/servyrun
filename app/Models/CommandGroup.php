@@ -62,6 +62,10 @@ class CommandGroup extends Model
 
         $output_array = [];
 
+        if (is_null($worker)) {
+            return response()->json(['message' => 'Failed running command group because worker is null'])->header('Content-Type', 'application/json');
+        }
+
         foreach ($worker->assigned as $connection) {
 
             $time_start = microtime(true);
@@ -74,7 +78,7 @@ class CommandGroup extends Model
                 $ssh = Connection::makeConnectionKey($connection->server->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, null, $commandGroup->timeout);
             } else {//Cannot run because connection not of valid type
                 ActionLog::make(5, 'run', 'command group', 'Failed running command group because conn type invalid for ' . $commandGroup->id);
-                return response()->json(array('message' => 'Failed running command group because conn type invalid for ' . $commandGroup->id))->header('Content-Type', 'application/json');
+                return response()->json(['message' => 'Failed running command group because conn type invalid for ' . $commandGroup->id])->header('Content-Type', 'application/json');
             }
 
             $ssh_output = Connection::runCommand($ssh, $command);
