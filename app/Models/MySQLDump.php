@@ -80,11 +80,7 @@ class MySQLDump extends Model
             $host = "";
         }
 
-        if (!is_null($mySQLDump->save_to)) {
-            $save_to = "-T{$mySQLDump->save_to}";
-        } else {
-            $save_to = "";
-        }
+        $save_to = (!is_null($mySQLDump->save_to)) ? "-T{$mySQLDump->save_to}" : "";
 
         if (is_null($mySQLDump->these_tables)) {
             $db_tables = "--databases {$db->name}";
@@ -104,11 +100,7 @@ class MySQLDump extends Model
             $option = '';
         }
 
-        if ($mySQLDump->compress === 1) {
-            $compress = '| gzip -8 -c >';
-        } else {
-            $compress = '>';
-        }
+        $compress = ($mySQLDump->compress === 1) ? '| gzip -8 -c >' : '>';
 
         return "mysqldump -h{$host} -u{$db->conn->username} -p{$password} {$save_to} {$db_tables} {$option} {$mySQLDump->flags} {$compress} {$mySQLDump->save_as}";
     }
