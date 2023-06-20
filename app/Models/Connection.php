@@ -181,13 +181,6 @@ class Connection extends Model
         return $connection->exec($command);
     }
 
-    public static function getPortSpeed(SSH2 $connection)
-    {
-        $command = "lshw -C Network -json";
-        $output = str_replace(["WARNING: you should run this program as super-user.\n", "\n", '\/', "WARNING: output may be incomplete or inaccurate, you should run this program as super-user."], "", $connection->exec($command));
-        return json_decode($output);
-    }
-
     public static function formattedUptime(SSH2 $connection): array
     {
         $command = "uptime";

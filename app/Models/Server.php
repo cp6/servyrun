@@ -20,7 +20,6 @@ class Server extends Model
     {
         parent::boot();
         static::addGlobalScope(new UserOwnedScope());
-        //self::preventSilentlyDiscardingAttributes(true);
     }
 
     protected static function booted(): void
@@ -203,7 +202,6 @@ class Server extends Model
         $disk_used_percent = Connection::getDiskUsedPercent($ssh);
         $disk_used = Connection::getDiskUsed($ssh);
         $disk_avail = Connection::getDiskAvailable($ssh);
-        //$port_speed = Connection::getPortSpeed($ssh);//Does not work for VPS
 
         return response()->json(
             [
