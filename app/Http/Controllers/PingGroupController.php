@@ -6,10 +6,8 @@ use App\Models\Connection;
 use App\Models\Ping;
 use App\Models\PingGroup;
 use App\Models\PingGroupAssigned;
-use App\Models\Server;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class PingGroupController extends Controller
