@@ -12,7 +12,7 @@ use Inertia\Inertia;
 
 class DatabaseTableColumnController extends Controller
 {
-    public function show(DatabaseTableColumn $databaseTableColumn)
+    public function show(DatabaseTableColumn $databaseTableColumn): void
     {
         $this->authorize('view', $databaseTableColumn);
 
@@ -99,7 +99,7 @@ class DatabaseTableColumnController extends Controller
         abort(404);
     }
 
-    public function update(Request $request, DatabaseTableColumn $databaseTableColumn)
+    public function update(Request $request, DatabaseTableColumn $databaseTableColumn): void
     {
         abort(404);
     }
