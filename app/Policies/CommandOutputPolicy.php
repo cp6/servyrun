@@ -10,27 +10,27 @@ class CommandOutputPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, CommandOutput $commandOutput)
+    public function view(User $user, CommandOutput $commandOutput): bool
     {
         return $user->id === $commandOutput->user_id;
     }
 
-    public function update(User $user, CommandOutput $commandOutput)
+    public function update(User $user, CommandOutput $commandOutput): bool
     {
         return $user->id === $commandOutput->user_id;
     }
 
-    public function delete(User $user, CommandOutput $commandOutput)
+    public function delete(User $user, CommandOutput $commandOutput): bool
     {
         return $user->id === $commandOutput->user_id;
     }
 
-    public function restore(User $user, CommandOutput $commandOutput)
+    public function restore(User $user, CommandOutput $commandOutput): bool
     {
         return $user->id === $commandOutput->user_id;
     }
 
-    public function forceDelete(User $user, CommandOutput $commandOutput)
+    public function forceDelete(User $user, CommandOutput $commandOutput): bool
     {
         return $user->id === $commandOutput->user_id;
     }

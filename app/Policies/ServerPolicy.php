@@ -10,32 +10,32 @@ class ServerPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user, Server $server)
+    public function viewAny(User $user, Server $server): bool
     {
         return $user->id === $server->user_id;
     }
 
-    public function view(User $user, Server $server)
+    public function view(User $user, Server $server): bool
     {
         return $user->id === $server->user_id;
     }
 
-    public function update(User $user, Server $server)
+    public function update(User $user, Server $server): bool
     {
         return $user->id === $server->user_id;
     }
 
-    public function delete(User $user, Server $server)
+    public function delete(User $user, Server $server): bool
     {
         return $user->id === $server->user_id;
     }
 
-    public function restore(User $user, Server $server)
+    public function restore(User $user, Server $server): bool
     {
         return $user->id === $server->user_id;
     }
 
-    public function forceDelete(User $user, Server $server)
+    public function forceDelete(User $user, Server $server): bool
     {
         return $user->id === $server->user_id;
     }

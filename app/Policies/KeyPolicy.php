@@ -10,32 +10,32 @@ class KeyPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, Key $key)
+    public function view(User $user, Key $key): bool
     {
         return $user->id === $key->user_id;
     }
 
-    public function update(User $user, Key $key)
+    public function update(User $user, Key $key): bool
     {
         return $user->id === $key->user_id;
     }
 
-    public function delete(User $user, Key $key)
+    public function delete(User $user, Key $key): bool
     {
         return $user->id === $key->user_id;
     }
 
-    public function download(User $user, Key $key)
+    public function download(User $user, Key $key): bool
     {
         return $user->id === $key->user_id;
     }
 
-    public function restore(User $user, Key $key)
+    public function restore(User $user, Key $key): bool
     {
         return $user->id === $key->user_id;
     }
 
-    public function forceDelete(User $user, Key $key)
+    public function forceDelete(User $user, Key $key): bool
     {
         return $user->id === $key->user_id;
     }

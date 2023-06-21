@@ -10,27 +10,27 @@ class DatabaseTableColumnPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, DatabaseTableColumn $databaseTableColumn)
+    public function view(User $user, DatabaseTableColumn $databaseTableColumn): bool
     {
         return $user->id === $databaseTableColumn->user_id;
     }
 
-    public function update(User $user, DatabaseTableColumn $databaseTableColumn)
+    public function update(User $user, DatabaseTableColumn $databaseTableColumn): bool
     {
         return $user->id === $databaseTableColumn->user_id;
     }
 
-    public function delete(User $user, DatabaseTableColumn $databaseTableColumn)
+    public function delete(User $user, DatabaseTableColumn $databaseTableColumn): bool
     {
         return $user->id === $databaseTableColumn->user_id;
     }
 
-    public function restore(User $user, DatabaseTableColumn $databaseTableColumn)
+    public function restore(User $user, DatabaseTableColumn $databaseTableColumn): bool
     {
         return $user->id === $databaseTableColumn->user_id;
     }
 
-    public function forceDelete(User $user, DatabaseTableColumn $databaseTableColumn)
+    public function forceDelete(User $user, DatabaseTableColumn $databaseTableColumn): bool
     {
         return $user->id === $databaseTableColumn->user_id;
     }

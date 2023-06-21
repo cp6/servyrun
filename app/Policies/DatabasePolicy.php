@@ -10,27 +10,27 @@ class DatabasePolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, Database $database)
+    public function view(User $user, Database $database): bool
     {
         return $user->id === $database->user_id;
     }
 
-    public function update(User $user, Database $database)
+    public function update(User $user, Database $database): bool
     {
         return $user->id === $database->user_id;
     }
 
-    public function delete(User $user, Database $database)
+    public function delete(User $user, Database $database): bool
     {
         return $user->id === $database->user_id;
     }
 
-    public function restore(User $user, Database $database)
+    public function restore(User $user, Database $database): bool
     {
         return $user->id === $database->user_id;
     }
 
-    public function forceDelete(User $user, Database $database)
+    public function forceDelete(User $user, Database $database): bool
     {
         return $user->id === $database->user_id;
     }

@@ -10,27 +10,27 @@ class DatabaseTablePolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, DatabaseTable $databaseTable)
+    public function view(User $user, DatabaseTable $databaseTable): bool
     {
         return $user->id === $databaseTable->user_id;
     }
 
-    public function update(User $user, DatabaseTable $databaseTable)
+    public function update(User $user, DatabaseTable $databaseTable): bool
     {
         return $user->id === $databaseTable->user_id;
     }
 
-    public function delete(User $user, DatabaseTable $databaseTable)
+    public function delete(User $user, DatabaseTable $databaseTable): bool
     {
         return $user->id === $databaseTable->user_id;
     }
 
-    public function restore(User $user, DatabaseTable $databaseTable)
+    public function restore(User $user, DatabaseTable $databaseTable): bool
     {
         return $user->id === $databaseTable->user_id;
     }
 
-    public function forceDelete(User $user, DatabaseTable $databaseTable)
+    public function forceDelete(User $user, DatabaseTable $databaseTable): bool
     {
         return $user->id === $databaseTable->user_id;
     }

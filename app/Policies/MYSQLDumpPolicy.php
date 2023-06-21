@@ -10,27 +10,27 @@ class MYSQLDumpPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, MYSQLDump $mYSQLDump)
+    public function view(User $user, MYSQLDump $mYSQLDump): bool
     {
         return $user->id === $mYSQLDump->user_id;
     }
 
-    public function update(User $user, MYSQLDump $mYSQLDump)
+    public function update(User $user, MYSQLDump $mYSQLDump): bool
     {
         return $user->id === $mYSQLDump->user_id;
     }
 
-    public function delete(User $user, MYSQLDump $mYSQLDump)
+    public function delete(User $user, MYSQLDump $mYSQLDump): bool
     {
         return $user->id === $mYSQLDump->user_id;
     }
 
-    public function restore(User $user, MYSQLDump $mYSQLDump)
+    public function restore(User $user, MYSQLDump $mYSQLDump): bool
     {
         return $user->id === $mYSQLDump->user_id;
     }
 
-    public function forceDelete(User $user, MYSQLDump $mYSQLDump)
+    public function forceDelete(User $user, MYSQLDump $mYSQLDump): bool
     {
         return $user->id === $mYSQLDump->user_id;
     }

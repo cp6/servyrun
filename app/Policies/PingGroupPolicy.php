@@ -10,27 +10,27 @@ class PingGroupPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, PingGroup $pingGroup)
+    public function view(User $user, PingGroup $pingGroup): bool
     {
         return $user->id === $pingGroup->user_id;
     }
 
-    public function update(User $user, PingGroup $pingGroup)
+    public function update(User $user, PingGroup $pingGroup): bool
     {
         return $user->id === $pingGroup->user_id;
     }
 
-    public function delete(User $user, PingGroup $pingGroup)
+    public function delete(User $user, PingGroup $pingGroup): bool
     {
         return $user->id === $pingGroup->user_id;
     }
 
-    public function restore(User $user, PingGroup $pingGroup)
+    public function restore(User $user, PingGroup $pingGroup): bool
     {
         return $user->id === $pingGroup->user_id;
     }
 
-    public function forceDelete(User $user, PingGroup $pingGroup)
+    public function forceDelete(User $user, PingGroup $pingGroup): bool
     {
         return $user->id === $pingGroup->user_id;
     }

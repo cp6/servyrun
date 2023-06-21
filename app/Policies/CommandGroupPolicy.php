@@ -10,27 +10,27 @@ class CommandGroupPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, CommandGroup $commandGroup)
+    public function view(User $user, CommandGroup $commandGroup): bool
     {
         return $user->id === $commandGroup->user_id;
     }
 
-    public function update(User $user, CommandGroup $commandGroup)
+    public function update(User $user, CommandGroup $commandGroup): bool
     {
         return $user->id === $commandGroup->user_id;
     }
 
-    public function delete(User $user, CommandGroup $commandGroup)
+    public function delete(User $user, CommandGroup $commandGroup): bool
     {
         return $user->id === $commandGroup->user_id;
     }
 
-    public function restore(User $user, CommandGroup $commandGroup)
+    public function restore(User $user, CommandGroup $commandGroup): bool
     {
         return $user->id === $commandGroup->user_id;
     }
 
-    public function forceDelete(User $user, CommandGroup $commandGroup)
+    public function forceDelete(User $user, CommandGroup $commandGroup): bool
     {
         return $user->id === $commandGroup->user_id;
     }

@@ -10,32 +10,32 @@ class IpPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user, IpAddress $ipAddress)
+    public function viewAny(User $user, IpAddress $ipAddress): bool
     {
         return $user->id === $ipAddress->user_id;
     }
 
-    public function view(User $user, IpAddress $ipAddress)
+    public function view(User $user, IpAddress $ipAddress): bool
     {
         return $user->id === $ipAddress->user_id;
     }
 
-    public function update(User $user, IpAddress $ipAddress)
+    public function update(User $user, IpAddress $ipAddress): bool
     {
         return $user->id === $ipAddress->user_id;
     }
 
-    public function delete(User $user, IpAddress $ipAddress)
+    public function delete(User $user, IpAddress $ipAddress): bool
     {
         return $user->id === $ipAddress->user_id;
     }
 
-    public function restore(User $user, IpAddress $ipAddress)
+    public function restore(User $user, IpAddress $ipAddress): bool
     {
         return $user->id === $ipAddress->user_id;
     }
 
-    public function forceDelete(User $user, IpAddress $ipAddress)
+    public function forceDelete(User $user, IpAddress $ipAddress): bool
     {
         return $user->id === $ipAddress->user_id;
     }

@@ -10,27 +10,27 @@ class ActionLogPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, ActionLog $actionLog)
+    public function view(User $user, ActionLog $actionLog): bool
     {
         return $user->id === $actionLog->user_id;
     }
 
-    public function update(User $user, ActionLog $actionLog)
+    public function update(User $user, ActionLog $actionLog): bool
     {
         return $user->id === $actionLog->user_id;
     }
 
-    public function delete(User $user, ActionLog $actionLog)
+    public function delete(User $user, ActionLog $actionLog): bool
     {
         return $user->id === $actionLog->user_id;
     }
 
-    public function restore(User $user, ActionLog $actionLog)
+    public function restore(User $user, ActionLog $actionLog): bool
     {
         return $user->id === $actionLog->user_id;
     }
 
-    public function forceDelete(User $user, ActionLog $actionLog)
+    public function forceDelete(User $user, ActionLog $actionLog): bool
     {
         return $user->id === $actionLog->user_id;
     }

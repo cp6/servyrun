@@ -10,27 +10,27 @@ class DatabaseConnectionPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, DatabaseConnection $databaseConnection)
+    public function view(User $user, DatabaseConnection $databaseConnection): bool
     {
         return $user->id === $databaseConnection->user_id;
     }
 
-    public function update(User $user, DatabaseConnection $databaseConnection)
+    public function update(User $user, DatabaseConnection $databaseConnection): bool
     {
         return $user->id === $databaseConnection->user_id;
     }
 
-    public function delete(User $user, DatabaseConnection $databaseConnection)
+    public function delete(User $user, DatabaseConnection $databaseConnection): bool
     {
         return $user->id === $databaseConnection->user_id;
     }
 
-    public function restore(User $user, DatabaseConnection $databaseConnection)
+    public function restore(User $user, DatabaseConnection $databaseConnection): bool
     {
         return $user->id === $databaseConnection->user_id;
     }
 
-    public function forceDelete(User $user, DatabaseConnection $databaseConnection)
+    public function forceDelete(User $user, DatabaseConnection $databaseConnection): bool
     {
         return $user->id === $databaseConnection->user_id;
     }
