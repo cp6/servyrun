@@ -19,14 +19,14 @@ class LoggedIn extends Mailable
         $this->contents = $contents;
     }
 
-    public function envelope()
+    public function envelope(): Envelope
     {
         return new Envelope(
             subject: 'Login alert',
         );
     }
 
-    public function content()
+    public function content(): Content
     {
         return new Content(
             markdown: 'emails.loggedin',
