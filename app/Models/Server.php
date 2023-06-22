@@ -58,7 +58,7 @@ class Server extends Model
     }
 
     public function conns(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {//All connections
+    {//All connections used in API
         return $this->hasMany(Connection::class, 'server_id', 'id');
     }
 
@@ -83,7 +83,7 @@ class Server extends Model
     }
 
     public function command_outputs(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
+    {//Used in API
         return $this->hasMany(CommandOutput::class, 'server_id', 'id');
     }
 
@@ -103,6 +103,10 @@ class Server extends Model
 
         $ssh = Connection::do($connection, 10);
 
+        if (is_null($ssh)) {
+            return false;
+        }
+
         $cpu_freq = Connection::runCommand($ssh, "lscpu | grep  MHz");
         $cpu_freq_array = explode("\n", $cpu_freq);
 
@@ -115,7 +119,7 @@ class Server extends Model
             $cpu_freq = Connection::runCommand($ssh, "cat /proc/cpuinfo | grep Hz");
             $cpu_freq_array = explode("\n", $cpu_freq);
 
-            if (isset($cpu_freq_array[0]) && str_contains($cpu_freq_array[0], "cpu MHz\t\t: ")){
+            if (isset($cpu_freq_array[0]) && str_contains($cpu_freq_array[0], "cpu MHz\t\t: ")) {
                 $freq = (float)str_replace("cpu MHz\t\t: ", "", $cpu_freq_array[0]);
             } else {
                 $freq = null;
@@ -143,15 +147,19 @@ class Server extends Model
 
         $ssh = Connection::do($connection, 10);
 
+        if (is_null($ssh)) {
+            return false;
+        }
+
         $ram = Connection::runCommand($ssh, "free -m | grep 'Mem'");
 
         $ram_array = explode(" ", preg_replace('/\s+/', ' ', $ram));
 
         $ram_mb = $ram_array[1];
 
-        if ($ram_mb > 1000){
+        if ($ram_mb > 1000) {
             $ram_gb = $ram_mb / 1000;
-        } else{
+        } else {
             $ram_gb = null;
         }
 
@@ -171,9 +179,9 @@ class Server extends Model
             }
         }
 
-        if ($disk_gb > 1000){
+        if ($disk_gb > 1000) {
             $disk_tb = $disk_gb / 1000;
-        } else{
+        } else {
             $disk_tb = null;
         }
 
