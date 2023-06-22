@@ -135,9 +135,9 @@ class Ping extends Model
         $ping = new Ping();
         $ping->server_id = $server_to->id;
         $ping->from_server_id = $server_from->id;
-        $ping->min = $ping_result_array['min'] ?? null;
-        $ping->max = $ping_result_array['max'] ?? null;
-        $ping->avg = $ping_result_array['avg'] ?? null;
+        $ping->min = $ping_result_array['min'];
+        $ping->max = $ping_result_array['max'];
+        $ping->avg = $ping_result_array['avg'];
         $ping->was_up = (isset($ping_result_array['avg'])) ? 1 : 0;
         $ping->save();
 
