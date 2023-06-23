@@ -29,8 +29,6 @@ export default function Create({auth}) {
         these_tables: ''
     });
 
-
-
     const [connections, setConnections] = React.useState([]);
 
     const [databaseConnections, setDatabaseConnections] = React.useState([]);
