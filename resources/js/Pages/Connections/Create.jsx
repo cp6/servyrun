@@ -23,8 +23,6 @@ export default function Create({auth}) {
         password: ''
     });
 
-
-
     const submit = (e) => {
         e.preventDefault();
 
