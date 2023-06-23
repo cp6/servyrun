@@ -31,7 +31,6 @@ class SftpConnection extends Model
         static::creating(function (SftpConnection $sftpConnection) {
             $sftpConnection->id = \Str::random(8);
             $sftpConnection->user_id = \Auth::id();
-
         });
 
         static::created(function (SftpConnection $sftpConnection) {
@@ -134,10 +133,11 @@ class SftpConnection extends Model
     public static function downloadFile(SFTP $sftpConnection, string $file, bool $write_progress = false): bool|string
     {
         $file_size = $sftpConnection->filesize($file);
-        return $sftpConnection->get($file, false, 0, -1, function($got) use ($file_size, $write_progress) {
-            if ($write_progress){
+
+        return $sftpConnection->get($file, false, 0, -1, function ($got) use ($file_size, $write_progress) {
+            if ($write_progress) {
                 $progress = round(($got / $file_size) * 100);
-                Storage::disk('private')->put("progress/".\Auth::id()."/download.json", json_encode(['progress' => $progress]));
+                Storage::disk('private')->put("progress/" . \Auth::id() . "/download.json", json_encode(['progress' => $progress]));
             }
         });
     }
