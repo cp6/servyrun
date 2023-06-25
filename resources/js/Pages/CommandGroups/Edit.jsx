@@ -16,9 +16,6 @@ export default function Edit({auth}) {
     const resource = usePage().props.resource;
     const connections = usePage().props.connections;
 
-
-
-
     const {data, setData, patch, processing, errors} = useForm({
         connection1_id: (typeof resource.assigned[0] !== 'undefined') ? resource.assigned[0].connection_id : null,
         connection2_id: (typeof resource.assigned[1] !== 'undefined') ? resource.assigned[1].connection_id : null,

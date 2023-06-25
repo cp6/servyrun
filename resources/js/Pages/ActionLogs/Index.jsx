@@ -17,7 +17,6 @@ export default function Index({auth}) {
 
     const [showModal, setShowModal] = useState(false);
 
-
     const deleteItem = () => {
 
         const requestOptions = {

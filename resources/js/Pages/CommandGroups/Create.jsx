@@ -15,8 +15,6 @@ export default function Create({auth}) {
 
     const commands = usePage().props.commands;
 
-
-
     const {data, setData, post, processing, reset, errors} = useForm({
         command_id: '',
         title: ''
