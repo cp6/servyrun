@@ -19,8 +19,6 @@ export default function Create({auth}) {
         ip: '   '
     });
 
-
-
     const submit = (e) => {
         e.preventDefault();
 

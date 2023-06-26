@@ -19,8 +19,6 @@ export default function Show({auth}) {
 
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
-
-
     const deleteItem = () => {
         const requestOptions = {
             method: 'DELETE',

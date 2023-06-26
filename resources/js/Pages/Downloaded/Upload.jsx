@@ -58,7 +58,6 @@ export default function Upload({auth}) {
                 setUploading(false);
             }
         });
-        //navigate(route('downloaded.show', resource.id));
     };
 
     return (
