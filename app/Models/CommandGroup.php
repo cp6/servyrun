@@ -58,13 +58,13 @@ class CommandGroup extends Model
     {
         $worker = $commandGroup->where('id', $commandGroup->id)->with(['the_command', 'assigned.server.ip_ssh', 'assigned.conn.key'])->first();
 
-        $command = $worker->the_command->command;
-
-        $output_array = [];
-
         if (is_null($worker)) {
             return response()->json(['message' => 'Failed running command group because worker is null'])->header('Content-Type', 'application/json');
         }
+
+        $command = $worker->the_command->command;
+
+        $output_array = [];
 
         foreach ($worker->assigned as $connection) {
 
