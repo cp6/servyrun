@@ -157,11 +157,7 @@ class Server extends Model
 
         $ram_mb = $ram_array[1];
 
-        if ($ram_mb > 1000) {
-            $ram_gb = $ram_mb / 1000;
-        } else {
-            $ram_gb = null;
-        }
+        ($ram_mb > 1000) ? $ram_gb = $ram_mb / 1000 : $ram_gb = null;
 
         $swap = Connection::runCommand($ssh, "free -m | grep 'Swap'");
 
@@ -179,11 +175,7 @@ class Server extends Model
             }
         }
 
-        if ($disk_gb > 1000) {
-            $disk_tb = $disk_gb / 1000;
-        } else {
-            $disk_tb = null;
-        }
+        ($disk_gb > 1000) ? $disk_tb = $disk_gb / 1000 : $disk_tb = null;
 
         return $server->update([
             'ram_mb' => $ram_mb,
