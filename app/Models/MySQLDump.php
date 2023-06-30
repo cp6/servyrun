@@ -121,8 +121,7 @@ class MySQLDump extends Model
 
         ActionLog::make(1, 'run', 'mysqldump', 'Ran MySQLdump ' . $mySQLDump->id, $mySQLDump->server_id, null, $mySQLDump->connection_id);
 
-        $mySQLDump->last_ran = date('Y-m-d H:i:s');
-        $mySQLDump->save();
+        $mySQLDump->update(['last_ran' => date('Y-m-d H:i:s')]);
 
         return $run;
     }
