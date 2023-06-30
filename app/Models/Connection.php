@@ -32,9 +32,9 @@ class Connection extends Model
         static::creating(function (Connection $connection) {
             $connection->id = Str::random(12);
             $connection->user_id = \Auth::id();
-            if (!isset($connection->key_id)){
+            if (!isset($connection->key_id)) {
                 $connection->type = 1;//Password
-            } elseif (!isset($connection->password) || is_null($connection->password)){
+            } elseif (!isset($connection->password) || is_null($connection->password)) {
                 $connection->type = 3;//Key NO password
             } else {
                 $connection->type = 2;//Key with a password
@@ -183,11 +183,8 @@ class Connection extends Model
 
     public static function formattedUptime(SSH2 $connection): array
     {
-        $command = "uptime";
-        $output = $connection->exec($command);
+        $output = $connection->exec("uptime");
         //00:40:10 up 16 days, 21:49, 0 users, load average: 0.02, 0.02, 0.00
-
-        $uptime_string = trim(strtok($output, ','));
 
         $users_count_raw = strstr($output, 'user', true);
         $users_count = trim(substr($users_count_raw, strpos($users_count_raw, ", ") + 9));
@@ -196,7 +193,7 @@ class Connection extends Model
         $load_array = explode(",", str_replace(" ", "", $load));
 
         return [
-            'uptime' => $uptime_string,
+            'uptime' => trim(strtok($output, ',')),
             'users' => (int)$users_count,
             'last_minute' => (float)$load_array[0],
             'last_5_minutes' => (float)$load_array[1],
