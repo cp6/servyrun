@@ -108,6 +108,7 @@ class ServerController extends Controller
         ]);
 
         try {
+
             $server = new Server;
             $server->hostname = $request->hostname;
             $server->title = $request->title;
@@ -123,6 +124,7 @@ class ServerController extends Controller
             $server->ram_gb = $request->ram_gb ?? null;
             $server->ping_port = $request->ping_port ?? 22;
             $server->save();
+
         } catch (\Exception $exception) {
 
             return redirect(route('server.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Server could not be created error ' . $exception->getCode()]]);

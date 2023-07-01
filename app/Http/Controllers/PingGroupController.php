@@ -76,6 +76,7 @@ class PingGroupController extends Controller
                 $ping_group_assigned->server_id = $connection->server_id;
                 $ping_group_assigned->connection_id = $connection_id;
                 $ping_group_assigned->save();
+
             } catch (\Exception $exception) {
 
                 return redirect(route('ping-group.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Ping group could not be created error ' . $exception->getCode()]]);
