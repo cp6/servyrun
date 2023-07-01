@@ -12,13 +12,6 @@ use Inertia\Inertia;
 
 class DatabaseTableColumnController extends Controller
 {
-    public function show(DatabaseTableColumn $databaseTableColumn): void
-    {
-        $this->authorize('view', $databaseTableColumn);
-
-        abort(404);
-    }
-
     public function showForTable(Database $database, DatabaseTable $databaseTable): \Inertia\Response
     {
         $this->authorize('view', $database);

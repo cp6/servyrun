@@ -90,13 +90,4 @@ class CommandController extends Controller
         return redirect(route('command.index'))->with(['alert' => ['type' => 'success', 'message' => 'Command deleted successfully']]);
     }
 
-    public function show(Command $command): void
-    {
-        abort(404);
-    }
-
-    public function run(Request $request): void
-    {
-        abort(404);
-    }
 }
