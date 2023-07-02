@@ -23,29 +23,17 @@ class DatabaseTableColumnController extends Controller
 
             $connect = $connection->dbConnect($connection, $database->name);
 
-            if (!$connect) {
-                $columns = [];
-            } else {
-                $columns = $connection->returnColumns($databaseTable->name);
-            }
+            (!$connect) ? $columns = [] : $columns = $connection->returnColumns($databaseTable->name);
 
             foreach ($columns as $column) {
 
-                $table_column = new DatabaseTableColumn();
-                $table_column->table_id = $databaseTable->id;
-                $table_column->name = $column['Field'];
-                $table_column->type = $column['Type'];
-                $table_column->is_nullable = ($column['Null'] === 'NO') ? 0 : 1;
-                $table_column->key = ($column['Key'] === '') ? null : $column['Key'];
-                $table_column->default = $column['Default'];
-                $table_column->extra = ($column['Extra'] === '') ? null : $column['Extra'];
-                $table_column->save();
+                DatabaseTableColumn::createNew($databaseTable, $column);
+
             }
 
             $table_columns = DatabaseTableColumn::where('table_id', $databaseTable->id)->get();
 
         }
-
 
         return Inertia::render('DatabaseTableColumns/Show', [
             'database' => $database->where('id', $database->id)->with(['conn'])->firstOrFail(),
@@ -71,15 +59,8 @@ class DatabaseTableColumnController extends Controller
 
         foreach ($columns as $column) {
 
-            $table_column = new DatabaseTableColumn();
-            $table_column->table_id = $databaseTable->id;
-            $table_column->name = $column['Field'];
-            $table_column->type = $column['Type'];
-            $table_column->is_nullable = ($column['Null'] === 'NO') ? 0 : 1;
-            $table_column->key = ($column['Key'] === '') ? null : $column['Key'];
-            $table_column->default = $column['Default'];
-            $table_column->extra = ($column['Extra'] === '') ? null : $column['Extra'];
-            $table_column->save();
+            DatabaseTableColumn::createNew($databaseTable, $column);
+
         }
 
         $table_columns = DatabaseTableColumn::where('table_id', $databaseTable->id)->get();
