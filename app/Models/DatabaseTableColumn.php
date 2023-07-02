@@ -35,4 +35,18 @@ class DatabaseTableColumn extends Model
         return $this->hasOne(DatabaseTable::class, 'id', 'table_id');
     }
 
+    public function createNew(DatabaseTable $databaseTable, array $column): DatabaseTableColumn
+    {
+        $table_column = new DatabaseTableColumn();
+        $table_column->table_id = $databaseTable->id;
+        $table_column->name = $column['Field'];
+        $table_column->type = $column['Type'];
+        $table_column->is_nullable = ($column['Null'] === 'NO') ? 0 : 1;
+        $table_column->key = ($column['Key'] === '') ? null : $column['Key'];
+        $table_column->default = $column['Default'];
+        $table_column->extra = ($column['Extra'] === '') ? null : $column['Extra'];
+        $table_column->save();
+        return $table_column;
+    }
+
 }
