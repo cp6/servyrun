@@ -47,6 +47,7 @@ class DatabaseConnectionController extends Controller
         }
 
         try {
+
             $db_connection = new DatabaseConnection();
             $db_connection->server_id = $request->server_id;
             $db_connection->title = $request->title;
@@ -101,12 +102,6 @@ class DatabaseConnectionController extends Controller
     public function getDatabases(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
     {
         $this->authorize('view', $databaseConnection);
-
-        /*$databases = Database::where('db_connection_id', $databaseConnection->id)->get();
-
-        if ($databases->isNotEmpty()){
-            return response()->json(['databases' => $databases->pluck('name')], 200)->header('Content-Type', 'application/json');
-        }*/
 
         $connect = $databaseConnection->dbConnect($databaseConnection, '');
 
