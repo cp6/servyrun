@@ -150,10 +150,10 @@ class SftpConnectionController extends Controller
         $sftp = SftpConnection::do($sftpConnection, 3);
 
         if (is_null($sftp)) {
-            return response()->json(['result' => false], 200)->header('Content-Type', 'application/json');
+            return response()->json(['result' => false])->header('Content-Type', 'application/json');
         }
 
-        return response()->json(['result' => $sftp->isAuthenticated()], 200)->header('Content-Type', 'application/json');
+        return response()->json(['result' => $sftp->isAuthenticated()])->header('Content-Type', 'application/json');
     }
 
     public function run(Request $request, SftpConnection $sftpConnection): \Illuminate\Http\JsonResponse
@@ -182,7 +182,7 @@ class SftpConnectionController extends Controller
             'the_command' => $command,
             'seconds_taken' => number_format($time_end - $time_start, 3),
             'output' => $output
-        ], 200)->header('Content-Type', 'application/json');
+        ])->header('Content-Type', 'application/json');
 
     }
 
@@ -201,7 +201,7 @@ class SftpConnectionController extends Controller
         return response()->json([
             'directory' => $directory,
             'contents' => $sftp->nlist($directory)
-        ], 200)->header('Content-Type', 'application/json');
+        ])->header('Content-Type', 'application/json');
 
     }
 
@@ -247,7 +247,7 @@ class SftpConnectionController extends Controller
         return response()->json([
             'directory' => $directory,
             'contents' => $result
-        ], 200)->header('Content-Type', 'application/json');
+        ])->header('Content-Type', 'application/json');
 
     }
 
@@ -296,7 +296,7 @@ class SftpConnectionController extends Controller
         return response()->json([
             'directory' => $directory,
             'contents' => $result
-        ], 200)->header('Content-Type', 'application/json');
+        ])->header('Content-Type', 'application/json');
 
     }
 
@@ -340,7 +340,7 @@ class SftpConnectionController extends Controller
                     'writable' => $sftp->is_writable($filepath),
                 ];
 
-                return response()->json($result, 200)->header('Content-Type', 'application/json');
+                return response()->json($result)->header('Content-Type', 'application/json');
 
             }
         }

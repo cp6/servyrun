@@ -35,7 +35,7 @@ class DatabaseTableController extends Controller
             return response()->json(['message' => 'Could not connect', 'columns' => null], 400)->header('Content-Type', 'application/json');
         }
 
-        return response()->json(['columns' => $db->returnColumns($databaseTable->name)], 200)->header('Content-Type', 'application/json');
+        return response()->json(['columns' => $db->returnColumns($databaseTable->name)])->header('Content-Type', 'application/json');
 
     }
 

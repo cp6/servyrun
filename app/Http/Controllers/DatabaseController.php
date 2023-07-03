@@ -97,7 +97,7 @@ class DatabaseController extends Controller
             return response()->json(['message' => 'Could not connect', 'tables' => null], 400)->header('Content-Type', 'application/json');
         }
 
-        return response()->json(['databases' => $connection->returnTables()], 200)->header('Content-Type', 'application/json');
+        return response()->json(['databases' => $connection->returnTables()])->header('Content-Type', 'application/json');
 
     }
 

@@ -21,7 +21,7 @@ class PingController extends Controller
     {
         $this->authorize('view', $server);
 
-        return response()->json(Ping::checkIsUp($server), 200)->header('Content-Type', 'application/json');
+        return response()->json(Ping::checkIsUp($server))->header('Content-Type', 'application/json');
     }
 
     public function pingFromTo(Server $server1, Server $server2): \Inertia\Response

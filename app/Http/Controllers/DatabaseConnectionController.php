@@ -96,7 +96,7 @@ class DatabaseConnectionController extends Controller
             $result = false;
         }
 
-        return response()->json(['result' => $result], 200)->header('Content-Type', 'application/json');
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
     }
 
     public function getDatabases(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
@@ -109,7 +109,7 @@ class DatabaseConnectionController extends Controller
             return response()->json(['message' => 'Could not connect', 'databases' => null], 400)->header('Content-Type', 'application/json');
         }
 
-        return response()->json(['databases' => $databaseConnection->returnDatabases()], 200)->header('Content-Type', 'application/json');
+        return response()->json(['databases' => $databaseConnection->returnDatabases()])->header('Content-Type', 'application/json');
 
     }
 
@@ -144,7 +144,7 @@ class DatabaseConnectionController extends Controller
             $databaseConnection->save();
         }
 
-        return response()->json(['version' => $databaseConnection->version], 200)->header('Content-Type', 'application/json');
+        return response()->json(['version' => $databaseConnection->version])->header('Content-Type', 'application/json');
 
     }
 
@@ -166,12 +166,12 @@ class DatabaseConnectionController extends Controller
             $privileges = $databaseConnection->getPrivileges($connection_type, $databaseConnection->username);
 
             if (!$privileges) {
-                return response()->json(['privileges' => null], 200)->header('Content-Type', 'application/json');
+                return response()->json(['privileges' => null])->header('Content-Type', 'application/json');
             }
 
         }
 
-        return response()->json(['privileges' => $databaseConnection->privileges], 200)->header('Content-Type', 'application/json');
+        return response()->json(['privileges' => $databaseConnection->privileges])->header('Content-Type', 'application/json');
 
     }
 
