@@ -68,16 +68,6 @@ class DatabaseTableColumnController extends Controller
         return response()->json($table_columns)->header('Content-Type', 'application/json');
     }
 
-    public function edit(DatabaseTableColumn $databaseTableColumn): void
-    {
-        abort(404);
-    }
-
-    public function update(Request $request, DatabaseTableColumn $databaseTableColumn): void
-    {
-        abort(404);
-    }
-
     public function destroy(DatabaseTableColumn $databaseTableColumn)
     {
         $this->authorize('delete', $databaseTableColumn);

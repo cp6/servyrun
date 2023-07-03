@@ -60,18 +60,6 @@ class DatabaseController extends Controller
         ]);
     }
 
-    public function edit(Database $database): void
-    {
-        abort(404);
-    }
-
-    public function update(Request $request, Database $database)
-    {
-        $this->authorize('update', $database);
-
-        abort(404);
-    }
-
     public function destroy(Database $database)
     {
         $this->authorize('delete', $database);
