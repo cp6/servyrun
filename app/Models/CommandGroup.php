@@ -81,6 +81,11 @@ class CommandGroup extends Model
                 return response()->json(['message' => 'Failed running command group because conn type invalid for ' . $commandGroup->id])->header('Content-Type', 'application/json');
             }
 
+            if (is_null($ssh)) {
+                ActionLog::make(5, 'run', 'command group', 'Failed running command group because SSH connection could not be made for ' . $connection->server->ip_ssh->ip);
+                return response()->json(['message' => 'Failed running command group because SSH connection could not be made for ' . $connection->server->ip_ssh->ip])->header('Content-Type', 'application/json');
+            }
+
             $ssh_output = Connection::runCommand($ssh, $command);
 
             $time_end = microtime(true);
