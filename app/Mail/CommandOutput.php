@@ -34,11 +34,6 @@ class CommandOutput extends Mailable
         );
     }
 
-    public function attachments(): array
-    {
-        return [];
-    }
-
     public function build(): CommandOutput
     {
         return $this->markdown('emails.output')
