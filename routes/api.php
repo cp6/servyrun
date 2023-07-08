@@ -1,13 +1,11 @@
 <?php
 
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\DatabaseTableColumnController;
 use App\Http\Controllers\PingController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\SftpConnectionController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/types', function () {
@@ -15,14 +13,14 @@ Route::get('/types', function () {
 });
 
 Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
-//Everything in this group needs API bearer token
+    //Everything in this group needs API bearer token
 
-//Databases
-//Refresh Database tables
+    //Databases
+    //Refresh Database tables
     Route::get('/db/{database}/refresh', [DatabaseController::class, 'refresh'])->name('api.db.refresh');
-//Refresh Database table columns
+    //Refresh Database table columns
     Route::get('/db/{database}/table/{databaseTable}/refresh', [DatabaseTableColumnController::class, 'refresh'])->name('api.db.table.refresh');
-//Get Database table sizes and row counts
+    //Get Database table sizes and row counts
     Route::get('/db/{database}/size', [DatabaseController::class, 'doSize'])->name('api.db.table.size');
 
 
