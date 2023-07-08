@@ -57,9 +57,9 @@ export default function Create({auth, types, locations, title}) {
             const createOutput = getIpFromHostname('A').then((the_response) => {
                 if (typeof (the_response.ip) != "undefined" && the_response.ip !== null) {
                     setData('ip', the_response.ip);
+                    alert('NOTE: If this hostname is behind Cloudflare this IP may be wrong')
                 }
             });
-            alert('NOTE: If this hostname is behind Cloudflare this IP may be wrong')
         }
     };
 
