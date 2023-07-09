@@ -93,6 +93,11 @@ class PingGroup extends Model
                         return null;
                     }
 
+                    if (is_null($ssh)) {
+                        ActionLog::make(5, 'run', 'ping group', 'Failed running ping group because SSH was null for ' . $current_server->id);
+                        return null;
+                    }
+
                     $ssh_output = Connection::runCommand($ssh, $command);
 
                     if (empty($ssh_output)) {
