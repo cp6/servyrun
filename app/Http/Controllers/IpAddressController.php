@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\IpAddress;
-use App\Models\IpAddressesAssigned;
 use App\Models\Server;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
