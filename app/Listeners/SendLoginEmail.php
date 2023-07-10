@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Mail\LoggedIn;
 use Illuminate\Auth\Events\Login;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class SendLoginEmail

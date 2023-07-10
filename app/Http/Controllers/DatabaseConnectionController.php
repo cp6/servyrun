@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\Server;
 use Illuminate\Http\Request;

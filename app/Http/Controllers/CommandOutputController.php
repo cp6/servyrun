@@ -6,7 +6,6 @@ use App\Models\Command;
 use App\Models\CommandOutput;
 use App\Models\Scopes\UserOwnedScope;
 use App\Models\Server;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CommandOutputController extends Controller

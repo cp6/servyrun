@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\DatabaseTable;
-use App\Models\DatabaseTableColumn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class DatabaseController extends Controller

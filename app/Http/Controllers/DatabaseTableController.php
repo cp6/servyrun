@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\DatabaseTable;
-use App\Models\DatabaseTableColumn;
-use Illuminate\Http\Request;
 
 class DatabaseTableController extends Controller
 {

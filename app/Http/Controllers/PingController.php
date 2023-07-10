@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Ping;
 use App\Models\Server;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PingController extends Controller

@@ -6,7 +6,6 @@ use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\DatabaseTable;
 use App\Models\DatabaseTableColumn;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
