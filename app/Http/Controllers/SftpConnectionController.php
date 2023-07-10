@@ -304,7 +304,7 @@ class SftpConnectionController extends Controller
     {
         $this->authorize('view', $sftpConnection);
 
-        if (!isset($request->filepath) || is_null($request->filepath)) {
+        if (!$request->has('filepath') || is_null($request->filepath)) {
             return response()->json(['message' => 'ERROR: filepath was not set'], 400)->header('Content-Type', 'application/json');
         }
 
@@ -416,7 +416,7 @@ class SftpConnectionController extends Controller
     {
         $this->authorize('view', $sftpConnection);
 
-        if (!isset($request->file) || is_null($request->file)) {
+        if (!$request->has('file') || is_null($request->file)) {
             return response()->json(['success' => false, 'request' => null, 'message' => 'File not set'])->header('Content-Type', 'application/json');
         }
 

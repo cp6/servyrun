@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActionLog;
 use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\MySQLDump;
@@ -59,8 +58,8 @@ class MySQLDumpController extends Controller
             $mysql_dump->save_to = $request->save_to;
             $mysql_dump->save_as = $request->save_as;
             $mysql_dump->flags = $request->custom_flags;
-            $mysql_dump->compress = (isset($request->compress)) ? (int)$request->compress : 0;
-            $mysql_dump->option = (isset($request->option)) ? (int)$request->option : 0;
+            $mysql_dump->compress = $request->has('compress') ? (int)$request->compress : 0;
+            $mysql_dump->option = $request->has('option') ? (int)$request->option : 0;
             $mysql_dump->save();
 
         } catch (\Exception $exception) {
