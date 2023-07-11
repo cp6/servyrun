@@ -553,6 +553,29 @@ class ApiController extends Controller
         return response()->json($databaseConnection->first())->header('Content-Type', 'application/json');
     }
 
+    public function dbConnectionShow(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
+    {
+        $data = $databaseConnection->where('id', $databaseConnection->id)->with(['server', 'databases'])->first();
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function dbConnectionUpdate(DatabaseConnection $databaseConnection, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $databaseConnection->update($request->all());
+        return response()->json($databaseConnection->Paginate(20))->header('Content-Type', 'application/json');
+    }
+
+    public function dbConnectionDestroy(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
+    {
+        $result = $databaseConnection->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function dbConnectionHelp(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($databaseConnection->getFillable())->header('Content-Type', 'application/json');
+    }
+
     public function mysqlDumpsIndex(): \Illuminate\Http\JsonResponse
     {
         $sftp = MySQLDump::Paginate(20);
