@@ -33,7 +33,7 @@ class DatabaseConnectionController extends Controller
         $request->validate([
             'server_id' => 'string|nullable|size:8',
             'address' => 'string|required|max:125',
-            'title' => 'string|sometimes|nullable|max:64',
+            'title' => 'string|sometimes|nullable|max:32',
             'port' => 'integer|required',
             'username' => 'string|required',
             'password' => 'string|nullable'
