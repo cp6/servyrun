@@ -8,6 +8,7 @@ use App\Models\CommandGroup;
 use App\Models\CommandGroupAssigned;
 use App\Models\CommandOutput;
 use App\Models\Connection;
+use App\Models\DatabaseConnection;
 use App\Models\DownloadedFile;
 use App\Models\IpAddress;
 use App\Models\Key;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PDO;
 
 class ApiController extends Controller
 {
@@ -522,6 +524,33 @@ class ApiController extends Controller
         $result = $ping_group_assigned->delete();
 
         return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
+    public function dbConnectionIndex(): \Illuminate\Http\JsonResponse
+    {
+        $db_cons = DatabaseConnection::Paginate(20);
+        return response()->json($db_cons)->header('Content-Type', 'application/json');
+    }
+
+    public function dbConnectionStore(DatabaseConnection $databaseConnection, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'server_id' => 'string|nullable|size:8',
+            'host' => 'string|required|max:125',
+            'title' => 'string|sometimes|nullable|max:32',
+            'port' => 'integer|nullable',
+            'username' => 'string|required',
+            'password' => 'string|nullable'
+        ]);
+
+        try {
+            $db = new PDO("mysql:host=$request->host;port=$request->port;dbname=;charset=utf8mb4", $request->username, $request->password, [PDO::ATTR_TIMEOUT => 3]);
+        } catch (\Exception $exception) {
+            return response()->json(["message" => "Could not connect to {$request->host}:{$request->port} with username {$request->username} ".substr($request->password, 0, -5) . 'XXXXXX'], 400)->header('Content-Type', 'application/json');
+        }
+
+        $databaseConnection->create($request->all());
+        return response()->json($databaseConnection->first())->header('Content-Type', 'application/json');
     }
 
     public function mysqlDumpsIndex(): \Illuminate\Http\JsonResponse
