@@ -546,10 +546,13 @@ class ApiController extends Controller
         try {
             $db = new PDO("mysql:host=$request->host;port=$request->port;dbname=;charset=utf8mb4", $request->username, $request->password, [PDO::ATTR_TIMEOUT => 3]);
         } catch (\Exception $exception) {
-            return response()->json(["message" => "Could not connect to {$request->host}:{$request->port} with username {$request->username} ".substr($request->password, 0, -5) . 'XXXXXX'], 400)->header('Content-Type', 'application/json');
+            return response()->json(["message" => "Could not connect to {$request->host}:{$request->port} with username {$request->username} " . substr($request->password, 0, -5) . 'XXXXXX'], 400)->header('Content-Type', 'application/json');
         }
 
+        $request->merge(['password' => Crypt::encryptString($request->password)]);
+
         $databaseConnection->create($request->all());
+
         return response()->json($databaseConnection->first())->header('Content-Type', 'application/json');
     }
 
@@ -561,7 +564,21 @@ class ApiController extends Controller
 
     public function dbConnectionUpdate(DatabaseConnection $databaseConnection, Request $request): \Illuminate\Http\JsonResponse
     {
+        $request->validate([
+            'server_id' => 'string|nullable|size:8',
+            'host' => 'string|required|max:125',
+            'title' => 'string|sometimes|nullable|max:32',
+            'port' => 'integer|nullable',
+            'username' => 'string|required',
+            'password' => 'string|nullable'
+        ]);
+
+        if ($request->has('password')) {
+            $request->merge(['password' => Crypt::encryptString($request->password)]);
+        }
+
         $databaseConnection->update($request->all());
+
         return response()->json($databaseConnection->Paginate(20))->header('Content-Type', 'application/json');
     }
 
@@ -574,6 +591,18 @@ class ApiController extends Controller
     public function dbConnectionHelp(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
     {
         return response()->json($databaseConnection->getFillable())->header('Content-Type', 'application/json');
+    }
+
+    public function dbConnectionDatabases(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
+    {
+        $connect = $databaseConnection->dbConnect($databaseConnection, '');
+
+        if (!$connect) {
+            return response()->json(['message' => 'Could not connect', 'databases' => null], 400)->header('Content-Type', 'application/json');
+        }
+
+        return response()->json(['databases' => $databaseConnection->returnDatabases()])->header('Content-Type', 'application/json');
+
     }
 
     public function mysqlDumpsIndex(): \Illuminate\Http\JsonResponse
