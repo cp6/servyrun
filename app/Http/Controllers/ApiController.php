@@ -8,6 +8,7 @@ use App\Models\CommandGroup;
 use App\Models\CommandGroupAssigned;
 use App\Models\CommandOutput;
 use App\Models\Connection;
+use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\DownloadedFile;
 use App\Models\IpAddress;
@@ -601,7 +602,22 @@ class ApiController extends Controller
             return response()->json(['message' => 'Could not connect', 'databases' => null], 400)->header('Content-Type', 'application/json');
         }
 
-        return response()->json(['databases' => $databaseConnection->returnDatabases()])->header('Content-Type', 'application/json');
+        foreach ($databaseConnection->returnDatabases() as $db) {
+
+            $db_exists = Database::where('db_connection_id', $databaseConnection->id)->where('name', $db)->exists();
+
+            if (!$db_exists) {//Database does not exist for this connection
+                $database = new Database();
+                $database->id = Str::random(8);
+                $database->db_connection_id = $databaseConnection->id;
+                $database->name = $db;
+                $database->user_id = auth('api')->user()->id;
+                $database->save();
+            }
+
+        }
+
+        return response()->json(Database::where('db_connection_id', $databaseConnection->id)->get())->header('Content-Type', 'application/json');
 
     }
 
