@@ -10,6 +10,7 @@ use App\Models\CommandOutput;
 use App\Models\Connection;
 use App\Models\Database;
 use App\Models\DatabaseConnection;
+use App\Models\DatabaseTable;
 use App\Models\DownloadedFile;
 use App\Models\IpAddress;
 use App\Models\Key;
@@ -618,6 +619,47 @@ class ApiController extends Controller
         }
 
         return response()->json(Database::where('db_connection_id', $databaseConnection->id)->get())->header('Content-Type', 'application/json');
+
+    }
+
+    public function dbTables(Database $database): \Illuminate\Http\JsonResponse
+    {
+
+        $tables = DatabaseTable::where('database_id', $database->id)->get();
+
+        if ($tables->isEmpty()) {
+            $tables = $this->dbTablesRefresh($database);
+        }
+
+        return response()->json($tables)->header('Content-Type', 'application/json');
+
+    }
+
+    public function dbTablesRefresh(Database $database): \Illuminate\Http\JsonResponse
+    {
+
+        $connect = $database->conn->dbConnect($database->conn, $database->name);
+
+        if (!$connect) {
+            return response()->json(['message' => 'Could not connect', 'databases' => null], 400)->header('Content-Type', 'application/json');
+        }
+
+        foreach ($database->conn->returnTables() as $table) {
+
+            $db_exists = DatabaseTable::where('database_id', $database->id)->where('name', $table)->exists();
+
+            if (!$db_exists) {//Database does not exist for this connection
+                $db_table = new DatabaseTable();
+                $db_table->id = Str::random(8);
+                $db_table->user_id = auth('api')->user()->id;
+                $db_table->database_id = $database->id;
+                $db_table->name = $table;
+                $db_table->save();
+            }
+
+        }
+
+        return response()->json(DatabaseTable::where('database_id', $database->id)->get())->header('Content-Type', 'application/json');
 
     }
 

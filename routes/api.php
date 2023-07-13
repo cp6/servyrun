@@ -133,6 +133,7 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::get('/db', [ApiController::class, 'dbIndex'])->name('api.db.index');
     Route::get('/db/help', [ApiController::class, 'dbHelp'])->name('api.db.help');
     Route::get('/db/{database}', [ApiController::class, 'dbShow'])->name('api.db.show');
+    Route::get('/db/{database}/tables', [ApiController::class, 'dbTables'])->name('api.db.tables');
     Route::patch('/db/{database}', [ApiController::class, 'dbUpdate'])->name('api.db.update');
     Route::post('/db', [ApiController::class, 'dbStore'])->name('api.db.store');
     Route::delete('/db/{database}', [ApiController::class, 'dbDestroy'])->name('api.db.destroy');
