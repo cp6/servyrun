@@ -138,6 +138,9 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::post('/db', [ApiController::class, 'dbStore'])->name('api.db.store');
     Route::delete('/db/{database}', [ApiController::class, 'dbDestroy'])->name('api.db.destroy');
 
+    Route::get('/db/table/{databaseTable}', [ApiController::class, 'dbTable'])->name('api.db.table');
+    Route::get('/db/table/{databaseTable}/columns', [ApiController::class, 'dbColumns'])->name('api.db.table.columns');
+
     Route::get('/mysqldumps', [ApiController::class, 'mysqlDumpsIndex'])->name('api.mysqldumps.index');
     Route::get('/mysqldumps/help', [ApiController::class, 'mysqlDumpsHelp'])->name('api.mysqldumps.help');
     Route::get('/mysqldumps/{mySQLDump}', [ApiController::class, 'mysqlDumpsShow'])->name('api.mysqldumps.show');

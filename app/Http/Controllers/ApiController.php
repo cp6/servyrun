@@ -668,6 +668,16 @@ class ApiController extends Controller
 
     }
 
+    public function dbTable(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($databaseTable)->header('Content-Type', 'application/json');
+    }
+
+    public function dbColumns(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse
+    {
+
+    }
+
     public function mysqlDumpsIndex(): \Illuminate\Http\JsonResponse
     {
         $sftp = MySQLDump::Paginate(20);
