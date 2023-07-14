@@ -646,9 +646,9 @@ class ApiController extends Controller
 
         foreach ($database->conn->returnTables() as $table) {
 
-            $db_exists = DatabaseTable::where('database_id', $database->id)->where('name', $table)->exists();
+            $db_table = DatabaseTable::where('database_id', $database->id)->where('name', $table)->first();
 
-            if (!$db_exists) {//Database does not exist for this connection
+            if (!$db_table->exists()) {//Database table does not exist for this connection lets make one
                 $db_table = new DatabaseTable();
                 $db_table->id = Str::random(8);
                 $db_table->user_id = auth('api')->user()->id;
@@ -656,6 +656,11 @@ class ApiController extends Controller
                 $db_table->name = $table;
                 $db_table->save();
             }
+
+            $row_count = $database->conn->returnTableRowCount($db_table);
+            $size_mb = $database->conn->returnTableSizeMb($db_table);
+
+            $db_table->update(['size_mb' => $size_mb, 'row_count' => $row_count]);
 
         }
 
