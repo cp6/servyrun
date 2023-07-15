@@ -12,6 +12,8 @@ class DatabaseTableColumn extends Model
 
     protected $fillable = ['table_id', 'name', 'type', 'is_nullable', 'key', 'default', 'extra', 'comment'];
 
+    protected $with = ['table'];
+
     protected static function boot(): void
     {
         parent::boot();

@@ -16,6 +16,8 @@ class DatabaseTable extends Model
 
     protected $fillable = ['name', 'row_count', 'size_mb'];
 
+    protected $with = ['database'];
+
     protected static function boot(): void
     {
         parent::boot();
