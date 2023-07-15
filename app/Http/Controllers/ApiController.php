@@ -706,7 +706,7 @@ class ApiController extends Controller
         return response()->json(DatabaseTableColumn::where('table_id', $databaseTable->id)->get())->header('Content-Type', 'application/json');
     }
 
-    public function dbColumns(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse
+    public function dbColumnIndex(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse
     {
         $columns = DatabaseTableColumn::where('table_id', $databaseTable->id)->get();
 
@@ -715,6 +715,11 @@ class ApiController extends Controller
         }
 
         return response()->json($columns)->header('Content-Type', 'application/json');
+    }
+
+    public function dbColumnShow(DatabaseTableColumn $databaseTableColumn): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($databaseTableColumn)->header('Content-Type', 'application/json');
     }
 
     public function mysqlDumpsIndex(): \Illuminate\Http\JsonResponse
