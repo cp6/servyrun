@@ -11,6 +11,7 @@ use App\Models\Connection;
 use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\DatabaseTable;
+use App\Models\DatabaseTableColumn;
 use App\Models\DownloadedFile;
 use App\Models\IpAddress;
 use App\Models\Key;
@@ -648,7 +649,7 @@ class ApiController extends Controller
 
             $db_table = DatabaseTable::where('database_id', $database->id)->where('name', $table)->first();
 
-            if (!$db_table->exists()) {//Database table does not exist for this connection lets make one
+            if (is_null($db_table)) {//Database table does not exist for this connection lets make one
                 $db_table = new DatabaseTable();
                 $db_table->id = Str::random(8);
                 $db_table->user_id = auth('api')->user()->id;
@@ -673,9 +674,47 @@ class ApiController extends Controller
         return response()->json($databaseTable)->header('Content-Type', 'application/json');
     }
 
+    public function dbColumnsRefresh(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse
+    {
+        $connection = $databaseTable->database->conn;
+        $connect = $connection->dbConnect($connection, $databaseTable->database->name);
+
+        if (!$connect) {
+            return response()->json(['message' => 'Could not connect', 'databases' => null], 400)->header('Content-Type', 'application/json');
+        }
+
+        foreach ($connection->returnColumns($databaseTable->name) as $columns) {
+
+            $db_column = DatabaseTableColumn::where('table_id', $databaseTable->id)->where('name', $columns['Field'])->first();
+
+            if (is_null($db_column)) {//Database table does not exist for this connection lets make one
+                $db_column = new DatabaseTableColumn();
+                $db_column->user_id = auth('api')->user()->id;
+                $db_column->table_id = $databaseTable->id;
+                $db_column->name = $columns['Field'];
+                $db_column->type = $columns['Type'];
+                $db_column->is_nullable = ($columns['Null'] === 'NO') ? 0 : 1;
+                $db_column->key = ($columns['Key'] === "") ? null : $columns['Key'];
+                $db_column->default = $columns['Default'];
+                $db_column->extra = ($columns['Extra'] === '') ? null : $columns['Extra'];
+                $db_column->comment = $columns['Comment'] ?? null;
+                $db_column->save();
+            }
+
+        }
+
+        return response()->json(DatabaseTableColumn::where('table_id', $databaseTable->id)->get())->header('Content-Type', 'application/json');
+    }
+
     public function dbColumns(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse
     {
+        $columns = DatabaseTableColumn::where('table_id', $databaseTable->id)->get();
 
+        if ($columns->isEmpty()) {
+            $columns = $this->dbColumnsRefresh($databaseTable);
+        }
+
+        return response()->json($columns)->header('Content-Type', 'application/json');
     }
 
     public function mysqlDumpsIndex(): \Illuminate\Http\JsonResponse
