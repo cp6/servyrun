@@ -680,6 +680,12 @@ class ApiController extends Controller
         return response()->json($databaseTable)->header('Content-Type', 'application/json');
     }
 
+    public function dbTableDestroy(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse
+    {
+        $result = $databaseTable->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
     public function dbColumnsRefresh(DatabaseTable $databaseTable): \Illuminate\Http\JsonResponse
     {
         $connection = $databaseTable->database->conn;
