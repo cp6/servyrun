@@ -734,6 +734,12 @@ class ApiController extends Controller
         return response()->json($databaseTableColumn)->header('Content-Type', 'application/json');
     }
 
+    public function dbColumnDestroy(DatabaseTableColumn $databaseTableColumn): \Illuminate\Http\JsonResponse
+    {
+        $result = $databaseTableColumn->delete();
+        return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+    }
+
     public function mysqlDumpsIndex(): \Illuminate\Http\JsonResponse
     {
         $sftp = MySQLDump::Paginate(20);
