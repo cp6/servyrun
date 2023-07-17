@@ -116,7 +116,11 @@ class DatabaseConnection extends Model
         if (!isset($this->db_con)) {
             return null;
         }
-        return $this->db_con->query("SELECT COUNT(*) AS total FROM `{$table->name}`;")->fetchColumn();
+        try {
+            return $this->db_con->query("SELECT COUNT(*) AS total FROM `{$table->name}`;")->fetchColumn();
+        } catch (\Exception $exception){
+            return null;
+        }
     }
 
     public function returnTableSizeMb(DatabaseTable $table): ?float
