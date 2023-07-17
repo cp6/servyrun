@@ -599,10 +599,12 @@ class ApiController extends Controller
     public function dbConnectionRefresh(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
     {
         //Wipes databases, tables and columns
-        $wipe = $databaseConnection->databases()->delete();
+        Database::where('db_connection_id', $databaseConnection->id)->delete();
 
         //Add databases
-        $databases = $this->dbConnectionDatabases($databaseConnection);
+        $this->dbConnectionDatabases($databaseConnection);
+
+        $databases = Database::where('db_connection_id', $databaseConnection->id)->get();
 
         //Add tables
         foreach ($databases as $database) {
@@ -614,7 +616,7 @@ class ApiController extends Controller
 
         //Get columns
         foreach ($tables as $table) {
-            $columns = $this->dbColumnsRefresh($table);
+            $this->dbColumnsRefresh($table);
         }
 
         //Fetch updated database connection
