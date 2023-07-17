@@ -596,6 +596,33 @@ class ApiController extends Controller
         return response()->json($databaseConnection->getFillable())->header('Content-Type', 'application/json');
     }
 
+    public function dbConnectionRefresh(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
+    {
+        //Wipes databases, tables and columns
+        $wipe = $databaseConnection->databases()->delete();
+
+        //Add databases
+        $databases = $this->dbConnectionDatabases($databaseConnection);
+
+        //Add tables
+        foreach ($databases as $database) {
+            $this->dbTablesRefresh($database);
+        }
+
+        //Get tables
+        $tables = DatabaseTable::where('database_id', $database->id)->get();
+
+        //Get columns
+        foreach ($tables as $table) {
+            $columns = $this->dbColumnsRefresh($table);
+        }
+
+        //Fetch updated database connection
+        $databaseConnection = DatabaseConnection::where('id', $databaseConnection->id)->first();
+
+        return response()->json($databaseConnection)->header('Content-Type', 'application/json');
+    }
+
     public function dbConnectionDatabases(DatabaseConnection $databaseConnection): \Illuminate\Http\JsonResponse
     {
         $connect = $databaseConnection->dbConnect($databaseConnection, '');
