@@ -125,6 +125,7 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
     Route::get('/db/connection', [ApiController::class, 'dbConnectionIndex'])->name('api.db.connection.index');
     Route::get('/db/connection/help', [ApiController::class, 'dbConnectionHelp'])->name('api.db.connection.help');
     Route::get('/db/connection/{databaseConnection}', [ApiController::class, 'dbConnectionShow'])->name('api.db.connection.show');
+    Route::get('/db/connection/{databaseConnection}/refresh', [ApiController::class, 'dbConnectionRefresh'])->name('api.db.connection.refresh');
     Route::get('/db/connection/{databaseConnection}/databases', [ApiController::class, 'dbConnectionDatabases'])->name('api.db.connection.databases');
     Route::patch('/db/connection/{databaseConnection}', [ApiController::class, 'dbConnectionUpdate'])->name('api.db.connection.update');
     Route::post('/db/connection', [ApiController::class, 'dbConnectionStore'])->name('api.db.connection.store');
