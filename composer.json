@@ -1,30 +1,30 @@
 {
     "name": "corbpie/surcuri",
     "type": "project",
-    "description": "Sucuri allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files and view database details",
+    "description": "servyrun allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files and view database details",
     "keywords": ["ssh", "sftp", "servers", "databases", "ping", "files"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "guzzlehttp/guzzle": "^7.5.1",
+        "guzzlehttp/guzzle": "^7.7.0",
         "inertiajs/inertia-laravel": "^0.6.9",
-        "laravel/framework": "^v10.8.0",
-        "laravel/sanctum": "^v3.2.1",
+        "laravel/framework": "^v10.15.0",
+        "laravel/sanctum": "^v3.2.5",
         "laravel/tinker": "^v2.8.1",
-        "laravel/ui": "^4.2.1",
-        "phpseclib/phpseclib": "^3.0.18",
-        "tightenco/ziggy": "^1.5.0",
+        "laravel/ui": "^4.2.2",
+        "phpseclib/phpseclib": "^3.0.21",
+        "tightenco/ziggy": "^1.6.0",
         "ext-pdo": "*"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.21.0",
-        "laravel/breeze": "^1.19.1",
-        "laravel/pint": "^1.9.0",
-        "laravel/sail": "^1.21.4",
-        "mockery/mockery": "^1.5.1",
+        "fakerphp/faker": "^1.23.0",
+        "laravel/breeze": "^1.21.2",
+        "laravel/pint": "^1.10.5",
+        "laravel/sail": "^1.23.1",
+        "mockery/mockery": "^1.6.2",
         "nunomaduro/collision": "^6.4",
-        "phpunit/phpunit": "^9.6.3",
-        "spatie/laravel-ignition": "^2.0.0"
+        "phpunit/phpunit": "^9.6.10",
+        "spatie/laravel-ignition": "^2.2.0"
     },
     "autoload": {
         "psr-4": {
