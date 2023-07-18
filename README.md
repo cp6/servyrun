@@ -386,19 +386,19 @@ comment
 
 #### Get all Database connections
 
-`GET` `/db/connections/`
+`GET` `/db/connection/`
 
 #### Get a database connections with server and key
 
-`GET` `/db/connections/{databaseConnection}`
+`GET` `/db/connection/{databaseConnection}`
 
 #### Get database connection edit/create parameters
 
-`GET` `/db/connections/help`
+`GET` `/db/connection/help`
 
 #### Update a database connection
 
-`PATCH` `/db/connections/{databaseConnection}`
+`PATCH` `/db/connection/{databaseConnection}`
 
 ```json
 {
@@ -425,27 +425,40 @@ comment
 
 `DELETE` `/db/connections/{databaseConnection}`
 
+#### Refresh a database connection to re-fetch database, tables and columns
+
+`GET` `/db/connection/{databaseConnection}/refresh`
+
+#### Fetches and returns databases for this connection
+
+`GET` `/db/connection/{databaseConnection}/databases`
+
 ---
 
 <a name="databases"></a>
 
 ## Databases
 
-comment
+### ~ Note these database calls are read only and do not execute queries i.e deleting a table just removes it from this local database.
 
 ### Database API calls
+
 
 #### Get all Databases
 
 `GET` `/db/`
 
-#### Get a database server and key
+#### Get a individual database
 
-`GET` `/db/{databaseConnection}`
+`GET` `/db/{database}`
+
+#### Get a database with tables
+
+`GET` `/db/{database}/tables`
 
 #### Destroy a database
 
-`DELETE` `/db/{databaseConnection}`
+`DELETE` `/db/{database}`
 
 ---
 
