@@ -1,17 +1,18 @@
 <p style="text-align: center;">
 
 [![Generic badge](https://img.shields.io/badge/version-1.0.0-green.svg)](https://shields.io/)
-[![Generic badge](https://img.shields.io/badge/Laravel-10.8-critical.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Laravel-10.15-critical.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/PHP-8.2-blueviolet.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/React-18.2-9cf.svg)](https://shields.io/)
-[![Generic badge](https://img.shields.io/badge/Tailwind-3.3-informational.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Tailwind-3.3.3-informational.svg)](https://shields.io/)
 
 </p>
 
 # About Servyrun
 
 Servyrun is a self-hosted web application built with a backend of PHP Laravel and React + Tailwind CSS for the frontend.
-Servyrun allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files, view
+Servyrun allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files,
+view
 database tables and column structures and run MySQLdump.
 
 Servyrun was developed to be a multi-user platform, stores passwords encrypted and has an extensive API.
@@ -31,7 +32,6 @@ The full features of Servyrun as of February 2023:
 - Upload files through SFTP.
 - View files through SFTP.
 - Edit (smaller) files.
-
 
 ## TODO
 
@@ -239,7 +239,6 @@ An example body to create a key password connection for a server:
 
 `DELETE` `/connections/{connection}`
 
-
 #### Run a command with a connection
 
 `POST` `/connections/{connection}/run`
@@ -257,7 +256,7 @@ An example body to run a command and get email notification:
 ```json
 {
     "command": "df -h",
-    "email" : true
+    "email": true
 }
 ```
 
@@ -278,7 +277,6 @@ comment
 #### Get a key with its connection
 
 `GET` `/keys/{key}`
-
 
 #### Upload and create  a key
 
@@ -305,7 +303,6 @@ You can only pass the parameter password! Leave as empty quotes for no password.
     "password": "thekeyspasswordgoeshere"
 }
 ```
-
 
 #### Destroy a key
 
@@ -371,7 +368,6 @@ SFTP with a key connection
 }
 ```
 
-
 #### Destroy a SFTP connection
 
 `DELETE` `/sftp/{sftpConnection}`
@@ -412,7 +408,6 @@ comment
 
 `POST` `/db/connections/`
 
-
 ```json
 {
     "host": "127.0.0.1",
@@ -445,7 +440,6 @@ comment
 
 ### Database API calls
 
-
 #### Get all Databases
 
 `GET` `/db/`
@@ -468,12 +462,32 @@ comment
 
 ## Database tables
 
+#### Get a database table
+
+`GET` `/db/table/{databaseTable}`
+
+#### Get a database table columns
+
+`GET` `/db/table/{databaseTable}/columns`
+
+#### Destroy a table
+
+`DELETE` `/db/table/{databaseTable}`
+
 ---
 
 
 <a name="columns"></a>
 
 ## Database table columns
+
+#### Get a column
+
+`GET` `/db/column/{databaseTableColumn}`
+
+#### Destroy a column
+
+`DELETE` `/db/column/{databaseTableColumn}`
 
 ---
 
@@ -509,10 +523,10 @@ An example body to create an IP for a server:
 
 ```json
 {
-    "server_id" : "VtkBfSnG",
+    "server_id": "VtkBfSnG",
     "ip": "127.0.0.1",
-    "is_main" : 1,
-    "is_ssh" : 1
+    "is_main": 1,
+    "is_ssh": 1
 }
 ```
 
@@ -676,8 +690,6 @@ An example body to create a command:
 <a name="mysqldump"></a>
 
 ## MySQLdump
-
-### SFTP connections API calls
 
 #### Get all MySQL dumps
 
