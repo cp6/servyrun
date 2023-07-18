@@ -473,7 +473,7 @@ comment
 
 <a name="columns"></a>
 
-## Table columns
+## Database table columns
 
 ---
 
