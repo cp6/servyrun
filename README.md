@@ -52,14 +52,16 @@ The full features of Servyrun as of February 2023:
 5. [ SFTP ](#stp)
 6. [ Database Connections ](#databaseconnections)
 7. [ Databases ](#databases)
-8. [ IP addresses ](#ips)
-9. [ Pings ](#pings)
-10. [ Ping groups ](#pinggroups)
-11. [ Commands ](#commands)
-12. [ Command groups ](#commandgroups)
-13. [ Logs ](#logs)
-14. [ MySQLdump ](#mysqldump)
-14. [ Downloaded ](#downloaded)
+8. [ Database tables ](#tables)
+9. [ Database table Columns ](#columns)
+10. [ IP addresses ](#ips)
+11. [ Pings ](#pings)
+12. [ Ping groups ](#pinggroups)
+13. [ Commands ](#commands)
+14. [ Command groups ](#commandgroups)
+15. [ Logs ](#logs)
+16. [ MySQLdump ](#mysqldump)
+17. [ Downloaded ](#downloaded)
 
 <a name="apiinfo"></a>
 
@@ -459,6 +461,19 @@ comment
 #### Destroy a database
 
 `DELETE` `/db/{database}`
+
+---
+
+<a name="tables"></a>
+
+## Database tables
+
+---
+
+
+<a name="columns"></a>
+
+## Table columns
 
 ---
 
