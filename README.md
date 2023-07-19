@@ -31,7 +31,9 @@ The full features of Servyrun as of February 2023:
 - Download files through SFTP.
 - Upload files through SFTP.
 - View files through SFTP.
+- Move files between SFTP connections.
 - Edit (smaller) files.
+- Store/View information about databases, tables and columns.
 
 ## TODO
 
@@ -43,7 +45,7 @@ The full features of Servyrun as of February 2023:
 
 * https://ipwhois.io/documentation for IP address GEO data
 
-# API Contents
+# API documentation Contents
 
 1. [ Information ](#apiinfo)
 2. [ Servers ](#servers)
