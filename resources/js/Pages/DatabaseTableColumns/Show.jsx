@@ -49,7 +49,7 @@ export default function Show({auth}) {
                         <div className="flex items-center justify-between">
                             <div><h2 className="mb-3 text-xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">
                                 {database.name}, {table.name} table columns</h2>
-                                <p className="mb-4 text-sm text-gray-900 dark:text-white">Click column name to download as array</p></div>
+                                <p className="mb-4 text-sm text-gray-900 dark:text-white">Click column name to download as json</p></div>
                             <small className="text-end">
                                 <HiTrash
                                     className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
