@@ -144,7 +144,7 @@ class DatabaseConnection extends Model
         if (!isset($this->db_con)) {
             return null;
         }
-        return $this->db_con->query("SELECT `{$databaseTableColumn->name}` FROM `{$databaseTable->name}`;")->fetchAll(\PDO::FETCH_COLUMN);
+        return $this->db_con->query("SELECT `{$databaseTableColumn->name}` FROM `{$databaseTable->name}`;")->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function getVersion(): ?string
