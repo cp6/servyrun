@@ -93,7 +93,7 @@ export default function Show({auth}) {
                                     {
                                         (columns.extra !== null) ?
                                             <span
-                                                className="ml-1 bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Extra: {columns.extra}</span>
+                                                className="ml-1 bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-500 dark:text-gray-100">Extra: {columns.extra}</span>
                                             : null
                                     }
                                 </li>)}
