@@ -37,7 +37,7 @@ class DatabaseTableColumn extends Model
         return $this->hasOne(DatabaseTable::class, 'id', 'table_id');
     }
 
-    public function createNew(DatabaseTable $databaseTable, array $column): DatabaseTableColumn
+    public static function createNew(DatabaseTable $databaseTable, array $column): DatabaseTableColumn
     {
         $table_column = new DatabaseTableColumn();
         $table_column->table_id = $databaseTable->id;
