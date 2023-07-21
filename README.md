@@ -476,6 +476,38 @@ comment
 
 `DELETE` `/db/table/{databaseTable}`
 
+#### Run a query on a table
+
+`POST` `/db/table/{databaseTable}/query`
+
+The validation will only allow the columns to be those found in the table.
+
+An example body to run a query, required fields only:
+
+```json
+{
+    "column1": "id",
+    "condition1": ">",
+    "value1": "500"
+}
+```
+
+An example body to run a query, required and optional fields:
+
+```json
+{
+    "column1": "id",
+    "condition1": ">",
+    "value1": "500",
+    "column2": "id",
+    "condition2": "<",
+    "value2": "1000",
+    "order": "score",
+    "order_direction": "desc",
+    "limit": 20
+}
+```
+
 ---
 
 
