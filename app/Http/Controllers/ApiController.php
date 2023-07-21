@@ -758,6 +758,50 @@ class ApiController extends Controller
         return response()->json($columns)->header('Content-Type', 'application/json');
     }
 
+    public function dbTableQuery(DatabaseTable $databaseTable, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $columns = DatabaseTableColumn::where('table_id', $databaseTable->id)->pluck('name')->toArray();
+
+        $request->validate([
+            'column1' => 'string|required|in:' . implode(",", $columns),
+            'condition1' => 'string|required|in:=,>,>=,<,<=',
+            'value1' => 'string|required|max:32',
+            'order' => 'string|sometimes|nullable|in:' . implode(",", $columns),
+            'order_direction' => 'string|sometimes|nullable|max:64',
+            'column2' => 'string|sometimes|nullable|in:' . implode(",", $columns),
+            'condition2' => 'string|sometimes|nullable|in:=,>,>=,<,<=',
+            'value2' => 'string|sometimes|nullable|max:32',
+            'limit' => 'integer|sometimes|nullable|max:999|min:1',
+        ]);
+
+        if ($request->has('order')) {
+            $ordering = "ORDER BY `{$request->order}` {$request->order_direction}";
+        } else {
+            $ordering = "";
+        }
+
+        if ($request->has('column2')) {
+            $and = "AND `{$request->column2}` {$request->condition2} {$request->value2}";
+        } else {
+            $and = "";
+        }
+
+        if ($request->has('limit')) {
+            $limit = $request->limit;
+        } else {
+            $limit = 999;
+        }
+
+        $query = "SELECT * FROM `{$databaseTable->name}` WHERE `{$request->column1}` {$request->condition1} {$request->value1} $and $ordering LIMIT {$limit};";
+
+        $connection = $databaseTable->database->conn;
+        $connect = $connection->dbConnect($connection, $databaseTable->database->name);
+        $select = $connect->query($query);
+
+        return response()->json($select->fetchAll(PDO::FETCH_ASSOC))->header('Content-Type', 'application/json');
+
+    }
+
     public function dbColumnShow(DatabaseTableColumn $databaseTableColumn): \Illuminate\Http\JsonResponse
     {
         return response()->json($databaseTableColumn)->header('Content-Type', 'application/json');
