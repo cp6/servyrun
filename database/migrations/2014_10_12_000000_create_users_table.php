@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('check_uptime_connection_index')->default(1);
             $table->boolean('check_uptime_sftp_connection_index')->default(1);
             $table->boolean('check_uptime_db_connection_index')->default(1);
+            $table->boolean('allow_api_db_queries')->default(0);
             $table->boolean('log_connections')->default(0);
             $table->char('download_directory', 8);//8 length string that SFTP downloaded files get stored in
             $table->rememberToken();

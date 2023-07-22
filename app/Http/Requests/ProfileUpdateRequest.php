@@ -24,6 +24,7 @@ class ProfileUpdateRequest extends FormRequest
             'check_uptime_connection_index' => ['integer', 'required', 'min:0', 'max:1'],
             'check_uptime_sftp_connection_index' => ['integer', 'required', 'min:0', 'max:1'],
             'check_uptime_db_connection_index' => ['integer', 'required', 'min:0', 'max:1'],
+            'allow_api_db_queries' => ['integer', 'required', 'min:0', 'max:1'],
             'allow_api_access' => ['integer', 'required', 'min:0', 'max:1'],
             'log_connections' => ['integer', 'required', 'min:0', 'max:1']
         ];

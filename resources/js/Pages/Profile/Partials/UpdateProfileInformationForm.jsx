@@ -21,6 +21,7 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
         check_uptime_connection_index: user.check_uptime_connection_index,
         check_uptime_sftp_connection_index: user.check_uptime_sftp_connection_index,
         check_uptime_db_connection_index: user.check_uptime_db_connection_index,
+        allow_api_db_queries: user.allow_api_db_queries,
         allow_api_access: user.allow_api_access,
         log_connections: user.log_connections,
     });
@@ -181,6 +182,21 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         </Select>
 
                         <InputError className="mt-2" message={errors.check_uptime_db_connection_index}/>
+                    </div>
+
+                    <div className="sm:col-span-3 col-span-4 mb-2">
+                        <InputLabel for="allow_api_db_queries"
+                                    value="Allow DB queries with the API"/>
+
+                        <Select name="allow_api_db_queries"
+                                value={data.allow_api_db_queries}
+                                onChange={(e) => setData('allow_api_db_queries', e.target.value)}
+                        >
+                            <option value={0}>No</option>
+                            <option value={1}>Yes</option>
+                        </Select>
+
+                        <InputError className="mt-2" message={errors.allow_api_db_queries}/>
                     </div>
 
                     <div className="sm:col-span-3 col-span-4 mb-2">

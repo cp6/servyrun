@@ -760,6 +760,10 @@ class ApiController extends Controller
 
     public function dbTableQuery(DatabaseTable $databaseTable, Request $request): \Illuminate\Http\JsonResponse
     {
+        if (!auth()->user()->allow_api_db_queries) {
+            return response()->json(['message' => 'This method has been disabled'], 401)->header('Content-Type', 'application/json');
+        }
+
         $columns = DatabaseTableColumn::where('table_id', $databaseTable->id)->pluck('name')->toArray();
 
         $request->validate([
