@@ -218,4 +218,30 @@ class Server extends Model
 
     }
 
+    public static function insertServerUsage(Server $server)
+    {
+        $latest_usage = self::getServerUsage($server)->getData();
+
+        if ($latest_usage->success === true) {
+
+            try {
+
+                $server_usage = new ServerUsage();
+                $server_usage->server_id = $server->id;
+                $server_usage->cpu_usage = $latest_usage->cpu_used_percent;
+                $server_usage->ram_used_percent = $latest_usage->ram_used_percent;
+                $server_usage->disk_used_percent = $latest_usage->disk_used_percent;
+                $server_usage->disk_used = $latest_usage->disk_used;
+                $server_usage->disk_available = $latest_usage->disk_available;
+                $server_usage->save();
+
+            } catch (\Exception $exception) {
+
+            }
+
+        }
+
+        return $latest_usage;
+    }
+
 }

@@ -257,26 +257,7 @@ class ServerController extends Controller
     {
         $this->authorize('view', $server);
 
-        $latest_usage = Server::getServerUsage($server)->getData();
-
-        if ($latest_usage->success === true) {
-
-            try {
-
-                $server_usage = new ServerUsage();
-                $server_usage->server_id = $server->id;
-                $server_usage->cpu_usage = $latest_usage->cpu_used_percent;
-                $server_usage->ram_used_percent = $latest_usage->ram_used_percent;
-                $server_usage->disk_used_percent = $latest_usage->disk_used_percent;
-                $server_usage->disk_used = $latest_usage->disk_used;
-                $server_usage->disk_available = $latest_usage->disk_available;
-                $server_usage->save();
-
-            } catch (\Exception $exception) {
-
-            }
-
-        }
+        $latest_usage = Server::insertServerUsage($server)->getData();
 
         return response()->json($latest_usage)->header('Content-Type', 'application/json');
 
