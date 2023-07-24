@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('disk_used_percent')->nullable()->default(null);
             $table->integer('disk_used')->nullable()->default(null);
             $table->integer('disk_available')->nullable()->default(null);
+            $table->integer('uptime')->nullable()->default(null);
             $table->float('net_out')->nullable()->default(null);
             $table->float('net_in')->nullable()->default(null);
             $table->integer('total_net_out')->nullable()->default(null);
