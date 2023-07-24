@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $servers = Server::get();
             foreach ($servers as $server) {//Get usage data for each server
-                Server::insertServerUsage($server)->getData();
+                Server::insertServerUsage($server);
             }
         })->everyTwoMinutes();
 

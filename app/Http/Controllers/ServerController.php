@@ -257,7 +257,7 @@ class ServerController extends Controller
     {
         $this->authorize('view', $server);
 
-        $latest_usage = Server::insertServerUsage($server)->getData();
+        $latest_usage = Server::insertServerUsage($server);
 
         return response()->json($latest_usage)->header('Content-Type', 'application/json');
 
