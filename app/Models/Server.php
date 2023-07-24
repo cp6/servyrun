@@ -197,6 +197,7 @@ class Server extends Model
             return response()->json(['success' => false, 'message' => 'SSH could not connect'], 400)->header('Content-Type', 'application/json');
         }
 
+        $uptime_seconds = Connection::getUptime($ssh);
         $cpu_used_percent = Connection::getCpuUsedPercent($ssh);
         $ram_used_percent = Connection::getRamUsedPercent($ssh);
         $disk_used_percent = Connection::getDiskUsedPercent($ssh);
@@ -206,6 +207,7 @@ class Server extends Model
         return response()->json(
             [
                 'success' => true,
+                'uptime' => $uptime_seconds,
                 'cpu_used_percent' => (float)number_format($cpu_used_percent, 4),
                 'ram_used_percent' => (float)number_format($ram_used_percent, 4),
                 'disk_used_percent' => $disk_used_percent,
