@@ -224,7 +224,7 @@ class Server extends Model
     {
         $latest_usage = self::getServerUsage($server)->getData();
 
-        if ($latest_usage->success === true) {
+        if ($latest_usage->success) {
 
             try {
 
