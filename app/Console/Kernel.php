@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\Scopes\UserOwnedScope;
 use App\Models\Server;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -18,8 +19,7 @@ class Kernel extends ConsoleKernel
     {
 
         $schedule->call(function () {
-            \Log::debug("Called schedule");
-            $servers = Server::whereHas('conn')->get();
+            $servers = Server::withoutGlobalScope(new UserOwnedScope())->get();
             foreach ($servers as $server) {//Get usage data for each server
                 Server::insertServerUsage($server);
             }
