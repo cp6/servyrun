@@ -67,6 +67,11 @@ class Server extends Model
         return $this->hasOne(SftpConnection::class, 'server_id', 'id');
     }
 
+    public function ip_sshNoOwner(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(IpAddress::class, 'server_id', 'id')->withoutGlobalScope(new UserOwnedScope())->where('is_ssh', 1);
+    }
+
     public function ip_ssh(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(IpAddress::class, 'server_id', 'id')->where('is_ssh', 1);
@@ -189,12 +194,16 @@ class Server extends Model
 
     public static function getServerUsage(Server $server): \Illuminate\Http\JsonResponse
     {
-        $connection = Connection::where('server_id', $server->id)->with('server', 'key')->firstOrFail();
+        $connection = Connection::withoutGlobalScope(new UserOwnedScope())->where('server_id', $server->id)->with('serverNoOwner', 'keyNoOwner')->first();
 
-        $ssh = Connection::do($connection, 10);
+        if (is_null($connection)) {
+            return response()->json(['success' => false, 'message' => 'No Connection found for server ' . $server->id], 400)->header('Content-Type', 'application/json');
+        }
+
+        $ssh = Connection::doNoOwner($connection, 8, false);
 
         if (is_null($ssh)) {
-            return response()->json(['success' => false, 'message' => 'SSH could not connect'], 400)->header('Content-Type', 'application/json');
+            return response()->json(['success' => false, 'message' => 'SSH could not connect for connection ' . $connection->id], 400)->header('Content-Type', 'application/json');
         }
 
         $uptime_seconds = Connection::getUptime($ssh);
@@ -230,12 +239,13 @@ class Server extends Model
 
                 $server_usage = new ServerUsage();
                 $server_usage->server_id = $server->id;
+                $server_usage->user_id = $server->user_id;
                 $server_usage->cpu_usage = $latest_usage->cpu_used_percent;
                 $server_usage->ram_used_percent = $latest_usage->ram_used_percent;
                 $server_usage->disk_used_percent = $latest_usage->disk_used_percent;
                 $server_usage->disk_used = $latest_usage->disk_used;
                 $server_usage->disk_available = $latest_usage->disk_available;
-                $server_usage->save();
+                $server_usage->saveQuietly();
 
             } catch (\Exception $exception) {
 

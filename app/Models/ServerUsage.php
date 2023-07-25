@@ -12,6 +12,7 @@ class ServerUsage extends Model
 
     protected $fillable = ['cpu_usage', 'ram_used_percent', 'disk_used_percent', 'disk_used', 'disk_available', 'uptime', 'net_out', 'net_in', 'total_net_out', 'total_net_in', 'total_net'];
 
+
     protected static function boot(): void
     {
         parent::boot();
