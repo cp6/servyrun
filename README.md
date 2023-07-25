@@ -37,6 +37,7 @@ The full features of Servyrun as of February 2023:
 
 ## TODO
 
+- Schedule for getting server usage every X minutes
 - Chart for pings between 2 servers
 - Chart for 'server usage' i.e RAM and CPU
 - Docker image for easy deployment
