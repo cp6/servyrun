@@ -54,6 +54,16 @@ class Connection extends Model
         });
     }
 
+    public function keyNoOwner(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Key::class, 'id', 'key_id')->withoutGlobalScope(new UserOwnedScope());
+    }
+
+    public function serverNoOwner(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Server::class, 'server_id', 'id')->withoutGlobalScope(new UserOwnedScope());
+    }
+
     public function server(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Server::class, 'server_id', 'id');
@@ -81,17 +91,49 @@ class Connection extends Model
 
     public static function do(Connection $connection, int $timeout = 10): ?SSH2
     {
-        $conn = $connection->where('id', $connection->id)->with(['server.ip_ssh', 'key'])->firstOrFail();
+        $conn = $connection->where('id', $connection->id)->with(['server.ip_ssh', 'key'])->first();
+
+        if (is_null($conn)) {
+            return null;
+        }
+
+        $ssh_ip = $conn->server->ip_ssh->ip;
 
         if ($conn->type === 1) {
             //Password auto
-            $ssh = self::makeConnectionPassword($conn->server->ip_ssh->ip, $conn->ssh_port, $conn->username, Crypt::decryptString($conn->password), $timeout);
+            $ssh = self::makeConnectionPassword($ssh_ip, $conn->ssh_port, $conn->username, Crypt::decryptString($conn->password), $timeout);
         } else if ($conn->type === 2) {
             //Key with a password
-            $ssh = self::makeConnectionKey($conn->server->ip_ssh->ip, $conn->ssh_port, $conn->username, $conn->key->saved_as, Crypt::decryptString($conn->password), $timeout);
+            $ssh = self::makeConnectionKey($ssh_ip, $conn->ssh_port, $conn->username, $conn->key->saved_as, Crypt::decryptString($conn->password), $timeout);
         } elseif ($conn->type === 3) {
             //Key with NO password
-            $ssh = self::makeConnectionKey($conn->server->ip_ssh->ip, $conn->ssh_port, $conn->username, $conn->key->saved_as, null, $timeout);
+            $ssh = self::makeConnectionKey($ssh_ip, $conn->ssh_port, $conn->username, $conn->key->saved_as, null, $timeout);
+        } else {
+            return null;
+        }
+
+        return $ssh;
+    }
+
+    public static function doNoOwner(Connection $connection, int $timeout = 10): ?SSH2
+    {
+        $conn = $connection->where('id', $connection->id)->withoutGlobalScope(new UserOwnedScope())->with(['serverNoOwner.ip_sshNoOwner', 'keyNoOwner'])->first();
+
+        if (is_null($conn)) {
+            return null;
+        }
+
+        $ssh_ip = $conn->serverNoOwner->ip_sshNoOwner->ip;
+
+        if ($conn->type === 1) {
+            //Password auto
+            $ssh = self::makeConnectionPassword($ssh_ip, $conn->ssh_port, $conn->username, Crypt::decryptString($conn->password), $timeout);
+        } else if ($conn->type === 2) {
+            //Key with a password
+            $ssh = self::makeConnectionKey($ssh_ip, $conn->ssh_port, $conn->username, $conn->key->saved_as, Crypt::decryptString($conn->password), $timeout);
+        } elseif ($conn->type === 3) {
+            //Key with NO password
+            $ssh = self::makeConnectionKey($ssh_ip, $conn->ssh_port, $conn->username, $conn->key->saved_as, null, $timeout);
         } else {
             return null;
         }
@@ -110,7 +152,7 @@ class Connection extends Model
             return null;
         }
 
-        if (\Auth::user()->log_connections) {
+        if (\Auth::user() !== null && \Auth::user()->log_connections) {
             ActionLog::make(1, 'connected', 'connection', "Made connection {$user}:{$port} with password");
         }
 
