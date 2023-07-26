@@ -21,6 +21,7 @@ use App\Models\Ping;
 use App\Models\PingGroup;
 use App\Models\PingGroupAssigned;
 use App\Models\Server;
+use App\Models\ServerUsage;
 use App\Models\SftpConnection;
 use App\Models\Type;
 use Illuminate\Http\Request;
@@ -905,6 +906,30 @@ class ApiController extends Controller
         }
 
         return response()->json(['result' => $result, 'message' => $message])->header('Content-Type', 'application/json');
+    }
+
+    public function serversUsageAll(Server $server, int $limit = 720): \Illuminate\Http\JsonResponse
+    {
+        $data = ServerUsage::where('server_id', $server->id)->with(['server'])->orderBy('id', 'desc')->take($limit)->get();
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function serversUsageCpu(Server $server, int $limit = 720): \Illuminate\Http\JsonResponse
+    {
+        $data = ServerUsage::where('server_id', $server->id)->select(['cpu_usage', 'created_at'])->with(['server'])->orderBy('id', 'desc')->take($limit)->get();
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function serversUsageRam(Server $server, int $limit = 720): \Illuminate\Http\JsonResponse
+    {
+        $data = ServerUsage::where('server_id', $server->id)->select(['ram_used_percent', 'created_at'])->with(['server'])->orderBy('id', 'desc')->take($limit)->get();
+        return response()->json($data)->header('Content-Type', 'application/json');
+    }
+
+    public function serversUsageDisk(Server $server, int $limit = 720): \Illuminate\Http\JsonResponse
+    {
+        $data = ServerUsage::where('server_id', $server->id)->select(['disk_used_percent', 'disk_used', 'disk_available', 'created_at'])->with(['server'])->orderBy('id', 'desc')->take($limit)->get();
+        return response()->json($data)->header('Content-Type', 'application/json');
     }
 
 }
