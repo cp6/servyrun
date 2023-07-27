@@ -32,6 +32,7 @@ return new class extends Migration
             $table->char('currency',3)->default(null)->nullable();//Not used currently
             $table->tinyInteger('payment_term')->default(null)->nullable();//Not used currently
             $table->date('next_due_date')->default(null)->nullable();//Not used currently
+            $table->boolean('scheduled_get_usage')->default(0);//Include this server in schedule usage data
             $table->timestamps();
             $table->unique(['user_id','hostname']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
