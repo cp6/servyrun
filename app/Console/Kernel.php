@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
     {
 
         $schedule->call(function () {
-            $servers = Server::withoutGlobalScope(new UserOwnedScope())->get();
+            $servers = Server::where('scheduled_get_usage', 1)->withoutGlobalScope(new UserOwnedScope())->get();
             foreach ($servers as $server) {//Get usage data for each server
                 Server::insertServerUsage($server);
             }
