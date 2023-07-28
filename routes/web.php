@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/servers/{server}', [ServerController::class, 'show'])->name('server.show');
     Route::get('/servers/{server}/get-information', [ServerController::class, 'getInformation'])->name('server.get-information');
     Route::get('/servers/{server}/usage', [ServerController::class, 'getUsage'])->name('server.usage');
+    Route::get('/servers/{server}/usage/all', [ServerController::class, 'allUsage'])->name('server.usage.all');
     Route::get('/servers/{server}/usage/ram', [ServerController::class, 'ramUsage'])->name('server.usage.ram');
     Route::get('/servers/{server}/usage/cpu', [ServerController::class, 'cpuUsage'])->name('server.usage.cpu');
     Route::get('/servers/{server}/usage/disk', [ServerController::class, 'diskUsage'])->name('server.usage.disk');

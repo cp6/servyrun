@@ -263,6 +263,14 @@ class ServerController extends Controller
 
     }
 
+    public function allUsage(Server $server): \Inertia\Response
+    {
+        return Inertia::render('Servers/Usage/All', [
+            'resource' => $server,
+            'usage' => ServerUsage::where('server_id', $server->id)->select(['ram_used_percent', 'cpu_usage', 'disk_used_percent', 'created_at'])->orderBy('id', 'desc')->take(720)->get()
+        ]);
+    }
+
     public function ramUsage(Server $server): \Inertia\Response
     {
         return Inertia::render('Servers/Usage/Ram', [
