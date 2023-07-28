@@ -263,6 +263,30 @@ class ServerController extends Controller
 
     }
 
+    public function ramUsage(Server $server): \Inertia\Response
+    {
+        return Inertia::render('Servers/Usage/Ram', [
+            'resource' => $server,
+            'usage' => ServerUsage::where('server_id', $server->id)->select(['ram_used_percent', 'created_at'])->orderBy('id', 'desc')->take(720)->get()
+        ]);
+    }
+
+    public function cpuUsage(Server $server): \Inertia\Response
+    {
+        return Inertia::render('Servers/Usage/Cpu', [
+            'resource' => $server,
+            'usage' => ServerUsage::where('server_id', $server->id)->select(['cpu_usage', 'created_at'])->orderBy('id', 'desc')->take(720)->get()
+        ]);
+    }
+
+    public function diskUsage(Server $server): \Inertia\Response
+    {
+        return Inertia::render('Servers/Usage/Disk', [
+            'resource' => $server,
+            'usage' => ServerUsage::where('server_id', $server->id)->select(['disk_used_percent', 'created_at'])->orderBy('id', 'desc')->take(720)->get()
+        ]);
+    }
+
     public function getUptime(Server $server): \Illuminate\Http\JsonResponse
     {
         $this->authorize('view', $server);
