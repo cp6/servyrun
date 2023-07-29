@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
 import {
     HiFolderOpen,
-    HiLightningBolt, HiPencil, HiTrash
+    HiLightningBolt, HiPencil, HiTrash, HiTrendingDown
 } from 'react-icons/hi';
 import ServerCardSpecs from "@/Components/ServerCardSpecs";
 import ServerCardConnection from "@/Components/ServerCardConnection";
@@ -91,10 +91,16 @@ export default function Show({auth}) {
                                     (() => {
                                         if ((typeof (resource.conn) != "undefined" && resource.conn !== null)) {
                                             return (
-                                                <HiLightningBolt
-                                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                                    onClick={event => window.location.href = route('connection.show', resource.conn.id)}
-                                                    title={'Go to connection'}/>
+                                                <>
+                                                    <HiLightningBolt
+                                                        className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                                        onClick={event => window.location.href = route('connection.show', resource.conn.id)}
+                                                        title={'Go to connection'}/>
+                                                    <HiTrendingDown
+                                                        className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                                        onClick={event => window.location.href = route('server.usage.all', resource.id)}
+                                                        title={'Go to usage'}/>
+                                                </>
                                             )
                                         }
                                     })()
