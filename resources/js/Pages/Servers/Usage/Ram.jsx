@@ -1,9 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
-import React, {useState} from "react";
+import React from "react";
 import BackButton from "@/Components/BackButton";
 import Chart from "react-apexcharts";
 import {format} from "date-fns";
+import IndigoButton from "@/Components/IndigoButton";
 
 export default function Ram({auth}) {
 
@@ -88,7 +89,6 @@ export default function Ram({auth}) {
         }
     };
 
-
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -99,6 +99,8 @@ export default function Ram({auth}) {
             <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('server.index')}>Back to servers</BackButton>
+                    <IndigoButton href={route('server.usage.cpu', resource.id)}>CPU</IndigoButton>
+                    <IndigoButton href={route('server.usage.disk', resource.id)}>Disk</IndigoButton>
                 </div>
 
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
@@ -113,7 +115,6 @@ export default function Ram({auth}) {
                     </div>
                 </section>
             </div>
-
 
         </AuthenticatedLayout>
     );
