@@ -908,6 +908,15 @@ class ApiController extends Controller
         return response()->json(['result' => $result, 'message' => $message])->header('Content-Type', 'application/json');
     }
 
+    public function serversUsageGet(Server $server, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $this->authorize('view', $server);
+
+        $latest_usage = Server::insertServerUsage($server);
+
+        return response()->json($latest_usage)->header('Content-Type', 'application/json');
+    }
+
     public function serversUsageAll(Server $server, int $limit = 720): \Illuminate\Http\JsonResponse
     {
         $data = ServerUsage::where('server_id', $server->id)->with(['server'])->orderBy('id', 'desc')->take($limit)->get();
