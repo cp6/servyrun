@@ -5,15 +5,18 @@ import BackButton from "@/Components/BackButton";
 import Chart from "react-apexcharts";
 import {format} from "date-fns";
 import IndigoButton from "@/Components/IndigoButton";
+import {HiRefresh} from "react-icons/hi";
+import axios from "axios";
 
 export default function All({auth}) {
 
     const resource = usePage().props.resource;
     const usage = usePage().props.usage;
+    const user = usePage().props.auth.user;
 
-    const time = usage.map((d) => format(new Date(d.created_at),  'hh:mma do LLL yyyy'));
+    const time = usage.map((d) => format(new Date(d.created_at), 'hh:mma do LLL yyyy'));
     const ram = usage.map((value) => value.ram_used_percent);
-    const cpu = usage.map((value) =>  Math.round(value.cpu_usage * 10));
+    const cpu = usage.map((value) => Math.round(value.cpu_usage * 10));
     const disk = usage.map((value) => value.disk_used_percent);
 
     const data = {
@@ -100,7 +103,7 @@ export default function All({auth}) {
                 },
             },
             fill: {
-                colors: [ '#d3282e', '#28d32b', '#2864d3'],
+                colors: ['#d3282e', '#28d32b', '#2864d3'],
                 opacity: 0.5
             },
             colors: ['#ab171c', '#16a719', '#2e72ea'],
@@ -142,6 +145,26 @@ export default function All({auth}) {
         }
     };
 
+    const refreshUptime = () => {
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.api_token}`,
+                'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        };
+
+        axios.defaults.withCredentials = true;
+
+        axios.post(route('api.server.usage.get', resource.id), config).then(response => {
+            window.location.reload();
+        }).catch(err => {
+            console.log('Error fetching usage');
+        });
+
+    };
 
     return (
         <AuthenticatedLayout
@@ -159,6 +182,17 @@ export default function All({auth}) {
                 </div>
 
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <div className={'md:col-span-2'}>
+                        <dl className="flex items-center space-x-6 mt-4 ms-2">
+                            <div>
+                                <dt className={"mb-2 font-light leading-none text-gray-900 dark:text-gray-300 hover:dark:text-gray-200"}>
+                                    <HiRefresh
+                                        title={'Refresh usage'} onClick={refreshUptime}
+                                        className={"mt-2 h-5 w-5 hover:cursor-pointer"}/>
+                                </dt>
+                            </div>
+                        </dl>
+                    </div>
                     <div className="w-full">
                         <Chart
                             options={data.options}
