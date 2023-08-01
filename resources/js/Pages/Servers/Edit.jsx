@@ -33,6 +33,7 @@ export default function Edit({auth}) {
         price: resource.price,
         term: resource.payment_term,
         currency: resource.currency,
+        scheduled_get_usage: resource.scheduled_get_usage
     });
 
     const submit = (e) => {
@@ -273,6 +274,18 @@ export default function Edit({auth}) {
                                     <option key={7} value={7}>Tri Annual</option>
                                 </Select>
                                 <InputError message={errors.term} className="mt-2"/>
+                            </div>
+                            <div className="sm:col-span-1 col-span-4">
+                                <div className="mb-2 block">
+                                    <InputLabel forInput="scheduled_get_usage" value="Get usage schedule"/>
+                                </div>
+                                <Select onChange={(e) => setData('scheduled_get_usage', e.target.value)}
+                                        name="scheduled_get_usage"
+                                        value={resource.scheduled_get_usage}
+                                >
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </Select>
                             </div>
                         </div>
                         <UpdateButton processing={processing}>Update server</UpdateButton>

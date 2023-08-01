@@ -170,6 +170,7 @@ class ServerController extends Controller
             'price' => 'numeric|nullable|sometimes|min:0|max:9999',
             'currency' => 'string|nullable|sometimes|size:3',
             'term' => 'integer|nullable|sometimes|min:0|max:13',
+            'scheduled_get_usage' => 'integer|required|min:0|max:1',
         ]);
 
         try {
@@ -189,7 +190,8 @@ class ServerController extends Controller
                 'ping_port' => $request->ping_port ?? 22,
                 'price' => $request->price ?? null,
                 'currency' => $request->currency ?? null,
-                'payment_term' => $request->term ?? null
+                'payment_term' => $request->term ?? null,
+                'scheduled_get_usage' => $request->scheduled_get_usage
             ]);
 
             if ($request->has('ip')) {
