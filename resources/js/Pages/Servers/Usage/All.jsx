@@ -145,12 +145,12 @@ export default function All({auth}) {
         }
     };
 
-    const refreshUptime = () => {
+    const refreshUsage = () => {
 
         const config = {
             headers: {
-                Authorization: `Bearer ${user.api_token}`,
-                'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Authorization': `Bearer ${user.api_token}`,
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             }
@@ -161,6 +161,7 @@ export default function All({auth}) {
         axios.post(route('api.server.usage.get', resource.id), config).then(response => {
             window.location.reload();
         }).catch(err => {
+            console.log(err);
             console.log('Error fetching usage');
         });
 
@@ -187,7 +188,7 @@ export default function All({auth}) {
                             <div>
                                 <dt className={"mb-2 font-light leading-none text-gray-900 dark:text-gray-300 hover:dark:text-gray-200"}>
                                     <HiRefresh
-                                        title={'Refresh usage'} onClick={refreshUptime}
+                                        title={'Refresh usage'} onClick={refreshUsage}
                                         className={"mt-2 h-5 w-5 hover:cursor-pointer"}/>
                                 </dt>
                             </div>
