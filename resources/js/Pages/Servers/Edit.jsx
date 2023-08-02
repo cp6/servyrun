@@ -88,10 +88,10 @@ export default function Edit({auth}) {
                                 <Select onChange={(e) => setData('server_type', e.target.value)}
                                         name="server_type"
                                         required={true}
-                                        value={resource.type_id}
+                                        value={data.server_type}
                                 >
                                     <option value=''>Choose</option>
-                                    {types.map(types => <option key={types.id} value={types.id}>{types.name}</option>)}
+                                    {types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                                 </Select>
                             </div>
                             <div className="sm:col-span-2 col-span-4">
@@ -101,7 +101,7 @@ export default function Edit({auth}) {
                                 <Select onChange={(e) => setData('location', e.target.value)}
                                         name="location"
                                         required={true}
-                                        value={resource.location.id}
+                                        value={data.location}
                                 >
                                     <option value=''>Choose</option>
                                     {locations.map(locations => <option key={locations.id}
@@ -279,12 +279,11 @@ export default function Edit({auth}) {
                                 <div className="mb-2 block">
                                     <InputLabel forInput="scheduled_get_usage" value="Get usage schedule"/>
                                 </div>
-                                <Select onChange={(e) => setData('scheduled_get_usage', e.target.value)}
-                                        name="scheduled_get_usage"
-                                        value={resource.scheduled_get_usage}
-                                >
-                                    <option value='0'>No</option>
-                                    <option value='1'>Yes</option>
+                                <Select name="scheduled_get_usage"
+                                        value={data.scheduled_get_usage}
+                                        onChange={(e) => setData('scheduled_get_usage', e.target.value)}>
+                                    <option value={0}>No</option>
+                                    <option value={1}>Yes</option>
                                 </Select>
                             </div>
                         </div>
