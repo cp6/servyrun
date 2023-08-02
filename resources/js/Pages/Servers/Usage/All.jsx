@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
-import React from "react";
+import React, {useState} from "react";
 import BackButton from "@/Components/BackButton";
 import Chart from "react-apexcharts";
 import {format} from "date-fns";
@@ -18,6 +18,8 @@ export default function All({auth}) {
     const ram = usage.map((value) => value.ram_used_percent);
     const cpu = usage.map((value) => Math.round(value.cpu_usage * 10));
     const disk = usage.map((value) => value.disk_used_percent);
+
+    const [showRefresh, setShowRefresh] = useState(true);
 
     const data = {
         series: [
@@ -146,22 +148,19 @@ export default function All({auth}) {
     };
 
     const refreshUsage = () => {
+        setShowRefresh(false);
 
         const config = {
             headers: {
                 'Authorization': `Bearer ${user.api_token}`,
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             }
         };
 
-        axios.defaults.withCredentials = true;
-
-        axios.post(route('api.server.usage.get', resource.id), config).then(response => {
+        axios.get(route('api.server.usage.get', resource.id), config).then(response => {
             window.location.reload();
         }).catch(err => {
-            console.log(err);
             console.log('Error fetching usage');
         });
 
@@ -189,7 +188,7 @@ export default function All({auth}) {
                                 <dt className={"mb-2 font-light leading-none text-gray-900 dark:text-gray-300 hover:dark:text-gray-200"}>
                                     <HiRefresh
                                         title={'Refresh usage'} onClick={refreshUsage}
-                                        className={"mt-2 h-5 w-5 hover:cursor-pointer"}/>
+                                        className={(!showRefresh) ? "mt-2 h-5 w-5 text-white/50 dark:text-gray-700" : "mt-2 h-5 w-5 hover:cursor-pointer"}/>
                                 </dt>
                             </div>
                         </dl>
