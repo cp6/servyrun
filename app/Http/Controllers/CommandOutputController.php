@@ -7,6 +7,7 @@ use App\Models\CommandOutput;
 use App\Models\Scopes\UserOwnedScope;
 use App\Models\Server;
 use Inertia\Inertia;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CommandOutputController extends Controller
 {
@@ -53,5 +54,25 @@ class CommandOutputController extends Controller
         ]);
     }
 
+    public function downloadFullPdf(CommandOutput $commandOutput): \Illuminate\Http\Response
+    {
+        $pdf = PDF::loadView('pdf.output_full', [
+            'datetime' => $commandOutput->created_at,
+            'command' => $commandOutput->the_command,
+            'seconds' => $commandOutput->seconds_taken,
+            'output' => trim($commandOutput->output)
+        ]);
+
+        return $pdf->download($commandOutput->id . '.pdf');
+    }
+
+    public function downloadSimplePdf(CommandOutput $commandOutput): \Illuminate\Http\Response
+    {
+        $pdf = PDF::loadView('pdf.output', [
+            'output' => trim($commandOutput->output)
+        ]);
+
+        return $pdf->download($commandOutput->id . '.pdf');
+    }
 
 }
