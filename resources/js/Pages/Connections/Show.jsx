@@ -10,7 +10,7 @@ import ReactDOM from "react-dom/client";
 import Output from "@/Components/Output";
 import ResponseAlert from "@/Components/Alert";
 import BackButton from "@/Components/BackButton";
-import {HiPencil, HiQuestionMarkCircle, HiServer, HiTrash} from "react-icons/hi";
+import {HiDocument, HiDocumentText, HiPencil, HiQuestionMarkCircle, HiServer, HiTrash} from "react-icons/hi";
 
 export default function Show({auth}) {
 
@@ -20,7 +20,9 @@ export default function Show({auth}) {
     const ip = usePage().props.ip;
     const commands = usePage().props.commands;
 
+    const [outputId, setOutputId] = useState(null);
     const [isEmailChecked, setIsEmailChecked] = useState(false);
+    const [showPdfButton, setShowPdfButton] = useState(false);
 
     const [runTime, setRunTime] = useState(0);
     const [running, setRunning] = useState(false);
@@ -73,6 +75,7 @@ export default function Show({auth}) {
         });
 
         setRunning(false);
+        setShowPdfButton(true);
 
         return response.json();
     }
@@ -85,6 +88,8 @@ export default function Show({auth}) {
         const root = ReactDOM.createRoot(container);
 
         const createOutput = postData().then((the_response) => {
+
+            setOutputId(the_response.id);
 
             const the_output = <Output id='commandOutput' title={null} the_command={the_response.the_command}
                                        created_at={new Date()}
@@ -226,6 +231,14 @@ export default function Show({auth}) {
                     <div className="py-4 px-4 mx-auto max-w-7xl" id="command_output_div">
                         <span className="text-gray-400 dark:text-gray-500">No output yet</span>
                     </div>
+                    <HiDocumentText
+                        className={(!showPdfButton) ? "md:ml-3 ml-2 h-6 w-6 text-white/50 dark:text-gray-700 mb-2" : "md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer mb-2"}
+                        onClick={event => window.location.href = route('outputs.full-pdf', outputId)}
+                        title={'Download as PDF with all details'}/>
+                    <HiDocument
+                        className={(!showPdfButton) ? "md:ml-3 ml-2 h-6 w-6 text-white/50 dark:text-gray-700 mb-2" : "md:ml-4 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer mb-2"}
+                        onClick={event => window.location.href = route('outputs.simple-pdf', outputId)}
+                        title={'Download as PDF with just output'}/>
                 </section>
             </div>
 
