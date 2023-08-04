@@ -6,6 +6,7 @@ use App\Models\Database;
 use App\Models\DatabaseConnection;
 use App\Models\DatabaseTable;
 use App\Models\DatabaseTableColumn;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -65,6 +66,17 @@ class DatabaseTableColumnController extends Controller
         $table_columns = DatabaseTableColumn::where('table_id', $databaseTable->id)->get();
 
         return response()->json($table_columns)->header('Content-Type', 'application/json');
+    }
+
+    public function downloadPdf(Database $database, DatabaseTable $databaseTable): \Illuminate\Http\Response
+    {
+        $table_columns = DatabaseTableColumn::where('table_id', $databaseTable->id)->get();
+
+        $pdf = PDF::loadView('pdf.table', [
+            'data' => $table_columns
+        ]);
+
+        return $pdf->download("{$databaseTable->name}.pdf");
     }
 
     public function destroy(DatabaseTableColumn $databaseTableColumn)
