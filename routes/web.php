@@ -157,6 +157,7 @@ Route::middleware('auth')->group(function () {
 
     //Database table columns
     Route::get('/db/{database}/table/{databaseTable}', [DatabaseTableColumnController::class, 'showForTable'])->name('db.table.columns.show');//Show database table columns
+    Route::get('/db/{database}/table/{databaseTable}/pdf', [DatabaseTableColumnController::class, 'downloadPdf'])->name('db.table.columns.pdf');//Show database table columns
     Route::get('/db/{database}/table/{databaseTable}/{databaseTableColumn}', [DatabaseTableColumnController::class, 'downloadColumn'])->name('db.table.columns.download.single');
     Route::get('db/{database}/table/{databaseTable}/rows', [DatabaseTableController::class, 'getRowCount'])->name('db.table.columns.rows');
     Route::get('db/{database}/table/{databaseTable}/size', [DatabaseTableController::class, 'getSize'])->name('db.table.columns.size');
