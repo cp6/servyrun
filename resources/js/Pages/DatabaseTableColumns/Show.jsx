@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
-import {HiDownload, HiRefresh, HiTrash} from "react-icons/hi";
+import {HiDocumentText, HiDownload, HiRefresh, HiTrash} from "react-icons/hi";
 import axios from "axios";
 import BackButton from "@/Components/BackButton";
 export default function Show({auth}) {
@@ -62,6 +62,10 @@ export default function Show({auth}) {
                                     className="md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
                                     onClick={event => window.location.href =route('db.table.columns.download', [database.id, table.id])}
                                     title={'Download as JSON'}/>
+                                <HiDocumentText
+                                    className={"md:ml-3 ml-2 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"}
+                                    onClick={event => window.location.href = route('db.table.columns.pdf', [database.id, table.id])}
+                                    title={'Download as PDF'}/>
                             </small>
                         </div>
                         <ul className="max-w-3xl space-y-1 text-gray-500 list-none list-inside dark:text-gray-400">
