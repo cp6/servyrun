@@ -9,6 +9,7 @@ use App\Models\Key;
 use App\Models\Server;
 use App\Models\SftpConnection;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -92,6 +93,35 @@ class SftpConnectionController extends Controller
             'ip' => $ip,
             'alert' => \Session::get('alert')
         ]);
+    }
+
+    public function downloadFilePdf(SftpConnection $sftpConnection, string $filepath)
+    {
+        $this->authorize('view', $sftpConnection);
+
+        $file = urldecode($filepath);
+
+        $sftp = SftpConnection::do($sftpConnection);
+
+        if (is_null($sftp)) {
+
+            return response()->json(['success' => false, 'message' => 'Could not connect', 'file' => $file], 500)->header('Content-Type', 'application/json');
+        }
+
+        if ($sftp->file_exists($file)) {
+
+            $download = SftpConnection::downloadFile($sftp, $file);
+
+            $pdf = PDF::loadView('pdf.file', [
+                'contents' => $download
+            ]);
+
+            return $pdf->download($file . '.pdf');
+
+        }
+
+        return response()->json(['success' => false, 'message' => 'File not found', 'file' => $file], 400)->header('Content-Type', 'application/json');
+
     }
 
     public function read(SftpConnection $sftpConnection): \Inertia\Response
@@ -489,7 +519,7 @@ class SftpConnectionController extends Controller
         });
 
         $end_timer = time() - $start_timer;
-        if ($file_size > 0 && $end_timer > 0){
+        if ($file_size > 0 && $end_timer > 0) {
             $upload_speed_mbps = number_format(($file_size / $end_timer / 1000 / 1000), 2);
         } else {
             $upload_speed_mbps = null;
