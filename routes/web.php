@@ -185,6 +185,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/sftp/{sftpConnection}/read', [SftpConnectionController::class, 'read'])->name('sftp.read');
     Route::post('/sftp/{sftpConnection}/read', [SftpConnectionController::class, 'readFile'])->name('sftp.read.file');//Get file for reading
     Route::get('/sftp/{sftpConnection}/raw/{filepath}', [SftpConnectionController::class, 'outputFileRaw'])->name('sftp.read.file.raw');//Get file for raw reading in browser
+    Route::get('/sftp/{sftpConnection}/pdf/{filepath}', [SftpConnectionController::class, 'downloadFilePdf'])->name('sftp.read.file.pdf');//Get file for raw reading in browser
     Route::post('/sftp/{sftpConnection}/raw', [SftpConnectionController::class, 'generateReadRawResponse'])->name('sftp.read.file.raw.post');//Build JSON response for reading raw file
     Route::post('/sftp/{sftpConnection}/run', [SftpConnectionController::class, 'run'])->name('sftp.run');//Run SFTP command
     Route::post('/sftp/{sftpConnection}/download', [SftpConnectionController::class, 'downloadFile'])->name('sftp.download');//SFTP download file
