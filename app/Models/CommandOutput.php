@@ -35,13 +35,18 @@ class CommandOutput extends Model
         });
 
         static::created(function (CommandOutput $commandOutput) {
-            ActionLog::make(1, 'ran', 'command', 'Ran command: '.$commandOutput->the_command.' seconds: '.$commandOutput->seconds_taken, $commandOutput->server_id ?? null, $commandOutput->command_id ?? null);
+            ActionLog::make(1, 'ran', 'command', 'Ran command: ' . $commandOutput->the_command . ' seconds: ' . $commandOutput->seconds_taken, $commandOutput->server_id ?? null, $commandOutput->command_id ?? null);
         });
     }
 
     public function command(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Command::class, 'id', 'command_id');
+    }
+
+    public function commandNoOwner(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Command::class, 'id', 'command_id')->withoutGlobalScope(new UserOwnedScope());
     }
 
     public function server(): \Illuminate\Database\Eloquent\Relations\HasOne
