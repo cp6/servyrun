@@ -38,8 +38,12 @@ class CommandOutputController extends Controller
     {
         //Show simple public view first if enabled AND not logged in
         if ($commandOutput->is_public === 1 && !\Auth::user()) {
+            $output = $commandOutput->where('id', $commandOutput->id)->withoutGlobalScope(UserOwnedScope::class)->with(['commandNoOwner'])->firstOrFail();
+            $length = strlen($output);
+            ($length <= 850) ? $rows = 9 : $rows = 20;
             return Inertia::render('Outputs/ShowPublic', [
-                'resource' => $commandOutput->where('id', $commandOutput->id)->withoutGlobalScope(UserOwnedScope::class)->with(['commandNoOwner'])->firstOrFail()
+                'resource' => $output,
+                'rows' => $rows
             ]);
         }
 
