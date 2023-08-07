@@ -19,7 +19,10 @@ class CommandOutput extends Model
     protected static function boot(): void
     {
         parent::boot();
-        static::addGlobalScope(new UserOwnedScope());
+
+        if (\Route::currentRouteName() !== 'outputs.show') {
+            static::addGlobalScope(new UserOwnedScope());
+        }
     }
 
     public function removeUserOwnedScope(): CommandOutput
