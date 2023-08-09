@@ -48,7 +48,7 @@ export default function Edit({auth}) {
                 group: {resource.title}</h2>}
         >
             <Head title="Edit command group"/>
-            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('command-group.show', resource.id)}>Back to command group</BackButton>
                 </div>

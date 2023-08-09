@@ -68,7 +68,7 @@ export default function Create({auth}) {
                 SFTP connection</h2>}
         >
             <Head title="Create SFTP connection"/>
-            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.index')}>Back to SFTP connections</BackButton>
                 </div>

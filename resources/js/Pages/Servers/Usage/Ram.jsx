@@ -96,7 +96,7 @@ export default function Ram({auth}) {
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{resource.title + ' RAM usage'}</h2>}
         >
             <Head title={"RAM usage " + resource.hostname}/>
-            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('server.index')}>Back to servers</BackButton>
                     <IndigoButton href={route('server.usage.cpu', resource.id)}>CPU</IndigoButton>

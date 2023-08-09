@@ -98,7 +98,7 @@ export default function Create({auth}) {
                 MySQL dump</h2>}
         >
             <Head title="Create MySQL dump"/>
-            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('mysqldump.index')}>Back to MySQL dumps</BackButton>
                 </div>

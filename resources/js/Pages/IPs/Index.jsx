@@ -20,7 +20,7 @@ export default function Index({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">IP addresses</h2>}>
             <Head title={'IP addresses'}/>
-            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <AddButton href={route('ip.create')}>Add IP</AddButton>
                 </div>

@@ -66,7 +66,7 @@ export default function CreateDownload({auth}) {
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Download file to surcuri</h2>}
         >
             <Head title={"Download file to surcuri"}/>
-            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.show', resource.id)}>Back to SFTP connection</BackButton>
                     <TealButton href={route('downloaded.index')}><HiFolderOpen className="mr-2 h-5 w-5"/>Downloaded

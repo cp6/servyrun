@@ -37,7 +37,7 @@ export default function Show({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{"File " + resource.saved_as}</h2>}>
             <Head title={"File " + resource.saved_as}></Head>
-            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('downloaded.index')}>Back to downloaded</BackButton>
                 </div>

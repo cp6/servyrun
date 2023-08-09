@@ -39,7 +39,7 @@ export default function Show({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{table.name + " table columns"}</h2>}>
             <Head title={table.name + " table columns"}></Head>
-            <div className="py-8 px-2 mx-auto max-w-7xl lg:py-10">
+            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('db.show.tables', database.id)}>Back to database tables</BackButton>
                 </div>
