@@ -130,6 +130,10 @@ class PingGroupController extends Controller
 
         $connections_array = array_filter(array_unique($connections_array));
 
+        if (count($connections_array) === 1){
+            return redirect(route('ping-group.edit', $pingGroup->id))->with(['alert' => ['type' => 'failure', 'message' => 'Must have more than 1 unique connection']]);
+        }
+
         $group_id = $pingGroup->id;
 
         $pingGroup->update([
