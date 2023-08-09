@@ -54,6 +54,10 @@ class PingGroupController extends Controller
 
         $connections_array = array_filter(array_unique($connections_array));
 
+        if (count($connections_array) === 1){
+            return redirect(route('ping-group.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Must have more than 1 unique connection']]);
+        }
+
         try {
 
             $ping_group = new PingGroup();
