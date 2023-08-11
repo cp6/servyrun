@@ -18,6 +18,7 @@ use App\Http\Controllers\PingController;
 use App\Http\Controllers\PingGroupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServerController;
+use App\Http\Controllers\ServerUsageController;
 use App\Http\Controllers\SftpConnectionController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,11 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/servers', [ServerController::class, 'store'])->name('server.store');
     Route::get('/servers/{server}', [ServerController::class, 'show'])->name('server.show');
     Route::get('/servers/{server}/get-information', [ServerController::class, 'getInformation'])->name('server.get-information');
-    Route::get('/servers/{server}/usage/', [ServerController::class, 'allUsage'])->name('server.usage.all');
-    Route::get('/servers/{server}/usage/get', [ServerController::class, 'getUsage'])->name('server.usage');
-    Route::get('/servers/{server}/usage/ram', [ServerController::class, 'ramUsage'])->name('server.usage.ram');
-    Route::get('/servers/{server}/usage/cpu', [ServerController::class, 'cpuUsage'])->name('server.usage.cpu');
-    Route::get('/servers/{server}/usage/disk', [ServerController::class, 'diskUsage'])->name('server.usage.disk');
+    Route::get('/servers/{server}/usage/', [ServerUsageController::class, 'allUsage'])->name('server.usage.all');
+    Route::get('/servers/{server}/usage/get', [ServerUsageController::class, 'getUsage'])->name('server.usage');
+    Route::get('/servers/{server}/usage/ram', [ServerUsageController::class, 'ramUsage'])->name('server.usage.ram');
+    Route::get('/servers/{server}/usage/cpu', [ServerUsageController::class, 'cpuUsage'])->name('server.usage.cpu');
+    Route::get('/servers/{server}/usage/disk', [ServerUsageController::class, 'diskUsage'])->name('server.usage.disk');
     Route::get('/servers/{server}/uptime', [ServerController::class, 'getUptime'])->name('server.uptime');
     Route::get('/servers/{server}/edit', [ServerController::class, 'edit'])->name('server.edit');
     Route::patch('/servers/{server}', [ServerController::class, 'update'])->name('server.update');
@@ -210,3 +211,5 @@ Route::middleware('auth')->group(function () {
 Route::get('/outputs/{commandOutput}', [CommandOutputController::class, 'show'])->name('outputs.show');
 
 require __DIR__ . '/auth.php';
+
+
