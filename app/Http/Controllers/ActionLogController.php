@@ -27,14 +27,12 @@ class ActionLogController extends Controller
 
     public function destroyAll(Request $request)
     {
-
         try {
             $logs = ActionLog::where('user_id', \Auth::id())->delete();
             return redirect(route('log.index'))->with(['alert' => ['type' => 'success', 'message' => "Deleted $logs logs"]]);
         } catch (\Exception $exception) {
             return redirect(route('log.index'))->with(['alert' => ['type' => 'failure', 'message' => "Failed to delete all logs: {$exception->getMessage()}"]]);
         }
-
     }
 
 }
