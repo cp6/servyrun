@@ -175,7 +175,7 @@ export default function All({auth}) {
             <Head title={"RAM CPU Disk usages " + resource.hostname}/>
             <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <BackButton href={route('server.index')}>Back to servers</BackButton>
+                    <BackButton href={route('server.show', resource.id)}>Back to server</BackButton>
                     <IndigoButton href={route('server.usage.cpu', resource.id)}>CPU</IndigoButton>
                     <IndigoButton href={route('server.usage.ram', resource.id)}>RAM</IndigoButton>
                     <IndigoButton href={route('server.usage.disk', resource.id)}>Disk</IndigoButton>
