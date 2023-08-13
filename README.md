@@ -46,6 +46,16 @@ The full features of Servyrun as of February 2023:
 
 * https://ipwhois.io/documentation for IP address GEO data
 
+## Screenshots
+
+![Servers index page](https://cdn.write.corbpie.com/wp-content/uploads/2023/05/servers-index-dark.png)
+
+![Connection run command page](https://cdn.write.corbpie.com/wp-content/uploads/2023/05/connection-show-dark.png)
+
+![Server page](https://cdn.write.corbpie.com/wp-content/uploads/2023/05/server-show-dark.png)
+
+![Database table structure page](https://cdn.write.corbpie.com/wp-content/uploads/2023/05/database-table-show-dark.png)
+
 # API documentation Contents
 
 1. [ Information ](#apiinfo)
