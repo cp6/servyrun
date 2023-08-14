@@ -165,7 +165,7 @@ export default function Show({auth}) {
                                 <CreatedAtText created_at={resource.created_at}
                                                string_format={'hh:mm:ssa do LLL yyyy'}></CreatedAtText>
                             </div>
-                            <div className={'col-span-1'}>
+                            <div className={'col-span-1 sm:text-end'}>
                                 <UpdatedAtText updated_at={resource.updated_at}
                                                string_format={'hh:mm:ssa do LLL yyyy'}></UpdatedAtText>
                             </div>
