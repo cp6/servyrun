@@ -1,5 +1,5 @@
 import React from "react";
-import {numberFormat} from "@/helpers";
+import {numberFormat, termIntToStringShort} from "@/helpers";
 
 export default function ServerCardSpecs({resource}) {
     return (
@@ -61,7 +61,7 @@ export default function ServerCardSpecs({resource}) {
                             return (
                                 <>
                                     <dt className="mb-2 font-light leading-none text-gray-900 dark:text-gray-300">Price {resource.currency}</dt>
-                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white text-center">{resource.price}</dd>
+                                    <dd className="mb-4 font-semibold text-gray-600 sm:mb-5 dark:text-white text-center">{resource.price} <span className="font-light text-sm text-gray-900 dark:text-gray-300">{termIntToStringShort(resource.payment_term)}</span></dd>
                                 </>
                             )
                         }
