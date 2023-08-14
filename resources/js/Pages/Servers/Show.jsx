@@ -124,7 +124,7 @@ export default function Show({auth}) {
                             <div className={'md:col-span-1 col-span-2'}>
                                 <ServerCardDetails resource={resource}></ServerCardDetails>
                             </div>
-                            <div className={'md:col-span-1 col-span-2'}>
+                            <div className={'md:col-span-1 col-span-2 sm:text-end mt-2'}>
                                 <p className="mb-2 text-gray-700 dark:text-gray-300">{resource.cpu ?? null}</p>
                                 <ServerCardConnection connection={resource.conn}></ServerCardConnection>
                             </div>
@@ -133,7 +133,7 @@ export default function Show({auth}) {
                             <div className={'col-span-1'}>
                                 <ServerCardSpecs resource={resource}></ServerCardSpecs>
                             </div>
-                            <div className={'col-span-1'}>
+                            <div className={'col-span-1 sm:text-end'}>
                                 {
                                     (() => {
                                         if (resource.conn !== null && resource.conn.outputs_last3 !== null && resource.conn.outputs_last3.length > 0) {

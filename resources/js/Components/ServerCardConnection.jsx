@@ -3,7 +3,7 @@ import React from "react";
 export default function ServerCardConnection({connection = null}) {
     return (
         <>
-            <dl className="flex items-center space-x-6 mt-4">
+            <dl className="space-x-6 mt-4">
                 <div>
                     <dd className="">
                         {
