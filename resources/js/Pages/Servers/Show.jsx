@@ -133,15 +133,16 @@ export default function Show({auth}) {
                             <div className={'col-span-1'}>
                                 <ServerCardSpecs resource={resource}></ServerCardSpecs>
                             </div>
+
                             <div className={'col-span-1 sm:text-end'}>
                                 {
                                     (() => {
-                                        if (resource.conn !== null && resource.conn.outputs_last3 !== null && resource.conn.outputs_last3.length > 0) {
+                                        if (resource.conn !== null && resource.conn.outputs_last5 !== null && resource.conn.outputs_last5.length > 0) {
                                             return (
                                                 <>
-                                                    <p className="mb-2 text-gray-800 dark:text-gray-200">Last 3 commands
+                                                    <p className="mb-2 text-gray-800 dark:text-gray-200">Last 5 commands
                                                         ran</p>
-                                                    <ServerLast3Commands commands={resource.conn.outputs_last3}/>
+                                                    <ServerLast3Commands commands={resource.conn.outputs_last5}/>
                                                 </>
                                             )
                                         }
