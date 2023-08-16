@@ -87,7 +87,7 @@ export default function Index({auth}) {
                                     {
                                         id: "id",
                                         name: "View",
-                                        data: (row) => html(`<a class="text-blue-700 dark:text-blue-400" href='${route('log.show', row.id)}'>View</a>`),
+                                        data: (row) => html(`<a class="text-blue-500 dark:text-blue-300" href='${route('log.show', row.id)}'>View</a>`),
                                     },
                                     {
                                         id: "created_at",

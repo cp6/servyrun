@@ -63,12 +63,12 @@ export default function Index({auth}) {
                                     {
                                         id: "id",
                                         name: "Edit",
-                                        data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('command.edit', row.id)}'>Edit</a>`),
+                                        data: (row) => html(`<a class="text-blue-500 dark:text-blue-300" href='${route('command.edit', row.id)}'>Edit</a>`),
                                     },
                                     {
                                         id: "id",
                                         name: "Outputs",
-                                        data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('outputs.show.command', row.id)}'>View</a>`),
+                                        data: (row) => html(`<a class="text-blue-500 dark:text-blue-300" href='${route('outputs.show.command', row.id)}'>View</a>`),
                                     },
                                     {
                                         id: "created_at",

@@ -46,17 +46,17 @@ export default function Index({auth}) {
                                         id: "id",
                                         name: "Server",
                                         sort: true,
-                                        data: (row) => (row.server_id) ? html(`<a href='${route('server.show', row.server_id)}'>${row.server.hostname}</a>`) : null,
+                                        data: (row) => (row.server_id) ? html(`<a href='${route('server.show', row.server_id)}' class="dark:text-blue-300 text-blue-500">${row.server.hostname}</a>`) : null,
                                     },
                                     {
                                         id: "id",
                                         name: "View",
-                                        data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('ip.show', row.id)}'>View</a>`),
+                                        data: (row) => html(`<a class="text-blue-500 dark:text-blue-300" href='${route('ip.show', row.id)}'>View</a>`),
                                     },
                                     {
                                         id: "id",
                                         name: "Edit",
-                                        data: (row) => html(`<a className="text-blue-700 dark:text-blue-400" href='${route('ip.edit', row.id)}'>Edit</a>`),
+                                        data: (row) => html(`<a class="text-blue-500 dark:text-blue-300" href='${route('ip.edit', row.id)}'>Edit</a>`),
                                     },
                                     {
                                         id: "created_at",
