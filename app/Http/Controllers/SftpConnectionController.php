@@ -519,7 +519,12 @@ class SftpConnectionController extends Controller
         });
 
         $end_timer = time() - $start_timer;
-        if ($file_size > 0 && $end_timer > 0) {
+
+        if ($end_timer === 0) {
+            $end_timer = 0.1;
+        }
+
+        if ($file_size > 0) {
             $upload_speed_mbps = number_format(($file_size / $end_timer / 1000 / 1000), 2);
         } else {
             $upload_speed_mbps = null;
