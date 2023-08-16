@@ -617,6 +617,11 @@ class SftpConnectionController extends Controller
 
                 try {
                     $file_size = Storage::disk('private')->size("downloads/{$save_to_dir}/{$save_as_filename}");
+
+                    if ($end_timer === 0) {
+                        $end_timer = 0.1;
+                    }
+
                     $download_speed_mbps = number_format(($file_size / $end_timer / 1000 / 1000), 2);
 
                     $downloaded_file = new DownloadedFile();
