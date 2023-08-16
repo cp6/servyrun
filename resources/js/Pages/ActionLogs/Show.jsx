@@ -3,9 +3,11 @@ import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
 import CreatedAtText from "@/Components/CreatedAtText";
 import BackButton from "@/Components/BackButton";
+import ResponseAlert from "@/Components/Alert";
 
 export default function Show({auth}) {
 
+    const alert = usePage().props.alert;
     const resource = usePage().props.resource;
 
     return (
@@ -18,8 +20,9 @@ export default function Show({auth}) {
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('log.index')}>All logs</BackButton>
                 </div>
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
-                    <div className="py-6 px-2 mx-auto max-w-6xl lg:py-10">
+                    <div className="py-4 px-4 mx-auto max-w-7xl">
                         <div className={'grid grid-cols-2'}>
                             <div className={'md:col-span-2 col-span-2'}>
                         <span
