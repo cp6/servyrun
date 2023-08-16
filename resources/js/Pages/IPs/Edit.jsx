@@ -134,7 +134,7 @@ export default function Edit({auth}) {
                                     name="org"
                                     className="mt-1 block w-full"
                                     autoComplete="org"
-                                    value={resource.org || ''}
+                                    value={data.org || ''}
                                     handleChange={(e) => setData('org', e.target.value)}
                                 />
                                 <InputError message={errors.org} className="mt-2"/>
