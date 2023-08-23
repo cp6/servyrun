@@ -1,7 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, usePage} from '@inertiajs/inertia-react';
 import React from "react";
-import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
 import AddButton from "@/Components/AddButton";
@@ -26,18 +25,25 @@ export default function Index({auth}) {
                 <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
 
-                    {(groups.length > 0)?
-                        groups.map(groups => <Card className={'dark:bg-gray-700 dark:border-gray-900'} key={groups.id} href={route('ping-group.show', groups.id)}>
-                            <div className="flex flex-col items-center pb-3">
-                                <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                                    {groups.title}
-                                </h5>
-                                {groups.assigned.map(assign =>
-                                    <span key={assign.server.id}
-                                          className="text-sm text-gray-500 dark:text-gray-400">{assign.server.hostname}</span>
-                                )}
-                            </div>
-                        </Card>)
+                    {(groups.length > 0) ?
+                        groups.map(groups =>
+                            <section key={groups.id}
+                                     className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
+                                     onClick={event => window.location.href = route('ping-group.show', groups.id)}>
+                                <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                                            {groups.title}
+                                        </h5>
+                                        <div className="flex flex-col justify-center items-center pb-3">
+                                            {groups.assigned.map(assign =>
+                                                <span key={assign.server.id}
+                                                      className="text-sm text-gray-500 dark:text-gray-400">{assign.server.hostname}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>)
                         :
                         <ResourceEmptyText resource={'ping groups'}></ResourceEmptyText>
                     }
