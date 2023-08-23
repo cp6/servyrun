@@ -253,7 +253,7 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                         </div>
                     )}
 
-                    <div className="flex items-center gap-4">
+                    <div className="col-span-6 mb-2">
                         <UpdateButton processing={processing}>Update</UpdateButton>
 
                         <Transition
