@@ -79,7 +79,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/commands', [CommandController::class, 'index'])->name('command.index');
     Route::get('/commands/create', [CommandController::class, 'create'])->name('command.create');
     Route::post('/commands', [CommandController::class, 'store'])->name('command.store');
-    //Route::get('/commands/{command}', [CommandController::class, 'show'])->name('command.show');
     Route::get('/commands/{command}/edit', [CommandController::class, 'edit'])->name('command.edit');
     Route::patch('/commands/{command}', [CommandController::class, 'update'])->name('command.update');
     Route::delete('/commands/{command}', [CommandController::class, 'destroy'])->name('command.destroy');
