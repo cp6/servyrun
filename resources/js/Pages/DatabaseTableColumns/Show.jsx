@@ -17,8 +17,6 @@ export default function Show({auth}) {
 
     const [showModal, setShowModal] = useState(false);
 
-
-
     const refreshColumns = () => {
 
         const config = {
