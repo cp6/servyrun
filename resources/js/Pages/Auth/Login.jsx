@@ -45,7 +45,7 @@ export default function Login({ status, canResetPassword }) {
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full text-black dark:text-white"
                         autoComplete="username"
                         isFocused={true}
                         handleChange={onHandleChange}
@@ -62,7 +62,7 @@ export default function Login({ status, canResetPassword }) {
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full text-black dark:text-white"
                         autoComplete="current-password"
                         handleChange={onHandleChange}
                     />
@@ -86,7 +86,7 @@ export default function Login({ status, canResetPassword }) {
                         </Link>
                     )}
 
-                    <PrimaryButton className="ml-4" processing={processing}>
+                    <PrimaryButton className="ml-4 px-8" processing={processing}>
                         Log in
                     </PrimaryButton>
                 </div>
