@@ -107,15 +107,20 @@ class PingGroup extends Model
 
                     $ping_result_array = Ping::parseResult(Ping::pingOutputToArray($ssh_output));
 
-                    $ping = new Ping();
-                    $ping->ping_group = $pingGroup->id;
-                    $ping->server_id = $loop_server_id;
-                    $ping->from_server_id = $current_server_id;
-                    $ping->min = $ping_result_array['min'] ?? null;
-                    $ping->max = $ping_result_array['max'] ?? null;
-                    $ping->avg = $ping_result_array['avg'] ?? null;
-                    $ping->was_up = (isset($ping_result_array['avg'])) ? 1 : 0;
-                    $ping->save();
+                    try {
+                        $ping = new Ping();
+                        $ping->ping_group = $pingGroup->id;
+                        $ping->server_id = $loop_server_id;
+                        $ping->from_server_id = $current_server_id;
+                        $ping->min = $ping_result_array['min'] ?? null;
+                        $ping->max = $ping_result_array['max'] ?? null;
+                        $ping->avg = $ping_result_array['avg'] ?? null;
+                        $ping->was_up = (isset($ping_result_array['avg'])) ? 1 : 0;
+                        $ping->save();
+                    } catch (\Exception $exception) {
+                        ActionLog::make(5, 'run', 'ping group', 'Failed creating Ping');
+                        return null;
+                    }
 
                 }
 
