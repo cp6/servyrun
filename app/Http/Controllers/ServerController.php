@@ -39,7 +39,7 @@ class ServerController extends Controller
     public function show(Server $server): \Inertia\Response
     {
         $this->authorize('view', $server);
-//dd($server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn.outputsLast5', 'sftp_conn'])->firstOrFail());
+
         return Inertia::render('Servers/Show', [
             'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ips', 'ip_ssh', 'conn.outputsLast5', 'sftp_conn'])->firstOrFail(),
             'servers' => Server::has('conn')->whereNot('id', $server->id)->select(['id', 'hostname', 'title'])->get(),
