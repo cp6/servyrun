@@ -194,21 +194,24 @@ class ConnectionController extends Controller
             return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'the_command' => $command, 'output' => 'ERROR: Connection could not be made! Check the logs for more information.'], 400)->header('Content-Type', 'application/json');
         }
 
-
         $output = Connection::runCommand($ssh, $command);
 
         $time_end = microtime(true);
 
-        $command_output = new CommandOutput();
-        $command_output->id = Str::random(12);
-        $command_output->server_id = $con->server->id;
-        $command_output->connection_id = $con->id;
-        $command_output->command_id = $command_id;
-        $command_output->the_command = $command;
-        $command_output->output = $output;
-        $command_output->seconds_taken = number_format($time_end - $time_start, 3);
-        $command_output->send_email = ($request['email']) ? 1 : 0;
-        $command_output->save();
+        try {
+            $command_output = new CommandOutput();
+            $command_output->id = Str::random(12);
+            $command_output->server_id = $con->server->id;
+            $command_output->connection_id = $con->id;
+            $command_output->command_id = $command_id;
+            $command_output->the_command = $command;
+            $command_output->output = $output;
+            $command_output->seconds_taken = number_format($time_end - $time_start, 3);
+            $command_output->send_email = ($request['email']) ? 1 : 0;
+            $command_output->save();
+        } catch (\Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], 400)->header('Content-Type', 'application/json');
+        }
 
         if ($request['email']) {//Send output email
 
