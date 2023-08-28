@@ -9,6 +9,8 @@ class Location extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'country', 'lat', 'lon'];
+
     public function server(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Server::class, 'location_id', 'id');
