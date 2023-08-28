@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class CreateServerLimitTest extends TestCase
 {
@@ -10,7 +10,9 @@ class CreateServerLimitTest extends TestCase
     {
         $servers_count = 92;
 
-        if ($servers_count >= config('custom.maxServersPerAccount')) {
+        $servers_limit = config('custom.maxServersPerAccount');//20
+
+        if ($servers_count >= $servers_limit) {
             $did_abort = true;
         } else {
             $did_abort = false;
