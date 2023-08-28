@@ -35,7 +35,8 @@ class ProfileTest extends TestCase
                 'check_uptime_sftp_connection_index' => 1,
                 'check_uptime_db_connection_index' => 1,
                 'log_connections' => 1,
-                'allow_api_access' => 1
+                'allow_api_access' => 1,
+                'allow_api_db_queries' => 1,
             ]);
 
         $response
@@ -63,7 +64,8 @@ class ProfileTest extends TestCase
                 'check_uptime_sftp_connection_index' => 1,
                 'check_uptime_db_connection_index' => 1,
                 'log_connections' => 1,
-                'allow_api_access' => 1
+                'allow_api_access' => 1,
+                'allow_api_db_queries' => 1,
             ]);
 
         $response
