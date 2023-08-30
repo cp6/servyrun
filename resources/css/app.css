@@ -454,3 +454,7 @@ pre[class*="language-"] {
 .token.italic {
     font-style: italic;
 }
+
+input[type="file"]::file-selector-button {
+    border-radius: 0.5rem;
+}
