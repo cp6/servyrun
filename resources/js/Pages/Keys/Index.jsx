@@ -28,40 +28,35 @@ export default function Index({auth}) {
                             <ResourceEmptyText resource={'keys'}></ResourceEmptyText>
                             :
                             keys.map(key =>
-                                    <section key={key.id}
-                                             className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
-                                             onClick={event => window.location.href = route('key.show', key.id)}>
-                                        <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
-                                            <div className="flex items-center justify-between mb-3">
-                                                <div>
- <span
-     className="bg-indigo-200 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">
-                                                 {
-                                                     (() => {
-                                                         if (typeof (key.hashed_password) != "undefined" && key.hashed_password !== null) {
-                                                             return (
-                                                                 "HASH PASSWORD"
-                                                             )
-                                                         } else if (typeof (key.password) != "undefined" && key.password !== null) {
-                                                             return (
-                                                                 "PASSWORD"
-                                                             )
-                                                         } else {
-                                                             return (
-                                                                 "NO PASSWORD"
-                                                             )
-                                                         }
-                                                     })()
-                                                 }
-                                             </span>
-                                                </div>
-                                                <small className="text-end"></small>
+                                <section key={key.id}
+                                         className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm hover:cursor-pointer"
+                                         onClick={event => window.location.href = route('key.show', key.id)}>
+                                    <div className="md:py-2 py-4 px-2 mx-auto max-w-6xl">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <div>
+                                                {
+                                                    (() => {
+                                                        if (typeof (key.password) != "undefined" && key.password !== null) {
+                                                            return (
+                                                                <span
+                                                                    className="bg-indigo-200 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">PASSWORD</span>
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <span
+                                                                    className="bg-red-200 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">NO PASSWORD</span>
+                                                            )
+                                                        }
+                                                    })()
+                                                }
                                             </div>
-                                            <div className="flex flex-col justify-center items-center pb-3">
-                                                <h5 className="mb-2 lg font-medium text-gray-900 dark:text-white">{key.original_name}</h5>
-                                            </div>
+                                            <small className="text-end"></small>
                                         </div>
-                                    </section>
+                                        <div className="flex flex-col justify-center items-center pb-3">
+                                            <h5 className="mb-2 lg font-medium text-gray-900 dark:text-white">{key.original_name}</h5>
+                                        </div>
+                                    </div>
+                                </section>
                             )
                     }
 
