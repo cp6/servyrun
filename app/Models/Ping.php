@@ -30,7 +30,9 @@ class Ping extends Model
         static::created(function (Ping $ping) {
             $from_hostname = $ping->from_server->hostname ?? null;
             $to_hostname = $ping->to_server->hostname ?? null;
-            ActionLog::make(1, 'create', 'ping', 'from: ' . $from_hostname . ' to: ' . $to_hostname, $ping->from_server_id);
+            $from = (!is_null($from_hostname)) ? "from: $from_hostname" : "";
+            $to = (!is_null($to_hostname)) ? "to: $to_hostname" : "";
+            ActionLog::make(1, 'create', 'ping', "$from $to", $ping->from_server_id);
         });
 
     }
