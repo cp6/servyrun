@@ -26,10 +26,8 @@ export default function ServerCardUsage({serverId, usage, uptime}) {
             setRam(numberFormat(response.data.ram_used_percent,3));
             setDisk(response.data.disk_used_percent);
             setDiskAvailable(numberFormat(response.data.disk_available_gb,3) + ' GB');
-            console.log('Updated usage');
             setHideButton1(false);
         }).catch(err => {
-            console.log('Error fetching usage data');
             setHideButton1(false);
         });
     };
@@ -42,10 +40,8 @@ export default function ServerCardUsage({serverId, usage, uptime}) {
             setCpu15(response.data.last_15_minutes);
             setUsers(response.data.users);
             setServerUptime(response.data.uptime);
-            console.log('Updated uptime');
             setHideButton2(false);
         }).catch(err => {
-            console.log('Error fetching uptime data');
             setHideButton2(false);
         });
     };
@@ -80,7 +76,7 @@ export default function ServerCardUsage({serverId, usage, uptime}) {
                     </div>
                 </dl>
             </div>
-            <div className={'md:col-span-1 md:col-span-2'}>
+            <div className={'md:col-span-2'}>
                 <dl className="flex items-center space-x-6 mt-4">
                     <div>
                         <dt className={(hideButton2) ? "mb-2 font-light leading-none text-white/50 dark:text-gray-900" : "mb-2 font-light leading-none text-gray-900 dark:text-gray-300 hover:dark:text-gray-200"}>

@@ -34,7 +34,6 @@ export default function FromTo({auth}) {
         axios.get(route('run.ping-from-to', [pings[0].from_server.id, pings[0].to_server.id]), config).then(response => {
             window.location.reload();
         }).catch(err => {
-            console.log('Error running ping');
             setButtonsDisabled(false);
         });
 
