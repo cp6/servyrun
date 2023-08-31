@@ -62,6 +62,7 @@ class ActionLog extends Model
             return $action_log;
 
         } catch (\Exception $exception) {
+
             $action_log = new ActionLog();
             $action_log->result = 5;
             $action_log->action = 'create';
@@ -69,6 +70,7 @@ class ActionLog extends Model
             $action_log->message = 'Failed to create log: ' . $exception->getMessage();
             $action_log->save();
             return $action_log;
+
         }
 
     }
