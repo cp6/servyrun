@@ -109,8 +109,12 @@ class ConnectionController extends Controller
             return response()->json(['message' => 'ERROR: Connection type was not valid', 'output' => 'ERROR: Connection type was not valid'], 400)->header('Content-Type', 'application/json');
         }
 
-        if (is_null($ssh) || !$ssh->isAuthenticated()) {
-            return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'output' => 'ERROR: Connection could not be made! Check the logs for more information.'], 400)->header('Content-Type', 'application/json');
+        if (is_null($ssh)) {
+            return response()->json(['message' => 'ERROR: Connection could not be made', 'output' => 'ERROR: Connection could not be made'], 400)->header('Content-Type', 'application/json');
+        }
+
+        if (!$ssh->isAuthenticated()) {
+            return response()->json(['message' => 'ERROR: Connection could not be made ' . $ssh->getLastError(), 'output' => 'ERROR: Connection could not be made ' . $ssh->getLastError()], 400)->header('Content-Type', 'application/json');
         }
 
         return $ssh->getLog();
@@ -190,8 +194,12 @@ class ConnectionController extends Controller
             return response()->json(['message' => 'ERROR: Connection type was not valid', 'the_command' => $command, 'output' => 'ERROR: Connection type was not valid'], 400)->header('Content-Type', 'application/json');
         }
 
-        if (is_null($ssh) || !$ssh->isAuthenticated()) {
-            return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'the_command' => $command, 'output' => 'ERROR: Connection could not be made! Check the logs for more information.'], 400)->header('Content-Type', 'application/json');
+        if (is_null($ssh)) {
+            return response()->json(['message' => 'ERROR: Connection could not be made!', 'the_command' => $command, 'output' => 'ERROR: Connection could not be made!'], 400)->header('Content-Type', 'application/json');
+        }
+
+        if (!$ssh->isAuthenticated()) {
+            return response()->json(['message' => 'ERROR: Connection could not be made! Check the logs for more information.', 'the_command' => $command, 'output' => 'ERROR: Connection could not be made ' . $ssh->getLastError()], 400)->header('Content-Type', 'application/json');
         }
 
         $output = Connection::runCommand($ssh, $command);
