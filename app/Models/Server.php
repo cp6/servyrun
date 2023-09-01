@@ -223,7 +223,7 @@ class Server extends Model
                 'disk_used' => $disk_used,
                 'disk_used_gb' => (float)number_format($disk_used / 1024 / 1024, 4),
                 'disk_available' => $disk_avail,
-                'disk_available_gb' => (float)number_format($disk_avail / 1024 / 1024, 4),
+                'disk_available_gb' => (float)($disk_avail / 1024 / 1024)
             ]
         )->header('Content-Type', 'application/json');
 
