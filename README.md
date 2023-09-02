@@ -22,8 +22,10 @@ The full features of Servyrun as of February 2023:
 - Store Server information
 - Store SSH keys
 - Run SSH commands
+- View server usage
 - Store commands
 - Store command outputs
+- Print command outputs to PDF
 - Check if IP address is up
 - Ping IP from any added server
 - Store IP addresses and get information (GEO, ASN etc).
@@ -37,10 +39,7 @@ The full features of Servyrun as of February 2023:
 
 ## TODO
 
-- Schedule for getting server usage every X minutes
 - Chart for pings between 2 servers
-- Chart for 'server usage' i.e RAM and CPU
-- Docker image for easy deployment
 
 ## External services used
 
