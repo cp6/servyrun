@@ -1,7 +1,7 @@
 <p style="text-align: center;">
 
 [![Generic badge](https://img.shields.io/badge/version-1.0.0-green.svg)](https://shields.io/)
-[![Generic badge](https://img.shields.io/badge/Laravel-10.15-critical.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Laravel-10.21-critical.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/PHP-8.2-blueviolet.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/React-18.2-9cf.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/Tailwind-3.3.3-informational.svg)](https://shields.io/)
@@ -10,14 +10,15 @@
 
 # About Servyrun
 
-Servyrun is a self-hosted web application built with a backend of PHP Laravel and React + Tailwind CSS for the frontend.
-Servyrun allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files,
-view
-database tables and column structures and run MySQLdump.
+Servyrun is a self-hosted web application built with React + Tailwind CSS for the frontend and a backend of PHP Laravel.
+Servyrun allows you to run simple SSH & SFTP commands, do pings between your servers, download, upload & edit files, view database tables and column structures and run MySQLdump.
+
+Servyrun should not be used as your main connection to your servers but rather an easy method to monitor, be informed and do small tasks all through the web panel rather than an SSH client.
+
 
 Servyrun was developed to be a multi-user platform, stores passwords encrypted and has an extensive API.
 
-The full features of Servyrun as of February 2023:
+The full features of Servyrun as of September 2023:
 
 - Store Server information
 - Store SSH keys
