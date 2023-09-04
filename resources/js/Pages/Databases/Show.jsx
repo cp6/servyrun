@@ -13,9 +13,7 @@ export default function Show({auth}) {
 
     const alert = usePage().props.alert;
     const resource = usePage().props.resource;
-
     const [showModal, setShowModal] = useState(false);
-
     const [isUp, setIsUp] = useState(null);
 
     const deleteItem = () => {

@@ -14,7 +14,6 @@ export default function Create({auth}) {
 
     const alert = usePage().props.alert;
     const connections = usePage().props.connections;
-
     const [database, setDatabase] = React.useState('');
 
     const {data, setData, post, processing, reset, errors} = useForm({
