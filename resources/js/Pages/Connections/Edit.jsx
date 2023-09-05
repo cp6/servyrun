@@ -17,8 +17,6 @@ export default function Edit({auth}) {
     const resource = usePage().props.resource;
     const ip = usePage().props.ip;
 
-
-
     const {data, setData, patch, processing, errors} = useForm({
         server_id: resource.server_id,
         username: resource.username,
