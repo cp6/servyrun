@@ -30,10 +30,6 @@ export default function Create({auth}) {
         navigate(route('connection.index'));
     };
 
-    function handlePeriodChange(selVal) {
-        this.props.handlePeriodChange(selVal);
-    }
-
     return (
         <AuthenticatedLayout
             auth={auth}
