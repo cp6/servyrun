@@ -11,7 +11,6 @@ import BackButton from "@/Components/BackButton";
 
 export default function Edit({auth}) {
 
-    const servers = usePage().props.servers;
     const resource = usePage().props.resource;
 
     const [showModal, setShowModal] = useState(false);
