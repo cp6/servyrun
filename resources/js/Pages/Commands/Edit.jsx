@@ -83,7 +83,7 @@ export default function Edit({auth}) {
                     </div>
                     <UpdateButton processing={processing}>Update command</UpdateButton>
                     <DangerButton onClick={() => setShowModal(true)} type="button"
-                                  className="inline-flex items-center px-5 py-2.5 ml-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
+                                  className="inline-flex items-center mb-4 px-5 py-2.5 ml-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
                         Delete command
                     </DangerButton>
                 </form>

@@ -66,7 +66,8 @@ export default function Index({auth}) {
                                             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
                                                 {connection.username}
                                             </h5>
-                                            <span className="text-sm text-gray-500 dark:text-gray-400">{connection.server.hostname}</span>
+                                            <span
+                                                className="text-sm text-gray-500 dark:text-gray-400">{connection.server.hostname}</span>
                                         </div>
                                     </div>
                                 </section>)}
