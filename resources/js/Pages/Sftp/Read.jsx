@@ -98,7 +98,7 @@ export default function Read({auth}) {
                 window.location.replace(route('sftp.read.file.raw', [resource.id, data.request]));
             })
             .catch((err) => {
-                console.log(err.message);
+                console.log('Error submitting');
             });
     };
 
