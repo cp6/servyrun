@@ -122,6 +122,7 @@ class ServerController extends Controller
             $server->disk_tb = $request->disk_tb ?? null;
             $server->ram_mb = $request->ram_mb ?? null;
             $server->ram_gb = $request->ram_gb ?? null;
+            $server->swap_mb = $request->swap ?? null;
             $server->ping_port = $request->ping_port ?? 22;
             $server->save();
 
@@ -166,6 +167,7 @@ class ServerController extends Controller
             'cpu_freq' => 'numeric|sometimes|nullable',
             'disk_gb' => 'numeric|sometimes|nullable',
             'ram_gb' => 'numeric|sometimes|nullable',
+            'swap_mb' => 'numeric|sometimes|nullable',
             'ping_port' => 'integer|required',
             'price' => 'numeric|nullable|sometimes|min:0|max:9999',
             'currency' => 'string|nullable|sometimes|size:3',
@@ -187,6 +189,7 @@ class ServerController extends Controller
                 'cpu_freq_max' => $request->cpu_freq_max ?? null,
                 'disk_gb' => $request->disk_gb ?? null,
                 'ram_mb' => $request->ram_mb ?? null,
+                'swap_mb' => $request->swap_mb ?? null,
                 'ping_port' => $request->ping_port ?? 22,
                 'price' => $request->price ?? null,
                 'currency' => $request->currency ?? null,
