@@ -176,7 +176,9 @@ class ServerController extends Controller
         ]);
 
         try {
-            //TODO: Add in a price\currency as USD converter
+
+            $as_usd_price = Server::priceAsUsd($request->currency, $request->price);
+
             $server->update([
                 'operating_system' => $request->os ?? null,
                 'location_id' => $request->location ?? null,
@@ -192,6 +194,7 @@ class ServerController extends Controller
                 'swap_mb' => $request->swap_mb ?? null,
                 'ping_port' => $request->ping_port ?? 22,
                 'price' => $request->price ?? null,
+                'price_usd' => $as_usd_price,
                 'currency' => $request->currency ?? null,
                 'payment_term' => $request->term ?? null,
                 'scheduled_get_usage' => $request->scheduled_get_usage

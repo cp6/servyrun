@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Scopes\UserOwnedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Http;
 
 class Server extends Model
 {
@@ -255,5 +256,44 @@ class Server extends Model
 
         return $latest_usage;
     }
+
+    public static function priceAsUsd(string $currency, float $price): ?float
+    {
+        $endpoint = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/" . strtolower($currency) . ".json";
+        $req = Http::get($endpoint);
+
+        if (!$req->successful()) {
+            return null;
+        }
+
+        if ($currency === 'AUD') {
+            return $req->json()['aud']['usd'] * $price;
+        } elseif ($currency === 'CAD') {
+            return $req->json()['cad']['usd'] * $price;
+        } elseif ($currency === 'CHF') {
+            return $req->json()['chf']['usd'] * $price;
+        } elseif ($currency === 'CNY') {
+            return $req->json()['cny']['usd'] * $price;
+        } elseif ($currency === 'EUR') {
+            return $req->json()['eur']['usd'] * $price;
+        } elseif ($currency === 'GBP') {
+            return $req->json()['gbp']['usd'] * $price;
+        } elseif ($currency === 'HKD') {
+            return $req->json()['hkd']['usd'] * $price;
+        } elseif ($currency === 'INR') {
+            return $req->json()['inr']['usd'] * $price;
+        } elseif ($currency === 'JPY') {
+            return $req->json()['jpy']['usd'] * $price;
+        } elseif ($currency === 'NZD') {
+            return $req->json()['nzd']['usd'] * $price;
+        } elseif ($currency === 'SGD') {
+            return $req->json()['sgd']['usd'] * $price;
+        } elseif ($currency === 'TWD') {
+            return $req->json()['twd']['usd'] * $price;
+        }
+
+        return $price;
+    }
+
 
 }
