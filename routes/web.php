@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ActionLogController;
 use App\Http\Controllers\CommandOutputController;
-use App\Http\Controllers\DownloadedFileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -27,15 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/logs/{actionLog}', [ActionLogController::class, 'show'])->name('log.show');
     Route::delete('/logs/destroy', [ActionLogController::class, 'destroyAll'])->name('log.destroy-all');
 
-    //Downloaded file to server
-    Route::get('/downloaded', [DownloadedFileController::class, 'index'])->name('downloaded.index');
-    Route::get('/downloaded/{downloadedFile}', [DownloadedFileController::class, 'show'])->name('downloaded.show');
-    Route::get('/downloaded/{downloadedFile}/download', [DownloadedFileController::class, 'download'])->name('downloaded.download');
-    Route::get('/downloaded/{downloadedFile}/upload', [DownloadedFileController::class, 'uploadForm'])->name('downloaded.upload.form');
-    Route::post('/downloaded/{downloadedFile}/upload', [DownloadedFileController::class, 'upload'])->name('downloaded.upload');
-    Route::get('/downloaded/{downloadedFile}/upload/progress', [DownloadedFileController::class, 'uploadProgress'])->name('downloaded.upload.progress');//Upload from downloaded progress
-    Route::delete('/downloaded/{downloadedFile}', [DownloadedFileController::class, 'destroy'])->name('downloaded.destroy');
-
 });
 
 //Public command output
@@ -51,3 +41,4 @@ require __DIR__ . '/web/connection.php';
 require __DIR__ . '/web/key.php';
 require __DIR__ . '/web/ip.php';
 require __DIR__ . '/web/mysqldump.php';
+require __DIR__ . '/web/download.php';
