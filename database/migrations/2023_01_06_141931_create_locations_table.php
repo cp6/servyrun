@@ -10,12 +10,12 @@ return new class extends Migration {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->char('user_id')->nullable()->default(null);
-            $table->string('name')->unique();
+            $table->string('city')->unique();
             $table->string('country')->default(null)->nullable();
             $table->float('lat')->default(null)->nullable();
             $table->float('lon')->default(null)->nullable();
             $table->timestamps();
-            $table->unique(['user_id', 'name']);
+            $table->unique(['user_id', 'city']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
