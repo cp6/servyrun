@@ -65,7 +65,7 @@ class ApiController extends Controller
 
     public function locationsIndex(): \Illuminate\Http\JsonResponse
     {
-        $locations = Location::Paginate(20);
+        $locations = Location::where('user_id', \Auth::user()->id)->orWhereNull('user_id')->Paginate(20);
         return response()->json($locations)->header('Content-Type', 'application/json');
     }
 

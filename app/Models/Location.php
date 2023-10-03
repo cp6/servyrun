@@ -9,7 +9,7 @@ class Location extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'country', 'lat', 'lon'];
+    protected $fillable = ['user_id', 'name', 'country', 'lat', 'lon'];
 
     public function server(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

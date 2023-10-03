@@ -31,7 +31,7 @@ class ServerController extends Controller
         return Inertia::render('Servers/Create', [
             'title' => fake()->colorName() . '-' . fake()->numberBetween(1, 999),
             'types' => Type::all(),
-            'locations' => Location::all(),
+            'locations' => Location::where('user_id', \Auth::user()->id)->orWhereNull('user_id')->get(),
             'alert' => \Session::get('alert')
         ]);
     }
@@ -79,7 +79,7 @@ class ServerController extends Controller
         return Inertia::render('Servers/Edit', [
             'resource' => $server->where('id', $server->id)->with(['type', 'location', 'ip_ssh'])->first(),
             'types' => Type::all(),
-            'locations' => Location::all()
+            'locations' => Location::where('user_id', \Auth::user()->id)->orWhereNull('user_id')->get(),
         ]);
     }
 
