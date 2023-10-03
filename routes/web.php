@@ -42,3 +42,4 @@ require __DIR__ . '/web/key.php';
 require __DIR__ . '/web/ip.php';
 require __DIR__ . '/web/mysqldump.php';
 require __DIR__ . '/web/download.php';
+require __DIR__ . '/web/location.php';
