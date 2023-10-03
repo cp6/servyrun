@@ -5,7 +5,7 @@ export default function ServerCardDetails({resource}) {
     return (
         <>
             <h2 className="my-2 text-2xl font-bold leading-none text-gray-900 md:text-2xl dark:text-white">{resource.hostname}</h2>
-            <p className="mb-4 text-lg font-semibold leading-none text-gray-600 md:text-lg dark:text-gray-200">{(resource.location !== null )? resource.location.name : ''}</p>
+            <p className="mb-4 text-lg font-semibold leading-none text-gray-600 md:text-lg dark:text-gray-200">{(resource.location !== null )? resource.location.city : ''} {(resource.location !== null )? resource.location.country : ''}</p>
             <dl>
                 <dd className="mb-4 font-light text-gray-600 sm:mb-5 dark:text-gray-300">
                     {resource.ips.map(ip => (

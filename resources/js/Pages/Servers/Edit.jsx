@@ -105,7 +105,7 @@ export default function Edit({auth}) {
                                 >
                                     <option value=''>Choose</option>
                                     {locations.map(locations => <option key={locations.id}
-                                                                        value={locations.id}>{locations.name}</option>)}
+                                                                        value={locations.id}>{locations.city} {locations.country}</option>)}
                                 </Select>
                             </div>
                             <div className="sm:col-span-2 col-span-4">
