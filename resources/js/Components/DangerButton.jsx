@@ -1,3 +1,5 @@
+import {HiRefresh, HiTrash} from "react-icons/hi";
+
 export default function DangerButton({ type = 'submit', className = '', processing, children, onClick }) {
     return (
         <button
@@ -10,6 +12,7 @@ export default function DangerButton({ type = 'submit', className = '', processi
             }
             disabled={processing}
         >
+            <HiTrash className="mr-2 h-5 w-5"/>
             {children}
         </button>
     );
