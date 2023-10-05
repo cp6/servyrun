@@ -75,6 +75,33 @@ class ApiController extends Controller
         return response()->json($data)->header('Content-Type', 'application/json');
     }
 
+    public function locationsUpdate(Location $location, Request $request): \Illuminate\Http\JsonResponse
+    {
+        if ($location->user_id === Auth::id()) {
+            $location->update($request->all());
+            $location_data = Location::where('id', $location->id)->first();
+            return response()->json($location_data)->header('Content-Type', 'application/json');
+        }
+
+        return response()->json(['message' => 'Unauthorized'], 401)->header('Content-Type', 'application/json');
+    }
+
+    public function locationsStore(Location $location, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $created = $location->create($request->all());
+        return response()->json($created->first())->header('Content-Type', 'application/json');
+    }
+
+    public function locationsDestroy(Location $location): \Illuminate\Http\JsonResponse
+    {
+        if ($location->user_id === Auth::id()) {
+            $result = $location->delete();
+            return response()->json(['result' => $result])->header('Content-Type', 'application/json');
+        }
+
+        return response()->json(['message' => 'Unauthorized'], 401)->header('Content-Type', 'application/json');
+    }
+
     public function outputsIndex(): \Illuminate\Http\JsonResponse
     {
         $command_outputs = CommandOutput::Paginate(20);

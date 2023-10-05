@@ -20,6 +20,9 @@ Route::middleware(['auth:api', 'allowedIpApi'])->group(function () {
 
     Route::get('/locations', [ApiController::class, 'locationsIndex'])->name('api.locations.index');
     Route::get('/locations/{location}', [ApiController::class, 'locationsShow'])->name('api.locations.show');
+    Route::patch('/locations/{location}', [ApiController::class, 'locationsUpdate'])->name('api.locations.update');
+    Route::post('/locations', [ApiController::class, 'locationsStore'])->name('api.locations.store');
+    Route::delete('/locations/{location}', [ApiController::class, 'locationsDestroy'])->name('api.locations.destroy');
 
     Route::get('/logs', [ApiController::class, 'actionLogsIndex'])->name('api.logs.index');
     Route::get('/logs/{actionLog}', [ApiController::class, 'actionLogsShow'])->name('api.logs.show');
