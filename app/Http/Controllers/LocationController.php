@@ -44,7 +44,7 @@ class LocationController extends Controller
 
         } catch (\Exception $exception) {
 
-            return redirect(route('location.create'))->with(['alert' => ['type' => 'failure', 'message' => 'Location could not be created error ' . $exception->getCode()]]);
+            return redirect(route('location.index'))->with(['alert' => ['type' => 'failure', 'message' => 'Location could not be created error ' . $exception->getMessage()]]);
         }
 
         return redirect(route('location.index'))->with(['alert' => ['type' => 'success', 'message' => "Location {$location->city} {$location->country} created successfully"]]);

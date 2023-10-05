@@ -78,12 +78,12 @@ export default function Edit({auth}) {
                                 handleChange={(e) => setData('command', e.target.value)}
                                 required
                             />
-                            <InputError message={errors.asn} className="mt-2"/>
+                            <InputError message={errors.command} className="mt-2"/>
                         </div>
                     </div>
                     <UpdateButton processing={processing}>Update command</UpdateButton>
                     <DangerButton onClick={() => setShowModal(true)} type="button"
-                                  className="inline-flex items-center mb-4 px-5 py-2.5 ml-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
+                                  className="inline-flex items-center mb-4 px-5 px-5 py-2 ml-0 sm:ml-4 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
                         Delete command
                     </DangerButton>
                 </form>
