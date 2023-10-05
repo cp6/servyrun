@@ -18,6 +18,7 @@ export default function Edit({auth}) {
     const alert = usePage().props.alert;
     const servers = usePage().props.servers;
     const resource = usePage().props.resource;
+    const user = usePage().props.auth.user;
 
     const [showModal, setShowModal] = useState(false);
 
@@ -60,9 +61,15 @@ export default function Edit({auth}) {
     };
 
     const refreshData = () => {
+        const header = {
+            headers: {
+                'Authorization': `Bearer ` + user.api_token
+            }
+        };
+
         setButtonsDisabled(true);
 
-        axios.get(route('ip.geo.update', resource.id)).then(response => {
+        axios.get(route('api.ips.geo', resource.id), header).then(response => {
             window.location.reload();
         }).catch(err => {
             console.log('Error fetching data');
