@@ -106,7 +106,7 @@ export default function Cpu({auth}) {
 
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
                     <p className="p-2 text-gray-700 dark:text-gray-400">Highest usage past
-                        24H: {high.cpu_usage} at {format(new Date(high.created_at), 'hh:mma')}</p>
+                        24H: {Math.round(high.cpu_usage * 10)} at {format(new Date(high.created_at), 'hh:mma')}</p>
                     <div className="w-full">
                         <Chart
                             options={data.options}
