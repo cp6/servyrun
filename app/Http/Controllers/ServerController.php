@@ -177,7 +177,11 @@ class ServerController extends Controller
 
         try {
 
-            $as_usd_price = Server::priceAsUsd($request->currency, $request->price);
+            if (!is_null($request->currency) && !is_null($request->price)) {
+                $as_usd_price = Server::priceAsUsd($request->currency, $request->price);
+            } else {
+                $as_usd_price = null;
+            }
 
             $server->update([
                 'operating_system' => $request->os ?? null,
