@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Server;
 use App\Models\ServerUsage;
+use Carbon\Carbon;
 use Inertia\Inertia;
 
 class ServerUsageController extends Controller
@@ -35,8 +36,11 @@ class ServerUsageController extends Controller
 
     public function cpuUsage(Server $server): \Inertia\Response
     {
+        $high_24h = ServerUsage::where('server_id', $server->id)->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())
+            ->select(['cpu_usage', 'created_at'])->orderBy('cpu_usage', 'desc')->first();
         return Inertia::render('Servers/Usage/Cpu', [
             'resource' => $server,
+            'high_24h' => $high_24h,
             'usage' => ServerUsage::where('server_id', $server->id)->select(['cpu_usage', 'created_at'])->orderBy('id', 'desc')->take(720)->get()
         ]);
     }

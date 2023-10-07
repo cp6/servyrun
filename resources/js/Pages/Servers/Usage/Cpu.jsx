@@ -10,8 +10,9 @@ export default function Cpu({auth}) {
 
     const resource = usePage().props.resource;
     const usage = usePage().props.usage;
+    const high = usePage().props.high_24h;
 
-    const time = usage.map((d) => format(new Date(d.created_at),  'hh:mma do LLL yyyy'));
+    const time = usage.map((d) => format(new Date(d.created_at), 'hh:mma do LLL yyyy'));
     const usage_values = usage.map((value) => Math.round(value.cpu_usage * 10));
 
     const data = {
@@ -89,7 +90,6 @@ export default function Cpu({auth}) {
         }
     };
 
-
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -105,6 +105,8 @@ export default function Cpu({auth}) {
                 </div>
 
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
+                    <p className="p-2 text-gray-700 dark:text-gray-400">Highest usage past
+                        24H: {high.cpu_usage} at {format(new Date(high.created_at), 'hh:mma')}</p>
                     <div className="w-full">
                         <Chart
                             options={data.options}
@@ -116,7 +118,6 @@ export default function Cpu({auth}) {
                     </div>
                 </section>
             </div>
-
 
         </AuthenticatedLayout>
     );
