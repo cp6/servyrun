@@ -58,8 +58,8 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
 
                         <InputError className="mt-2" message={errors.api_token}/>
                     </div>
-                    <div className="md:col-span-2 col-span-4 mb-2">
-                    <HiClipboardCopy className="mr-2 mt-4 h-5 w-5 inline hover:cursor-grab dark:text-gray-300" onClick={() => {
+                    <div className="md:col-span-2 col-span-4 mb-2 sm:mt-3">
+                    <HiClipboardCopy className="mr-2 sm:mt-6 h-5 w-5 inline hover:cursor-grab dark:text-gray-300" onClick={() => {
                         navigator.clipboard.writeText(data.api_token)
                     }} title={'Copy API key'}/>
                     </div>
