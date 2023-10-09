@@ -140,6 +140,8 @@ class ConnectionController extends Controller
 
     public function update(Request $request, Connection $connection)
     {
+        $this->authorize('update', $connection);
+
         $request->validate([
             'server_id' => 'string|size:8|required',
             'key_id' => 'string|size:8|sometimes|nullable',

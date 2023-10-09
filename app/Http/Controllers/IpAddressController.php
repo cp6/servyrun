@@ -54,6 +54,8 @@ class IpAddressController extends Controller
 
     public function edit(IpAddress $ipAddress): \Inertia\Response
     {
+        $this->authorize('view', $ipAddress);
+
         return Inertia::render('IPs/Edit', [
             'resource' => IpAddress::where('id', $ipAddress->id)->with(['server'])->firstOrFail(),
             'servers' => Server::get(),
