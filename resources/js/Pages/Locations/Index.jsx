@@ -44,7 +44,7 @@ export default function Index({auth}) {
                                     {
                                         id: "id",
                                         name: "Edit",
-                                        data: (row) => html(`<a class="text-blue-500 dark:text-blue-300" href='${route('location.edit', row.id)}'>Edit</a>`),
+                                        data: (row) => (row.user_id != null) ? html(`<a class="text-blue-500 dark:text-blue-300" href='${route('location.edit', row.id)}'>Edit</a>`) : '',
                                     }
                                 ]}
                                 search={true}
