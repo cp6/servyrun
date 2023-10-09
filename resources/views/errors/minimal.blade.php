@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('code') - @yield('title')</title>
-    @vite(['resources/css/app.css', 'resources/css/app.js', 'resources/js/switcher.js'])
+    @vite(['resources/css/app.css', 'resources/css/app.jsx', 'resources/js/switcher.js'])
 </head>
 <body class="antialiased bg-gray-50 dark:bg-gray-800">
 <section class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-800">
