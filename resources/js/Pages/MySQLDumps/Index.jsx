@@ -4,6 +4,7 @@ import React from "react";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
 import ResponseAlert from "@/Components/Alert";
 import AddButton from "@/Components/AddButton";
+import FlexAddButtonDiv from "@/Components/FlexAddButtonDiv";
 
 export default function Index({auth}) {
 
@@ -17,9 +18,7 @@ export default function Index({auth}) {
         >
             <Head title="MySQL dumps"/>
             <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
-                <div className="flex flex-wrap gap-2 mb-4">
-                    <AddButton href={route('mysqldump.create')}>Add MySQL dump</AddButton>
-                </div>
+                <FlexAddButtonDiv href={route('mysqldump.create')} resource={'MySQL dump'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
                     {dumps.length > 0 ?

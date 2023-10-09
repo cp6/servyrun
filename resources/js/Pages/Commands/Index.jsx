@@ -9,6 +9,7 @@ import {HiUserGroup} from "react-icons/hi";
 import {format} from "date-fns";
 import AddButton from "@/Components/AddButton";
 import {HiListBullet} from "react-icons/all";
+import FlexAddButtonDiv from "@/Components/FlexAddButtonDiv";
 
 export default function Index({auth}) {
 
@@ -22,9 +23,7 @@ export default function Index({auth}) {
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Commands</h2>}>
             <Head title={'Commands'}/>
             <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
-                <div className="flex flex-wrap gap-2 mb-4">
-                    <AddButton href={route('command.create')}>Add command</AddButton>
-                </div>
+                <FlexAddButtonDiv href={route('command.create')} resource={'command'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 {
                     commands.length === 0

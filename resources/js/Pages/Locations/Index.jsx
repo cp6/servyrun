@@ -7,6 +7,7 @@ import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import AddButton from "@/Components/AddButton";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
+import FlexAddButtonDiv from "@/Components/FlexAddButtonDiv";
 
 export default function Index({auth}) {
 
@@ -20,9 +21,7 @@ export default function Index({auth}) {
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Locations</h2>}>
             <Head title={'Locations'}/>
             <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
-                <div className="flex flex-wrap gap-2 mb-4">
-                    <AddButton href={route('location.create')}>Add Location</AddButton>
-                </div>
+                <FlexAddButtonDiv href={route('location.create')} resource={'Location'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 {
                     (locations.length > 0) ?

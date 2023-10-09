@@ -6,8 +6,8 @@ import {Grid} from "gridjs-react";
 import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
-import AddButton from "@/Components/AddButton";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
+import FlexAddButtonDiv from "@/Components/FlexAddButtonDiv";
 
 export default function Index({auth}) {
 
@@ -21,9 +21,7 @@ export default function Index({auth}) {
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">IP addresses</h2>}>
             <Head title={'IP addresses'}/>
             <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
-                <div className="flex flex-wrap gap-2 mb-4">
-                    <AddButton href={route('ip.create')}>Add IP</AddButton>
-                </div>
+                <FlexAddButtonDiv href={route('ip.create')} resource={'IP'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 {
                     (ips.length > 0) ?

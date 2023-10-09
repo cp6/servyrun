@@ -5,6 +5,7 @@ import ResponseAlert from "@/Components/Alert";
 import AddButton from "@/Components/AddButton";
 import ServerStatusDot from "@/Components/ServerStatusDot";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
+import FlexAddButtonDiv from "@/Components/FlexAddButtonDiv";
 
 export default function Index() {
 
@@ -19,9 +20,7 @@ export default function Index() {
         >
             <Head title="Servers"/>
             <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
-                <div className="flex flex-wrap gap-2 mb-4">
-                    <AddButton href={route('server.create')}>Add a server</AddButton>
-                </div>
+                <FlexAddButtonDiv href={route('server.create')} resource={'a server'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
                     {

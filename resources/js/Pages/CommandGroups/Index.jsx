@@ -4,7 +4,7 @@ import React from "react";
 import {Card} from "flowbite-react";
 import ResponseAlert from "@/Components/Alert";
 import ResourceEmptyText from "@/Components/ResourceEmptyText";
-import AddButton from "@/Components/AddButton";
+import FlexAddButtonDiv from "@/Components/FlexAddButtonDiv";
 
 export default function Index({auth}) {
 
@@ -18,9 +18,7 @@ export default function Index({auth}) {
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Command groups</h2>}>
             <Head title={'Command groups'}/>
             <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
-                <div className="flex flex-wrap gap-2 mb-4">
-                    <AddButton href={route('command-group.create')}>Add command group</AddButton>
-                </div>
+                <FlexAddButtonDiv href={route('command-group.create')} resource={'command group'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
                     {
