@@ -8,6 +8,7 @@ import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {format} from "date-fns";
 import {HiPencil, HiPlay, HiTrash} from "react-icons/hi";
 import BackButton from "@/Components/BackButton";
+import {html} from "gridjs";
 
 export default function Show({auth}) {
 
@@ -16,10 +17,12 @@ export default function Show({auth}) {
     const pings = usePage().props.pings;
 
     const [showModal, setShowModal] = useState(false);
+    const [runPingDisabled, setRunPingDisabled] = React.useState(false);
 
     const {post} = useForm({});
 
     const submit = (e) => {
+        setRunPingDisabled(true);
         e.preventDefault();
         post(route('ping-group.run2', pingGroup.id));
     };
@@ -47,28 +50,30 @@ export default function Show({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'Ping group: ' + pingGroup.title}</h2>}>
             <Head title={'Ping group ' + pingGroup.title}/>
-                <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
-                    <div className="flex flex-wrap gap-2 mb-2">
-                        <BackButton href={route('ping.index')}>All pings</BackButton>
-                    </div>
-                    <ResponseAlert details={alert}></ResponseAlert>
-                    <div className="px-1 mx-auto max-w-7xl">
-                        <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
-                            <div className="flex items-center justify-between mb-2 px-2">
-                                <div></div>
-                                <small className="text-end">
-                                    <HiTrash
-                                        className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
-                                        onClick={() => setShowModal(true)} title={'Delete ping group'}/>
-                                    <HiPencil
-                                        className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
-                                        onClick={event => window.location.href = route('ping-group.edit', pingGroup.id)}
-                                        title={'Edit ping group'}/>
-                                    <HiPlay
-                                        className="md:ml-3 ml-1 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
-                                        onClick={submit} title={'Run ping group'}/>
-                                </small>
-                            </div>
+            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+                <div className="flex flex-wrap gap-2 mb-2">
+                    <BackButton href={route('ping.index')}>All pings</BackButton>
+                </div>
+                <ResponseAlert details={alert}></ResponseAlert>
+                <div className="px-1 mx-auto max-w-7xl">
+                    <section
+                        className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
+                        <div className="flex items-center justify-between mb-2 px-2">
+                            <div></div>
+                            <small className="text-end">
+                                <HiTrash
+                                    className="mr-2 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    onClick={() => setShowModal(true)} title={'Delete ping group'}/>
+                                <HiPencil
+                                    className="md:ml-2 ml-1 h-6 w-6 text-gray-600 dark:text-white inline hover:cursor-pointer"
+                                    onClick={event => window.location.href = route('ping-group.edit', pingGroup.id)}
+                                    title={'Edit ping group'}/>
+                                <HiPlay
+                                    className="md:ml-3 ml-1 h-6 w-6 text-gray-600 dark:text-white hover:text-gray-700 hover:dark:text-gray-300 inline hover:cursor-pointer"
+                                    disabled={runPingDisabled}
+                                    onClick={submit} title={'Run ping group'}/>
+                            </small>
+                        </div>
                         {
                             pings.length === 0
                                 ?
@@ -94,7 +99,7 @@ export default function Show({auth}) {
                                             id: "was_up",
                                             name: "Up",
                                             sort: true,
-                                            formatter: (cell) => (cell === 1) ? 'Y' : 'N'
+                                            formatter: (cell) => (cell === 1) ? html('<span class="text-green-500">Y</span>') : html('<span class="text-red-500">N</span>')
                                         },
                                         {
                                             id: "avg",
@@ -123,9 +128,9 @@ export default function Show({auth}) {
                                     pagination={GridJsPagination}
                                 />
                         }
-                        </section>
-                    </div>
+                    </section>
                 </div>
+            </div>
             <Modal show={showModal} size="md">
                 <Modal.Body>
                     <div className="text-center">
