@@ -67,10 +67,9 @@ class ActionLog extends Model
             $action_log->result = 5;
             $action_log->action = 'create';
             $action_log->resource_type = 'log';
-            $action_log->message = 'Failed to create log: ' . $exception->getMessage();
+            $action_log->message = 'Failed to create log: ' . strlen($exception->getMessage()) > 225 ? substr($exception->getMessage(), 0, 225) : $exception->getMessage();
             $action_log->save();
             return $action_log;
-
         }
 
     }
