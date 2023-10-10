@@ -13,6 +13,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/mysqldump/{mySQLDump}/edit', [MySQLDumpController::class, 'edit'])->name('mysqldump.edit');
     Route::patch('/mysqldump/{mySQLDump}', [MySQLDumpController::class, 'update'])->name('mysqldump.update');
     Route::delete('/mysqldump/{mySQLDump}', [MySQLDumpController::class, 'destroy'])->name('mysqldump.destroy');
-    Route::get('/mysqldump/{mySQLDump}/run', [MySQLDumpController::class, 'run'])->name('mysqldump.run');
+    Route::get('/mysqldump/{mySQLDump}/run', [MySQLDumpController::class, 'run'])->middleware(['throttle:8,1'])->name('mysqldump.run');
 
 });

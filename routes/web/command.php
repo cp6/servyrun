@@ -18,7 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/command-groups/create', [CommandGroupController::class, 'create'])->name('command-group.create');
     Route::post('/command-groups', [CommandGroupController::class, 'store'])->name('command-group.store');
     Route::get('/command-groups/{commandGroup}', [CommandGroupController::class, 'show'])->name('command-group.show');
-    Route::get('/command-groups/{commandGroup}/run', [CommandGroupController::class, 'run'])->name('command-group.run');
+    Route::get('/command-groups/{commandGroup}/run', [CommandGroupController::class, 'run'])->middleware(['throttle:12,1'])->name('command-group.run');
     Route::get('/command-groups/{commandGroup}/edit', [CommandGroupController::class, 'edit'])->name('command-group.edit');
     Route::patch('/command-groups/{commandGroup}', [CommandGroupController::class, 'update'])->name('command-group.update');
     Route::delete('/command-groups/{commandGroup}', [CommandGroupController::class, 'destroy'])->name('command-group.destroy');

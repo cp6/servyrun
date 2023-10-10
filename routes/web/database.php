@@ -16,8 +16,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/db/connection/{databaseConnection}', [DatabaseConnectionController::class, 'show'])->name('db.connection.show');//Show database connection
     Route::get('/db/connection/{databaseConnection}/connect', [DatabaseConnectionController::class, 'canConnect'])->name('db.connection.connect');
     Route::get('/db/connection/{databaseConnection}/databases', [DatabaseConnectionController::class, 'getDatabases'])->name('db.connection.databases');
-    Route::get('/db/connection/{databaseConnection}/version', [DatabaseConnectionController::class, 'getUpdateVersion'])->name('db.connection.version');
-    Route::get('/db/connection/{databaseConnection}/privileges', [DatabaseConnectionController::class, 'getPrivileges'])->name('db.connection.privileges');
+    Route::get('/db/connection/{databaseConnection}/version', [DatabaseConnectionController::class, 'getUpdateVersion'])->middleware(['throttle:8,1'])->name('db.connection.version');
+    Route::get('/db/connection/{databaseConnection}/privileges', [DatabaseConnectionController::class, 'getPrivileges'])->middleware(['throttle:8,1'])->name('db.connection.privileges');
     Route::get('/db/connection/{databaseConnection}/edit', [DatabaseConnectionController::class, 'edit'])->name('db.connection.edit');//Edit database connection
     Route::patch('/db/connection/{databaseConnection}', [DatabaseConnectionController::class, 'update'])->name('db.connection.update');
     Route::delete('/db/connection/{databaseConnection}', [DatabaseConnectionController::class, 'destroy'])->name('db.connection.destroy');//Delete database connection
@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 
     //Database table columns
     Route::get('/db/{database}/table/{databaseTable}', [DatabaseTableColumnController::class, 'showForTable'])->name('db.table.columns.show');//Show database table columns
-    Route::get('/db/{database}/table/{databaseTable}/pdf', [DatabaseTableColumnController::class, 'downloadPdf'])->name('db.table.columns.pdf');//Show database table columns
+    Route::get('/db/{database}/table/{databaseTable}/pdf', [DatabaseTableColumnController::class, 'downloadPdf'])->middleware(['throttle:8,1'])->name('db.table.columns.pdf');//Show database table columns
     Route::get('/db/{database}/table/{databaseTable}/{databaseTableColumn}', [DatabaseTableColumnController::class, 'downloadColumn'])->name('db.table.columns.download.single');
     Route::get('db/{database}/table/{databaseTable}/rows', [DatabaseTableController::class, 'getRowCount'])->name('db.table.columns.rows');
     Route::get('db/{database}/table/{databaseTable}/size', [DatabaseTableController::class, 'getSize'])->name('db.table.columns.size');

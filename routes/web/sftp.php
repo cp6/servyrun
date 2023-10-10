@@ -17,9 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/sftp/{sftpConnection}/download-to-server/progress', [SftpConnectionController::class, 'downloadToServerFileProgress'])->name('sftp.download-to-server.progress');//Downloaded to server progress
     Route::get('/sftp/{sftpConnection}/read', [SftpConnectionController::class, 'read'])->name('sftp.read');
     Route::post('/sftp/{sftpConnection}/read', [SftpConnectionController::class, 'readFile'])->name('sftp.read.file');//Get file for reading
-    Route::get('/sftp/{sftpConnection}/raw/{filepath}', [SftpConnectionController::class, 'outputFileRaw'])->name('sftp.read.file.raw');//Get file for raw reading in browser
-    Route::get('/sftp/{sftpConnection}/pdf/{filepath}', [SftpConnectionController::class, 'downloadFilePdf'])->name('sftp.read.file.pdf');//Get file for raw reading in browser
-    Route::post('/sftp/{sftpConnection}/raw', [SftpConnectionController::class, 'generateReadRawResponse'])->name('sftp.read.file.raw.post');//Build JSON response for reading raw file
+    Route::get('/sftp/{sftpConnection}/raw/{filepath}', [SftpConnectionController::class, 'outputFileRaw'])->middleware(['throttle:12,1'])->name('sftp.read.file.raw');//Get file for raw reading in browser
+    Route::get('/sftp/{sftpConnection}/pdf/{filepath}', [SftpConnectionController::class, 'downloadFilePdf'])->middleware(['throttle:12,1'])->name('sftp.read.file.pdf');//Get file for raw reading in browser
+    Route::post('/sftp/{sftpConnection}/raw', [SftpConnectionController::class, 'generateReadRawResponse'])->middleware(['throttle:12,1'])->name('sftp.read.file.raw.post');//Build JSON response for reading raw file
     Route::post('/sftp/{sftpConnection}/run', [SftpConnectionController::class, 'run'])->name('sftp.run');//Run SFTP command
     Route::post('/sftp/{sftpConnection}/download', [SftpConnectionController::class, 'downloadFile'])->name('sftp.download');//SFTP download file
     Route::post('/sftp/{sftpConnection}/upload', [SftpConnectionController::class, 'uploadFile'])->name('sftp.upload');//SFTP upload a file
