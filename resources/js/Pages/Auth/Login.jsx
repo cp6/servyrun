@@ -54,7 +54,7 @@ export default function Login({ status, canResetPassword }) {
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-6">
                     <InputLabel forInput="password" value="Password" />
 
                     <TextInput
@@ -69,7 +69,7 @@ export default function Login({ status, canResetPassword }) {
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
-                <div className="block mt-4">
+                <div className="block mt-6">
                     <label className="flex items-center">
                         <Checkbox name="remember" value={data.remember} handleChange={onHandleChange} />
                         <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">Remember me</span>
@@ -86,7 +86,7 @@ export default function Login({ status, canResetPassword }) {
                         </Link>
                     )}
 
-                    <PrimaryButton className="ml-4 px-8" processing={processing}>
+                    <PrimaryButton className="ml-4 px-12" processing={processing}>
                         Log in
                     </PrimaryButton>
                 </div>
