@@ -7,7 +7,7 @@ export default function Guest({ children, wide = false }) {
                 <Link href="/">
                     <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
                 </Link>
-            <div className={"w-full mt-6 " + (wide ? 'sm:max-w-5xl': 'sm:max-w-md')+ " p-6 bg-white dark:bg-gray-700 shadow-md overflow-hidden sm:rounded-lg"}>
+            <div className={"w-full mt-6 " + (wide ? 'sm:max-w-5xl': 'sm:max-w-md')+ " py-8 px-3 bg-white dark:bg-gray-700 shadow-md overflow-hidden sm:rounded-lg rounded-md"}>
                 {children}
             </div>
         </div>
