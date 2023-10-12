@@ -15,6 +15,7 @@ export default function All({auth}) {
     const time = usage.map((d) => format(new Date(d.datetime), 'hh:mma do LLL yyyy'));
     const send = usage.map((value) => value.tx_mb);
     const receive = usage.map((value) => value.rx_mb);
+    const total = usage.map((value) => value.total_mb);
 
     const [showRefresh, setShowRefresh] = useState(true);
 
@@ -27,6 +28,10 @@ export default function All({auth}) {
             {
                 name: "Receive MB",
                 data: receive
+            },
+            {
+                name: "Total MB",
+                data: total
             }
         ],
         options: {
@@ -98,10 +103,10 @@ export default function All({auth}) {
                 },
             },
             fill: {
-                colors: ['#d3282e', '#28d32b'],
+                colors: ['#d3282e', '#28d32b', '#2864d3'],
                 opacity: 0.5
             },
-            colors: ['#ab171c', '#16a719'],
+            colors: ['#ab171c', '#16a719', '#2e72ea'],
             xaxis: {
                 categories: time,
                 labels: {
