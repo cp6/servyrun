@@ -28,21 +28,16 @@ class NetworkUsage extends Model
 
     public static function insertNetworkUsageLastHour(Server $server): ?\Illuminate\Http\JsonResponse
     {
-        $connection = Server::where('id', $server->id)->with(['conn.key', 'conn', 'ip_ssh'])->firstOrFail();
+        $connection = Connection::withoutGlobalScope(new UserOwnedScope())->where('server_id', $server->id)->with('serverNoOwner', 'keyNoOwner')->first();
 
-        if ($connection->conn->type === 1) {//Stored password
-            $ssh = Connection::makeConnectionPassword($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, Crypt::decryptString($connection->conn->password), 20);
-        } elseif ($connection->conn->type === 2) { //Key with stored password
-            $ssh = Connection::makeConnectionKey($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, Crypt::decryptString($connection->conn->key->password), 20);
-        } elseif ($connection->conn->type === 3) { //Key NO stored password
-            $ssh = Connection::makeConnectionKey($connection->ip_ssh->ip, $connection->conn->ssh_port, $connection->conn->username, $connection->conn->key->saved_as, null, 20);
-        } else {        //Cannot run because connection not of valid type
-            ActionLog::make(5, 'run', 'ping', 'Failed running ping from to because conn type invalid for ' . $server_from->id);
-            return null;
+        if (is_null($connection)) {
+            return response()->json(['success' => false, 'message' => 'No Connection found for server ' . $server->id], 400)->header('Content-Type', 'application/json');
         }
 
+        $ssh = Connection::doNoOwner($connection, 8, false);
+
         if (is_null($ssh)) {
-            return null;
+            return response()->json(['success' => false, 'message' => 'SSH could not connect for connection ' . $connection->id], 400)->header('Content-Type', 'application/json');
         }
 
         $ssh_output = Connection::runCommand($ssh, "vnstat --json");
