@@ -11,19 +11,12 @@ class NetworkUsage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['server_id', 'rx', 'tx', 'total', 'rx_mb', 'tx_mb', 'total_mb', 'datetime'];
+    protected $fillable = ['server_id', 'user_id', 'rx', 'tx', 'total', 'rx_mb', 'tx_mb', 'total_mb', 'datetime'];
 
     protected static function boot(): void
     {
         parent::boot();
         static::addGlobalScope(new UserOwnedScope());
-    }
-
-    protected static function booted(): void
-    {
-        static::creating(function (NetworkUsage $networkUsage) {
-            $networkUsage->user_id = \Auth::id();
-        });
     }
 
     public static function insertNetworkUsageLastHour(Server $server): ?\Illuminate\Http\JsonResponse
@@ -62,6 +55,7 @@ class NetworkUsage extends Model
 
         $network = self::firstOrCreate(['server_id' => $server->id, 'datetime' => $datetime], [
             'server_id' => $server->id,
+            'user_id' => $server->user_id,
             'rx' => $data['rx'],
             'tx' => $data['tx'],
             'total' => ($data['rx'] + $data['tx']),
