@@ -18,11 +18,6 @@ return new class extends Migration
             $table->integer('disk_used')->nullable()->default(null);
             $table->integer('disk_available')->nullable()->default(null);
             $table->integer('uptime')->nullable()->default(null);
-            $table->float('net_out')->nullable()->default(null);
-            $table->float('net_in')->nullable()->default(null);
-            $table->integer('total_net_out')->nullable()->default(null);
-            $table->integer('total_net_in')->nullable()->default(null);
-            $table->integer('total_net')->nullable()->default(null);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade');

@@ -10,7 +10,7 @@ class ServerUsage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cpu_usage', 'ram_used_percent', 'disk_used_percent', 'disk_used', 'disk_available', 'uptime', 'net_out', 'net_in', 'total_net_out', 'total_net_in', 'total_net'];
+    protected $fillable = ['cpu_usage', 'ram_used_percent', 'disk_used_percent', 'disk_used', 'disk_available', 'uptime'];
 
 
     protected static function boot(): void
