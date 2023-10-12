@@ -140,7 +140,7 @@ export default function All({auth}) {
                     },
                     opposite: true,
                     min: 0,
-                    max: max_tick,
+                    max: max_tick + 50,
                 }
             ]
         }
