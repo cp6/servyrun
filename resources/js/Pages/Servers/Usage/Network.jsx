@@ -16,6 +16,7 @@ export default function All({auth}) {
     const send = usage.map((value) => value.tx_mb);
     const receive = usage.map((value) => value.rx_mb);
     const total = usage.map((value) => value.total_mb);
+    const max_tick = Math.max(...total);
 
     const [showRefresh, setShowRefresh] = useState(true);
 
@@ -139,7 +140,7 @@ export default function All({auth}) {
                     },
                     opposite: true,
                     min: 0,
-                    max: 100,
+                    max: max_tick,
                 }
             ]
         }
