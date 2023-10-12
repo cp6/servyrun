@@ -179,6 +179,7 @@ export default function All({auth}) {
                     <IndigoButton href={route('server.usage.cpu', resource.id)}>CPU</IndigoButton>
                     <IndigoButton href={route('server.usage.ram', resource.id)}>RAM</IndigoButton>
                     <IndigoButton href={route('server.usage.disk', resource.id)}>Disk</IndigoButton>
+                    <IndigoButton href={route('servers.usage.network', resource.id)}>Network</IndigoButton>
                 </div>
 
                 <section className="bg-white/50 dark:bg-gray-700 rounded-lg shadow-sm">
