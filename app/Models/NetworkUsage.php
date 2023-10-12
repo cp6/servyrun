@@ -60,8 +60,8 @@ class NetworkUsage extends Model
         $rx_mb = $data['rx'] / 1024 / 1024;
         $tx_mb = $data['tx'] / 1024 / 1024;
 
-        $network = self::firstOrCreate(['server_id' => $connection->id, 'datetime' => $datetime], [
-            'server_id' => $connection->id,
+        $network = self::firstOrCreate(['server_id' => $server->id, 'datetime' => $datetime], [
+            'server_id' => $server->id,
             'rx' => $data['rx'],
             'tx' => $data['tx'],
             'total' => ($data['rx'] + $data['tx']),
