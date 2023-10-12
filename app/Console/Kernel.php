@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\NetworkUsage;
 use App\Models\Scopes\UserOwnedScope;
 use App\Models\Server;
 use Illuminate\Console\Scheduling\Schedule;
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
             $servers = Server::where('scheduled_get_usage', 1)->withoutGlobalScope(new UserOwnedScope())->get();
             foreach ($servers as $server) {//Get usage data for each server
                 Server::insertServerUsage($server);
+                NetworkUsage::insertNetworkUsageLastHour($server);
             }
         })->everyTwoMinutes();
 
