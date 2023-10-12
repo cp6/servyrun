@@ -53,19 +53,26 @@ class NetworkUsage extends Model
         $rx_mb = $data['rx'] / 1024 / 1024;
         $tx_mb = $data['tx'] / 1024 / 1024;
 
-        $network = self::firstOrCreate(['server_id' => $server->id, 'datetime' => $datetime], [
-            'server_id' => $server->id,
-            'user_id' => $server->user_id,
-            'rx' => $data['rx'],
-            'tx' => $data['tx'],
-            'total' => ($data['rx'] + $data['tx']),
-            'rx_mb' => $rx_mb,
-            'tx_mb' => $tx_mb,
-            'total_mb' => $rx_mb + $tx_mb,
-            'datetime' => $datetime
-        ]);
+        try {
+            $network = self::firstOrCreate(['server_id' => $server->id, 'datetime' => $datetime], [
+                'server_id' => $server->id,
+                'user_id' => $server->user_id,
+                'rx' => $data['rx'],
+                'tx' => $data['tx'],
+                'total' => ($data['rx'] + $data['tx']),
+                'rx_mb' => $rx_mb,
+                'tx_mb' => $tx_mb,
+                'total_mb' => $rx_mb + $tx_mb,
+                'datetime' => $datetime
+            ]);
 
-        return response()->json($network)->header('Content-Type', 'application/json');
+            return response()->json($network)->header('Content-Type', 'application/json');
+
+        } catch (\Exception $exception) {
+
+            return response()->json(['message' => $exception->getMessage()], 400)->header('Content-Type', 'application/json');
+        }
+
     }
 
 }
