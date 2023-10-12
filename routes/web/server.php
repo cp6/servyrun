@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NetworkUsageController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\ServerUsageController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/servers/{server}/get-information', [ServerController::class, 'getInformation'])->middleware(['throttle:8,1'])->name('server.get-information');
     Route::get('/servers/{server}/usage/', [ServerUsageController::class, 'allUsage'])->name('server.usage.all');
     Route::get('/servers/{server}/usage/get', [ServerUsageController::class, 'getUsage'])->middleware(['throttle:8,1'])->name('server.usage');
+    Route::get('/servers/{server}/network/get', [NetworkUsageController::class, 'store'])->middleware(['throttle:8,1'])->name('network.store');
+    Route::get('/servers/{server}/usage/network', [ServerUsageController::class, 'networkUsage'])->name('servers.usage.network');
     Route::get('/servers/{server}/usage/ram', [ServerUsageController::class, 'ramUsage'])->name('server.usage.ram');
     Route::get('/servers/{server}/usage/cpu', [ServerUsageController::class, 'cpuUsage'])->name('server.usage.cpu');
     Route::get('/servers/{server}/usage/disk', [ServerUsageController::class, 'diskUsage'])->name('server.usage.disk');
