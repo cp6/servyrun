@@ -33,11 +33,9 @@ class ServerUsageController extends Controller
     {
         $this->authorize('view', $server);
 
-        $network_usage = NetworkUsage::where('server_id', $server->id)->orderBy('id', 'desc')->take(720)->get();
-
         return Inertia::render('Servers/Usage/Network', [
             'resource' => $server,
-            'usage' => NetworkUsage::where('server_id', $server->id)->orderBy('id', 'desc')->take(720)->get()
+            'usage' => NetworkUsage::where('server_id', $server->id)->select(['rx_mb', 'tx_mb', 'total_mb', 'datetime'])->orderBy('id', 'desc')->take(720)->get()
         ]);
     }
 
