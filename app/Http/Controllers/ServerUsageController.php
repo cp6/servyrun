@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NetworkUsage;
 use App\Models\Server;
 use App\Models\ServerUsage;
 use Carbon\Carbon;
@@ -25,6 +26,18 @@ class ServerUsageController extends Controller
         return Inertia::render('Servers/Usage/All', [
             'resource' => $server,
             'usage' => ServerUsage::where('server_id', $server->id)->select(['ram_used_percent', 'cpu_usage', 'disk_used_percent', 'created_at'])->orderBy('id', 'desc')->take(360)->get()
+        ]);
+    }
+
+    public function networkUsage(Server $server): \Inertia\Response
+    {
+        $this->authorize('view', $server);
+
+        $network_usage = NetworkUsage::where('server_id', $server->id)->orderBy('id', 'desc')->take(720)->get();
+
+        return Inertia::render('Servers/Usage/Network', [
+            'resource' => $server,
+            'usage' => NetworkUsage::where('server_id', $server->id)->orderBy('id', 'desc')->take(720)->get()
         ]);
     }
 
