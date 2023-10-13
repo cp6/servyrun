@@ -18,14 +18,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $servers = Server::where('scheduled_get_usage', 1)->withoutGlobalScope(new UserOwnedScope())->get();
 
-        $schedule->call(function () {
-            $servers = Server::where('scheduled_get_usage', 1)->withoutGlobalScope(new UserOwnedScope())->get();
+        $schedule->call(function () use ($servers) {
             foreach ($servers as $server) {//Get usage data for each server
                 Server::insertServerUsage($server);
-                NetworkUsage::insertNetworkUsageLastHour($server);
             }
         })->everyTwoMinutes();
+
+        $schedule->call(function () use ($servers) {
+            foreach ($servers as $server) {//Get usage data for each server
+                NetworkUsage::insertNetworkUsageLastHour($server);
+            }
+        })->hourlyAt(3);//3 minutes into each hour
 
     }
 
