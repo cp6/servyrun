@@ -20,7 +20,7 @@ export default function Index({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Pings</h2>}>
             <Head title={'Pings'}/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <IndigoButton href={route('ping-group.index')}><HiUserGroup className="mr-2 h-5 w-5"/>Ping
                         groups</IndigoButton>

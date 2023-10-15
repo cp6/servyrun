@@ -128,7 +128,7 @@ export default function Read({auth}) {
                 SFTP {resource.server.hostname})</h2>}
         >
             <Head title={"Read file " + resource.id}/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.show', resource.id)}>Back to SFTP connection</BackButton>
                 </div>

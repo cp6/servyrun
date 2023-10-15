@@ -85,7 +85,7 @@ export default function Edit({auth}) {
                 IP address</h2>}
         >
             <Head title="Edit IP"/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('ip.show', resource.id)}>Back to IP</BackButton>
                     <TealButton onClick={refreshData} disabled={buttonsDisabled}><HiRefresh className="mr-2 h-5 w-5"/>Refresh

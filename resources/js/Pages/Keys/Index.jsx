@@ -17,7 +17,7 @@ export default function Index({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'Keys'}</h2>}>
             <Head title={'Keys'}/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <FlexAddButtonDiv href={route('key.create')} resource={'key'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">

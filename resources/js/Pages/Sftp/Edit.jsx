@@ -38,7 +38,7 @@ export default function Edit({auth}) {
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Edit SFTP connection</h2>}
         >
             <Head title="Edit SFTP connection"/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('sftp.show', resource.id)}>Back to STP connection</BackButton>
                 </div>

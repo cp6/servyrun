@@ -39,7 +39,7 @@ export default function Edit({auth}) {
                 MySQL dump</h2>}
         >
             <Head title="Edit MySQL dump"/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('mysqldump.show', resource.id)}>Back to MySQL dump</BackButton>
                 </div>

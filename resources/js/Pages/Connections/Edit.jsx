@@ -39,7 +39,7 @@ export default function Edit({auth}) {
                 connection</h2>}
         >
             <Head title="Edit connection"/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('connection.show', resource.id)}>Back to connection</BackButton>
                 </div>

@@ -46,7 +46,7 @@ export default function Show({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{resource.name + " database"}</h2>}>
             <Head title={resource.name + " database"}></Head>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('db.index')}>Back to databases</BackButton>
                 </div>

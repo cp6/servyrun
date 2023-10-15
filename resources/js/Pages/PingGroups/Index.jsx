@@ -17,7 +17,7 @@ export default function Index({auth}) {
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Ping groups</h2>}
         >
             <Head title="Servers"/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('ping.index')}>All pings</BackButton>
                     <AddButton href={route('ping-group.create')}>Create ping group</AddButton>

@@ -66,7 +66,7 @@ export default function Upload({auth}) {
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Upload {resource.saved_as} to SFTP</h2>}
         >
             <Head title={"Upload " + resource.saved_as}/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('downloaded.index')}>Back to downloaded files</BackButton>
                 </div>

@@ -49,7 +49,7 @@ export default function Edit({auth}) {
                 server</h2>}
         >
             <Head title="Edit server"/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('server.show', resource.id)}>Back to server</BackButton>
                 </div>

@@ -22,7 +22,7 @@ export default function Index({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Commands</h2>}>
             <Head title={'Commands'}/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <FlexAddButtonDiv href={route('command.create')} resource={'command'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 {

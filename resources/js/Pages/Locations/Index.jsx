@@ -20,7 +20,7 @@ export default function Index({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Locations</h2>}>
             <Head title={'Locations'}/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <FlexAddButtonDiv href={route('location.create')} resource={'Location'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 {

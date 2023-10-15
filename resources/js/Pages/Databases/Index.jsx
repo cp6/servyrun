@@ -19,7 +19,7 @@ export default function Index({auth}) {
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Databases</h2>}
         >
             <Head title="Databases"/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <AddButton href={route('db.create')}>Add database</AddButton>
                     <TealButton href={route('db.connection.index')}><HiLockOpen className="mr-2 h-5 w-5"/> Database

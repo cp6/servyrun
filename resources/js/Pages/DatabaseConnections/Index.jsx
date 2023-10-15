@@ -20,7 +20,7 @@ export default function Index({auth}) {
                 connections</h2>}
         >
             <Head title="DB connections"/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <AddButton href={route('db.connection.create')}>Add DB connection</AddButton>
                     <TealButton href={route('db.index')}><HiDatabase className="mr-2 h-5 w-5"/>Databases</TealButton>

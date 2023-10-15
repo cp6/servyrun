@@ -34,7 +34,7 @@ export default function Create({auth}) {
                 a location</h2>}
         >
             <Head title="Create location"/>
-            <div className="py-8 sm:px-0 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <BackButton href={route('location.index')}>Back to locations</BackButton>
                 </div>
