@@ -25,7 +25,7 @@ The full features of Servyrun as of September 2023:
 - Store Server information
 - Store SSH keys
 - Run SSH commands
-- View server usage
+- View server usage (CPU, RAM, Disk and Network)
 - Store commands
 - Store command outputs
 - Print command outputs to PDF
@@ -47,7 +47,8 @@ The full features of Servyrun as of September 2023:
 
 ## External services used
 
-* https://ipwhois.io/documentation for IP address GEO data
+* https://ipwhois.io/documentation for IP address GEO data.
+* [vnstat](https://humdi.net/vnstat/) is used for network usage information.
 
 ## Screenshots
 
