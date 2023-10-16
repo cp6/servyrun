@@ -45,7 +45,7 @@ The full features of Servyrun as of September 2023:
 
 - Chart for pings between 2 servers
 
-## External services used
+## External services or software used
 
 * https://ipwhois.io/documentation for IP address GEO data.
 * [vnstat](https://humdi.net/vnstat/) is used for network usage information.
