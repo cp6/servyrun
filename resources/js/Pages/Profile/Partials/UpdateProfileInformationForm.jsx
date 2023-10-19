@@ -64,7 +64,7 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
                     }} title={'Copy API key'}/>
                     </div>
 
-                    <div className="sm:col-span-3 col-span-4 mb-2">
+                    <div className="sm:col-span-3 col-span-4">
                         <InputLabel for="login_ip_only" value="Login allowed from this IP address only"/>
 
                         <TextInput
@@ -77,7 +77,6 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
 
                         <InputError className="mt-2" message={errors.login_ip_only}/>
                     </div>
-
                     <div className="sm:col-span-3 col-span-4 mb-2">
                         <InputLabel for="api_ip_only" value="API access allowed from this IP address only"/>
 
@@ -91,7 +90,12 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
 
                         <InputError className="mt-2" message={errors.api_ip_only}/>
                     </div>
+                    <div className="sm:col-span-3 col-span-4 mb-2">
+                        <p className={'text-md font-semibold leading-none text-yellow-500 dark:text-yellow-400'}>Note this could lock you out of your account</p>
+                    </div>
+                    <div className="sm:col-span-3 col-span-4 mb-2">
 
+                    </div>
                     <div className="sm:col-span-3 col-span-4 mb-2">
                         <InputLabel for="allow_api_access" value="Allow API access"/>
 
