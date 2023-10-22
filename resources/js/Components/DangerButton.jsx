@@ -1,4 +1,4 @@
-import {HiRefresh, HiTrash} from "react-icons/hi";
+import {HiTrash} from "react-icons/hi";
 
 export default function DangerButton({ type = 'submit', className = '', processing, children, onClick }) {
     return (

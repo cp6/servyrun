@@ -16,8 +16,8 @@ import ServerStatusButton from "@/Components/ServerStatusButton";
 import BackButton from "@/Components/BackButton";
 import ServerCardUsage from "@/Components/ServerCardUsage";
 import ServerCardPingAnother from "@/Components/ServerCardPingAnother";
-import {HiArrowDownCircle} from "react-icons/all";
 import ServerLast3Commands from "@/Components/ServerLast3Commands";
+import {HiArrowDownCircle} from "react-icons/hi2";
 
 export default function Show({auth}) {
 

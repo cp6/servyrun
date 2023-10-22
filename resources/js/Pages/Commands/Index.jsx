@@ -7,9 +7,8 @@ import {html} from "gridjs";
 import {GridJsPagination, gridJsTableStyling} from "@/gridJsConfig";
 import {HiUserGroup} from "react-icons/hi";
 import {format} from "date-fns";
-import AddButton from "@/Components/AddButton";
-import {HiListBullet} from "react-icons/all";
 import FlexAddButtonDiv from "@/Components/FlexAddButtonDiv";
+import {HiListBullet} from "react-icons/hi2";
 
 export default function Index({auth}) {
 

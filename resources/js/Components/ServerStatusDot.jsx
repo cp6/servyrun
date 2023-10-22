@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {FaCircle} from "react-icons/all";
+import {FaCircle} from "react-icons/fa";
+
 
 export default function ServerStatusDot({resource}) {
 

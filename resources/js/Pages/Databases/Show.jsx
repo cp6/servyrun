@@ -4,7 +4,7 @@ import {Button, Modal} from "flowbite-react";
 import React, {useState} from "react";
 import ResponseAlert from "@/Components/Alert";
 import {HiLightningBolt, HiTrash} from "react-icons/hi";
-import {HiTableCells} from "react-icons/all";
+import {HiTableCells} from "react-icons/hi2";
 import BackButton from "@/Components/BackButton";
 import CreatedAtText from "@/Components/CreatedAtText";
 import UpdatedAtText from "@/Components/UpdatedAtText";
