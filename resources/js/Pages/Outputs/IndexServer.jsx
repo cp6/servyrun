@@ -20,7 +20,7 @@ export default function IndexServer({auth}) {
             <div className="py-6 px-2 mx-auto max-w-7xl lg:py-8">
                 <div className="flex flex-wrap gap-2 mb-4">
                 </div>
-                <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
+                <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                     <section className="p-2 shadow-md dark:shadow-md bg-white/50 dark:bg-transparent dark:shadow rounded-lg dark:border dark:border-gray-700">
                     <Grid
                         data={outputs}

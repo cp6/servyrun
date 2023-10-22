@@ -24,7 +24,7 @@ export default function Index({auth}) {
                     <BackButton href={route('command.index')}>Back to commands</BackButton>
                     <IndigoButton href={route('command-group.index')}><HiUserGroup className="mr-2 h-5 w-5" />  Command groups</IndigoButton>
                 </div>
-                <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
+                <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                     <section className="pt-4 shadow-md dark:shadow-md bg-white/50 dark:bg-gray-700 dark:shadow rounded-lg">
                     <Grid
                         data={outputs}

@@ -19,7 +19,7 @@ export default function Index({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'Server connections'}</h2>}>
             <Head title={'Server connections'}/>
-            <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <div className="flex flex-wrap gap-2 mb-4">
                     <AddButton href={route('connection.create')}>Add a connection</AddButton>
                     <EmeraldButton href={route('key.index')}><HiKey className="mr-2 h-5 w-5"/>Keys</EmeraldButton>

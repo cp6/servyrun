@@ -18,7 +18,7 @@ export default function Index({auth}) {
             header={<h2
                 className="font-semibold text-xl text-gray-800 dark:text-white leading-tight">{'SFTP connections'}</h2>}>
             <Head title={'SFTP connections'}/>
-            <div className="py-8 px-1 mx-auto max-w-7xl lg:py-10">
+            <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
                 <FlexAddButtonDiv href={route('sftp.create')} resource={'SFTP connection'}/>
                 <ResponseAlert details={alert}></ResponseAlert>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-4 sm:gap-4">
