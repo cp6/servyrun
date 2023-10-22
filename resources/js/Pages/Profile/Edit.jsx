@@ -13,8 +13,8 @@ export default function Edit({auth, mustVerifyEmail, status}) {
         >
             <Head title={user.name + ' profile'}/>
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                    <div className="p-4 sm:p-8 bg-white dark:bg-gray-700 shadow sm:rounded-lg">
+                <div className="max-w-7xl mx-auto px-2 space-y-6">
+                    <div className="p-4 sm:p-8 bg-white dark:bg-gray-700 shadow sm:rounded-lg rounded-md">
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
@@ -22,11 +22,11 @@ export default function Edit({auth, mustVerifyEmail, status}) {
                         />
                     </div>
 
-                    <div className="p-4 sm:p-8 bg-white dark:bg-gray-700 shadow sm:rounded-lg">
+                    <div className="p-4 sm:p-8 bg-white dark:bg-gray-700 shadow sm:rounded-lg rounded-md">
                         <UpdatePasswordForm className="max-w-6xl"/>
                     </div>
 
-                    <div className="p-4 sm:p-8 bg-white dark:bg-gray-700 shadow sm:rounded-lg">
+                    <div className="p-4 sm:p-8 bg-white dark:bg-gray-700 shadow sm:rounded-lg rounded-md">
                         <DeleteUserForm className="max-w-xl"/>
                     </div>
                 </div>
