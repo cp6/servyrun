@@ -1,7 +1,7 @@
 <p style="text-align: center;">
 
 [![Generic badge](https://img.shields.io/badge/version-0.9-green.svg)](https://shields.io/)
-[![Generic badge](https://img.shields.io/badge/Laravel-10.24-critical.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Laravel-10.28-critical.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/PHP-8.2-blueviolet.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/React-18.2-9cf.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/Tailwind-3.3.3-informational.svg)](https://shields.io/)
@@ -20,7 +20,7 @@ and do small tasks all through the web panel rather than an SSH client.
 
 Servyrun was developed to be a multi-user platform, stores passwords encrypted and has an extensive API.
 
-[Demo website](https://servyrun.corbpie.com/)
+[Demo website](https://servyrun.corbpie.com/) (read only)
 
 The full features of Servyrun as of September 2023:
 
@@ -41,6 +41,7 @@ The full features of Servyrun as of September 2023:
 - Move files between SFTP connections.
 - Edit (smaller) files.
 - Store/View information about databases, tables and columns.
+- Create and run MySQL dump.
 - MySQL and SQLite compatible
 
 ## TODO
