@@ -10,7 +10,7 @@ class MyIdlersImportController extends Controller
 {
     public function index(): \Inertia\Response
     {
-        return Inertia::render('', [
+        return Inertia::render('Import/Index', [
             'alert' => \Session::get('alert')
         ]);
     }
