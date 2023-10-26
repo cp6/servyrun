@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActionLogController;
 use App\Http\Controllers\CommandOutputController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MyIdlersImportController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/logs', [ActionLogController::class, 'index'])->name('log.index');
     Route::get('/logs/{actionLog}', [ActionLogController::class, 'show'])->name('log.show');
     Route::delete('/logs/destroy', [ActionLogController::class, 'destroyAll'])->name('log.destroy-all');
+
+    //My Idlers import from API
+    Route::get('/import', [MyIdlersImportController::class, 'index'])->name('import.index');
+    Route::post('/import', [MyIdlersImportController::class, 'store'])->name('import.store');
 
 });
 
