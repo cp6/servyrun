@@ -1,15 +1,18 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from '@inertiajs/inertia-react';
+import {Head, useForm, usePage} from '@inertiajs/inertia-react';
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
+import ResponseAlert from "@/Components/Alert";
 
 export default function Index({auth}) {
 
+    const alert = usePage().props.alert;
+
     const {data, setData, post, processing, reset, errors} = useForm({
-        url: '',
+        api_url: '',
         api_token: ''
     });
 
@@ -27,22 +30,23 @@ export default function Index({auth}) {
         >
             <Head title="Import My Idlers"/>
             <div className="py-4 sm:px-0 px-1 mx-auto max-w-7xl">
+                <ResponseAlert details={alert}></ResponseAlert>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                     <form onSubmit={submit}>
                         <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
                             <div className="col-span-4">
-                                <InputLabel forInput="url" value="My Idlers API URL"/>
+                                <InputLabel forInput="api_url" value="My Idlers API URL"/>
                                 <TextInput
-                                    name="url"
+                                    name="api_url"
                                     value={data.url}
                                     className="mt-1 block w-full"
-                                    autoComplete="url"
-                                    handleChange={(e) => setData('url', e.target.value)}
+                                    autoComplete="api_url"
+                                    handleChange={(e) => setData('api_url', e.target.value)}
                                     maxLength={125}
                                     required
                                     isFocused={true}
                                 />
-                                <InputError message={errors.url} className="mt-2"/>
+                                <InputError message={errors.api_url} className="mt-2"/>
                             </div>
                             <div className="col-span-4">
                                 <InputLabel forInput="api_token" value="API Token"/>
