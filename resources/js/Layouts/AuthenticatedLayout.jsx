@@ -132,6 +132,7 @@ export default function Authenticated({auth, header, children}) {
                                     </Dropdown.Trigger>
                                     <Dropdown.Content>
                                         <Dropdown.Link href={route('location.index')}>Locations</Dropdown.Link>
+                                        <Dropdown.Link href={route('import.index')}>My Idlers import</Dropdown.Link>
                                         <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
                                             Log Out
@@ -231,6 +232,7 @@ export default function Authenticated({auth, header, children}) {
 
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink href={route('location.index')}>Locations</ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('import.index')}>My Idlers import</ResponsiveNavLink>
                             <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                 Log Out
