@@ -33,9 +33,13 @@ export default function Index({auth}) {
                 <ResponseAlert details={alert}></ResponseAlert>
                 <section className='bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg p-2 sm:p-6'>
                     <form onSubmit={submit}>
-                        <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-4 sm:gap-4">
+                        <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-6 sm:gap-4">
                             <div className="col-span-4">
-                                <InputLabel forInput="api_url" value="My Idlers API URL"/>
+                                <p className='text-gray-800 dark:text-gray-400'>Import some server data from your <a href='https://github.com/cp6/my-idlers' className={'text-blue-500'}>My Idlers</a> website.</p>
+                                <p className='text-gray-800 dark:text-gray-400'>The servers API URL is the full URL e.g <code>https://myidlersweb.com/api/servers</code></p>
+                            </div>
+                            <div className="col-span-4">
+                                <InputLabel forInput="api_url" value="My Idlers servers API URL"/>
                                 <TextInput
                                     name="api_url"
                                     value={data.url}
