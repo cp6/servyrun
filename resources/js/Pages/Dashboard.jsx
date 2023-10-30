@@ -44,18 +44,18 @@ export default function Dashboard({auth}) {
                                         <p className="pl-4 pb-4 text-sm text-blue-500"><a href={route('log.index')}>View
                                             all</a></p>
                                         <Table className='px-4'>
-                                            <Table.Head className='bg-gray-200 dark:bg-gray-900 rounded-0'>
-                                                <Table.HeadCell className={'text-gray-900 dark:text-gray-100'}>
+                                            <Table.Head className='bg-gray-200 dark:bg-gray-900 rounded-none'>
+                                                <Table.HeadCell className={'dark:bg-gray-600 bg-gray-200 text-gray-900 dark:text-gray-100 group-first/head:first:rounded-none'}>
                                                     When
                                                 </Table.HeadCell>
-                                                <Table.HeadCell className={'text-gray-900 dark:text-gray-100'}>
+                                                <Table.HeadCell className={'dark:bg-gray-600 bg-gray-200 text-gray-900 dark:text-gray-100'}>
                                                     Resource
                                                 </Table.HeadCell>
-                                                <Table.HeadCell className={'text-gray-900 dark:text-gray-100'}>
+                                                <Table.HeadCell className={'dark:bg-gray-600 bg-gray-200 text-gray-900 dark:text-gray-100'}>
                                                     Action
                                                 </Table.HeadCell>
                                                 <Table.HeadCell
-                                                    className={'text-gray-900 dark:text-gray-100 overflow-x-scroll w-40'}>
+                                                    className={'dark:bg-gray-600 bg-gray-200 text-gray-900 dark:text-gray-100 overflow-x-scroll w-40 group-first/head:last:rounded-none'}>
                                                     Message
                                                 </Table.HeadCell>
                                             </Table.Head>
