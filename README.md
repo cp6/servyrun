@@ -22,7 +22,7 @@ and do small tasks all through the web panel rather than an SSH client.
 
 Servyrun was developed to be a multi-user platform, stores passwords encrypted and has an extensive API.
 
-[Demo website](https://servyrun.corbpie.com/) (read only)
+[Demo website](https://servyrun.corbpie.com/) (read only functions enabled)
 
 The full features of Servyrun as of September 2023:
 
