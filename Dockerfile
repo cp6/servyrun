@@ -14,7 +14,8 @@ RUN install-php-extensions sockets
 WORKDIR /app
 
 # Copy composer files first for better layer caching
-COPY composer.json composer.lock ./
+COPY composer.json ./
+COPY composer.lock* ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Then copy the rest of the application
